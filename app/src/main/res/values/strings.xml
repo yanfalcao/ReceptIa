@@ -1,8 +1,18 @@
 <resources>
     <string name="app_name">ReceptIa</string>
+    <string name="title_login">Gere Receitas usando IA</string>
+    <string name="google_login">Login com Google</string>
+    <string name="description_login">Gere receitas baseado nas suas preferências e nas dos seus convidados usando IA</string>
+
+    <!--    drawer-->
+    <string name="drawer_home">Início</string>
+    <string name="drawer_new_recipe">Nova receita</string>
+    <string name="drawer_recepies_store">Receitas</string>
+    <string name="drawer_profile">Perfil</string>
+    <string name="drawer_logout">Sair</string>
+
+    <!--    content description-->
     <string name="bg_login_description">Imagem de uma mesa com comidas diversas</string>
     <string name="google_icon_description">Icone da empresa Google</string>
-    <string name="title_login">Gere Receitas usando IA</string>
-    <string name="description_login">Gere receitas baseado nas suas preferências e nas dos seus convidados usando IA</string>
-    <string name="google_login">Login com Google</string>
+    <string name="logo_icon_description">Imagem do logotipo do app contendo o nome do aplicativo Receptia com uma campânula cobrindo as letras R, E e C</string>
 </resources>
