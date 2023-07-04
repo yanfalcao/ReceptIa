@@ -1,5 +1,6 @@
-package com.example.receptia
+package com.example.receptia.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -26,11 +27,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.receptia.R
 import com.example.receptia.ui.theme.ReceptIaTheme
 import com.example.receptia.ui.theme.loginBody
 import com.example.receptia.ui.theme.titleBoldLarge
@@ -49,7 +52,7 @@ class LoginActivity : ComponentActivity() {
     showSystemUi = true,
 )
 @Composable
-fun Body() {
+private fun Body() {
     ReceptIaTheme {
         Background()
         Column(
@@ -68,7 +71,7 @@ fun Body() {
 }
 
 @Composable
-fun Background() {
+private fun Background() {
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val gradientBrush = Brush.verticalGradient(
             colors = listOf(Color.Transparent, Color.Black),
@@ -91,7 +94,7 @@ fun Background() {
 }
 
 @Composable
-fun Title() {
+private fun Title() {
     Text(
         text = stringResource(id = R.string.title_login),
         color = Color.White,
@@ -102,7 +105,7 @@ fun Title() {
 }
 
 @Composable
-fun Description() {
+private fun Description() {
     Text(
         text = stringResource(id = R.string.description_login),
         color = Color.White,
@@ -114,9 +117,14 @@ fun Description() {
 }
 
 @Composable
-fun GoogleLoginButton() {
+private fun GoogleLoginButton() {
+    val context = LocalContext.current
+
     Button(
-        onClick = { /*TODO*/ },
+        onClick = {
+            // TODO: Make login logic
+            context.startActivity(Intent(context, HomeActivity::class.java))
+        },
         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
         modifier = Modifier
             .height(55.dp)

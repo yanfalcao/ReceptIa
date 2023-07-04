@@ -11,6 +11,7 @@ import com.example.receptia.R
 
 val RalewayFont = FontFamily(
     Font(R.font.raleway, FontWeight.Normal),
+    Font(R.font.raleway_medium, FontWeight.Medium),
     Font(R.font.raleway_bold, FontWeight.Bold),
     Font(R.font.raleway_semibold, FontWeight.SemiBold),
     Font(R.font.raleway_extrabold, FontWeight.ExtraBold),
@@ -25,6 +26,30 @@ val Typography.titleBoldLarge: TextStyle
             fontSize = 32.sp,
             lineHeight = 36.sp,
             letterSpacing = 0.4.sp,
+        )
+    }
+
+val Typography.titleSemiBoldMedium: TextStyle
+    @Composable
+    get() {
+        return TextStyle(
+            fontFamily = RalewayFont,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 18.sp,
+            lineHeight = 22.sp,
+            letterSpacing = 0.22.sp,
+        )
+    }
+
+val Typography.titleMediumSmall: TextStyle
+    @Composable
+    get() {
+        return TextStyle(
+            fontFamily = RalewayFont,
+            fontWeight = FontWeight.Medium,
+            fontSize = 16.sp,
+            lineHeight = 22.sp,
+            letterSpacing = 0.22.sp,
         )
     }
 
