@@ -4,6 +4,10 @@
     <string name="google_login">Login com Google</string>
     <string name="description_login">Gere receitas baseado nas suas preferências e nas dos seus convidados usando IA</string>
 
+    <!--    login-->
+    <string name="banner_title">Novas receitas com Inteligência Artificial</string>
+    <string name="start">Começar</string>
+
     <!--    drawer-->
     <string name="drawer_home">Início</string>
     <string name="drawer_new_recipe">Nova receita</string>
