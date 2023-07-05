@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import com.example.receptia.R
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.titleMediumSmall
-import com.example.receptia.ui.theme.titleSemiBoldMedium
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -121,7 +120,7 @@ private fun DrawerHeader() {
             text = "Bernardo Lagos",
             color = Color.Black,
             textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.titleSemiBoldMedium,
+            style = MaterialTheme.typography.labelLarge,
             modifier = Modifier.width(105.dp),
         )
     }

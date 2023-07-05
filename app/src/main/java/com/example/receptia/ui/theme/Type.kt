@@ -17,54 +17,6 @@ val RalewayFont = FontFamily(
     Font(R.font.raleway_extrabold, FontWeight.ExtraBold),
 )
 
-val Typography.titleBoldLarge: TextStyle
-    @Composable
-    get() {
-        return TextStyle(
-            fontFamily = RalewayFont,
-            fontWeight = FontWeight.Bold,
-            fontSize = 32.sp,
-            lineHeight = 36.sp,
-            letterSpacing = 0.4.sp,
-        )
-    }
-
-val Typography.titleBoldMedium: TextStyle
-    @Composable
-    get() {
-        return TextStyle(
-            fontFamily = RalewayFont,
-            fontWeight = FontWeight.Bold,
-            fontSize = 21.sp,
-            lineHeight = 25.sp,
-            letterSpacing = 0.4.sp,
-        )
-    }
-
-val Typography.titleSemiBoldMedium: TextStyle
-    @Composable
-    get() {
-        return TextStyle(
-            fontFamily = RalewayFont,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
-            lineHeight = 22.sp,
-            letterSpacing = 0.22.sp,
-        )
-    }
-
-val Typography.titleSemiBoldSmall: TextStyle
-    @Composable
-    get() {
-        return TextStyle(
-            fontFamily = RalewayFont,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 16.sp,
-            lineHeight = 20.sp,
-            letterSpacing = 0.22.sp,
-        )
-    }
-
 val Typography.titleMediumSmall: TextStyle
     @Composable
     get() {
@@ -77,23 +29,39 @@ val Typography.titleMediumSmall: TextStyle
         )
     }
 
-val Typography.loginBody: TextStyle
-    @Composable
-    get() {
-        return TextStyle(
-            fontFamily = RalewayFont,
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
-            letterSpacing = 0.2.sp,
-        )
-    }
-
 val ReceptIaTypography = Typography(
-    bodyLarge = TextStyle(
+    headlineLarge = TextStyle(
+        fontFamily = RalewayFont,
+        fontWeight = FontWeight.Bold,
+        fontSize = 32.sp,
+        lineHeight = 36.sp,
+        letterSpacing = 0.4.sp,
+    ),
+    titleMedium = TextStyle(
+        fontFamily = RalewayFont,
+        fontWeight = FontWeight.Bold,
+        fontSize = 21.sp,
+        lineHeight = 25.sp,
+        letterSpacing = 0.4.sp,
+    ),
+    bodyMedium = TextStyle(
         fontFamily = RalewayFont,
         fontWeight = FontWeight.Normal,
-        fontSize = 16.sp,
+        fontSize = 18.sp,
         lineHeight = 20.sp,
         letterSpacing = 0.2.sp,
+    ),
+    labelLarge = TextStyle(
+        fontFamily = RalewayFont,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 18.sp,
+        letterSpacing = 0.2.sp,
+    ),
+    labelMedium = TextStyle(
+        fontFamily = RalewayFont,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 16.sp,
+        lineHeight = 20.sp,
+        letterSpacing = 0.22.sp,
     ),
 )
