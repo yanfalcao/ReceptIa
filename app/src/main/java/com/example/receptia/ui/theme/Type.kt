@@ -64,4 +64,11 @@ val ReceptIaTypography = Typography(
         lineHeight = 20.sp,
         letterSpacing = 0.22.sp,
     ),
+    labelSmall = TextStyle(
+        fontFamily = RalewayFont,
+        fontWeight = FontWeight.Medium,
+        fontSize = 14.sp,
+        lineHeight = 16.sp,
+        letterSpacing = 0.22.sp,
+    ),
 )
