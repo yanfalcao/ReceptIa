@@ -35,8 +35,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.receptia.R
 import com.example.receptia.ui.theme.ReceptIaTheme
-import com.example.receptia.ui.theme.loginBody
-import com.example.receptia.ui.theme.titleBoldLarge
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -99,7 +97,7 @@ private fun Title() {
         text = stringResource(id = R.string.title_login),
         color = Color.White,
         textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.titleBoldLarge,
+        style = MaterialTheme.typography.headlineLarge,
         modifier = Modifier.width(300.dp),
     )
 }
@@ -110,7 +108,7 @@ private fun Description() {
         text = stringResource(id = R.string.description_login),
         color = Color.White,
         textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.bodyLarge,
+        style = MaterialTheme.typography.bodyMedium,
         modifier = Modifier
             .width(300.dp),
     )
@@ -149,7 +147,7 @@ private fun GoogleLoginButton() {
             Text(
                 text = stringResource(id = R.string.google_login),
                 color = Color.Black,
-                style = MaterialTheme.typography.loginBody,
+                style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier.align(Alignment.CenterVertically),
             )
         }

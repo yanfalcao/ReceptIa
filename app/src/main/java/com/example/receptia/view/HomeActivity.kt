@@ -34,8 +34,6 @@ import com.example.receptia.R
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.LightGreen
 import com.example.receptia.ui.theme.ReceptIaTheme
-import com.example.receptia.ui.theme.titleBoldMedium
-import com.example.receptia.ui.theme.titleSemiBoldSmall
 import com.example.receptia.ui.widget.NavigationDrawerWidget
 import com.example.receptia.ui.widget.TopBarWidget
 
@@ -65,12 +63,19 @@ private fun Body() {
         Scaffold(
             topBar = { TopBarWidget(drawerState) },
         ) { padding ->
-            Box(
+            Column(
                 modifier = Modifier
                     .padding(padding)
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .padding(horizontal = 25.dp),
             ) {
                 Banner()
+
+                Text(
+                    text = stringResource(id = R.string.last_recipes_title),
+                    color = Color.Black,
+                    style = MaterialTheme.typography.titleMedium,
+                )
             }
         }
     }
@@ -81,7 +86,7 @@ private fun Banner() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 25.dp, vertical = 30.dp)
+            .padding(vertical = 30.dp)
             .background(
                 color = LightGreen,
                 shape = RoundedCornerShape(size = 15.dp),
@@ -105,7 +110,7 @@ private fun Banner() {
             Text(
                 text = stringResource(id = R.string.banner_title),
                 color = Color.Black,
-                style = MaterialTheme.typography.titleBoldMedium,
+                style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.width(230.dp),
             )
 
@@ -120,7 +125,7 @@ private fun Banner() {
                 Text(
                     text = stringResource(id = R.string.start),
                     color = Color.White,
-                    style = MaterialTheme.typography.titleSemiBoldSmall,
+                    style = MaterialTheme.typography.labelMedium,
                 )
             }
 
