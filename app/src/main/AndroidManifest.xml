@@ -13,10 +13,10 @@
         android:theme="@style/Theme.ReceptIa"
         tools:targetApi="31" >
         <activity
-            android:name=".view.HomeActivity"
+            android:name=".feature.home.HomeActivity"
             android:exported="false" />
         <activity
-            android:name=".view.LoginActivity"
+            android:name=".feature.login.LoginActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ReceptIa" >

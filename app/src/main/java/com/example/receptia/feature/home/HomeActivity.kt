@@ -1,4 +1,4 @@
-package com.example.receptia.view
+package com.example.receptia.feature.home
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -39,8 +39,8 @@ import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.LightGray
 import com.example.receptia.ui.theme.LightGreen
 import com.example.receptia.ui.theme.ReceptIaTheme
-import com.example.receptia.ui.widget.NavigationDrawerWidget
-import com.example.receptia.ui.widget.TopBarWidget
+import com.example.receptia.view.widget.NavigationDrawerWidget
+import com.example.receptia.view.widget.TopBarWidget
 
 class HomeActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

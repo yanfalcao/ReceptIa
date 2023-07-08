@@ -1,4 +1,4 @@
-package com.example.receptia.ui.widget
+package com.example.receptia.view.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.height
