@@ -1,5 +1,6 @@
-package com.example.receptia.view
+package com.example.receptia.feature.login
 
+import LoginViewModelPreviewParameterProvider
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -17,8 +18,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,15 +35,20 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.example.receptia.R
+import com.example.receptia.feature.home.HomeActivity
+import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.ReceptIaTheme
 
 class LoginActivity : ComponentActivity() {
+    val loginViewModel = LoginViewModel()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            Body()
+            Body(loginViewModel)
         }
     }
 }
@@ -50,7 +58,12 @@ class LoginActivity : ComponentActivity() {
     showSystemUi = true,
 )
 @Composable
-private fun Body() {
+private fun Body(
+    @PreviewParameter(LoginViewModelPreviewParameterProvider::class) loginViewModel: LoginViewModel,
+) {
+    val context = LocalContext.current
+    val loginState = loginViewModel.loginState
+
     ReceptIaTheme {
         Background()
         Column(
@@ -62,7 +75,22 @@ private fun Body() {
             Spacer(modifier = Modifier.height(20.dp))
             Description()
             Spacer(modifier = Modifier.height(50.dp))
-            GoogleLoginButton()
+
+            when (loginState) {
+                LoginUiState.Loading -> {
+                    LoadingButton()
+                }
+                LoginUiState.Started -> {
+                    GoogleLoginButton(loginViewModel)
+                }
+                is LoginUiState.Success -> {
+                    if (loginState.data) {
+                        context.startActivity(Intent(context, HomeActivity::class.java))
+                    }
+                    GoogleLoginButton(loginViewModel)
+                }
+            }
+
             Spacer(modifier = Modifier.height(50.dp))
         }
     }
@@ -115,14 +143,9 @@ private fun Description() {
 }
 
 @Composable
-private fun GoogleLoginButton() {
-    val context = LocalContext.current
-
+private fun GoogleLoginButton(loginViewModel: LoginViewModel) {
     Button(
-        onClick = {
-            // TODO: Make login logic
-            context.startActivity(Intent(context, HomeActivity::class.java))
-        },
+        onClick = loginViewModel::loginGoogle,
         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
         modifier = Modifier
             .height(55.dp)
@@ -151,5 +174,26 @@ private fun GoogleLoginButton() {
                 modifier = Modifier.align(Alignment.CenterVertically),
             )
         }
+    }
+}
+
+@Composable
+private fun LoadingButton() {
+    Box(
+        modifier = Modifier
+            .background(
+                color = Color.White,
+                shape = RoundedCornerShape(size = 30.dp),
+            )
+            .height(55.dp)
+            .width(55.dp),
+    ) {
+        CircularProgressIndicator(
+            color = Green,
+            modifier = Modifier
+                .align(Alignment.Center)
+                .height(40.dp)
+                .width(40.dp),
+        )
     }
 }
