@@ -1,10 +1,6 @@
 package com.example.receptia.feature.login
 
 import LoginViewModelPreviewParameterProvider
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -37,32 +33,33 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.rememberNavController
 import com.example.receptia.R
-import com.example.receptia.feature.home.HomeActivity
+import com.example.receptia.feature.home.navigation.navigateToHome
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.ReceptIaTheme
-
-class LoginActivity : ComponentActivity() {
-    val loginViewModel = LoginViewModel()
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            Body(loginViewModel)
-        }
-    }
-}
 
 @Preview(
     showBackground = true,
     showSystemUi = true,
 )
 @Composable
-private fun Body(
-    @PreviewParameter(LoginViewModelPreviewParameterProvider::class) loginViewModel: LoginViewModel,
+internal fun LoginRoute(
+    @PreviewParameter(LoginViewModelPreviewParameterProvider::class) viewModel: LoginViewModel = LoginViewModel(),
+) {
+    LoginScreen(
+        loginState = viewModel.loginState,
+        loginGoogle = viewModel::loginGoogle,
+    )
+}
+
+@Composable
+private fun LoginScreen(
+    loginState: LoginUiState,
+    loginGoogle: () -> Unit = {},
 ) {
     val context = LocalContext.current
-    val loginState = loginViewModel.loginState
+    val navController = rememberNavController()
 
     ReceptIaTheme {
         Background()
@@ -81,13 +78,13 @@ private fun Body(
                     LoadingButton()
                 }
                 LoginUiState.Started -> {
-                    GoogleLoginButton(loginViewModel)
+                    GoogleLoginButton(loginGoogle)
                 }
                 is LoginUiState.Success -> {
+                    LoadingButton()
                     if (loginState.data) {
-                        context.startActivity(Intent(context, HomeActivity::class.java))
+                        navController.navigateToHome()
                     }
-                    GoogleLoginButton(loginViewModel)
                 }
             }
 
@@ -143,9 +140,9 @@ private fun Description() {
 }
 
 @Composable
-private fun GoogleLoginButton(loginViewModel: LoginViewModel) {
+private fun GoogleLoginButton(loginGoogle: () -> Unit = {}) {
     Button(
-        onClick = loginViewModel::loginGoogle,
+        onClick = loginGoogle,
         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
         modifier = Modifier
             .height(55.dp)
