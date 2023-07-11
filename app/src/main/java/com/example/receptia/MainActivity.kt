@@ -22,7 +22,9 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = Screen.Splash.route,
                 ) {
-                    splashScreen()
+                    splashScreen(
+                        navController = navController
+                    )
                     loginScreen()
                     homeScreen()
                 }
