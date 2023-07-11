@@ -1,8 +1,5 @@
 package com.example.receptia.feature.home
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -38,19 +35,12 @@ import com.example.receptia.model.Recipe
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.LightGray
 import com.example.receptia.ui.theme.LightGreen
-import com.example.receptia.ui.theme.ReceptIaTheme
 import com.example.receptia.view.widget.NavigationDrawerWidget
 import com.example.receptia.view.widget.TopBarWidget
 
-class HomeActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            ReceptIaTheme {
-                Body()
-            }
-        }
-    }
+@Composable
+internal fun HomeRoute() {
+    HomeScreen()
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,7 +49,7 @@ class HomeActivity : ComponentActivity() {
     showSystemUi = true,
 )
 @Composable
-private fun Body() {
+private fun HomeScreen() {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
     NavigationDrawerWidget(
