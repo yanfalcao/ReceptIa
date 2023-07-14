@@ -23,33 +23,38 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.receptia.R
 import com.example.receptia.model.Recipe
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.LightGray
 import com.example.receptia.ui.theme.LightGreen
+import com.example.receptia.ui.theme.widget.SkeletonLoadingWidget
 import com.example.receptia.view.widget.NavigationDrawerWidget
 import com.example.receptia.view.widget.TopBarWidget
 
 @Composable
-internal fun HomeRoute() {
-    HomeScreen()
+internal fun HomeRoute(
+    viewModel: HomeViewModel = viewModel(),
+) {
+    val feedState by viewModel.feedState.collectAsStateWithLifecycle()
+
+    HomeScreen(feedState)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-)
 @Composable
-private fun HomeScreen() {
+private fun HomeScreen(
+    feedState: RecipeFeedUiState,
+) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
     NavigationDrawerWidget(
@@ -74,7 +79,15 @@ private fun HomeScreen() {
 
                 Spacer(modifier = Modifier.height(25.dp))
 
-                RecipeList()
+                when (feedState) {
+                    RecipeFeedUiState.Loading ->
+                        LoadingRecipeList()
+                    is RecipeFeedUiState.Success -> {
+                        if (feedState.recipes.isNotEmpty()) {
+                            RecipeList(feedState.recipes)
+                        }
+                    }
+                }
             }
         }
     }
@@ -133,20 +146,10 @@ private fun Banner() {
     }
 }
 
-// TODO: Add Recipe List Logic
 @Composable
-private fun RecipeList() {
-    val recipeList = listOf(
-        RecipeMock(),
-        RecipeMock(),
-        RecipeMock(),
-        RecipeMock(),
-        RecipeMock(),
-        RecipeMock(),
-    )
-
+private fun RecipeList(recipes: List<Recipe>) {
     LazyColumn {
-        items(recipeList) {
+        items(recipes) {
             RecipeListTile(recipe = it)
             Spacer(modifier = Modifier.height(15.dp))
         }
@@ -218,19 +221,13 @@ private fun RecipeListTile(recipe: Recipe) {
         }
     }
 }
-private fun RecipeMock(): Recipe {
-    return Recipe(
-        id = "1",
-        name = "Espaguete com Molho de Cogumelos e Bacon",
-        description = "",
-        prepTime = "30 min",
-        easeRecipe = "Fácil",
-        isFavorite = true,
-        amountCalories = "450 kcal",
-        amountCarbs = "60g",
-        amountProteins = "15g",
-        amountPeopleServes = 2,
-        recipeSteps = "",
-        ingredients = listOf(),
-    )
+
+@Composable
+private fun LoadingRecipeList() {
+    Column {
+        repeat(4) {
+            SkeletonLoadingWidget()
+            Spacer(modifier = Modifier.height(15.dp))
+        }
+    }
 }
