@@ -1,6 +1,5 @@
 package com.example.receptia.feature.login
 
-import LoginViewModelPreviewParameterProvider
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -21,6 +20,9 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -29,35 +31,43 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.NavController
 import com.example.receptia.R
 import com.example.receptia.feature.home.navigation.navigateToHome
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.ReceptIaTheme
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-)
 @Composable
 internal fun LoginRoute(
-    @PreviewParameter(LoginViewModelPreviewParameterProvider::class) viewModel: LoginViewModel = LoginViewModel(),
+    navController: NavController,
+    viewModel: LoginViewModel = LoginViewModel(),
 ) {
+    val loginUiState by viewModel.loginUiState.collectAsState()
+
     LoginScreen(
-        loginState = viewModel.loginState,
+        loginUiState = loginUiState,
         loginGoogle = viewModel::loginGoogle,
+        navigateToHome = navController::navigateToHome,
     )
 }
 
 @Composable
 private fun LoginScreen(
-    loginState: LoginUiState,
+    loginUiState: LoginUiState,
     loginGoogle: () -> Unit = {},
+    navigateToHome: (Boolean) -> Unit = {},
 ) {
-    val navController = rememberNavController()
+    val isLoading = loginUiState !is LoginUiState.Started
+
+    LaunchedEffect(loginUiState) {
+        if (loginUiState is LoginUiState.Success) {
+            if (loginUiState.data) {
+                val popUp = true
+                navigateToHome(popUp)
+            }
+        }
+    }
 
     ReceptIaTheme {
         Background()
@@ -71,19 +81,9 @@ private fun LoginScreen(
             Description()
             Spacer(modifier = Modifier.height(50.dp))
 
-            when (loginState) {
-                LoginUiState.Loading -> {
-                    LoadingButton()
-                }
-                LoginUiState.Started -> {
-                    GoogleLoginButton(loginGoogle)
-                }
-                is LoginUiState.Success -> {
-                    LoadingButton()
-                    if (loginState.data) {
-                        navController.navigateToHome()
-                    }
-                }
+            when (isLoading) {
+                true -> LoadingButton()
+                false -> GoogleLoginButton(loginGoogle)
             }
 
             Spacer(modifier = Modifier.height(50.dp))

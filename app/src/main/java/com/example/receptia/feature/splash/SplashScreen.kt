@@ -28,7 +28,7 @@ internal fun SplashRoute(
     LaunchedEffect(splashUiState) {
         if (splashUiState is SplashUiState.Success) {
             if ((splashUiState as SplashUiState.Success).logged) {
-                navController.navigateToHome()
+                navController.navigateToHome(popUp = true)
             } else {
                 navController.navigateToLogin(popUp = true)
             }

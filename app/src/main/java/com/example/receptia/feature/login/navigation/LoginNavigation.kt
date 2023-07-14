@@ -16,8 +16,10 @@ fun NavController.navigateToLogin(popUp: Boolean = false) {
     }
 }
 
-fun NavGraphBuilder.loginScreen() {
+fun NavGraphBuilder.loginScreen(
+    navController: NavController
+) {
     composable(Screen.Login.route) {
-        LoginRoute()
+        LoginRoute(navController = navController)
     }
 }
