@@ -6,8 +6,14 @@ import androidx.navigation.compose.composable
 import com.example.receptia.feature.home.HomeRoute
 import com.example.receptia.navigation.Screen
 
-fun NavController.navigateToHome() {
-    this.navigate(Screen.Home.route)
+fun NavController.navigateToHome(popUp: Boolean = false) {
+    this.navigate(Screen.Home.route) {
+        if (popUp) {
+            popUpTo(graph.startDestinationId) {
+                inclusive = true
+            }
+        }
+    }
 }
 
 fun NavGraphBuilder.homeScreen() {

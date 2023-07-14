@@ -13,13 +13,7 @@ class SplashViewModel : ViewModel() {
     // TODO: Implement splash logic
     val splashState: StateFlow<SplashUiState> =
         flow<SplashUiState> {
-            try {
-                delay(3000)
-            } catch (e: Exception) {
-                // TODO: Lidar com erros
-            } finally {
-                emit(SplashUiState.Success(logged = false))
-            }
+            emit(SplashUiState.Success(logged = false))
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
