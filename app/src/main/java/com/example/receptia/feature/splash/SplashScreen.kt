@@ -13,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.receptia.R
 import com.example.receptia.feature.home.navigation.navigateToHome
@@ -21,7 +22,7 @@ import com.example.receptia.feature.login.navigation.navigateToLogin
 @Composable
 internal fun SplashRoute(
     navController: NavController,
-    viewModel: SplashViewModel = SplashViewModel(),
+    viewModel: SplashViewModel = viewModel(),
 ) {
     val splashUiState by viewModel.splashState.collectAsStateWithLifecycle()
 
