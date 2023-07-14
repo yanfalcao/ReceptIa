@@ -9,8 +9,10 @@ import com.example.receptia.navigation.Screen
 fun NavController.navigateToHome(popUp: Boolean = false) {
     this.navigate(Screen.Home.route) {
         if (popUp) {
-            popUpTo(graph.startDestinationId) {
-                inclusive = true
+            currentBackStackEntry?.destination?.route?.let { route ->
+                popUpTo(route) {
+                    inclusive = true
+                }
             }
         }
     }
