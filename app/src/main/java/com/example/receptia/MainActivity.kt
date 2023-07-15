@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.example.receptia.feature.home.navigation.homeScreen
 import com.example.receptia.feature.login.navigation.loginScreen
+import com.example.receptia.feature.newRecipe.navigation.newRecipeScreen
 import com.example.receptia.feature.splash.navigation.splashScreen
 import com.example.receptia.navigation.Screen
 import com.example.receptia.ui.theme.ReceptIaTheme
@@ -29,6 +30,9 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                     )
                     homeScreen()
+                    newRecipeScreen(
+                        navController = navController,
+                    )
                 }
             }
         }
