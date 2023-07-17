@@ -18,8 +18,10 @@ fun NavController.navigateToHome(popUp: Boolean = false) {
     }
 }
 
-fun NavGraphBuilder.homeScreen() {
+fun NavGraphBuilder.homeScreen(
+    navController: NavController
+) {
     composable(Screen.Home.route) {
-        HomeRoute()
+        HomeRoute(navController)
     }
 }

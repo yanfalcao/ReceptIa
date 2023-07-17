@@ -32,7 +32,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.receptia.R
+import com.example.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.example.receptia.model.Recipe
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.LightGray
@@ -43,17 +45,22 @@ import com.example.receptia.view.widget.TopBarWidget
 
 @Composable
 internal fun HomeRoute(
+    navController: NavController,
     viewModel: HomeViewModel = viewModel(),
 ) {
     val feedState by viewModel.feedState.collectAsStateWithLifecycle()
 
-    HomeScreen(feedState)
+    HomeScreen(
+        feedState = feedState,
+        navigateToNewRecipe = navController::navigateToNewRecipe,
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreen(
     feedState: RecipeFeedUiState,
+    navigateToNewRecipe: () -> Unit = {}
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
@@ -69,7 +76,7 @@ private fun HomeScreen(
                     .fillMaxSize()
                     .padding(horizontal = 25.dp),
             ) {
-                Banner()
+                Banner(navigateToNewRecipe)
 
                 Text(
                     text = stringResource(id = R.string.last_recipes_title),
@@ -94,7 +101,9 @@ private fun HomeScreen(
 }
 
 @Composable
-private fun Banner() {
+private fun Banner(
+    navigateToNewRecipe: () -> Unit = {}
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -129,9 +138,7 @@ private fun Banner() {
             Spacer(modifier = Modifier.height(20.dp))
 
             Button(
-                onClick = {
-                    // TODO: Add start button logic
-                },
+                onClick = navigateToNewRecipe,
                 colors = ButtonDefaults.buttonColors(containerColor = Green),
             ) {
                 Text(

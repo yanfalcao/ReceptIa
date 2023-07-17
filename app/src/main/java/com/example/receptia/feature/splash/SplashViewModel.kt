@@ -13,7 +13,7 @@ class SplashViewModel : ViewModel() {
     // TODO: Implement splash logic
     val splashState: StateFlow<SplashUiState> =
         flow<SplashUiState> {
-            emit(SplashUiState.Success(logged = false))
+            emit(SplashUiState.Success(logged = true))
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),

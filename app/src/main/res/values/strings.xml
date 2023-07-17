@@ -10,10 +10,16 @@
     <string name="start">Começar</string>
     
     <!--    new recipe-->
+    <string name="new_recipe_title">Nova Receita</string>
     <string name="type_of_dish">Tipo de Prato</string>
     <string name="breakfast">Café da Manhã</string>
     <string name="lunch">Almoço</string>
     <string name="dinner">Jantar</string>
+    <string name="favorite_ingredients">Ingredientes Preferidos</string>
+    <string name="non_favorite_ingredients">Ingredientes Menos Preferidos</string>
+    <string name="allergic_ingredients">Ingredientes que sou Alérgicos</string>
+    <string name="intolerant_ingredients">Ingredientes que sou Intolerante</string>
+    <string name="placeholder_ingredient">Digite o ingrediente</string>
 
     <!--    drawer-->
     <string name="drawer_home">Início</string>

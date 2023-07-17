@@ -21,7 +21,7 @@ class MainActivity : ComponentActivity() {
             ReceptIaTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = Screen.Splash.route,
+                    startDestination = Screen.Home.route,
                 ) {
                     splashScreen(
                         navController = navController,
@@ -29,7 +29,9 @@ class MainActivity : ComponentActivity() {
                     loginScreen(
                         navController = navController,
                     )
-                    homeScreen()
+                    homeScreen(
+                        navController = navController
+                    )
                     newRecipeScreen(
                         navController = navController,
                     )
