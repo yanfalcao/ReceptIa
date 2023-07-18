@@ -1,4 +1,4 @@
-package com.example.receptia.feature.newRecipe.navigation
+package com.example.receptia.feature.recipeDescription.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
@@ -6,9 +6,9 @@ import androidx.navigation.compose.composable
 import com.example.receptia.feature.newRecipe.NewRecipeRoute
 import com.example.receptia.navigation.Screen
 
-fun NavController.navigateToNewRecipe(popUp: Boolean = false) {
+fun NavController.navigateToRecipeDescription(popUp: Boolean = false) {
     val destination = currentBackStackEntry?.destination?.route
-    val route = Screen.NewRecipe.route
+    val route = Screen.RecipeDescription.route
 
     if (!destination.isNullOrEmpty() && !destination.equals(route)) {
         this.navigate(route) {
@@ -21,10 +21,10 @@ fun NavController.navigateToNewRecipe(popUp: Boolean = false) {
     }
 }
 
-fun NavGraphBuilder.newRecipeScreen(
-    navController: NavController,
+fun NavGraphBuilder.recipeDescriptionScreen(
+    navController: NavController
 ) {
-    composable(Screen.NewRecipe.route) {
+    composable(Screen.RecipeDescription.route) {
         NewRecipeRoute(navController)
     }
 }
