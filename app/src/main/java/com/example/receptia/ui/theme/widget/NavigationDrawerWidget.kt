@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -26,25 +27,31 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.receptia.R
+import com.example.receptia.feature.home.navigation.navigateToHome
+import com.example.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.titleMediumSmall
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationDrawerWidget(
+    navController: NavController,
     drawerState: DrawerState,
     content: @Composable () -> Unit,
 ) {
     ModalNavigationDrawer(
         drawerState = drawerState,
-        drawerContent = { DrawerBody() },
+        drawerContent = { DrawerBody(navController) },
         content = content,
     )
 }
 
 @Composable
-private fun DrawerBody() {
+private fun DrawerBody(
+    navController: NavController,
+) {
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -69,6 +76,7 @@ private fun DrawerBody() {
         DrawerTile(
             iconResourceId = R.drawable.ic_house,
             titleResourceId = R.string.drawer_home,
+            onClick = navController::navigateToHome,
         )
 
         Spacer(modifier = Modifier.height(26.dp))
@@ -76,6 +84,7 @@ private fun DrawerBody() {
         DrawerTile(
             iconResourceId = R.drawable.ic_add,
             titleResourceId = R.string.drawer_new_recipe,
+            onClick = navController::navigateToNewRecipe,
         )
 
         Spacer(modifier = Modifier.height(26.dp))
@@ -130,8 +139,10 @@ private fun DrawerHeader() {
 private fun DrawerTile(
     @DrawableRes iconResourceId: Int,
     @StringRes titleResourceId: Int,
+    onClick: () -> Unit = {}
 ) {
     Row(
+        modifier = Modifier.clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         // TODO: Add logic

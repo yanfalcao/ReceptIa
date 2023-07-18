@@ -53,12 +53,14 @@ internal fun HomeRoute(
     HomeScreen(
         feedState = feedState,
         navigateToNewRecipe = navController::navigateToNewRecipe,
+        navController = navController,
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreen(
+    navController: NavController,
     feedState: RecipeFeedUiState,
     navigateToNewRecipe: () -> Unit = {}
 ) {
@@ -66,6 +68,7 @@ private fun HomeScreen(
 
     NavigationDrawerWidget(
         drawerState = drawerState,
+        navController = navController
     ) {
         Scaffold(
             topBar = { TopBarWidget(drawerState) },

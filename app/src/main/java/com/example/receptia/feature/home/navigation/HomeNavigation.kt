@@ -7,10 +7,13 @@ import com.example.receptia.feature.home.HomeRoute
 import com.example.receptia.navigation.Screen
 
 fun NavController.navigateToHome(popUp: Boolean = false) {
-    this.navigate(Screen.Home.route) {
-        if (popUp) {
-            currentBackStackEntry?.destination?.route?.let { route ->
-                popUpTo(route) {
+    val destination = currentBackStackEntry?.destination?.route
+    val route = Screen.Home.route
+
+    if (!destination.isNullOrEmpty() && !destination.equals(route)) {
+        this.navigate(route) {
+            if (popUp) {
+                popUpTo(destination) {
                     inclusive = true
                 }
             }
@@ -19,7 +22,7 @@ fun NavController.navigateToHome(popUp: Boolean = false) {
 }
 
 fun NavGraphBuilder.homeScreen(
-    navController: NavController
+    navController: NavController,
 ) {
     composable(Screen.Home.route) {
         HomeRoute(navController)
