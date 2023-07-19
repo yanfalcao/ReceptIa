@@ -3,7 +3,7 @@ package com.example.receptia.feature.recipeDescription.navigation
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.example.receptia.feature.newRecipe.NewRecipeRoute
+import com.example.receptia.feature.recipeDescription.RecipeDescriptionRoute
 import com.example.receptia.navigation.Screen
 
 fun NavController.navigateToRecipeDescription(popUp: Boolean = false) {
@@ -22,9 +22,9 @@ fun NavController.navigateToRecipeDescription(popUp: Boolean = false) {
 }
 
 fun NavGraphBuilder.recipeDescriptionScreen(
-    navController: NavController
+    navController: NavController,
 ) {
     composable(Screen.RecipeDescription.route) {
-        NewRecipeRoute(navController)
+        RecipeDescriptionRoute(navController)
     }
 }

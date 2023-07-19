@@ -48,7 +48,7 @@ fun TopBarWidget(
                 Text(
                     text = title,
                     color = Color.Black,
-                    style = MaterialTheme.typography.headlineMedium,
+                    style = MaterialTheme.typography.headlineSmall,
                 )
             }
         },
