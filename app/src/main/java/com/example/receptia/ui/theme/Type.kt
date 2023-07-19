@@ -39,6 +39,13 @@ val ReceptIaTypography = Typography(
     ),
     headlineMedium = TextStyle(
         fontFamily = RalewayFont,
+        fontWeight = FontWeight.SemiBold,
+        fontSize = 25.sp,
+        lineHeight = 30.sp,
+        letterSpacing = 0.4.sp,
+    ),
+    headlineSmall = TextStyle(
+        fontFamily = RalewayFont,
         fontWeight = FontWeight.Medium,
         fontSize = 25.sp,
         lineHeight = 36.sp,
