@@ -20,6 +20,8 @@
     <string name="allergic_ingredients">Ingredientes que sou Alérgicos</string>
     <string name="intolerant_ingredients">Ingredientes que sou Intolerante</string>
     <string name="placeholder_ingredient">Digite o ingrediente</string>
+    <string name="details">Detalhes</string>
+    <string name="recipe">Receita</string>
 
     <!--    drawer-->
     <string name="drawer_home">Início</string>
