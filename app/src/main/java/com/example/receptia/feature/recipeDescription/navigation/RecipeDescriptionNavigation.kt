@@ -21,10 +21,8 @@ fun NavController.navigateToRecipeDescription(popUp: Boolean = false) {
     }
 }
 
-fun NavGraphBuilder.recipeDescriptionScreen(
-    navController: NavController,
-) {
+fun NavGraphBuilder.recipeDescriptionScreen() {
     composable(Screen.RecipeDescription.route) {
-        RecipeDescriptionRoute(navController)
+        RecipeDescriptionRoute()
     }
 }
