@@ -22,6 +22,10 @@
     <string name="placeholder_ingredient">Digite o ingrediente</string>
     <string name="details">Detalhes</string>
     <string name="recipe">Receita</string>
+    <string name="description">Descrição</string>
+    <string name="prep_time">Tempo</string>
+    <string name="easeRecipe">Facilidade</string>
+    <string name="nutrition">Nutrição</string>
 
     <!--    drawer-->
     <string name="drawer_home">Início</string>
