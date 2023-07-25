@@ -26,6 +26,11 @@
     <string name="prep_time">Tempo</string>
     <string name="easeRecipe">Facilidade</string>
     <string name="nutrition">Nutrição</string>
+    <string name="amount_people_serves">Serve quantas</string>
+    <string name="people">pessoas</string>
+    <string name="calories">Calorias</string>
+    <string name="carbs">Carboidratos</string>
+    <string name="proteins">Proteina</string>
 
     <!--    drawer-->
     <string name="drawer_home">Início</string>

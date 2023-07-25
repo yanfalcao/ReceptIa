@@ -29,6 +29,7 @@ import com.example.receptia.feature.recipeDescription.state.ToogleRecipeState
 import com.example.receptia.feature.recipeDescription.widget.BackButton
 import com.example.receptia.feature.recipeDescription.widget.Background
 import com.example.receptia.feature.recipeDescription.widget.DetailsBody
+import com.example.receptia.feature.recipeDescription.widget.RecipeBody
 import com.example.receptia.feature.recipeDescription.widget.ToogleButton
 import com.example.receptia.ui.theme.ReceptIaTheme
 
@@ -69,8 +70,15 @@ private fun RecipeDescriptionScreen(
                 )
                 Spacer(modifier = Modifier.height(20.dp))
                 when (recipeUiState) {
+                    // TODO: Create a better loading
                     RecipeUiState.Loading -> CircularProgressIndicator()
-                    is RecipeUiState.Success -> DetailsBody(recipeUiState.recipe)
+                    is RecipeUiState.Success -> {
+                        if (toogleState is ToogleRecipeState.DetailsSelected) {
+                            DetailsBody(recipeUiState.recipe)
+                        } else {
+                            RecipeBody(recipeUiState.recipe)
+                        }
+                    }
                 }
             }
         }
