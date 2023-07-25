@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -23,10 +24,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
+import com.example.receptia.feature.recipeDescription.state.RecipeUiState
 import com.example.receptia.feature.recipeDescription.state.ToogleRecipeState
 import com.example.receptia.feature.recipeDescription.widget.BackButton
 import com.example.receptia.feature.recipeDescription.widget.Background
+import com.example.receptia.feature.recipeDescription.widget.DetailsBody
 import com.example.receptia.feature.recipeDescription.widget.ToogleButton
 import com.example.receptia.ui.theme.ReceptIaTheme
 
@@ -35,9 +37,11 @@ internal fun RecipeDescriptionRoute(
     viewModel: RecipeDescriptionViewModel = viewModel(),
 ) {
     val toogleRecipeState by viewModel.toogleRecipeState.collectAsStateWithLifecycle()
+    val recipeUiState by viewModel.getRecipe.collectAsStateWithLifecycle()
 
     RecipeDescriptionScreen(
         toogleState = toogleRecipeState,
+        recipeUiState = recipeUiState,
         onSelectToogle = viewModel::selectRecipeToogle,
     )
 }
@@ -45,6 +49,7 @@ internal fun RecipeDescriptionRoute(
 @Composable
 private fun RecipeDescriptionScreen(
     toogleState: ToogleRecipeState,
+    recipeUiState: RecipeUiState,
     onSelectToogle: () -> Unit = {},
 ) {
     ReceptIaTheme {
@@ -62,6 +67,11 @@ private fun RecipeDescriptionScreen(
                     toogleState = toogleState,
                     onSelectToogle = onSelectToogle,
                 )
+                Spacer(modifier = Modifier.height(20.dp))
+                when (recipeUiState) {
+                    RecipeUiState.Loading -> CircularProgressIndicator()
+                    is RecipeUiState.Success -> DetailsBody(recipeUiState.recipe)
+                }
             }
         }
     }
