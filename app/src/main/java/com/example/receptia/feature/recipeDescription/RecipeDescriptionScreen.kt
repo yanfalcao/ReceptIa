@@ -24,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.receptia.feature.recipeDescription.state.RecipeUiState
 import com.example.receptia.feature.recipeDescription.state.ToogleRecipeState
 import com.example.receptia.feature.recipeDescription.widget.BackButton
@@ -35,6 +36,7 @@ import com.example.receptia.ui.theme.ReceptIaTheme
 
 @Composable
 internal fun RecipeDescriptionRoute(
+    navController: NavController,
     viewModel: RecipeDescriptionViewModel = viewModel(),
 ) {
     val toogleRecipeState by viewModel.toogleRecipeState.collectAsStateWithLifecycle()
@@ -44,6 +46,7 @@ internal fun RecipeDescriptionRoute(
         toogleState = toogleRecipeState,
         recipeUiState = recipeUiState,
         onSelectToogle = viewModel::selectRecipeToogle,
+        onBackClick = navController::popBackStack,
     )
 }
 
@@ -52,6 +55,7 @@ private fun RecipeDescriptionScreen(
     toogleState: ToogleRecipeState,
     recipeUiState: RecipeUiState,
     onSelectToogle: () -> Unit = {},
+    onBackClick: () -> Unit = {},
 ) {
     ReceptIaTheme {
         Box {
@@ -60,7 +64,7 @@ private fun RecipeDescriptionScreen(
                 horizontalAlignment = Alignment.Start,
                 modifier = Modifier.padding(horizontal = 25.dp, vertical = 30.dp),
             ) {
-                BackButton()
+                BackButton(onBackClick = onBackClick)
                 Spacer(modifier = Modifier.height(65.dp))
                 Header()
                 Spacer(modifier = Modifier.height(40.dp))

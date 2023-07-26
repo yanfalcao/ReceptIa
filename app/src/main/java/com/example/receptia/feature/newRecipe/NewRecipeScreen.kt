@@ -44,6 +44,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.receptia.R
 import com.example.receptia.feature.newRecipe.state.RadioUiState
+import com.example.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
 import com.example.receptia.ui.theme.Gray
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.view.widget.TopBarWidget
@@ -59,6 +60,7 @@ internal fun NewRecipeRoute(
         radioUiState = radioUiState,
         onSelectOption = viewModel::selectRadio,
         onBackClick = navController::popBackStack,
+        onNavigateToRecipe = navController::navigateToRecipeDescription,
     )
 }
 
@@ -68,6 +70,7 @@ private fun NewRecipeScreen(
     radioUiState: RadioUiState,
     onSelectOption: (String) -> Unit = {},
     onBackClick: () -> Unit = {},
+    onNavigateToRecipe: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -96,7 +99,9 @@ private fun NewRecipeScreen(
                     .align(Alignment.BottomCenter)
                     .padding(top = 15.dp, bottom = 20.dp),
             ) {
-                ContinueButtom()
+                ContinueButtom(
+                    onNavigateToRecipe = onNavigateToRecipe,
+                )
             }
         }
     }
@@ -163,10 +168,13 @@ private fun RecipeForm(
 }
 
 @Composable
-private fun ContinueButtom() {
+private fun ContinueButtom(
+    onNavigateToRecipe: () -> Unit = {},
+) {
     Button(
         onClick = {
             // TODO: Add start button logic
+            onNavigateToRecipe()
         },
         modifier = Modifier
             .fillMaxWidth()
