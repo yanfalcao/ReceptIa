@@ -79,13 +79,13 @@ class RecipeDescriptionViewModel : ViewModel() {
                 ),
             ),
             recipeSteps = "1. Tempere os filés de frango com suco de limão, alho picado, sal e pimenta a gosto." +
-                "\\n2. Em uma frigideira, frite o bacon até ficar crocante. Retire o bacon da frigideira e reserve." +
-                "\\n3. Na mesma frigideira, adicione os filés de frango temperados e cozinhe em fogo médio até ficarem dourados e cozidos por completo." +
-                "\\n4. Retire os filés de frango da frigideira e reserve." +
-                "\\n5. Na mesma frigideira, adicione os cogumelos fatiados e cozinhe por alguns minutos até ficarem macios." +
-                "\\n6. Adicione o tomate picado, o manjericão e a cebolinha à frigideira e cozinhe por mais alguns minutos." +
-                "\\n7. Retorne os filés de frango à frigideira e misture tudo delicadamente." +
-                "\\n8. Sirva o filé de frango ao limão com cogumelos acompanhado do bacon crocante por cima.",
+                "\n\n2. Em uma frigideira, frite o bacon até ficar crocante. Retire o bacon da frigideira e reserve." +
+                "\n\n3. Na mesma frigideira, adicione os filés de frango temperados e cozinhe em fogo médio até ficarem dourados e cozidos por completo." +
+                "\n\n4. Retire os filés de frango da frigideira e reserve." +
+                "\n\n5. Na mesma frigideira, adicione os cogumelos fatiados e cozinhe por alguns minutos até ficarem macios." +
+                "\n\n6. Adicione o tomate picado, o manjericão e a cebolinha à frigideira e cozinhe por mais alguns minutos." +
+                "\n\n7. Retorne os filés de frango à frigideira e misture tudo delicadamente." +
+                "\n\n8. Sirva o filé de frango ao limão com cogumelos acompanhado do bacon crocante por cima.",
         )
     }
 }

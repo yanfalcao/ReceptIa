@@ -143,26 +143,3 @@ private fun NutritionTile(
         )
     }
 }
-
-@Composable
-private fun Title(@StringRes text: Int) {
-    Text(
-        text = stringResource(id = text),
-        style = MaterialTheme.typography.titleSmall,
-    )
-}
-
-@Composable
-private fun Container(
-    content: @Composable BoxScope.() -> Unit,
-) {
-    Box(
-        modifier = Modifier
-            .background(
-                color = LightGray,
-                shape = RoundedCornerShape(size = 15.dp),
-            )
-            .padding(horizontal = 15.dp, vertical = 10.dp),
-        content = content,
-    )
-}
