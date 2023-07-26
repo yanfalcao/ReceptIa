@@ -16,6 +16,7 @@ import com.example.receptia.R
 @Composable
 fun BackButton(
     modifier: Modifier = Modifier,
+    onBackClick: () -> Unit = {},
 ) {
     Box(
         modifier = modifier
@@ -26,9 +27,7 @@ fun BackButton(
             .requiredSize(45.dp),
     ) {
         IconButton(
-            onClick = {
-                // TODO: Implements
-            },
+            onClick = onBackClick,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_back),
