@@ -20,11 +20,10 @@ import androidx.compose.ui.unit.dp
 
 @Preview
 @Composable
-fun SkeletonLoadingWidget() {
+fun SkeletonLoadingWidget(modifier: Modifier) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .height(100.dp)
             .background(
                 brush = shimmerBrush(),
                 shape = RoundedCornerShape(size = 15.dp),

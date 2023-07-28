@@ -2,6 +2,7 @@ package com.example.receptia.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.receptia.feature.home.state.RecipeFeedUiState
 import com.example.receptia.model.Recipe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted

@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.receptia.R
+import com.example.receptia.feature.historic.navigation.navigateToHistoric
 import com.example.receptia.feature.home.navigation.navigateToHome
 import com.example.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.example.receptia.ui.theme.Green
@@ -92,6 +93,7 @@ private fun DrawerBody(
         DrawerTile(
             iconResourceId = R.drawable.ic_article,
             titleResourceId = R.string.drawer_recepies_store,
+            onClick = navController::navigateToHistoric,
         )
 
         Spacer(modifier = Modifier.height(26.dp))
