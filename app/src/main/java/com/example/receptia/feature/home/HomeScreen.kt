@@ -34,6 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.receptia.R
+import com.example.receptia.feature.home.state.RecipeFeedUiState
 import com.example.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.example.receptia.model.Recipe
 import com.example.receptia.ui.theme.Green
@@ -236,7 +237,7 @@ private fun RecipeListTile(recipe: Recipe) {
 private fun LoadingRecipeList() {
     Column {
         repeat(4) {
-            SkeletonLoadingWidget()
+            SkeletonLoadingWidget(Modifier.height(100.dp))
             Spacer(modifier = Modifier.height(15.dp))
         }
     }

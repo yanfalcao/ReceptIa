@@ -1,4 +1,4 @@
-package com.example.receptia.feature.home
+package com.example.receptia.feature.home.state
 
 import com.example.receptia.model.Recipe
 

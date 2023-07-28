@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -19,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -26,13 +29,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.receptia.R
+import com.example.receptia.feature.historic.state.RecipeHistoricUiState
+import com.example.receptia.feature.historic.widget.GridList
 import com.example.receptia.feature.historic.widget.SearchBar
 import com.example.receptia.ui.theme.BlackLightTransparent
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.LightGray
+import com.example.receptia.ui.theme.widget.SkeletonLoadingWidget
 import com.example.receptia.view.widget.TopBarWidget
 
 @Composable
@@ -40,7 +47,10 @@ internal fun HistoricRoute(
     navController: NavController,
     viewModel: HistoricViewModel = viewModel(),
 ) {
+    val historicState by viewModel.recipeHistoricState.collectAsStateWithLifecycle()
+
     HistoricScreen(
+        historicState = historicState,
         onBackClick = navController::popBackStack,
     )
 }
@@ -48,6 +58,7 @@ internal fun HistoricRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HistoricScreen(
+    historicState: RecipeHistoricUiState,
     onBackClick: () -> Unit = {},
 ) {
     val filterTags = listOf(
@@ -90,6 +101,15 @@ private fun HistoricScreen(
                     Tag(text = tag)
                 }
             }
+
+            when (historicState) {
+                RecipeHistoricUiState.Loading -> LoadingRecipeList()
+                is RecipeHistoricUiState.Success -> {
+                    if (historicState.recipes.isNotEmpty()) {
+                        GridList(historicState.recipes)
+                    }
+                }
+            }
         }
     }
 }
@@ -114,9 +134,7 @@ private fun Tag(text: String) {
 }
 
 @Composable
-private fun FilterButton(
-    modifier: Modifier,
-) {
+private fun FilterButton(modifier: Modifier) {
     Box(
         modifier = modifier
             .background(color = LightGray, shape = CircleShape)
@@ -131,5 +149,18 @@ private fun FilterButton(
             painter = painterResource(id = R.drawable.ic_tune),
             contentDescription = null,
         )
+    }
+}
+
+@Composable
+private fun LoadingRecipeList() {
+    LazyVerticalGrid(
+        columns = GridCells.Adaptive(minSize = 140.dp),
+        verticalArrangement = Arrangement.spacedBy(15.dp),
+        horizontalArrangement = Arrangement.spacedBy(15.dp),
+    ) {
+        items(6) {
+            SkeletonLoadingWidget(Modifier.height(145.dp))
+        }
     }
 }
