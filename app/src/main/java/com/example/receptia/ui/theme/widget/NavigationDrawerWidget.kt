@@ -96,12 +96,12 @@ private fun DrawerBody(
             onClick = navController::navigateToHistoric,
         )
 
-        Spacer(modifier = Modifier.height(26.dp))
+        /*Spacer(modifier = Modifier.height(26.dp))
 
         DrawerTile(
             iconResourceId = R.drawable.ic_user,
             titleResourceId = R.string.drawer_profile,
-        )
+        )*/
 
         Spacer(modifier = Modifier.weight(1.0f))
 
