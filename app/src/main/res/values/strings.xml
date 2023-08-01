@@ -20,6 +20,11 @@
     <string name="allergic_ingredients">Ingredientes que sou Alérgicos</string>
     <string name="intolerant_ingredients">Ingredientes que sou Intolerante</string>
     <string name="placeholder_ingredient">Digite o ingrediente</string>
+
+    <!--    historic-->
+    <string name="historic_title">Receitas</string>
+    <string name="all">Todos</string>
+    <string name="favorites">Favoritos</string>
     <string name="details">Detalhes</string>
     <string name="recipe">Receita</string>
     <string name="description">Descrição</string>
@@ -33,11 +38,6 @@
     <string name="proteins">Proteina</string>
     <string name="ingredients_amount">%1$d Ingredientes</string>
     <string name="praparation">Modo de Preparo</string>
-
-    <!--    historic-->
-    <string name="historic_title">Receitas</string>
-    <string name="all">Todos</string>
-    <string name="favorites">Favoritos</string>
 
     <!--    drawer-->
     <string name="drawer_home">Início</string>

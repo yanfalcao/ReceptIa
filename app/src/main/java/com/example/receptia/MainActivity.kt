@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
             ReceptIaTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = Screen.Home.route,
+                    startDestination = Screen.NewRecipe.route,
                 ) {
                     splashScreen(
                         navController = navController,

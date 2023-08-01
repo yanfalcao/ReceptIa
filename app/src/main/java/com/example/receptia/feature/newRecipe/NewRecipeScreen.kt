@@ -1,26 +1,16 @@
 package com.example.receptia.feature.newRecipe
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -29,23 +19,20 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.receptia.R
+import com.example.receptia.feature.newRecipe.state.IngredientState
 import com.example.receptia.feature.newRecipe.state.RadioUiState
+import com.example.receptia.feature.newRecipe.widget.CustomRadioButton
+import com.example.receptia.feature.newRecipe.widget.CustomTextField
 import com.example.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
-import com.example.receptia.ui.theme.Gray
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.view.widget.TopBarWidget
 
@@ -59,6 +46,7 @@ internal fun NewRecipeRoute(
     NewRecipeScreen(
         radioUiState = radioUiState,
         onSelectOption = viewModel::selectRadio,
+        onInputIngredient = viewModel::updateFavoriteIngredients,
         onBackClick = navController::popBackStack,
         onNavigateToRecipe = navController::navigateToRecipeDescription,
     )
@@ -68,9 +56,10 @@ internal fun NewRecipeRoute(
 @Composable
 private fun NewRecipeScreen(
     radioUiState: RadioUiState,
-    onSelectOption: (String) -> Unit = {},
-    onBackClick: () -> Unit = {},
-    onNavigateToRecipe: () -> Unit = {},
+    onSelectOption: (String) -> Unit,
+    onInputIngredient: (IngredientState, String) -> Unit,
+    onBackClick: () -> Unit,
+    onNavigateToRecipe: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -90,6 +79,7 @@ private fun NewRecipeScreen(
             RecipeForm(
                 radioUiState = radioUiState,
                 onSelectOption = onSelectOption,
+                onInputIngredient = onInputIngredient,
             )
 
             Box(
@@ -111,17 +101,18 @@ private fun NewRecipeScreen(
 private fun RecipeForm(
     radioUiState: RadioUiState,
     onSelectOption: (String) -> Unit = {},
+    onInputIngredient: (IngredientState, String) -> Unit,
 ) {
     val typesOfDishies = listOf(
         stringResource(R.string.breakfast),
         stringResource(R.string.lunch),
         stringResource(R.string.dinner),
     )
-    val ingredientTextList = listOf(
-        stringResource(R.string.favorite_ingredients),
-        stringResource(R.string.non_favorite_ingredients),
-        stringResource(R.string.allergic_ingredients),
-        stringResource(R.string.intolerant_ingredients),
+    val ingredientTypeList = listOf(
+        Pair(IngredientState.FAVORITE, stringResource(R.string.favorite_ingredients)),
+        Pair(IngredientState.NON_FAVORITE, stringResource(R.string.non_favorite_ingredients)),
+        Pair(IngredientState.ALLERGIC, stringResource(R.string.allergic_ingredients)),
+        Pair(IngredientState.INTOLERANT, stringResource(R.string.intolerant_ingredients)),
     )
 
     Column(
@@ -151,16 +142,19 @@ private fun RecipeForm(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        for (ingredientText in ingredientTextList) {
+        for (ingredient in ingredientTypeList) {
             Text(
-                text = ingredientText,
+                text = ingredient.second,
                 color = Color.Black,
                 style = MaterialTheme.typography.titleSmall,
             )
 
             Spacer(modifier = Modifier.height(15.dp))
 
-            CustomTextField()
+            CustomTextField(
+                ingredientState = ingredient.first,
+                onInputIngredient = onInputIngredient,
+            )
 
             Spacer(modifier = Modifier.height(20.dp))
         }
@@ -185,109 +179,6 @@ private fun ContinueButtom(
             text = stringResource(id = R.string.start),
             color = Color.White,
             style = MaterialTheme.typography.labelLarge,
-        )
-    }
-}
-
-@Composable
-private fun CustomTextField() {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
-    val roundedCornerShape = RoundedCornerShape(size = 20.dp)
-
-    BasicTextField(
-        value = text,
-        onValueChange = { newText ->
-            text = newText
-        },
-        singleLine = true,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(45.dp)
-            .border(
-                width = 1.dp,
-                color = Gray,
-                shape = roundedCornerShape,
-            )
-            .background(
-                color = Color.Transparent,
-                shape = roundedCornerShape,
-            ),
-        decorationBox = { innerTextField ->
-            Row(
-                modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Box {
-                    if (text.text.isEmpty()) {
-                        Text(
-                            text = stringResource(id = R.string.placeholder_ingredient),
-                            color = Color.Gray,
-                        )
-                    }
-                    innerTextField()
-                }
-            }
-        },
-    )
-}
-
-@Composable
-private fun CustomRadioButton(
-    textOption: String,
-    radioUiState: RadioUiState,
-    onSelectOption: (String) -> Unit = {},
-) {
-    val isSelected = (radioUiState is RadioUiState.Selected) &&
-        radioUiState.textOption == textOption
-
-    val roundedCornerShape = RoundedCornerShape(size = 20.dp)
-    val textColor = when (isSelected) {
-        true -> Color.Black
-        false -> Color.Gray
-    }
-    val selectedModifier = when (isSelected) {
-        true -> Modifier.background(
-            color = Green,
-            shape = CircleShape,
-        )
-        false -> Modifier.border(
-            width = 1.dp,
-            color = Gray,
-            shape = CircleShape,
-        )
-    }
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .border(
-                width = 1.dp,
-                color = Gray,
-                shape = roundedCornerShape,
-            )
-            .background(
-                color = Color.Transparent,
-                shape = roundedCornerShape,
-            )
-            .clip(roundedCornerShape)
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(),
-            ) {
-                onSelectOption(textOption)
-            }
-            .padding(10.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Box(
-            modifier = selectedModifier.size(18.dp),
-        )
-
-        Spacer(modifier = Modifier.width(10.dp))
-
-        Text(
-            text = textOption,
-            color = textColor,
         )
     }
 }

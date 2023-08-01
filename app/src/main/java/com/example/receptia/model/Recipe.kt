@@ -12,5 +12,5 @@ data class Recipe(
     val prepTime: String,
     val easeRecipe: String,
     val amountPeopleServes: Int,
-    val isFavorite: Boolean
+    val isFavorite: Boolean,
 )
