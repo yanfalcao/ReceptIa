@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,6 +34,7 @@ import com.example.receptia.feature.newRecipe.state.IngredientState
 import com.example.receptia.feature.newRecipe.state.RadioUiState
 import com.example.receptia.feature.newRecipe.widget.CustomRadioButton
 import com.example.receptia.feature.newRecipe.widget.CustomTextField
+import com.example.receptia.feature.newRecipe.widget.FlexBoxLayout
 import com.example.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.view.widget.TopBarWidget
@@ -42,9 +45,11 @@ internal fun NewRecipeRoute(
     viewModel: NewRecipeViewModel = viewModel(),
 ) {
     val radioUiState by viewModel.radioUiState.collectAsStateWithLifecycle()
+    val favoriteIngredientsState by viewModel.favoriteIngredientsState.collectAsStateWithLifecycle()
 
     NewRecipeScreen(
         radioUiState = radioUiState,
+        favoriteIngredientList = favoriteIngredientsState,
         onSelectOption = viewModel::selectRadio,
         onInputIngredient = viewModel::updateFavoriteIngredients,
         onBackClick = navController::popBackStack,
@@ -56,6 +61,7 @@ internal fun NewRecipeRoute(
 @Composable
 private fun NewRecipeScreen(
     radioUiState: RadioUiState,
+    favoriteIngredientList: List<String>,
     onSelectOption: (String) -> Unit,
     onInputIngredient: (IngredientState, String) -> Unit,
     onBackClick: () -> Unit,
@@ -78,6 +84,7 @@ private fun NewRecipeScreen(
         ) {
             RecipeForm(
                 radioUiState = radioUiState,
+                favoriteIngredientList = favoriteIngredientList,
                 onSelectOption = onSelectOption,
                 onInputIngredient = onInputIngredient,
             )
@@ -100,6 +107,7 @@ private fun NewRecipeScreen(
 @Composable
 private fun RecipeForm(
     radioUiState: RadioUiState,
+    favoriteIngredientList: List<String>,
     onSelectOption: (String) -> Unit = {},
     onInputIngredient: (IngredientState, String) -> Unit,
 ) {
@@ -156,7 +164,11 @@ private fun RecipeForm(
                 onInputIngredient = onInputIngredient,
             )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(6.dp))
+
+            FlexBoxLayout(favoriteIngredientList)
+
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
