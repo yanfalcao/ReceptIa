@@ -4,8 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -31,6 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.receptia.R
 import com.example.receptia.feature.newRecipe.state.IngredientState
+import com.example.receptia.feature.newRecipe.state.IngredientUiState
 import com.example.receptia.feature.newRecipe.state.RadioUiState
 import com.example.receptia.feature.newRecipe.widget.CustomRadioButton
 import com.example.receptia.feature.newRecipe.widget.CustomTextField
@@ -46,12 +45,19 @@ internal fun NewRecipeRoute(
 ) {
     val radioUiState by viewModel.radioUiState.collectAsStateWithLifecycle()
     val favoriteIngredientsState by viewModel.favoriteIngredientsState.collectAsStateWithLifecycle()
+    val nonFavoriteIngredientsState by viewModel.nonFavoriteIngredientsState.collectAsStateWithLifecycle()
+    val allergicIngredientsState by viewModel.allergicIngredientsState.collectAsStateWithLifecycle()
+    val intolerantIngredientsState by viewModel.intolerantIngredientsState.collectAsStateWithLifecycle()
 
     NewRecipeScreen(
         radioUiState = radioUiState,
-        favoriteIngredientList = favoriteIngredientsState,
+        favoriteIngredientUiState = favoriteIngredientsState,
+        nonFavoriteIngredientsState = nonFavoriteIngredientsState,
+        allergicIngredientsState = allergicIngredientsState,
+        intolerantIngredientsState = intolerantIngredientsState,
         onSelectOption = viewModel::selectRadio,
-        onInputIngredient = viewModel::updateFavoriteIngredients,
+        onInputIngredient = viewModel::updateIngredient,
+        onRemoveIngredient = viewModel::removeIngredient,
         onBackClick = navController::popBackStack,
         onNavigateToRecipe = navController::navigateToRecipeDescription,
     )
@@ -61,9 +67,13 @@ internal fun NewRecipeRoute(
 @Composable
 private fun NewRecipeScreen(
     radioUiState: RadioUiState,
-    favoriteIngredientList: List<String>,
+    favoriteIngredientUiState: IngredientUiState,
+    nonFavoriteIngredientsState: IngredientUiState,
+    allergicIngredientsState: IngredientUiState,
+    intolerantIngredientsState: IngredientUiState,
     onSelectOption: (String) -> Unit,
     onInputIngredient: (IngredientState, String) -> Unit,
+    onRemoveIngredient: (IngredientState, String) -> Unit,
     onBackClick: () -> Unit,
     onNavigateToRecipe: () -> Unit,
 ) {
@@ -84,9 +94,13 @@ private fun NewRecipeScreen(
         ) {
             RecipeForm(
                 radioUiState = radioUiState,
-                favoriteIngredientList = favoriteIngredientList,
+                favoriteIngredientUiState = favoriteIngredientUiState,
+                nonFavoriteIngredientsState = nonFavoriteIngredientsState,
+                allergicIngredientsState = allergicIngredientsState,
+                intolerantIngredientsState = intolerantIngredientsState,
                 onSelectOption = onSelectOption,
                 onInputIngredient = onInputIngredient,
+                onRemoveIngredient = onRemoveIngredient,
             )
 
             Box(
@@ -107,9 +121,13 @@ private fun NewRecipeScreen(
 @Composable
 private fun RecipeForm(
     radioUiState: RadioUiState,
-    favoriteIngredientList: List<String>,
+    favoriteIngredientUiState: IngredientUiState,
+    nonFavoriteIngredientsState: IngredientUiState,
+    allergicIngredientsState: IngredientUiState,
+    intolerantIngredientsState: IngredientUiState,
     onSelectOption: (String) -> Unit = {},
     onInputIngredient: (IngredientState, String) -> Unit,
+    onRemoveIngredient: (IngredientState, String) -> Unit,
 ) {
     val typesOfDishies = listOf(
         stringResource(R.string.breakfast),
@@ -117,10 +135,10 @@ private fun RecipeForm(
         stringResource(R.string.dinner),
     )
     val ingredientTypeList = listOf(
-        Pair(IngredientState.FAVORITE, stringResource(R.string.favorite_ingredients)),
-        Pair(IngredientState.NON_FAVORITE, stringResource(R.string.non_favorite_ingredients)),
-        Pair(IngredientState.ALLERGIC, stringResource(R.string.allergic_ingredients)),
-        Pair(IngredientState.INTOLERANT, stringResource(R.string.intolerant_ingredients)),
+        Pair(favoriteIngredientUiState, stringResource(R.string.favorite_ingredients)),
+        Pair(nonFavoriteIngredientsState, stringResource(R.string.non_favorite_ingredients)),
+        Pair(allergicIngredientsState, stringResource(R.string.allergic_ingredients)),
+        Pair(intolerantIngredientsState, stringResource(R.string.intolerant_ingredients)),
     )
 
     Column(
@@ -160,13 +178,15 @@ private fun RecipeForm(
             Spacer(modifier = Modifier.height(15.dp))
 
             CustomTextField(
-                ingredientState = ingredient.first,
+                ingredientState = ingredient.first.state,
                 onInputIngredient = onInputIngredient,
             )
 
-            Spacer(modifier = Modifier.height(6.dp))
-
-            FlexBoxLayout(favoriteIngredientList)
+            FlexBoxLayout(
+                modifier = Modifier.padding(top = 6.dp),
+                ingredientUiState = ingredient.first,
+                onRemoveIngredient = onRemoveIngredient,
+            )
 
             Spacer(modifier = Modifier.height(16.dp))
         }
