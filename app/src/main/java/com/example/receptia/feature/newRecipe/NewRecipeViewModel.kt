@@ -15,104 +15,128 @@ class NewRecipeViewModel : ViewModel() {
 
     private val _favoriteIngredientsState = MutableStateFlow(
         IngredientUiState(
-            state = IngredientState.FAVORITE,
+            state = RecipeFieldState.FAVORITE,
         ),
     )
     val favoriteIngredientsState get() = _favoriteIngredientsState
 
     private val _nonFavoriteIngredientsState = MutableStateFlow(
         IngredientUiState(
-            state = IngredientState.NON_FAVORITE,
+            state = RecipeFieldState.NON_FAVORITE,
         ),
     )
     val nonFavoriteIngredientsState get() = _nonFavoriteIngredientsState
 
     private val _allergicIngredientsState = MutableStateFlow(
         IngredientUiState(
-            state = IngredientState.ALLERGIC,
+            state = RecipeFieldState.ALLERGIC,
         ),
     )
     val allergicIngredientsState get() = _allergicIngredientsState
 
     private val _intolerantIngredientsState = MutableStateFlow(
         IngredientUiState(
-            state = IngredientState.INTOLERANT,
+            state = RecipeFieldState.INTOLERANT,
         ),
     )
     val intolerantIngredientsState get() = _intolerantIngredientsState
+
+    private val _checkFieldUiState = MutableStateFlow<CheckFieldUiState>(CheckFieldUiState.None)
+    val checkFieldUiState get() = _checkFieldUiState
 
     fun selectRadio(text: String) {
         viewModelScope.launch {
             recipePreferences.meal = text
             _radioUiState.value = RadioUiState.Selected(textOption = text)
+            checkFields()
         }
     }
 
-    fun removeIngredient(ingredientState: IngredientState, text: String) {
+    fun removeIngredient(recipeFieldState: RecipeFieldState, text: String) {
         viewModelScope.launch {
-            when (ingredientState) {
-                IngredientState.FAVORITE -> {
+            when (recipeFieldState) {
+                RecipeFieldState.FAVORITE -> {
                     recipePreferences.favoriteIngredients.remove(text)
                     _favoriteIngredientsState.value = IngredientUiState(
                         ingredients = recipePreferences.favoriteIngredients.toList(),
-                        state = ingredientState,
+                        state = recipeFieldState,
                     )
+                    checkFields()
                 }
-                IngredientState.NON_FAVORITE -> {
+                RecipeFieldState.NON_FAVORITE -> {
                     recipePreferences.nonFavoriteIngredients.remove(text)
                     _nonFavoriteIngredientsState.value = IngredientUiState(
                         ingredients = recipePreferences.nonFavoriteIngredients.toList(),
-                        state = ingredientState,
+                        state = recipeFieldState,
                     )
                 }
-                IngredientState.ALLERGIC -> {
+                RecipeFieldState.ALLERGIC -> {
                     recipePreferences.allergicIngredients.remove(text)
                     _allergicIngredientsState.value = IngredientUiState(
                         ingredients = recipePreferences.allergicIngredients.toList(),
-                        state = ingredientState,
+                        state = recipeFieldState,
                     )
                 }
-                IngredientState.INTOLERANT -> {
+                RecipeFieldState.INTOLERANT -> {
                     recipePreferences.intolerantIngredients.remove(text)
                     _intolerantIngredientsState.value = IngredientUiState(
                         ingredients = recipePreferences.intolerantIngredients.toList(),
-                        state = ingredientState,
+                        state = recipeFieldState,
                     )
                 }
+                else -> {}
             }
         }
     }
-    fun updateIngredient(ingredientState: IngredientState, text: String) {
+    fun updateIngredient(recipeFieldState: RecipeFieldState, text: String) {
         viewModelScope.launch {
-            when (ingredientState) {
-                IngredientState.FAVORITE -> {
+            when (recipeFieldState) {
+                RecipeFieldState.FAVORITE -> {
                     recipePreferences.favoriteIngredients.add(text)
                     _favoriteIngredientsState.value = IngredientUiState(
                         ingredients = recipePreferences.favoriteIngredients.toList(),
-                        state = ingredientState,
+                        state = recipeFieldState,
                     )
+                    checkFields()
                 }
-                IngredientState.NON_FAVORITE -> {
+                RecipeFieldState.NON_FAVORITE -> {
                     recipePreferences.nonFavoriteIngredients.add(text)
                     _nonFavoriteIngredientsState.value = IngredientUiState(
                         ingredients = recipePreferences.nonFavoriteIngredients.toList(),
-                        state = ingredientState,
+                        state = recipeFieldState,
                     )
                 }
-                IngredientState.ALLERGIC -> {
+                RecipeFieldState.ALLERGIC -> {
                     recipePreferences.allergicIngredients.add(text)
                     _allergicIngredientsState.value = IngredientUiState(
                         ingredients = recipePreferences.allergicIngredients.toList(),
-                        state = ingredientState,
+                        state = recipeFieldState,
                     )
                 }
-                IngredientState.INTOLERANT -> {
+                RecipeFieldState.INTOLERANT -> {
                     recipePreferences.intolerantIngredients.add(text)
                     _intolerantIngredientsState.value = IngredientUiState(
                         ingredients = recipePreferences.intolerantIngredients.toList(),
-                        state = ingredientState,
+                        state = recipeFieldState,
                     )
                 }
+                else -> {}
+            }
+        }
+    }
+
+    fun checkFields() {
+        viewModelScope.launch {
+            if (recipePreferences.meal == null) {
+                _checkFieldUiState.value = CheckFieldUiState.Unfilled(
+                    field = RecipeFieldState.MEAL,
+                )
+            } else if (recipePreferences.favoriteIngredients.isEmpty()) {
+                _checkFieldUiState.value = CheckFieldUiState.Unfilled(
+                    field = RecipeFieldState.FAVORITE,
+                )
+            } else {
+                _checkFieldUiState.value = CheckFieldUiState.Filled
             }
         }
     }

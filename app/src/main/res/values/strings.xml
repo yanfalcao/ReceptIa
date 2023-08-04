@@ -20,6 +20,7 @@
     <string name="allergic_ingredients">Ingredientes que sou Alérgicos</string>
     <string name="intolerant_ingredients">Ingredientes que sou Intolerante</string>
     <string name="placeholder_ingredient">Digite o ingrediente</string>
+    <string name="error_field">Campo precisa ser preenchido</string>
 
     <!--    historic-->
     <string name="historic_title">Receitas</string>

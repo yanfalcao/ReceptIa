@@ -19,7 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.example.receptia.feature.newRecipe.state.IngredientState
+import com.example.receptia.feature.newRecipe.state.RecipeFieldState
 import com.example.receptia.feature.newRecipe.state.IngredientUiState
 import com.example.receptia.ui.theme.LightGreen
 
@@ -28,7 +28,7 @@ import com.example.receptia.ui.theme.LightGreen
 fun FlexBoxLayout(
     modifier: Modifier,
     ingredientUiState: IngredientUiState,
-    onRemoveIngredient: (IngredientState, String) -> Unit,
+    onRemoveIngredient: (RecipeFieldState, String) -> Unit,
 ) {
     val ingredientList = if (ingredientUiState.ingredients.isEmpty()) {
         return
