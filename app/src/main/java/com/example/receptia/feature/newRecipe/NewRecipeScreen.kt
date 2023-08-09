@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.receptia.R
 import com.example.receptia.feature.newRecipe.state.CheckFieldUiState
@@ -42,7 +42,7 @@ import com.example.receptia.view.widget.TopBarWidget
 @Composable
 internal fun NewRecipeRoute(
     navController: NavController,
-    viewModel: NewRecipeViewModel = viewModel(),
+    viewModel: NewRecipeViewModel = hiltViewModel(),
 ) {
     val radioUiState by viewModel.radioUiState.collectAsStateWithLifecycle()
     val favoriteIngredientsState by viewModel.favoriteIngredientsState.collectAsStateWithLifecycle()
@@ -59,6 +59,7 @@ internal fun NewRecipeRoute(
         intolerantIngredientsState = intolerantIngredientsState,
         checkFieldUiState = checkFieldUiState,
         checkFields = viewModel::checkFields,
+        createRecipe = viewModel::createRecipe,
         onSelectOption = viewModel::selectRadio,
         onInputIngredient = viewModel::updateIngredient,
         onRemoveIngredient = viewModel::removeIngredient,
@@ -77,6 +78,7 @@ private fun NewRecipeScreen(
     intolerantIngredientsState: IngredientUiState,
     checkFieldUiState: CheckFieldUiState,
     checkFields: () -> Unit,
+    createRecipe: () -> Unit,
     onSelectOption: (String) -> Unit,
     onInputIngredient: (RecipeFieldState, String) -> Unit,
     onRemoveIngredient: (RecipeFieldState, String) -> Unit,
@@ -120,6 +122,7 @@ private fun NewRecipeScreen(
                 ContinueButtom(
                     checkFieldUiState = checkFieldUiState,
                     checkFields = checkFields,
+                    createRecipe = createRecipe,
                     onNavigateToRecipe = onNavigateToRecipe,
                 )
             }
@@ -233,12 +236,13 @@ private fun RadioField(
 private fun ContinueButtom(
     checkFieldUiState: CheckFieldUiState,
     checkFields: () -> Unit,
+    createRecipe: () -> Unit,
     onNavigateToRecipe: () -> Unit = {},
 ) {
     Button(
         onClick = {
             when (checkFieldUiState) {
-                CheckFieldUiState.Filled -> onNavigateToRecipe()
+                CheckFieldUiState.Filled -> createRecipe()
                 else -> checkFields()
             }
         },

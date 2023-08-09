@@ -4,10 +4,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.receptia.feature.newRecipe.state.*
 import com.example.receptia.model.RecipePreferences
+import com.example.receptia.network.model.NetworkGptRequest
+import com.example.receptia.network.model.NetworkGtpMessage
+import com.example.receptia.repository.RecipeRepository
+import com.example.receptia.utils.RequestMessageUtil
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class NewRecipeViewModel : ViewModel() {
+@HiltViewModel
+class NewRecipeViewModel @Inject constructor(
+    val repository: RecipeRepository,
+) : ViewModel() {
     private val recipePreferences = RecipePreferences()
 
     private val _radioUiState = MutableStateFlow<RadioUiState>(RadioUiState.Unselected)
@@ -138,6 +147,21 @@ class NewRecipeViewModel : ViewModel() {
             } else {
                 _checkFieldUiState.value = CheckFieldUiState.Filled
             }
+        }
+    }
+
+    fun createRecipe() {
+        viewModelScope.launch {
+            var request = NetworkGptRequest(
+                messages = listOf(
+                    NetworkGtpMessage(
+                        role = "user",
+                        content = RequestMessageUtil.newRecipePrompt(recipePreferences),
+                    ),
+                ),
+            )
+            val data = repository.getPrompt(request)
+            data.toString()
         }
     }
 }

@@ -13,7 +13,9 @@ import com.example.receptia.feature.recipeDescription.navigation.recipeDescripti
 import com.example.receptia.feature.splash.navigation.splashScreen
 import com.example.receptia.navigation.Screen
 import com.example.receptia.ui.theme.ReceptIaTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
