@@ -10,6 +10,9 @@ import com.example.receptia.repository.RecipeRepository
 import com.example.receptia.utils.RequestMessageUtil
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -50,14 +53,41 @@ class NewRecipeViewModel @Inject constructor(
     )
     val intolerantIngredientsState get() = _intolerantIngredientsState
 
-    private val _checkFieldUiState = MutableStateFlow<CheckFieldUiState>(CheckFieldUiState.None)
-    val checkFieldUiState get() = _checkFieldUiState
+    private val continueButtonClicked = MutableStateFlow(false)
+
+    val checkFieldUiState = combine(
+        radioUiState,
+        favoriteIngredientsState,
+        continueButtonClicked,
+    ) { radioUiState, favoriteIngredientsState, continueButtonClicked ->
+        if (radioUiState is RadioUiState.Selected &&
+            favoriteIngredientsState.ingredients.isNotEmpty()
+        ) {
+            CheckFieldUiState.Filled
+        } else {
+            if (continueButtonClicked) {
+                val fields = mutableListOf<RecipeFieldState>()
+                if (radioUiState is RadioUiState.Unselected) {
+                    fields.add(RecipeFieldState.MEAL)
+                }
+                if (favoriteIngredientsState.ingredients.isEmpty()) {
+                    fields.add(RecipeFieldState.FAVORITE)
+                }
+                CheckFieldUiState.Unfilled(fields)
+            } else {
+                CheckFieldUiState.None
+            }
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(300),
+        initialValue = CheckFieldUiState.None,
+    )
 
     fun selectRadio(text: String) {
         viewModelScope.launch {
             recipePreferences.meal = text
             _radioUiState.value = RadioUiState.Selected(textOption = text)
-            checkFields()
         }
     }
 
@@ -70,7 +100,6 @@ class NewRecipeViewModel @Inject constructor(
                         ingredients = recipePreferences.favoriteIngredients.toList(),
                         state = recipeFieldState,
                     )
-                    checkFields()
                 }
                 RecipeFieldState.NON_FAVORITE -> {
                     recipePreferences.nonFavoriteIngredients.remove(text)
@@ -106,7 +135,6 @@ class NewRecipeViewModel @Inject constructor(
                         ingredients = recipePreferences.favoriteIngredients.toList(),
                         state = recipeFieldState,
                     )
-                    checkFields()
                 }
                 RecipeFieldState.NON_FAVORITE -> {
                     recipePreferences.nonFavoriteIngredients.add(text)
@@ -134,34 +162,22 @@ class NewRecipeViewModel @Inject constructor(
         }
     }
 
-    fun checkFields() {
-        viewModelScope.launch {
-            if (recipePreferences.meal == null) {
-                _checkFieldUiState.value = CheckFieldUiState.Unfilled(
-                    field = RecipeFieldState.MEAL,
-                )
-            } else if (recipePreferences.favoriteIngredients.isEmpty()) {
-                _checkFieldUiState.value = CheckFieldUiState.Unfilled(
-                    field = RecipeFieldState.FAVORITE,
-                )
-            } else {
-                _checkFieldUiState.value = CheckFieldUiState.Filled
-            }
-        }
-    }
-
     fun createRecipe() {
         viewModelScope.launch {
-            var request = NetworkGptRequest(
-                messages = listOf(
-                    NetworkGtpMessage(
-                        role = "user",
-                        content = RequestMessageUtil.newRecipePrompt(recipePreferences),
+            if (checkFieldUiState.value is CheckFieldUiState.Filled) {
+                var request = NetworkGptRequest(
+                    messages = listOf(
+                        NetworkGtpMessage(
+                            role = "user",
+                            content = RequestMessageUtil.newRecipePrompt(recipePreferences),
+                        ),
                     ),
-                ),
-            )
-            val data = repository.getPrompt(request)
-            data.toString()
+                )
+                val data = repository.getPrompt(request)
+                data.toString()
+            } else {
+                continueButtonClicked.value = true
+            }
         }
     }
 }
