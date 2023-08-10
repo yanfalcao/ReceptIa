@@ -5,6 +5,10 @@ sealed interface CheckFieldUiState {
     object Filled : CheckFieldUiState
 
     data class Unfilled(
-        val field: RecipeFieldState,
-    ) : CheckFieldUiState
+        val fields: MutableList<RecipeFieldState>,
+    ) : CheckFieldUiState {
+        fun equalsField(recipeField: RecipeFieldState): Boolean {
+            return fields.contains(recipeField)
+        }
+    }
 }

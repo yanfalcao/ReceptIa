@@ -24,8 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.receptia.R
 import com.example.receptia.feature.newRecipe.state.CheckFieldUiState
@@ -58,7 +58,6 @@ internal fun NewRecipeRoute(
         allergicIngredientsState = allergicIngredientsState,
         intolerantIngredientsState = intolerantIngredientsState,
         checkFieldUiState = checkFieldUiState,
-        checkFields = viewModel::checkFields,
         createRecipe = viewModel::createRecipe,
         onSelectOption = viewModel::selectRadio,
         onInputIngredient = viewModel::updateIngredient,
@@ -77,7 +76,6 @@ private fun NewRecipeScreen(
     allergicIngredientsState: IngredientUiState,
     intolerantIngredientsState: IngredientUiState,
     checkFieldUiState: CheckFieldUiState,
-    checkFields: () -> Unit,
     createRecipe: () -> Unit,
     onSelectOption: (String) -> Unit,
     onInputIngredient: (RecipeFieldState, String) -> Unit,
@@ -120,8 +118,6 @@ private fun NewRecipeScreen(
                     .padding(top = 15.dp, bottom = 20.dp),
             ) {
                 ContinueButtom(
-                    checkFieldUiState = checkFieldUiState,
-                    checkFields = checkFields,
                     createRecipe = createRecipe,
                     onNavigateToRecipe = onNavigateToRecipe,
                 )
@@ -208,7 +204,7 @@ private fun RadioField(
         stringResource(R.string.dinner),
     )
     val isError = checkFieldUiState is CheckFieldUiState.Unfilled &&
-        checkFieldUiState.field == RecipeFieldState.MEAL
+        checkFieldUiState.equalsField(RecipeFieldState.MEAL)
 
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -234,17 +230,12 @@ private fun RadioField(
 
 @Composable
 private fun ContinueButtom(
-    checkFieldUiState: CheckFieldUiState,
-    checkFields: () -> Unit,
     createRecipe: () -> Unit,
     onNavigateToRecipe: () -> Unit = {},
 ) {
     Button(
         onClick = {
-            when (checkFieldUiState) {
-                CheckFieldUiState.Filled -> createRecipe()
-                else -> checkFields()
-            }
+            createRecipe()
         },
         modifier = Modifier
             .fillMaxWidth()
