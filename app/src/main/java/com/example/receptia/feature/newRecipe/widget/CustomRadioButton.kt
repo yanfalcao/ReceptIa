@@ -23,6 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.receptia.feature.newRecipe.state.RadioUiState
+import com.example.receptia.feature.newRecipe.state.RecipeFieldState
 import com.example.receptia.ui.theme.Gray
 import com.example.receptia.ui.theme.Green
 
@@ -30,7 +31,7 @@ import com.example.receptia.ui.theme.Green
 fun CustomRadioButton(
     textOption: String,
     radioUiState: RadioUiState,
-    onSelectOption: (String) -> Unit = {},
+    addPreference: (RecipeFieldState, String) -> Unit,
 ) {
     val isSelected = (radioUiState is RadioUiState.Selected) &&
         radioUiState.textOption == textOption
@@ -69,7 +70,7 @@ fun CustomRadioButton(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = rememberRipple(),
             ) {
-                onSelectOption(textOption)
+                addPreference(RecipeFieldState.MEAL, textOption)
             }
             .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically,

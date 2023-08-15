@@ -21,6 +21,7 @@ class NewRecipeViewModel @Inject constructor(
     val repository: RecipeRepository,
 ) : ViewModel() {
     private val recipePreferences = RecipePreferences()
+    private val continueButtonClicked = MutableStateFlow(false)
 
     private val _radioUiState = MutableStateFlow<RadioUiState>(RadioUiState.Unselected)
     val radioUiState get() = _radioUiState
@@ -53,7 +54,8 @@ class NewRecipeViewModel @Inject constructor(
     )
     val intolerantIngredientsState get() = _intolerantIngredientsState
 
-    private val continueButtonClicked = MutableStateFlow(false)
+    private val _createRecipeUiState = MutableStateFlow<CreateRecipeUiState>(CreateRecipeUiState.None)
+    val createRecipeUiState get() = _createRecipeUiState
 
     val checkFieldUiState = combine(
         radioUiState,
@@ -84,80 +86,92 @@ class NewRecipeViewModel @Inject constructor(
         initialValue = CheckFieldUiState.None,
     )
 
-    fun selectRadio(text: String) {
-        viewModelScope.launch {
-            recipePreferences.meal = text
-            _radioUiState.value = RadioUiState.Selected(textOption = text)
-        }
-    }
-
-    fun removeIngredient(recipeFieldState: RecipeFieldState, text: String) {
+    fun removePreference(recipeFieldState: RecipeFieldState, text: String) {
         viewModelScope.launch {
             when (recipeFieldState) {
                 RecipeFieldState.FAVORITE -> {
-                    recipePreferences.favoriteIngredients.remove(text)
-                    _favoriteIngredientsState.value = IngredientUiState(
-                        ingredients = recipePreferences.favoriteIngredients.toList(),
-                        state = recipeFieldState,
+                    addOrRemoveIngredient(
+                        recipeFieldState = recipeFieldState,
+                        text = text,
+                        ingredients = recipePreferences.favoriteIngredients,
+                        ingredientsState = _favoriteIngredientsState,
+                        isAdd = false,
                     )
                 }
                 RecipeFieldState.NON_FAVORITE -> {
-                    recipePreferences.nonFavoriteIngredients.remove(text)
-                    _nonFavoriteIngredientsState.value = IngredientUiState(
-                        ingredients = recipePreferences.nonFavoriteIngredients.toList(),
-                        state = recipeFieldState,
+                    addOrRemoveIngredient(
+                        recipeFieldState = recipeFieldState,
+                        text = text,
+                        ingredients = recipePreferences.nonFavoriteIngredients,
+                        ingredientsState = _nonFavoriteIngredientsState,
+                        isAdd = false,
                     )
                 }
                 RecipeFieldState.ALLERGIC -> {
-                    recipePreferences.allergicIngredients.remove(text)
-                    _allergicIngredientsState.value = IngredientUiState(
-                        ingredients = recipePreferences.allergicIngredients.toList(),
-                        state = recipeFieldState,
+                    addOrRemoveIngredient(
+                        recipeFieldState = recipeFieldState,
+                        text = text,
+                        ingredients = recipePreferences.allergicIngredients,
+                        ingredientsState = _allergicIngredientsState,
+                        isAdd = false,
                     )
                 }
                 RecipeFieldState.INTOLERANT -> {
-                    recipePreferences.intolerantIngredients.remove(text)
-                    _intolerantIngredientsState.value = IngredientUiState(
-                        ingredients = recipePreferences.intolerantIngredients.toList(),
-                        state = recipeFieldState,
+                    addOrRemoveIngredient(
+                        recipeFieldState = recipeFieldState,
+                        text = text,
+                        ingredients = recipePreferences.intolerantIngredients,
+                        ingredientsState = _intolerantIngredientsState,
+                        isAdd = false,
                     )
                 }
-                else -> {}
+                RecipeFieldState.MEAL -> {}
             }
         }
     }
-    fun updateIngredient(recipeFieldState: RecipeFieldState, text: String) {
+    fun addPreference(recipeFieldState: RecipeFieldState, text: String) {
         viewModelScope.launch {
             when (recipeFieldState) {
                 RecipeFieldState.FAVORITE -> {
-                    recipePreferences.favoriteIngredients.add(text)
-                    _favoriteIngredientsState.value = IngredientUiState(
-                        ingredients = recipePreferences.favoriteIngredients.toList(),
-                        state = recipeFieldState,
+                    addOrRemoveIngredient(
+                        recipeFieldState = recipeFieldState,
+                        text = text,
+                        ingredients = recipePreferences.favoriteIngredients,
+                        ingredientsState = _favoriteIngredientsState,
+                        isAdd = true,
                     )
                 }
                 RecipeFieldState.NON_FAVORITE -> {
-                    recipePreferences.nonFavoriteIngredients.add(text)
-                    _nonFavoriteIngredientsState.value = IngredientUiState(
-                        ingredients = recipePreferences.nonFavoriteIngredients.toList(),
-                        state = recipeFieldState,
+                    addOrRemoveIngredient(
+                        recipeFieldState = recipeFieldState,
+                        text = text,
+                        ingredients = recipePreferences.nonFavoriteIngredients,
+                        ingredientsState = _nonFavoriteIngredientsState,
+                        isAdd = true,
                     )
                 }
                 RecipeFieldState.ALLERGIC -> {
-                    recipePreferences.allergicIngredients.add(text)
-                    _allergicIngredientsState.value = IngredientUiState(
-                        ingredients = recipePreferences.allergicIngredients.toList(),
-                        state = recipeFieldState,
+                    addOrRemoveIngredient(
+                        recipeFieldState = recipeFieldState,
+                        text = text,
+                        ingredients = recipePreferences.allergicIngredients,
+                        ingredientsState = _allergicIngredientsState,
+                        isAdd = true,
                     )
                 }
                 RecipeFieldState.INTOLERANT -> {
-                    recipePreferences.intolerantIngredients.add(text)
-                    _intolerantIngredientsState.value = IngredientUiState(
-                        ingredients = recipePreferences.intolerantIngredients.toList(),
-                        state = recipeFieldState,
+                    addOrRemoveIngredient(
+                        recipeFieldState = recipeFieldState,
+                        text = text,
+                        ingredients = recipePreferences.intolerantIngredients,
+                        ingredientsState = _intolerantIngredientsState,
+                        isAdd = true,
                     )
                 }
-                else -> {}
+                RecipeFieldState.MEAL -> {
+                    recipePreferences.meal = text
+                    _radioUiState.value = RadioUiState.Selected(textOption = text)
+                }
             }
         }
     }
@@ -165,6 +179,7 @@ class NewRecipeViewModel @Inject constructor(
     fun createRecipe() {
         viewModelScope.launch {
             if (checkFieldUiState.value is CheckFieldUiState.Filled) {
+                _createRecipeUiState.value = CreateRecipeUiState.Loading
                 var request = NetworkGptRequest(
                     messages = listOf(
                         NetworkGtpMessage(
@@ -175,9 +190,29 @@ class NewRecipeViewModel @Inject constructor(
                 )
                 val data = repository.getPrompt(request)
                 data.toString()
+                _createRecipeUiState.value = CreateRecipeUiState.Success
             } else {
                 continueButtonClicked.value = true
             }
         }
+    }
+
+    private fun addOrRemoveIngredient(
+        recipeFieldState: RecipeFieldState,
+        text: String,
+        ingredients: MutableList<String>,
+        ingredientsState: MutableStateFlow<IngredientUiState>,
+        isAdd: Boolean,
+    ) {
+        if (isAdd) {
+            ingredients.add(text)
+        } else {
+            ingredients.remove(text)
+        }
+
+        ingredientsState.value = IngredientUiState(
+            ingredients = ingredients.toList(),
+            state = recipeFieldState,
+        )
     }
 }
