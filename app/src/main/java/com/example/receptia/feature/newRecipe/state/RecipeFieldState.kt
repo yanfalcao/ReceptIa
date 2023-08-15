@@ -1,5 +1,9 @@
 package com.example.receptia.feature.newRecipe.state
 
-enum class RecipeFieldState {
-    MEAL, FAVORITE, NON_FAVORITE, ALLERGIC, INTOLERANT
+sealed interface RecipeFieldState {
+    object MEAL : RecipeFieldState
+    object FAVORITE : RecipeFieldState
+    object NON_FAVORITE : RecipeFieldState
+    object ALLERGIC : RecipeFieldState
+    object INTOLERANT : RecipeFieldState
 }

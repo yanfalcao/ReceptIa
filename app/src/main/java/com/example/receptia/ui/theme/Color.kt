@@ -19,3 +19,4 @@ val Gray = Color(0xFFD1D1D1)
 val LightOrange = Color(0xFFFEE7DA)
 
 val BlackLightTransparent = Color(0x0F000000)
+val BlackTransparent = Color(0x4D000000)
