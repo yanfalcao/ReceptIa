@@ -38,25 +38,38 @@ fun CustomTextField(
     checkFieldUiState: CheckFieldUiState,
     onInputIngredient: (RecipeFieldState, String) -> Unit,
 ) {
+    val maxChar = 25
     var textFieldValue by remember { mutableStateOf(TextFieldValue("")) }
-    val roundedCornerShape = RoundedCornerShape(size = 20.dp)
-    var isError = checkFieldUiState is CheckFieldUiState.Unfilled &&
+    var isErrorLimitChar by remember { mutableStateOf(false) }
+    var isErrorUnfilled = checkFieldUiState is CheckFieldUiState.Unfilled &&
         checkFieldUiState.equalsField(ingredientUiState.state)
 
-    val borderColor = if (isError) Color.Red else Gray
+    val borderColor = if (isErrorUnfilled || isErrorLimitChar) Color.Red else Gray
+    val roundedCornerShape = RoundedCornerShape(size = 20.dp)
+    val errorText = if (isErrorUnfilled) {
+        stringResource(id = R.string.error_field)
+    } else {
+        stringResource(id = R.string.error_max_char)
+    }
 
     Column {
         BasicTextField(
             value = textFieldValue,
             onValueChange = { newText ->
-                textFieldValue = newText
-                isError = false
+                if (newText.text.length <= maxChar) {
+                    textFieldValue = newText
+                    isErrorUnfilled = false
+                    isErrorLimitChar = false
+                } else {
+                    isErrorLimitChar = true
+                }
             },
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
                     onInputIngredient(ingredientUiState.state, textFieldValue.text)
                     textFieldValue = TextFieldValue("")
+                    isErrorLimitChar = false
                 },
             ),
             singleLine = true,
@@ -89,9 +102,9 @@ fun CustomTextField(
                 }
             },
         )
-        if (isError) {
+        if (isErrorUnfilled || isErrorLimitChar) {
             Text(
-                text = stringResource(id = R.string.error_field),
+                text = errorText,
                 color = Color.Red,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 10.dp),
