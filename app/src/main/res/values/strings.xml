@@ -22,6 +22,7 @@
     <string name="placeholder_ingredient">Digite o ingrediente</string>
     <string name="error_field">Campo precisa ser preenchido</string>
     <string name="error_max_char">Limite de 25 caracteres atingido</string>
+    <string name="error_max_ingredient">Limite de 30 ingredientes atingido</string>
     <string name="creating_recipe_loading">Aguarde um momento enquanto a receita é gerada</string>
 
     <!--    historic-->
