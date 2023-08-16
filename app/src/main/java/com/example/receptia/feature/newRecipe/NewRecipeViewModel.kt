@@ -57,6 +57,9 @@ class NewRecipeViewModel @Inject constructor(
     private val _createRecipeUiState = MutableStateFlow<CreateRecipeUiState>(CreateRecipeUiState.None)
     val createRecipeUiState get() = _createRecipeUiState
 
+    private val _isMaxIngredientsLimit = MutableStateFlow<ErrorUiState>(ErrorUiState.None)
+    val isMaxIngredientsLimit get() = _isMaxIngredientsLimit
+
     val checkFieldUiState = combine(
         radioUiState,
         favoriteIngredientsState,
@@ -204,8 +207,12 @@ class NewRecipeViewModel @Inject constructor(
         ingredientsState: MutableStateFlow<IngredientUiState>,
         isAdd: Boolean,
     ) {
+        checkIngredientLimit()
+
         if (isAdd) {
-            ingredients.add(text)
+            if (isMaxIngredientsLimit.value is ErrorUiState.None) {
+                ingredients.add(text)
+            }
         } else {
             ingredients.remove(text)
         }
@@ -214,5 +221,18 @@ class NewRecipeViewModel @Inject constructor(
             ingredients = ingredients.toList(),
             state = recipeFieldState,
         )
+    }
+
+    private fun checkIngredientLimit() {
+        val countIngredients = recipePreferences.favoriteIngredients.size +
+            recipePreferences.intolerantIngredients.size +
+            recipePreferences.nonFavoriteIngredients.size +
+            recipePreferences.allergicIngredients.size
+
+        _isMaxIngredientsLimit.value = if (countIngredients >= 5) {
+            ErrorUiState.IngredientMaxLimit
+        } else {
+            ErrorUiState.None
+        }
     }
 }

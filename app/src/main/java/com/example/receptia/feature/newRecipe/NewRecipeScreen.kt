@@ -1,5 +1,6 @@
 package com.example.receptia.feature.newRecipe
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,10 +18,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -29,6 +32,7 @@ import androidx.navigation.NavController
 import com.example.receptia.R
 import com.example.receptia.feature.newRecipe.state.CheckFieldUiState
 import com.example.receptia.feature.newRecipe.state.CreateRecipeUiState
+import com.example.receptia.feature.newRecipe.state.ErrorUiState
 import com.example.receptia.feature.newRecipe.state.IngredientUiState
 import com.example.receptia.feature.newRecipe.state.RadioUiState
 import com.example.receptia.feature.newRecipe.state.RecipeFieldState
@@ -52,6 +56,7 @@ internal fun NewRecipeRoute(
     val intolerantIngredientsState by viewModel.intolerantIngredientsState.collectAsStateWithLifecycle()
     val checkFieldUiState by viewModel.checkFieldUiState.collectAsStateWithLifecycle()
     val createRecipeUiState by viewModel.createRecipeUiState.collectAsStateWithLifecycle()
+    val isMaxIngredientLimit by viewModel.isMaxIngredientsLimit.collectAsStateWithLifecycle()
 
     NewRecipeScreen(
         radioUiState = radioUiState,
@@ -61,6 +66,7 @@ internal fun NewRecipeRoute(
         intolerantIngredientsState = intolerantIngredientsState,
         checkFieldUiState = checkFieldUiState,
         createRecipeUiState = createRecipeUiState,
+        isMaxIngredientLimit = isMaxIngredientLimit,
         createRecipe = viewModel::createRecipe,
         addPreference = viewModel::addPreference,
         removePreference = viewModel::removePreference,
@@ -78,13 +84,23 @@ private fun NewRecipeScreen(
     intolerantIngredientsState: IngredientUiState,
     checkFieldUiState: CheckFieldUiState,
     createRecipeUiState: CreateRecipeUiState,
+    isMaxIngredientLimit: ErrorUiState,
     createRecipe: () -> Unit,
     addPreference: (RecipeFieldState, String) -> Unit,
     removePreference: (RecipeFieldState, String) -> Unit,
     onBackClick: () -> Unit,
     onNavigateToRecipe: () -> Unit,
 ) {
-    Box() {
+    val toastText = stringResource(id = R.string.error_max_ingredient)
+    val context = LocalContext.current
+
+    LaunchedEffect(isMaxIngredientLimit) {
+        if (isMaxIngredientLimit is ErrorUiState.IngredientMaxLimit) {
+            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    Box {
         Scaffold(
             topBar = {
                 TopBarWidget(
