@@ -36,7 +36,7 @@ import androidx.navigation.NavController
 import com.example.receptia.R
 import com.example.receptia.feature.home.state.RecipeFeedUiState
 import com.example.receptia.feature.newRecipe.navigation.navigateToNewRecipe
-import com.example.receptia.model.Recipe
+import com.example.receptia.persistence.Recipe
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.LightGray
 import com.example.receptia.ui.theme.LightGreen

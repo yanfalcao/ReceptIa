@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'io.realm.kotlin'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
 }
@@ -87,9 +88,14 @@ dependencies {
 
     implementation "com.google.dagger:hilt-android:2.44"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+    implementation 'androidx.startup:startup-runtime:1.1.1'
     kapt "com.google.dagger:hilt-compiler:2.44"
 
     implementation "com.airbnb.android:lottie-compose:6.1.0"
+
+    implementation 'io.realm.kotlin:library-base:1.10.0'
+    implementation 'io.realm.kotlin:library-sync:1.10.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
