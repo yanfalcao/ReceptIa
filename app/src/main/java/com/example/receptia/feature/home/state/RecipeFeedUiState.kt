@@ -1,6 +1,6 @@
 package com.example.receptia.feature.home.state
 
-import com.example.receptia.model.Recipe
+import com.example.receptia.persistence.Recipe
 
 sealed interface RecipeFeedUiState {
     object Loading : RecipeFeedUiState

@@ -12,6 +12,7 @@ import com.example.receptia.feature.newRecipe.navigation.newRecipeScreen
 import com.example.receptia.feature.recipeDescription.navigation.recipeDescriptionScreen
 import com.example.receptia.feature.splash.navigation.splashScreen
 import com.example.receptia.navigation.Screen
+import com.example.receptia.persistence.RealmPersistence
 import com.example.receptia.ui.theme.ReceptIaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -48,5 +49,10 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        RealmPersistence.getInstance().close()
+        super.onDestroy()
     }
 }

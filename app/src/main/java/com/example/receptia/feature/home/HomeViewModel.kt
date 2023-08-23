@@ -3,7 +3,7 @@ package com.example.receptia.feature.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.receptia.feature.home.state.RecipeFeedUiState
-import com.example.receptia.model.Recipe
+import com.example.receptia.persistence.Recipe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -32,19 +32,16 @@ class HomeViewModel : ViewModel() {
         )
 
     private fun RecipeMock(): Recipe {
-        return Recipe(
-            id = "1",
-            name = "Espaguete com Molho de Cogumelos e Bacon",
-            description = "",
-            prepTime = "30 min",
-            easeRecipe = "Fácil",
-            isFavorite = true,
-            amountCalories = "450 kcal",
-            amountCarbs = "60g",
-            amountProteins = "15g",
-            amountPeopleServes = 2,
-            recipeSteps = "",
-            ingredients = listOf(),
-        )
+        return Recipe().apply {
+            name = "Espaguete com Molho de Cogumelos e Bacon"
+            description = ""
+            prepTime = "30 min"
+            easeRecipe = "Fácil"
+            isFavorite = true
+            amountCalories = "450 kcal"
+            amountCarbs = "60g"
+            amountProteins = "15g"
+            amountPeopleServes = 2
+        }
     }
 }

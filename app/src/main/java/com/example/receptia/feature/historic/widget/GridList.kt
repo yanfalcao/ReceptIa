@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.example.receptia.R
-import com.example.receptia.model.Recipe
+import com.example.receptia.persistence.Recipe
 import com.example.receptia.ui.theme.LightGray
 
 @Composable

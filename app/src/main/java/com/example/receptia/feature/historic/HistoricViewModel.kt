@@ -3,7 +3,7 @@ package com.example.receptia.feature.historic
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.receptia.feature.historic.state.RecipeHistoricUiState
-import com.example.receptia.model.Recipe
+import com.example.receptia.persistence.Recipe
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -37,19 +37,15 @@ class HistoricViewModel : ViewModel() {
         )
 
     private fun RecipeMock(name: String = "Espaguete com Molho de Cogumelos e Bacon"): Recipe {
-        return Recipe(
-            id = "1",
-            name = name,
-            description = "",
-            prepTime = "30 min",
-            easeRecipe = "Fácil",
-            isFavorite = true,
-            amountCalories = "450 kcal",
-            amountCarbs = "60g",
-            amountProteins = "15g",
-            amountPeopleServes = 2,
-            recipeSteps = "",
-            ingredients = listOf(),
-        )
+        return Recipe().apply {
+            this.name = name
+            prepTime = "30 min"
+            easeRecipe = "Fácil"
+            isFavorite = true
+            amountCalories = "450 kcal"
+            amountCarbs = "60g"
+            amountProteins = "15g"
+            amountPeopleServes = 2
+        }
     }
 }
