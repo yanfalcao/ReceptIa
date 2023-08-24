@@ -42,6 +42,6 @@ object RetrofitNetwork {
 
     @Provides
     @Singleton
-    fun gptApiService(): GptApiService =
+    fun gptService(): GptApiService =
         getRetrofitInstance(GTP_BASE_URL).create(GptApiService::class.java)
 }
