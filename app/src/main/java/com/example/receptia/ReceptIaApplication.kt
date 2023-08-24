@@ -1,12 +1,10 @@
 package com.example.receptia
 
 import android.app.Application
-import androidx.startup.AppInitializer
 import com.example.receptia.network.retrofit.RetrofitNetwork
 import com.example.receptia.persistence.RealmPersistence
 import dagger.hilt.android.HiltAndroidApp
 import io.realm.kotlin.Realm
-import io.realm.kotlin.internal.RealmInitializer
 
 @HiltAndroidApp
 class ReceptIaApplication : Application() {
