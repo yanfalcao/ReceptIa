@@ -199,7 +199,7 @@ class NewRecipeViewModel @Inject constructor(
 
                 try {
                     val data = repository.getPrompt(request)
-                    data.choices[0].message.content
+
                     val customDeserializer = GsonBuilder()
                         .registerTypeAdapter(Recipe::class.java, RecipeDeserializer())
                         .create()
@@ -212,7 +212,8 @@ class NewRecipeViewModel @Inject constructor(
 
                     _createRecipeUiState.value = CreateRecipeUiState.Success(recipe.id)
                 } catch (e: Exception) {
-                    // TODO: implements exceptions
+                    e.printStackTrace()
+                    _createRecipeUiState.value = CreateRecipeUiState.Error
                 }
             } else {
                 continueButtonClicked.value = true

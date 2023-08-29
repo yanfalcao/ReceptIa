@@ -17,7 +17,6 @@ import com.example.receptia.persistence.Recipe
 
 @Composable
 fun RecipeBody(recipe: Recipe) {
-    // TODO: Finish Recipe Body
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(15.dp),

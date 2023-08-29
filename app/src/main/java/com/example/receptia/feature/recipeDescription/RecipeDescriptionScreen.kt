@@ -32,12 +32,14 @@ import com.example.receptia.feature.recipeDescription.widget.Background
 import com.example.receptia.feature.recipeDescription.widget.DetailsBody
 import com.example.receptia.feature.recipeDescription.widget.RecipeBody
 import com.example.receptia.feature.recipeDescription.widget.ToogleButton
+import com.example.receptia.persistence.Recipe
 import com.example.receptia.ui.theme.ReceptIaTheme
 
 @Composable
 internal fun RecipeDescriptionRoute(
     navController: NavController,
-    viewModel: RecipeDescriptionViewModel = viewModel(),
+    recipeId: String,
+    viewModel: RecipeDescriptionViewModel = viewModel(factory = RecipeDescriptionVMFactory(recipeId)),
 ) {
     val toogleRecipeState by viewModel.toogleRecipeState.collectAsStateWithLifecycle()
     val recipeUiState by viewModel.getRecipe.collectAsStateWithLifecycle()
@@ -66,17 +68,16 @@ private fun RecipeDescriptionScreen(
             ) {
                 BackButton(onBackClick = onBackClick)
                 Spacer(modifier = Modifier.height(65.dp))
-                Header()
-                Spacer(modifier = Modifier.height(40.dp))
-                ToogleButton(
-                    toogleState = toogleState,
-                    onSelectToogle = onSelectToogle,
-                )
-                Spacer(modifier = Modifier.height(20.dp))
                 when (recipeUiState) {
-                    // TODO: Create a better loading
                     RecipeUiState.Loading -> CircularProgressIndicator()
                     is RecipeUiState.Success -> {
+                        Header(recipe = recipeUiState.recipe)
+                        Spacer(modifier = Modifier.height(40.dp))
+                        ToogleButton(
+                            toogleState = toogleState,
+                            onSelectToogle = onSelectToogle,
+                        )
+                        Spacer(modifier = Modifier.height(20.dp))
                         if (toogleState is ToogleRecipeState.DetailsSelected) {
                             DetailsBody(recipeUiState.recipe)
                         } else {
@@ -92,15 +93,15 @@ private fun RecipeDescriptionScreen(
 @Composable
 private fun Header(
     modifier: Modifier = Modifier,
+    recipe: Recipe,
 ) {
-    // TODO: Logic
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            text = "Filé de Frango ao Limão com Cogumelos",
+            text = recipe.name,
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.weight(1.0f),
         )

@@ -28,7 +28,7 @@ class RecipeDeserializer : JsonDeserializer<Recipe> {
 
         val stepsArray = jsonObject.getAsJsonArray("preparation_method")
         for (index in stepsArray.asList().indices) {
-            val step = stepsArray[index]
+            val step = stepsArray[index].asJsonObject.get("step").asString
             val stepNumber = index + 1
             recipe.recipeSteps += "${stepNumber}. ${step}\n\n"
         }
