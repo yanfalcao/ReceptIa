@@ -89,14 +89,24 @@ private fun NewRecipeScreen(
     addPreference: (RecipeFieldState, String) -> Unit,
     removePreference: (RecipeFieldState, String) -> Unit,
     onBackClick: () -> Unit,
-    onNavigateToRecipe: () -> Unit,
+    onNavigateToRecipe: (String) -> Unit,
 ) {
-    val toastText = stringResource(id = R.string.error_max_ingredient)
+    val limitErrorToast = stringResource(id = R.string.error_max_ingredient)
+    val createRecipeErrorToast = stringResource(id = R.string.error_create_recipe)
     val context = LocalContext.current
 
-    LaunchedEffect(isMaxIngredientLimit) {
+    LaunchedEffect(isMaxIngredientLimit, createRecipeUiState) {
         if (isMaxIngredientLimit is ErrorUiState.IngredientMaxLimit) {
-            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, limitErrorToast, Toast.LENGTH_SHORT).show()
+        }
+        when (createRecipeUiState) {
+            CreateRecipeUiState.Error -> {
+                Toast.makeText(context, createRecipeErrorToast, Toast.LENGTH_LONG).show()
+            }
+            is CreateRecipeUiState.Success -> {
+                onNavigateToRecipe(createRecipeUiState.recipeId)
+            }
+            else -> {}
         }
     }
 
@@ -134,15 +144,13 @@ private fun NewRecipeScreen(
                         .align(Alignment.BottomCenter)
                         .padding(top = 15.dp, bottom = 20.dp),
                 ) {
-                    ContinueButtom(
-                        createRecipe = createRecipe,
-                        onNavigateToRecipe = onNavigateToRecipe,
-                    )
+                    ContinueButtom(createRecipe = createRecipe)
                 }
             }
         }
 
-        if (createRecipeUiState is CreateRecipeUiState.Loading) {
+        if (createRecipeUiState is CreateRecipeUiState.Loading ||
+            createRecipeUiState is CreateRecipeUiState.Success) {
             CreateRecipeLoading()
         }
     }
@@ -252,7 +260,6 @@ private fun RadioField(
 @Composable
 private fun ContinueButtom(
     createRecipe: () -> Unit,
-    onNavigateToRecipe: () -> Unit = {},
 ) {
     Button(
         onClick = {
