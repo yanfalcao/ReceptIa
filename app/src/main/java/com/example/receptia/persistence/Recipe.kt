@@ -1,6 +1,7 @@
 package com.example.receptia.persistence
 
 import com.example.receptia.persistence.extension.realmCreate
+import com.google.gson.annotations.SerializedName
 import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
@@ -10,6 +11,7 @@ import java.util.UUID
 class Recipe : RealmObject {
     @PrimaryKey
     var id: String = UUID.randomUUID().toString()
+    @SerializedName("recipe_name")
     var name: String = ""
     var description: String = ""
     var ingredients: RealmList<Ingredient> = realmListOf()

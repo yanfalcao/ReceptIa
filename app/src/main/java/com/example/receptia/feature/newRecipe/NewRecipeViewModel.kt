@@ -6,14 +6,19 @@ import com.example.receptia.feature.newRecipe.state.*
 import com.example.receptia.model.RecipePreferences
 import com.example.receptia.network.model.NetworkGptRequest
 import com.example.receptia.network.model.NetworkGtpMessage
+import com.example.receptia.persistence.Recipe
+import com.example.receptia.persistence.extension.realmCreate
+import com.example.receptia.persistence.utils.RecipeDeserializer
 import com.example.receptia.repository.RecipeRepository
 import com.example.receptia.utils.RequestMessageUtil
+import com.google.gson.GsonBuilder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.lang.Exception
 import javax.inject.Inject
 
 @HiltViewModel
@@ -191,9 +196,24 @@ class NewRecipeViewModel @Inject constructor(
                         ),
                     ),
                 )
-                val data = repository.getPrompt(request)
-                data.toString()
-                _createRecipeUiState.value = CreateRecipeUiState.Success
+
+                try {
+                    val data = repository.getPrompt(request)
+                    data.choices[0].message.content
+                    val customDeserializer = GsonBuilder()
+                        .registerTypeAdapter(Recipe::class.java, RecipeDeserializer())
+                        .create()
+
+                    val recipe = customDeserializer.fromJson(
+                        data.choices[0].message.content,
+                        Recipe::class.java,
+                    )
+                    recipe.realmCreate()
+
+                    _createRecipeUiState.value = CreateRecipeUiState.Success(recipe.id)
+                } catch (e: Exception) {
+                    // TODO: implements exceptions
+                }
             } else {
                 continueButtonClicked.value = true
             }
