@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.lang.Exception
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -188,6 +189,7 @@ class NewRecipeViewModel @Inject constructor(
         viewModelScope.launch {
             if (checkFieldUiState.value is CheckFieldUiState.Filled) {
                 _createRecipeUiState.value = CreateRecipeUiState.Loading
+                recipePreferences.responseLanguage = Locale.getDefault().displayLanguage
                 var request = NetworkGptRequest(
                     messages = listOf(
                         NetworkGtpMessage(
