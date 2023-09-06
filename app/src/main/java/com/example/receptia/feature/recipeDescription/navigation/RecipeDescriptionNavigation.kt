@@ -2,7 +2,9 @@ package com.example.receptia.feature.recipeDescription.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.example.receptia.feature.recipeDescription.RecipeDescriptionRoute
 import com.example.receptia.navigation.Keys
 import com.example.receptia.navigation.Screen
@@ -16,18 +18,25 @@ fun NavController.navigateToRecipeDescription(recipeId: String) {
     )
 
     if (!destination.isNullOrEmpty() && !route.contains(destination)) {
-        this.navigate(routeWithParam)
+        this.navigate(route = routeWithParam)
     }
 }
 
 fun NavGraphBuilder.recipeDescriptionScreen(
     navController: NavController,
 ) {
-    composable(Screen.RecipeDescription.route) { backStackEntry ->
-        backStackEntry.arguments?.getString(Keys.RECIPE_ID)?.let {
+    composable(
+        Screen.RecipeDescription.route,
+        arguments = listOf(
+            navArgument(Keys.RECIPE_ID) {
+                type = NavType.StringType
+            },
+        ),
+    ) {
+        it.arguments?.getString(Keys.RECIPE_ID)?.let { id ->
             RecipeDescriptionRoute(
                 navController = navController,
-                recipeId = it,
+                recipeId = id,
             )
         }
     }
