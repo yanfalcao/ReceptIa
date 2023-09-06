@@ -210,7 +210,7 @@ class NewRecipeViewModel @Inject constructor(
                         data.choices[0].message.content,
                         Recipe::class.java,
                     )
-                    recipe.realmCreate()
+                    recipe.create()
 
                     _createRecipeUiState.value = CreateRecipeUiState.Success(recipe.id)
                 } catch (e: Exception) {

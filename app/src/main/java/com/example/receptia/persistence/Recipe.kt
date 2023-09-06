@@ -7,6 +7,8 @@ import io.realm.kotlin.ext.realmListOf
 import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.UUID
 
 class Recipe : RealmObject {
@@ -31,7 +33,9 @@ class Recipe : RealmObject {
     var amountPeopleServes: Int = 0
     var isFavorite: Boolean = false
 
-    fun create() {
-        realmCreate()
+    suspend fun create() {
+        withContext(Dispatchers.IO) {
+            realmCreate()
+        }
     }
 }
