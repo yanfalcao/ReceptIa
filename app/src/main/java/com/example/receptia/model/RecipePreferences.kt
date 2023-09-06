@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class RecipePreferences(
     @SerializedName("response_anwser_language")
-    val responseLanguage: String = "Português",
+    var responseLanguage: String = "Português",
     @SerializedName("meal")
     var meal: String? = null,
     @SerializedName("favorite_ingredients")
