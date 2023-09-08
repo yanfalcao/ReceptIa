@@ -16,10 +16,31 @@ class Recipe : RealmObject {
         fun find(id: String): Recipe {
             return RealmPersistence.getInstance().query<Recipe>("id == $0", id).find()[0]
         }
+
+        fun find(limit: Int): List<Recipe> {
+            return RealmPersistence.getInstance()
+                .query<Recipe>()
+                .limit(limit)
+                .find()
+                .toList()
+        }
+
+        suspend fun toogleIsFavorite(id: String) {
+            withContext(Dispatchers.IO) {
+                val realm = RealmPersistence.getInstance()
+                val recipe = realm.query<Recipe>("id == $0", id).find()[0]
+
+                realm.writeBlocking {
+                    val recipeToUpdate = findLatest(recipe) ?: error("Cannot find latest version of embedded object")
+                    recipeToUpdate.isFavorite = !recipe.isFavorite
+                }
+            }
+        }
     }
 
     @PrimaryKey
     var id: String = UUID.randomUUID().toString()
+
     @SerializedName("recipe_name")
     var name: String = ""
     var description: String = ""

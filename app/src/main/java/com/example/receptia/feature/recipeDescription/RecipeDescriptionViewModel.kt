@@ -6,15 +6,16 @@ import com.example.receptia.feature.recipeDescription.state.RecipeUiState
 import com.example.receptia.feature.recipeDescription.state.ToogleRecipeState
 import com.example.receptia.persistence.Recipe
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class RecipeDescriptionViewModel(val recipeId: String) : ViewModel() {
     private val _toogleRecipeState = MutableStateFlow<ToogleRecipeState>(ToogleRecipeState.DetailsSelected)
     val toogleRecipeState get() = _toogleRecipeState
+
+    private val _recipeUiState = MutableStateFlow<RecipeUiState>(RecipeUiState.Loading)
+    val recipeUiState: StateFlow<RecipeUiState> = _recipeUiState
 
     fun selectRecipeToogle() {
         viewModelScope.launch {
@@ -25,14 +26,23 @@ class RecipeDescriptionViewModel(val recipeId: String) : ViewModel() {
         }
     }
 
-    val getRecipe: StateFlow<RecipeUiState> =
-        flow<RecipeUiState> {
+    fun toogleFavorite() {
+        viewModelScope.launch {
+            Recipe.toogleIsFavorite(id = recipeId)
             val recipe = Recipe.find(recipeId)
 
-            emit(RecipeUiState.Success(recipe = recipe))
-        }.stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5_000),
-            initialValue = RecipeUiState.Loading,
-        )
+            _recipeUiState.value = RecipeUiState.Success(recipe = recipe)
+        }
+    }
+
+    init {
+        viewModelScope.launch {
+            flow<RecipeUiState> {
+                val recipe = Recipe.find(recipeId)
+                emit(RecipeUiState.Success(recipe = recipe))
+            }.collect {
+                _recipeUiState.value = it
+            }
+        }
+    }
 }
