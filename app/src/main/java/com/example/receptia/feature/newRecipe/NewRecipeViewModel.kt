@@ -7,7 +7,6 @@ import com.example.receptia.model.RecipePreferences
 import com.example.receptia.network.model.NetworkGptRequest
 import com.example.receptia.network.model.NetworkGtpMessage
 import com.example.receptia.persistence.Recipe
-import com.example.receptia.persistence.extension.realmCreate
 import com.example.receptia.persistence.utils.RecipeDeserializer
 import com.example.receptia.repository.RecipeRepository
 import com.example.receptia.utils.RequestMessageUtil

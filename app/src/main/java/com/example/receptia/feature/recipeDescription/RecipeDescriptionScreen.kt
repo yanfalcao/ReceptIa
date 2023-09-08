@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -34,6 +35,7 @@ import com.example.receptia.feature.recipeDescription.widget.RecipeBody
 import com.example.receptia.feature.recipeDescription.widget.ToogleButton
 import com.example.receptia.persistence.Recipe
 import com.example.receptia.ui.theme.ReceptIaTheme
+import com.example.receptia.ui.theme.Red
 
 @Composable
 internal fun RecipeDescriptionRoute(
@@ -42,11 +44,12 @@ internal fun RecipeDescriptionRoute(
     viewModel: RecipeDescriptionViewModel = viewModel(factory = RecipeDescriptionVMFactory(recipeId)),
 ) {
     val toogleRecipeState by viewModel.toogleRecipeState.collectAsStateWithLifecycle()
-    val recipeUiState by viewModel.getRecipe.collectAsStateWithLifecycle()
+    val recipeUiState by viewModel.recipeUiState.collectAsStateWithLifecycle()
 
     RecipeDescriptionScreen(
         toogleState = toogleRecipeState,
         recipeUiState = recipeUiState,
+        onToogleFavorite = viewModel::toogleFavorite,
         onSelectToogle = viewModel::selectRecipeToogle,
         onBackClick = navController::popBackStack,
     )
@@ -56,6 +59,7 @@ internal fun RecipeDescriptionRoute(
 private fun RecipeDescriptionScreen(
     toogleState: ToogleRecipeState,
     recipeUiState: RecipeUiState,
+    onToogleFavorite: () -> Unit = {},
     onSelectToogle: () -> Unit = {},
     onBackClick: () -> Unit = {},
 ) {
@@ -71,7 +75,10 @@ private fun RecipeDescriptionScreen(
                 when (recipeUiState) {
                     RecipeUiState.Loading -> CircularProgressIndicator()
                     is RecipeUiState.Success -> {
-                        Header(recipe = recipeUiState.recipe)
+                        Header(
+                            recipe = recipeUiState.recipe,
+                            onToogleFavorite = onToogleFavorite,
+                        )
                         Spacer(modifier = Modifier.height(40.dp))
                         ToogleButton(
                             toogleState = toogleState,
@@ -94,6 +101,7 @@ private fun RecipeDescriptionScreen(
 private fun Header(
     modifier: Modifier = Modifier,
     recipe: Recipe,
+    onToogleFavorite: () -> Unit = {},
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
@@ -108,12 +116,20 @@ private fun Header(
 
         Spacer(modifier = Modifier.width(15.dp))
 
-        IconButton(onClick = {}) {
-            Icon(
-                imageVector = Icons.Default.FavoriteBorder,
-                modifier = Modifier.size(30.dp),
-                contentDescription = null,
-            )
+        IconButton(onClick = onToogleFavorite) {
+            when (recipe.isFavorite) {
+                true -> Icon(
+                    imageVector = Icons.Default.Favorite,
+                    modifier = Modifier.size(30.dp),
+                    tint = Red,
+                    contentDescription = null,
+                )
+                false -> Icon(
+                    imageVector = Icons.Default.FavoriteBorder,
+                    modifier = Modifier.size(30.dp),
+                    contentDescription = null,
+                )
+            }
         }
     }
 }
