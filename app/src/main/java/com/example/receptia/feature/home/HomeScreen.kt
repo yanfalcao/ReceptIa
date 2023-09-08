@@ -2,6 +2,7 @@ package com.example.receptia.feature.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -36,6 +36,7 @@ import androidx.navigation.NavController
 import com.example.receptia.R
 import com.example.receptia.feature.home.state.RecipeFeedUiState
 import com.example.receptia.feature.newRecipe.navigation.navigateToNewRecipe
+import com.example.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
 import com.example.receptia.persistence.Recipe
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.LightGray
@@ -58,18 +59,17 @@ internal fun HomeRoute(
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun HomeScreen(
     navController: NavController,
     feedState: RecipeFeedUiState,
-    navigateToNewRecipe: () -> Unit = {}
+    navigateToNewRecipe: () -> Unit = {},
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
     NavigationDrawerWidget(
         drawerState = drawerState,
-        navController = navController
+        navController = navController,
     ) {
         Scaffold(
             topBar = { TopBarWidget(drawerState) },
@@ -95,7 +95,10 @@ private fun HomeScreen(
                         LoadingRecipeList()
                     is RecipeFeedUiState.Success -> {
                         if (feedState.recipes.isNotEmpty()) {
-                            RecipeList(feedState.recipes)
+                            RecipeList(
+                                feedState.recipes,
+                                navigateToDescription = navController::navigateToRecipeDescription,
+                            )
                         }
                     }
                 }
@@ -106,7 +109,7 @@ private fun HomeScreen(
 
 @Composable
 private fun Banner(
-    navigateToNewRecipe: () -> Unit = {}
+    navigateToNewRecipe: () -> Unit = {},
 ) {
     Box(
         modifier = Modifier
@@ -158,17 +161,26 @@ private fun Banner(
 }
 
 @Composable
-private fun RecipeList(recipes: List<Recipe>) {
+private fun RecipeList(
+    recipes: List<Recipe>,
+    navigateToDescription: (String) -> Unit,
+) {
     LazyColumn {
         items(recipes) {
-            RecipeListTile(recipe = it)
+            RecipeListTile(
+                recipe = it,
+                navigateToDescription = navigateToDescription,
+            )
             Spacer(modifier = Modifier.height(15.dp))
         }
     }
 }
 
 @Composable
-private fun RecipeListTile(recipe: Recipe) {
+private fun RecipeListTile(
+    recipe: Recipe,
+    navigateToDescription: (String) -> Unit,
+) {
     val bookmarkIcon = if (recipe.isFavorite) {
         R.drawable.ic_bookmark_green
     } else {
@@ -184,6 +196,9 @@ private fun RecipeListTile(recipe: Recipe) {
                 color = LightGray,
                 shape = RoundedCornerShape(size = 15.dp),
             )
+            .clickable {
+                navigateToDescription(recipe.id)
+            }
             .padding(start = 15.dp, end = 25.dp)
             .fillMaxWidth(),
     ) {
