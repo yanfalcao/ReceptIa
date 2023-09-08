@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -38,6 +39,7 @@ import com.example.receptia.feature.home.state.RecipeFeedUiState
 import com.example.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.example.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
 import com.example.receptia.persistence.Recipe
+import com.example.receptia.ui.ComposableLifecycle
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.LightGray
 import com.example.receptia.ui.theme.LightGreen
@@ -50,13 +52,22 @@ internal fun HomeRoute(
     navController: NavController,
     viewModel: HomeViewModel = viewModel(),
 ) {
-    val feedState by viewModel.feedState.collectAsStateWithLifecycle()
+    val feedState by viewModel.lastRecipesUiState.collectAsStateWithLifecycle()
 
     HomeScreen(
         feedState = feedState,
         navigateToNewRecipe = navController::navigateToNewRecipe,
         navController = navController,
     )
+
+    ComposableLifecycle { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_RESUME -> {
+                viewModel.updateLastRecipes()
+            }
+            else -> {}
+        }
+    }
 }
 
 @Composable
