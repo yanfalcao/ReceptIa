@@ -22,15 +22,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.example.receptia.feature.recipeDescription.preview.PreviewParameterData
 import com.example.receptia.feature.recipeDescription.state.RecipeUiState
 import com.example.receptia.feature.recipeDescription.state.ToogleRecipeState
 import com.example.receptia.feature.recipeDescription.widget.BackButton
 import com.example.receptia.feature.recipeDescription.widget.Background
 import com.example.receptia.feature.recipeDescription.widget.DetailsBody
+import com.example.receptia.feature.recipeDescription.widget.Header
 import com.example.receptia.feature.recipeDescription.widget.RecipeBody
 import com.example.receptia.feature.recipeDescription.widget.ToogleButton
 import com.example.receptia.persistence.Recipe
@@ -97,39 +100,14 @@ private fun RecipeDescriptionScreen(
     }
 }
 
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+)
 @Composable
-private fun Header(
-    modifier: Modifier = Modifier,
-    recipe: Recipe,
-    onToogleFavorite: () -> Unit = {},
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            text = recipe.name,
-            style = MaterialTheme.typography.headlineMedium,
-            modifier = Modifier.weight(1.0f),
-        )
-
-        Spacer(modifier = Modifier.width(15.dp))
-
-        IconButton(onClick = onToogleFavorite) {
-            when (recipe.isFavorite) {
-                true -> Icon(
-                    imageVector = Icons.Default.Favorite,
-                    modifier = Modifier.size(30.dp),
-                    tint = Red,
-                    contentDescription = null,
-                )
-                false -> Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
-                    modifier = Modifier.size(30.dp),
-                    contentDescription = null,
-                )
-            }
-        }
-    }
+private fun RecipeDescriptionScreenPreview() {
+    RecipeDescriptionScreen(
+        toogleState = ToogleRecipeState.DetailsSelected,
+        recipeUiState = RecipeUiState.Success(PreviewParameterData.recipe),
+    )
 }
