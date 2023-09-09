@@ -72,6 +72,7 @@ internal fun NewRecipeRoute(
         removePreference = viewModel::removePreference,
         onBackClick = navController::popBackStack,
         onNavigateToRecipe = navController::navigateToRecipeDescription,
+        cleanCreateRecipeUiState = viewModel::cleanCreateRecipeUiState,
     )
 }
 
@@ -90,6 +91,7 @@ private fun NewRecipeScreen(
     removePreference: (RecipeFieldState, String) -> Unit,
     onBackClick: () -> Unit,
     onNavigateToRecipe: (String) -> Unit,
+    cleanCreateRecipeUiState: () -> Unit,
 ) {
     val limitErrorToast = stringResource(id = R.string.error_max_ingredient)
     val createRecipeErrorToast = stringResource(id = R.string.error_create_recipe)
@@ -104,6 +106,7 @@ private fun NewRecipeScreen(
                 Toast.makeText(context, createRecipeErrorToast, Toast.LENGTH_LONG).show()
             }
             is CreateRecipeUiState.Success -> {
+                cleanCreateRecipeUiState()
                 onNavigateToRecipe(createRecipeUiState.recipeId)
             }
             else -> {}
@@ -149,8 +152,7 @@ private fun NewRecipeScreen(
             }
         }
 
-        if (createRecipeUiState is CreateRecipeUiState.Loading ||
-            createRecipeUiState is CreateRecipeUiState.Success) {
+        if (createRecipeUiState is CreateRecipeUiState.Loading) {
             CreateRecipeLoading()
         }
     }

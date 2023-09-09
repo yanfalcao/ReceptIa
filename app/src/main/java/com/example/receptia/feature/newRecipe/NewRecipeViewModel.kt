@@ -222,6 +222,12 @@ class NewRecipeViewModel @Inject constructor(
         }
     }
 
+    fun cleanCreateRecipeUiState() {
+        viewModelScope.launch {
+            _createRecipeUiState.value = CreateRecipeUiState.None
+        }
+    }
+
     private fun addOrRemoveIngredient(
         recipeFieldState: RecipeFieldState,
         text: String,

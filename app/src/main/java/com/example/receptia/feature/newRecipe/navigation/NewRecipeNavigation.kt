@@ -6,18 +6,12 @@ import androidx.navigation.compose.composable
 import com.example.receptia.feature.newRecipe.NewRecipeRoute
 import com.example.receptia.navigation.Screen
 
-fun NavController.navigateToNewRecipe(popUp: Boolean = false) {
+fun NavController.navigateToNewRecipe() {
     val destination = currentBackStackEntry?.destination?.route
     val route = Screen.NewRecipe.route
 
     if (!destination.isNullOrEmpty() && !destination.equals(route)) {
-        this.navigate(route) {
-            if (popUp) {
-                popUpTo(destination) {
-                    inclusive = true
-                }
-            }
-        }
+        this.navigate(route)
     }
 }
 
