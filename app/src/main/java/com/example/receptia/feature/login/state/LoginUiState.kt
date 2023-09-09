@@ -1,4 +1,4 @@
-package com.example.receptia.feature.login
+package com.example.receptia.feature.login.state
 
 sealed interface LoginUiState {
     object Started : LoginUiState
