@@ -13,23 +13,9 @@ import kotlinx.coroutines.flow.stateIn
 class HistoricViewModel : ViewModel() {
     val recipeHistoricState: StateFlow<RecipeHistoricUiState> =
         flow<RecipeHistoricUiState> {
-            delay(5000)
-            val recipeList = listOf(
-                RecipeMock(),
-                RecipeMock("Filé de Frango ao Limão com Cogumelos"),
-                RecipeMock("Waffle de Pão de Queijo"),
-                RecipeMock("Muqueca de Peixe"),
-                RecipeMock("Pão de Queijo"),
-                RecipeMock(),
-                RecipeMock(),
-                RecipeMock("Filé de Frango ao Limão com Cogumelos"),
-                RecipeMock("Waffle de Pão de Queijo"),
-                RecipeMock("Muqueca de Peixe"),
-                RecipeMock("Pão de Queijo"),
-                RecipeMock(),
-            )
+            delay(2000)
 
-            emit(RecipeHistoricUiState.Success(recipes = recipeList))
+            emit(RecipeHistoricUiState.Success(recipes = listOf()))
         }.stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),

@@ -1,4 +1,4 @@
-package com.example.receptia.ui.theme.widget
+package com.example.receptia.ui.widget
 
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
