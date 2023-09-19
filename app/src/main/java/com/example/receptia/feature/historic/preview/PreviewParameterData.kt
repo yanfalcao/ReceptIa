@@ -23,7 +23,7 @@ object PreviewParameterData {
         return Recipe().apply {
             this.name = name
             prepTime = "30 min"
-            easeRecipe = "Fácil"
+            difficult = "Fácil"
             isFavorite = true
             amountCalories = "450 kcal"
             amountCarbs = "60g"
