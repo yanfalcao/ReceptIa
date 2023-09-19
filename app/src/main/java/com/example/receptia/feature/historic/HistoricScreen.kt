@@ -1,6 +1,7 @@
 package com.example.receptia.feature.historic
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,6 +29,7 @@ import com.example.receptia.feature.historic.widget.GridList
 import com.example.receptia.feature.historic.widget.SearchBar
 import com.example.receptia.feature.historic.widget.Tag
 import com.example.receptia.feature.historic.widget.LoadingRecipeList
+import com.example.receptia.ui.widget.EmptyStateWidget
 import com.example.receptia.view.widget.TopBarWidget
 
 @Composable
@@ -93,6 +96,13 @@ private fun HistoricScreen(
                 is RecipeHistoricUiState.Success -> {
                     if (historicState.recipes.isNotEmpty()) {
                         GridList(historicState.recipes)
+                    } else {
+                        Box(
+                            modifier = Modifier.weight(1.0f).fillMaxSize(),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            EmptyStateWidget()
+                        }
                     }
                 }
             }
@@ -119,5 +129,16 @@ private fun HistoricScreenPreview() {
 private fun LoadingStatePreview() {
     HistoricScreen(
         historicState = RecipeHistoricUiState.Loading,
+    )
+}
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+)
+@Composable
+private fun EmptyStatePreview() {
+    HistoricScreen(
+        historicState = RecipeHistoricUiState.Success(listOf()),
     )
 }

@@ -1,8 +1,10 @@
 package com.example.receptia.feature.home
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
@@ -12,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -33,6 +36,7 @@ import com.example.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.example.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
 import com.example.receptia.persistence.Recipe
 import com.example.receptia.ui.ComposableLifecycle
+import com.example.receptia.ui.widget.EmptyStateWidget
 import com.example.receptia.view.widget.NavigationDrawerWidget
 import com.example.receptia.view.widget.TopBarWidget
 
@@ -99,6 +103,13 @@ private fun HomeScreen(
                                 feedState.recipes,
                                 navigateToDescription = navController::navigateToRecipeDescription,
                             )
+                        } else {
+                            Box(
+                                modifier = Modifier.weight(1.0f).fillMaxSize(),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                EmptyStateWidget()
+                            }
                         }
                     }
                 }
@@ -134,5 +145,20 @@ private fun LoadingStatePreview(
     HomeScreen(
         navController = rememberNavController(),
         feedState = RecipeFeedUiState.Loading,
+    )
+}
+
+@Preview(
+    showBackground = true,
+    showSystemUi = true,
+)
+@Composable
+private fun EmptyStatePreview(
+    @PreviewParameter(RecipesPreviewParameterProvider::class)
+    recipes: List<Recipe>,
+) {
+    HomeScreen(
+        navController = rememberNavController(),
+        feedState = RecipeFeedUiState.Success(recipes = listOf()),
     )
 }

@@ -2,7 +2,11 @@
     <string name="app_name">ReceptIa</string>
     <string name="title_login">Gere Receitas usando IA</string>
     <string name="google_login">Login com Google</string>
+
+    <!--    home-->
     <string name="description_login">Gere receitas baseado nas suas preferências e nas dos seus convidados usando IA</string>
+    <string name="empty_title">Não há receitas ainda!</string>
+    <string name="empty_description">Sem receitas geradas ainda, gerer algumas para começar</string>
 
     <!--    login-->
     <string name="banner_title">Novas receitas com Inteligência Artificial</string>
