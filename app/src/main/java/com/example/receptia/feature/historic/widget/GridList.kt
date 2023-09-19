@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.example.receptia.R
 import com.example.receptia.persistence.Recipe
 import com.example.receptia.ui.theme.LightGray
+import com.example.receptia.ui.widget.DifficultIcon
 
 @Composable
 fun GridList(recipes: List<Recipe>) {
@@ -43,9 +44,6 @@ fun GridList(recipes: List<Recipe>) {
 
 @Composable
 private fun GridTile(recipe: Recipe) {
-    // TODO: Add ease icon logic
-    val easeIcon = R.drawable.ic_smile
-
     Column(
         modifier = Modifier
             .background(
@@ -88,14 +86,13 @@ private fun GridTile(recipe: Recipe) {
         Spacer(modifier = Modifier.height(5.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(
-                painter = painterResource(id = easeIcon),
-                contentDescription = null,
+            DifficultIcon(
+                difficultState = recipe.difficultState,
                 modifier = Modifier.size(16.dp),
             )
 
             Text(
-                text = recipe.easeRecipe,
+                text = recipe.difficult,
                 color = Color.Black,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 5.dp),

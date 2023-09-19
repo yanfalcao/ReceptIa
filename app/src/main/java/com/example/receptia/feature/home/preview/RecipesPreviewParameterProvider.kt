@@ -25,7 +25,7 @@ object PreviewParameterData {
             name = "Espaguete com Molho de Cogumelos e Bacon"
             description = ""
             prepTime = "30 min"
-            easeRecipe = "Fácil"
+            difficult = "Fácil"
             isFavorite = true
             amountCalories = "450 kcal"
             amountCarbs = "60g"

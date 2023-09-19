@@ -9,7 +9,7 @@ object PreviewParameterData {
             name = "Espaguete com Molho de Cogumelos e Bacon"
             description = "Filé de frango suculento temperado com limão e acompanhado de  cogumelos salteados."
             prepTime = "30 min"
-            easeRecipe = "Fácil"
+            difficult = "Fácil"
             isFavorite = true
             amountCalories = "450 kcal"
             amountCarbs = "60g"

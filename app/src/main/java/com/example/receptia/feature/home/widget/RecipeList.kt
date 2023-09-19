@@ -26,6 +26,7 @@ import com.example.receptia.R
 import com.example.receptia.feature.home.preview.RecipesPreviewParameterProvider
 import com.example.receptia.persistence.Recipe
 import com.example.receptia.ui.theme.LightGray
+import com.example.receptia.ui.widget.DifficultIcon
 
 @Composable
 fun RecipeList(
@@ -53,9 +54,6 @@ private fun RecipeListTile(
     } else {
         R.drawable.ic_bookmark
     }
-
-    // TODO: Add ease icon logic
-    val easeIcon = R.drawable.ic_smile
 
     Box(
         modifier = Modifier
@@ -99,14 +97,13 @@ private fun RecipeListTile(
                 modifier = Modifier.padding(start = 8.dp),
             )
 
-            Image(
-                painter = painterResource(id = easeIcon),
-                contentDescription = null,
+            DifficultIcon(
+                difficultState = recipe.difficultState,
                 modifier = Modifier.padding(start = 50.dp),
             )
 
             Text(
-                text = recipe.easeRecipe,
+                text = recipe.difficult,
                 color = Color.Black,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 8.dp),

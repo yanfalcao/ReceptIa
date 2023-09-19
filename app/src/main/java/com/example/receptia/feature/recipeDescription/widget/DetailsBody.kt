@@ -17,12 +17,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.receptia.R
 import com.example.receptia.persistence.Recipe
+import com.example.receptia.ui.widget.DifficultIcon
 
 @Composable
 fun DetailsBody(recipe: Recipe) {
-    // TODO: Add ease icon logic
-    val easeIcon = R.drawable.ic_smile
-
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(15.dp),
@@ -61,13 +59,12 @@ fun DetailsBody(recipe: Recipe) {
             Row(
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
             ) {
-                Image(
-                    painter = painterResource(id = easeIcon),
-                    contentDescription = null,
+                DifficultIcon(
+                    difficultState = recipe.difficultState,
                 )
 
                 Text(
-                    text = recipe.easeRecipe,
+                    text = recipe.difficult,
                     style = MaterialTheme.typography.labelSmall,
                 )
             }

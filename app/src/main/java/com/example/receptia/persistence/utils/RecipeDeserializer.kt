@@ -23,8 +23,9 @@ class RecipeDeserializer : JsonDeserializer<Recipe> {
         recipe.amountCarbs = jsonObject.get("amount_carbo").asString
         recipe.amountProteins = jsonObject.get("amount_proteins").asString
         recipe.prepTime = jsonObject.get("preparation_time").asString
-        recipe.easeRecipe = jsonObject.get("recipe_difficulty").asString
+        recipe.difficult = jsonObject.get("recipe_difficulty").asString
         recipe.amountPeopleServes = jsonObject.get("amount_people_serves").asInt
+        recipe.difficultLevel = jsonObject.get("difficulty_level").asInt
 
         val stepsArray = jsonObject.getAsJsonArray("preparation_method")
         for (index in stepsArray.asList().indices) {
