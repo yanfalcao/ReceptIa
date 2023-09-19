@@ -54,30 +54,27 @@ private fun GridTile(recipe: Recipe) {
             )
             .fillMaxWidth()
             .height(145.dp)
-            .padding(horizontal = 10.dp, vertical = 20.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+            .padding(horizontal = 10.dp, vertical = 15.dp),
+        horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 5.dp),
             text = recipe.name,
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.labelSmall,
             color = Color.Black,
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Center,
+            textAlign = TextAlign.Start,
         )
 
         Spacer(modifier = Modifier.weight(1.0f))
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center,
-        ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
                 painter = painterResource(id = R.drawable.ic_clock),
                 contentDescription = null,
-                modifier = Modifier.size(18.dp),
+                modifier = Modifier.size(16.dp),
             )
 
             Text(
@@ -86,13 +83,15 @@ private fun GridTile(recipe: Recipe) {
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 5.dp),
             )
+        }
 
-            Spacer(modifier = Modifier.weight(1.0f))
+        Spacer(modifier = Modifier.height(5.dp))
 
+        Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
                 painter = painterResource(id = easeIcon),
                 contentDescription = null,
-                modifier = Modifier.size(18.dp),
+                modifier = Modifier.size(16.dp),
             )
 
             Text(
