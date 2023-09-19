@@ -4,6 +4,7 @@ import com.example.receptia.persistence.extension.realmCreate
 import com.google.gson.annotations.SerializedName
 import io.realm.kotlin.ext.query
 import io.realm.kotlin.ext.realmListOf
+import io.realm.kotlin.query.Sort
 import io.realm.kotlin.types.RealmList
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
@@ -21,7 +22,16 @@ class Recipe : RealmObject {
         fun find(limit: Int): List<Recipe> {
             return RealmPersistence.getInstance()
                 .query<Recipe>()
+                .sort("createdAt", Sort.DESCENDING)
                 .limit(limit)
+                .find()
+                .toList()
+        }
+
+        fun find(): List<Recipe> {
+            return RealmPersistence.getInstance()
+                .query<Recipe>()
+                .sort("createdAt", Sort.DESCENDING)
                 .find()
                 .toList()
         }
