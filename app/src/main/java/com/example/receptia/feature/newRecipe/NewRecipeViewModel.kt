@@ -4,8 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.receptia.feature.newRecipe.state.*
 import com.example.receptia.model.RecipePreferences
-import com.example.receptia.network.model.NetworkGptRequest
-import com.example.receptia.network.model.NetworkGtpMessage
+import com.example.receptia.network.model.GptFuncitonCallRequest
+import com.example.receptia.network.model.GptFunctions
+import com.example.receptia.network.model.GptRequest
+import com.example.receptia.network.model.GtpMessage
 import com.example.receptia.persistence.Recipe
 import com.example.receptia.persistence.utils.RecipeDeserializer
 import com.example.receptia.repository.RecipeRepository
@@ -23,8 +25,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewRecipeViewModel @Inject constructor(
-    val repository: RecipeRepository,
+    private val repository: RecipeRepository,
 ) : ViewModel() {
+    private val INGREDIENT_LIMIT = 30
     private val recipePreferences = RecipePreferences()
     private val continueButtonClicked = MutableStateFlow(false)
 
@@ -189,24 +192,17 @@ class NewRecipeViewModel @Inject constructor(
             if (checkFieldUiState.value is CheckFieldUiState.Filled) {
                 _createRecipeUiState.value = CreateRecipeUiState.Loading
                 recipePreferences.responseLanguage = Locale.getDefault().displayLanguage
-                var request = NetworkGptRequest(
-                    messages = listOf(
-                        NetworkGtpMessage(
-                            role = "user",
-                            content = RequestMessageUtil.newRecipePrompt(recipePreferences),
-                        ),
-                    ),
-                )
+                val request = getChatCompletionRequest(recipePreferences)
 
                 try {
-                    val data = repository.getPrompt(request)
+                    val data = repository.createChatCompletion(request)
 
                     val customDeserializer = GsonBuilder()
                         .registerTypeAdapter(Recipe::class.java, RecipeDeserializer())
                         .create()
 
                     val recipe = customDeserializer.fromJson(
-                        data.choices[0].message.content,
+                        data.choices[0].message.functionCall.arguments,
                         Recipe::class.java,
                     )
                     recipe.create()
@@ -257,10 +253,32 @@ class NewRecipeViewModel @Inject constructor(
             recipePreferences.nonFavoriteIngredients.size +
             recipePreferences.allergicIngredients.size
 
-        _isMaxIngredientsLimit.value = if (countIngredients >= 5) {
+        _isMaxIngredientsLimit.value = if (countIngredients >= INGREDIENT_LIMIT) {
             ErrorUiState.IngredientMaxLimit
         } else {
             ErrorUiState.None
         }
+    }
+
+    private fun getChatCompletionRequest(preferences: RecipePreferences): GptRequest {
+        return GptRequest(
+            messages = listOf(
+                GtpMessage(
+                    role = "system",
+                    content = RequestMessageUtil.systemContent,
+                ),
+                GtpMessage(
+                    role = "user",
+                    content = RequestMessageUtil.newRecipePrompt(preferences),
+                ),
+            ),
+            functions = listOf(
+                GptFunctions(
+                    name = "get_recipe",
+                    parameters = RequestMessageUtil.schema,
+                )
+            ),
+            functionCall = GptFuncitonCallRequest(name = "get_recipe")
+        )
     }
 }
