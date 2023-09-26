@@ -2,7 +2,7 @@ package com.example.receptia.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class NetworkGptUsage(
+data class GptUsage(
     @SerializedName("completion_tokens")
     val completion_tokens: Int,
 

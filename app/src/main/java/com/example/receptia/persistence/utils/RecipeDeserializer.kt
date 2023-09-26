@@ -18,7 +18,7 @@ class RecipeDeserializer : JsonDeserializer<Recipe> {
         val recipe = Recipe()
 
         recipe.name = jsonObject.get("recipe_name").asString
-        recipe.description = jsonObject.get("description").asString
+        recipe.description = jsonObject.get("recipe_description").asString
         recipe.amountCalories = jsonObject.get("amount_calories").asString
         recipe.amountCarbs = jsonObject.get("amount_carbo").asString
         recipe.amountProteins = jsonObject.get("amount_proteins").asString

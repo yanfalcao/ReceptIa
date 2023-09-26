@@ -2,7 +2,7 @@ package com.example.receptia.network.model
 
 import com.google.gson.annotations.SerializedName
 
-data class NetworkGptChoice(
+data class GptChoice(
     @SerializedName("finish_reason")
     val finish_reason: String,
 
@@ -10,6 +10,6 @@ data class NetworkGptChoice(
     val index: Int,
 
     @SerializedName("message")
-    val message: NetworkGtpMessage
+    val message: GptMessageResponse
 
 )

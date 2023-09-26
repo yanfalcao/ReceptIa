@@ -3,14 +3,14 @@ package com.example.receptia.repository
 import com.example.receptia.ReceptIaApplication
 import com.example.receptia.network.exceptions.ServerErrorException
 import com.example.receptia.network.exceptions.UnseccessfulRequestException
-import com.example.receptia.network.model.NetworkGptAnswer
-import com.example.receptia.network.model.NetworkGptRequest
+import com.example.receptia.network.model.GptRequest
+import com.example.receptia.network.model.GptResponse
 import javax.inject.Inject
 
 class RecipeRepository @Inject constructor() {
-    suspend fun getPrompt(request: NetworkGptRequest): NetworkGptAnswer {
+    suspend fun createChatCompletion(request: GptRequest): GptResponse {
         try {
-            val response = ReceptIaApplication.http.gptService().getPrompt(request)
+            val response = ReceptIaApplication.http.gptService().createChatCompletion(request)
             when (response.code()) {
                 in 200..299 -> {
                     return response.body()
