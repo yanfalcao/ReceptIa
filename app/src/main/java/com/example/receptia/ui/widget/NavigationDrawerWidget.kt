@@ -160,7 +160,6 @@ private fun DrawerTile(
         }),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // TODO: Add logic
         Image(
             painter = painterResource(id = iconResourceId),
             contentDescription = null,
@@ -169,7 +168,6 @@ private fun DrawerTile(
 
         Spacer(modifier = Modifier.width(15.dp))
 
-        // TODO: Add logic
         Text(
             text = stringResource(id = titleResourceId),
             color = Color.Black,
