@@ -30,12 +30,15 @@ object RequestMessageUtil {
                     })
                     add("amount_calories", JsonObject().apply {
                         addProperty("type", "string")
+                        addProperty("description", "The amount of calories needs to have the amount and the abbreviated unit measure")
                     })
                     add("amount_carbo", JsonObject().apply {
                         addProperty("type", "string")
+                        addProperty("description", "The amount of carbohydrates needs to have the amount and the abbreviated unit measure")
                     })
                     add("amount_proteins", JsonObject().apply {
                         addProperty("type", "string")
+                        addProperty("description", "The amount of proteins needs to have the amount and the abbreviated unit measure")
                     })
                     add("preparation_time", JsonObject().apply {
                         addProperty("type", "string")
