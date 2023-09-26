@@ -15,11 +15,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,8 +34,8 @@ import com.example.receptia.feature.home.navigation.navigateToHome
 import com.example.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.titleMediumSmall
+import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NavigationDrawerWidget(
     navController: NavController,
@@ -44,7 +44,7 @@ fun NavigationDrawerWidget(
 ) {
     ModalNavigationDrawer(
         drawerState = drawerState,
-        drawerContent = { DrawerBody(navController) },
+        drawerContent = { DrawerBody(navController, drawerState) },
         content = content,
     )
 }
@@ -52,6 +52,7 @@ fun NavigationDrawerWidget(
 @Composable
 private fun DrawerBody(
     navController: NavController,
+    drawerState: DrawerState
 ) {
     Column(
         modifier = Modifier
@@ -78,6 +79,7 @@ private fun DrawerBody(
             iconResourceId = R.drawable.ic_house,
             titleResourceId = R.string.drawer_home,
             onClick = navController::navigateToHome,
+            drawerState = drawerState,
         )
 
         Spacer(modifier = Modifier.height(26.dp))
@@ -86,6 +88,7 @@ private fun DrawerBody(
             iconResourceId = R.drawable.ic_add,
             titleResourceId = R.string.drawer_new_recipe,
             onClick = navController::navigateToNewRecipe,
+            drawerState = drawerState,
         )
 
         Spacer(modifier = Modifier.height(26.dp))
@@ -94,6 +97,7 @@ private fun DrawerBody(
             iconResourceId = R.drawable.ic_article,
             titleResourceId = R.string.drawer_recepies_store,
             onClick = navController::navigateToHistoric,
+            drawerState = drawerState,
         )
 
         /*Spacer(modifier = Modifier.height(26.dp))
@@ -108,6 +112,7 @@ private fun DrawerBody(
         DrawerTile(
             iconResourceId = R.drawable.ic_logout,
             titleResourceId = R.string.drawer_logout,
+            drawerState = drawerState,
         )
     }
 }
@@ -141,10 +146,18 @@ private fun DrawerHeader() {
 private fun DrawerTile(
     @DrawableRes iconResourceId: Int,
     @StringRes titleResourceId: Int,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    drawerState: DrawerState
 ) {
+    val coroutineScope = rememberCoroutineScope()
+
     Row(
-        modifier = Modifier.clickable(onClick = onClick),
+        modifier = Modifier.clickable(onClick = {
+            coroutineScope.launch {
+                drawerState.close()
+                onClick()
+            }
+        }),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         // TODO: Add logic
