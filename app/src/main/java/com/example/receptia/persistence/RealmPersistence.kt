@@ -13,6 +13,11 @@ class RealmPersistence private constructor() {
                 instance ?: createInstance().also { instance = it }
             }
 
+        fun closeInstance() {
+            instance?.close()
+            instance = null
+        }
+
         private fun createInstance(): Realm {
             val realmConfig = RealmConfiguration
                 .Builder(schema = setOf(Recipe::class, Ingredient::class))

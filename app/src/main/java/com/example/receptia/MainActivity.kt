@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        RealmPersistence.getInstance().close()
+        RealmPersistence.closeInstance()
         super.onDestroy()
     }
 }
