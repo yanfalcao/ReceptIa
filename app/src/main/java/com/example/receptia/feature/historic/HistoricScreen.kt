@@ -52,7 +52,8 @@ internal fun HistoricRoute(
         historicState = historicState,
         filterUiState = filterUiState,
         navController = navController,
-        updateTagFilter = viewModel::updateTagFilter
+        updateTagFilter = viewModel::updateTagFilter,
+        updateSearchFilter = viewModel::updateSearchFilter,
     )
 
     ComposableLifecycle { _, event ->
@@ -71,6 +72,7 @@ private fun HistoricScreen(
     filterUiState: FilterUiState,
     navController: NavController,
     updateTagFilter: (TagFilterEnum) -> Unit = {},
+    updateSearchFilter: (String?) -> Unit = {},
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
@@ -98,6 +100,7 @@ private fun HistoricScreen(
                         modifier = Modifier
                             .weight(1.0f)
                             .height(40.dp),
+                        updateSearchFilter = updateSearchFilter,
                     )
 
                     Spacer(modifier = Modifier.width(15.dp))

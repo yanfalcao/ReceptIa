@@ -34,24 +34,48 @@ class HistoricViewModel : ViewModel() {
 
     fun updateTagFilter(tagFilter: TagFilterEnum) {
         viewModelScope.launch {
-            val state = _filterUiState.value
-            if (state is FilterUiState.Filters && state.tag != tagFilter) {
-                _filterUiState.value = FilterUiState.Filters(tagFilter)
+            val state = _filterUiState.value as FilterUiState.Filters
+            if (state.tag != tagFilter) {
+                state.tag = tagFilter
+
+                _filterUiState.value = state
                 _recipesUiState.value = RecipeHistoricUiState.Loading
 
-                when(tagFilter) {
-                    TagFilterEnum.ALL -> {
-                        _recipesUiState.value = RecipeHistoricUiState.Success(recipeList)
-                    }
-                    TagFilterEnum.FAVORITES -> {
-                        val favorites = recipeList.filter { recipe ->
-                            recipe.isFavorite
-                        }.toList()
-
-                        _recipesUiState.value = RecipeHistoricUiState.Success(favorites)
-                    }
-                }
+                _recipesUiState.value = RecipeHistoricUiState.Success(filterList(state))
             }
         }
+    }
+
+    fun updateSearchFilter(search: String?) {
+        viewModelScope.launch {
+            val state = _filterUiState.value as FilterUiState.Filters
+            state.search = search
+
+            _filterUiState.value = state
+            _recipesUiState.value = RecipeHistoricUiState.Loading
+
+            _recipesUiState.value = RecipeHistoricUiState.Success(filterList(state))
+        }
+    }
+
+    private fun filterList(filterState: FilterUiState.Filters): List<Recipe> {
+        var filteredList = when (filterState.tag) {
+            TagFilterEnum.FAVORITES -> {
+                recipeList.filter { recipe ->
+                    filterState.tag == TagFilterEnum.FAVORITES && recipe.isFavorite
+                }.toList()
+            }
+
+            TagFilterEnum.ALL -> recipeList.toList()
+        }
+
+        val search = filterState.search
+        if (!search.isNullOrEmpty() && search.isNotBlank()) {
+            filteredList = filteredList.filter { recipe ->
+                recipe.name.lowercase().contains(search.lowercase())
+            }.toList()
+        }
+
+        return filteredList
     }
 }
