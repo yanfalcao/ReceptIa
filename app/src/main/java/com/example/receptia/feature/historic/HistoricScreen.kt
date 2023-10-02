@@ -20,18 +20,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.receptia.R
 import com.example.receptia.feature.historic.preview.PreviewParameterData
+import com.example.receptia.feature.historic.state.FilterUiState
 import com.example.receptia.feature.historic.state.RecipeHistoricUiState
+import com.example.receptia.feature.historic.state.TagFilterEnum
 import com.example.receptia.feature.historic.widget.FilterButton
 import com.example.receptia.feature.historic.widget.GridList
 import com.example.receptia.feature.historic.widget.SearchBar
 import com.example.receptia.feature.historic.widget.Tag
 import com.example.receptia.feature.historic.widget.LoadingRecipeList
+import com.example.receptia.ui.ComposableLifecycle
 import com.example.receptia.ui.widget.EmptyStateWidget
 import com.example.receptia.view.widget.NavigationDrawerWidget
 import com.example.receptia.view.widget.TopBarWidget
@@ -41,24 +45,34 @@ internal fun HistoricRoute(
     navController: NavController,
     viewModel: HistoricViewModel = viewModel(),
 ) {
-    val historicState by viewModel.recipeHistoricState.collectAsStateWithLifecycle()
+    val historicState by viewModel.recipesUiState.collectAsStateWithLifecycle()
+    val filterUiState by viewModel.filterUiState.collectAsStateWithLifecycle()
 
     HistoricScreen(
         historicState = historicState,
-        navController = navController
+        filterUiState = filterUiState,
+        navController = navController,
+        updateTagFilter = viewModel::updateTagFilter
     )
+
+    ComposableLifecycle { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_RESUME -> {
+                viewModel.updateRecipeHistoric()
+            }
+            else -> {}
+        }
+    }
 }
 
 @Composable
 private fun HistoricScreen(
     historicState: RecipeHistoricUiState,
+    filterUiState: FilterUiState,
     navController: NavController,
+    updateTagFilter: (TagFilterEnum) -> Unit = {},
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
-    val filterTags = listOf(
-        stringResource(id = R.string.all),
-        stringResource(id = R.string.favorites),
-    )
 
     NavigationDrawerWidget(
         drawerState = drawerState,
@@ -94,8 +108,12 @@ private fun HistoricScreen(
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
-                    for (tag in filterTags) {
-                        Tag(text = tag)
+                    for (tag in TagFilterEnum.values()) {
+                        Tag(
+                            tagFilter = tag,
+                            filterUiState = filterUiState,
+                            updateTagFilter = updateTagFilter,
+                        )
                     }
                 }
 
@@ -130,6 +148,7 @@ private fun HistoricScreen(
 private fun HistoricScreenPreview() {
     HistoricScreen(
         historicState = RecipeHistoricUiState.Success(PreviewParameterData.recipeList),
+        filterUiState = FilterUiState.Filters(TagFilterEnum.ALL),
         navController = rememberNavController(),
     )
 }
@@ -142,6 +161,7 @@ private fun HistoricScreenPreview() {
 private fun LoadingStatePreview() {
     HistoricScreen(
         historicState = RecipeHistoricUiState.Loading,
+        filterUiState = FilterUiState.Filters(TagFilterEnum.ALL),
         navController = rememberNavController(),
     )
 }
@@ -154,6 +174,7 @@ private fun LoadingStatePreview() {
 private fun EmptyStatePreview() {
     HistoricScreen(
         historicState = RecipeHistoricUiState.Success(listOf()),
+        filterUiState = FilterUiState.Filters(TagFilterEnum.ALL),
         navController = rememberNavController(),
     )
 }
