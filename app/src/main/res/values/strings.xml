@@ -47,6 +47,7 @@
     <string name="proteins">Proteina</string>
     <string name="ingredients_amount">%1$d Ingredientes</string>
     <string name="praparation">Modo de Preparo</string>
+    <string name="filter">Filtro</string>
 
     <!--    drawer-->
     <string name="drawer_home">Início</string>

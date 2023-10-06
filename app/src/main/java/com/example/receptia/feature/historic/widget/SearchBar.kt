@@ -27,7 +27,7 @@ import com.example.receptia.ui.theme.LightGray
 @Composable
 fun SearchBar(
     modifier: Modifier,
-    updateSearchFilter: (String?) -> Unit = {}
+    updateSearchFilter: (String) -> Unit = {}
 ) {
     var text by remember { mutableStateOf(TextFieldValue("")) }
     val roundedCornerShape = RoundedCornerShape(size = 20.dp)

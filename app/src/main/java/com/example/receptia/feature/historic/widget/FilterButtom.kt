@@ -2,6 +2,7 @@ package com.example.receptia.feature.historic.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
@@ -15,9 +16,13 @@ import com.example.receptia.ui.theme.BlackLightTransparent
 import com.example.receptia.ui.theme.LightGray
 
 @Composable
-fun FilterButton(modifier: Modifier) {
+fun FilterButton(
+    modifier: Modifier,
+    onClick:() -> Unit
+) {
     Box(
         modifier = modifier
+            .clickable(onClick = onClick)
             .background(color = LightGray, shape = CircleShape)
             .shadow(
                 elevation = 4.dp,
