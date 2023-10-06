@@ -138,10 +138,7 @@ private fun HomeScreenPreview(
     showSystemUi = true,
 )
 @Composable
-private fun LoadingStatePreview(
-    @PreviewParameter(RecipesPreviewParameterProvider::class)
-    recipes: List<Recipe>,
-) {
+private fun LoadingStatePreview() {
     HomeScreen(
         navController = rememberNavController(),
         feedState = RecipeFeedUiState.Loading,
@@ -153,10 +150,7 @@ private fun LoadingStatePreview(
     showSystemUi = true,
 )
 @Composable
-private fun EmptyStatePreview(
-    @PreviewParameter(RecipesPreviewParameterProvider::class)
-    recipes: List<Recipe>,
-) {
+private fun EmptyStatePreview() {
     HomeScreen(
         navController = rememberNavController(),
         feedState = RecipeFeedUiState.Success(recipes = listOf()),

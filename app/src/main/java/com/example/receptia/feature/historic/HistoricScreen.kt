@@ -15,6 +15,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -27,9 +30,10 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.receptia.R
 import com.example.receptia.feature.historic.preview.PreviewParameterData
-import com.example.receptia.feature.historic.state.FilterUiState
+import com.example.receptia.feature.historic.state.FilterState
 import com.example.receptia.feature.historic.state.RecipeHistoricUiState
 import com.example.receptia.feature.historic.state.TagFilterEnum
+import com.example.receptia.feature.historic.widget.BottomSheetFilter
 import com.example.receptia.feature.historic.widget.FilterButton
 import com.example.receptia.feature.historic.widget.GridList
 import com.example.receptia.feature.historic.widget.SearchBar
@@ -46,7 +50,7 @@ internal fun HistoricRoute(
     viewModel: HistoricViewModel = viewModel(),
 ) {
     val historicState by viewModel.recipesUiState.collectAsStateWithLifecycle()
-    val filterUiState by viewModel.filterUiState.collectAsStateWithLifecycle()
+    val filterUiState by viewModel.filterState.collectAsStateWithLifecycle()
 
     HistoricScreen(
         historicState = historicState,
@@ -69,12 +73,20 @@ internal fun HistoricRoute(
 @Composable
 private fun HistoricScreen(
     historicState: RecipeHistoricUiState,
-    filterUiState: FilterUiState,
+    filterUiState: FilterState,
     navController: NavController,
     updateTagFilter: (TagFilterEnum) -> Unit = {},
-    updateSearchFilter: (String?) -> Unit = {},
+    updateSearchFilter: (String) -> Unit = {},
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
+    var showSheet by remember { mutableStateOf(false) }
+
+    if (showSheet) {
+        BottomSheetFilter {
+            showSheet = false
+        }
+    }
+
 
     NavigationDrawerWidget(
         drawerState = drawerState,
@@ -105,17 +117,24 @@ private fun HistoricScreen(
 
                     Spacer(modifier = Modifier.width(15.dp))
 
-                    FilterButton(modifier = Modifier.size(40.dp))
+                    FilterButton(modifier = Modifier.size(40.dp)) {
+                        showSheet = true
+                    }
                 }
 
                 Row(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     for (tag in TagFilterEnum.values()) {
+                        val tagText = when(tag) {
+                            TagFilterEnum.ALL -> stringResource(id = R.string.all)
+                            TagFilterEnum.FAVORITES -> stringResource(id = R.string.favorites)
+                        }
+
                         Tag(
-                            tagFilter = tag,
-                            filterUiState = filterUiState,
-                            updateTagFilter = updateTagFilter,
+                            text = tagText,
+                            isSelected = filterUiState.isSelected(tag),
+                            updateTagFilter = { updateTagFilter(tag) },
                         )
                     }
                 }
@@ -151,7 +170,7 @@ private fun HistoricScreen(
 private fun HistoricScreenPreview() {
     HistoricScreen(
         historicState = RecipeHistoricUiState.Success(PreviewParameterData.recipeList),
-        filterUiState = FilterUiState.Filters(TagFilterEnum.ALL),
+        filterUiState = FilterState(TagFilterEnum.ALL),
         navController = rememberNavController(),
     )
 }
@@ -164,7 +183,7 @@ private fun HistoricScreenPreview() {
 private fun LoadingStatePreview() {
     HistoricScreen(
         historicState = RecipeHistoricUiState.Loading,
-        filterUiState = FilterUiState.Filters(TagFilterEnum.ALL),
+        filterUiState = FilterState(TagFilterEnum.ALL),
         navController = rememberNavController(),
     )
 }
@@ -177,7 +196,7 @@ private fun LoadingStatePreview() {
 private fun EmptyStatePreview() {
     HistoricScreen(
         historicState = RecipeHistoricUiState.Success(listOf()),
-        filterUiState = FilterUiState.Filters(TagFilterEnum.ALL),
+        filterUiState = FilterState(TagFilterEnum.ALL),
         navController = rememberNavController(),
     )
 }
