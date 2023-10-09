@@ -2,10 +2,12 @@ package com.example.receptia.feature.historic
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.receptia.feature.historic.state.AmountServesFilterEnum
 import com.example.receptia.feature.historic.state.FilterState
 import com.example.receptia.feature.historic.state.RecipeHistoricUiState
 import com.example.receptia.feature.historic.state.TagFilterEnum
 import com.example.receptia.persistence.Recipe
+import com.example.receptia.persistence.utils.DifficultState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -58,9 +60,51 @@ class HistoricViewModel : ViewModel() {
         }
     }
 
+    fun updateDifficultFilter(difficult: DifficultState) {
+        viewModelScope.launch {
+            val state = _filterState.value
+            state.difficult = difficult
+
+            _filterState.value = state
+        }
+    }
+
+    fun updateAmountServesFilter(amount: AmountServesFilterEnum) {
+        viewModelScope.launch {
+            val state = _filterState.value
+            state.amountPeopleServes = amount
+
+            _filterState.value = state
+        }
+    }
+
+    fun applyFilter() {
+        viewModelScope.launch {
+            _recipesUiState.value = RecipeHistoricUiState.Loading
+
+            val state = _filterState.value
+            _recipesUiState.value = RecipeHistoricUiState.Success(filterList(state))
+        }
+    }
+
+    fun resetFilter() {
+        viewModelScope.launch {
+            val state = _filterState.value
+            state.difficult = null
+            state.amountPeopleServes = null
+
+            _filterState.value = state
+            _recipesUiState.value = RecipeHistoricUiState.Loading
+
+            _recipesUiState.value = RecipeHistoricUiState.Success(filterList(state))
+        }
+    }
+
     private fun filterList(filterState: FilterState): List<Recipe> {
         var filteredList = filterState.filterByTag(recipeList.toList())
         filteredList = filterState.filterBySearch(filteredList)
+        filteredList = filterState.filterByDifficult(filteredList)
+        filteredList = filterState.filterByAmountServes(filteredList)
 
         return filteredList
     }
