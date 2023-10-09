@@ -30,6 +30,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.receptia.R
 import com.example.receptia.feature.historic.preview.PreviewParameterData
+import com.example.receptia.feature.historic.state.AmountServesFilterEnum
 import com.example.receptia.feature.historic.state.FilterState
 import com.example.receptia.feature.historic.state.RecipeHistoricUiState
 import com.example.receptia.feature.historic.state.TagFilterEnum
@@ -39,7 +40,10 @@ import com.example.receptia.feature.historic.widget.GridList
 import com.example.receptia.feature.historic.widget.SearchBar
 import com.example.receptia.feature.historic.widget.Tag
 import com.example.receptia.feature.historic.widget.LoadingRecipeList
+import com.example.receptia.persistence.utils.DifficultState
 import com.example.receptia.ui.ComposableLifecycle
+import com.example.receptia.ui.theme.Green
+import com.example.receptia.ui.theme.LightGray
 import com.example.receptia.ui.widget.EmptyStateWidget
 import com.example.receptia.view.widget.NavigationDrawerWidget
 import com.example.receptia.view.widget.TopBarWidget
@@ -58,6 +62,10 @@ internal fun HistoricRoute(
         navController = navController,
         updateTagFilter = viewModel::updateTagFilter,
         updateSearchFilter = viewModel::updateSearchFilter,
+        updateDifficultFilter = viewModel::updateDifficultFilter,
+        updateAmountServesFilter = viewModel::updateAmountServesFilter,
+        onApplyFilter = viewModel::applyFilter,
+        onResetFilter = viewModel::resetFilter,
     )
 
     ComposableLifecycle { _, event ->
@@ -77,14 +85,33 @@ private fun HistoricScreen(
     navController: NavController,
     updateTagFilter: (TagFilterEnum) -> Unit = {},
     updateSearchFilter: (String) -> Unit = {},
+    updateDifficultFilter: (DifficultState) -> Unit = {},
+    updateAmountServesFilter: (AmountServesFilterEnum) -> Unit = {},
+    onApplyFilter: () -> Unit = {},
+    onResetFilter: () -> Unit = {},
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     var showSheet by remember { mutableStateOf(false) }
+    val backgroundFilterButton = when(filterUiState.hasAnyFilterSelected()) {
+        true -> Green
+        false -> LightGray
+    }
 
     if (showSheet) {
-        BottomSheetFilter {
-            showSheet = false
-        }
+        BottomSheetFilter(
+            filterUiState = filterUiState,
+            updateDifficultFilter = updateDifficultFilter,
+            updateAmountServesFilter = updateAmountServesFilter,
+            onApplyFilter = {
+                showSheet = false
+                onApplyFilter()
+            },
+            onResetFilter = {
+                showSheet = false
+                onResetFilter()
+            },
+            onDismiss = { showSheet = false }
+        )
     }
 
 
@@ -117,7 +144,10 @@ private fun HistoricScreen(
 
                     Spacer(modifier = Modifier.width(15.dp))
 
-                    FilterButton(modifier = Modifier.size(40.dp)) {
+                    FilterButton(
+                        modifier = Modifier.size(40.dp),
+                        backgrounColor = backgroundFilterButton,
+                    ) {
                         showSheet = true
                     }
                 }

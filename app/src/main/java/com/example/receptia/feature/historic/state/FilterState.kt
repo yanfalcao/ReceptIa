@@ -6,7 +6,7 @@ import com.example.receptia.persistence.utils.DifficultState
 data class FilterState(
     var tag: TagFilterEnum = TagFilterEnum.ALL,
     var difficult: DifficultState? = null,
-    var amountPeopleServes: AmountServesFilterEnum = AmountServesFilterEnum.NONE,
+    var amountPeopleServes: AmountServesFilterEnum? = null,
     var search: String = "",
 ) {
     fun filterByTag(recipeList: List<Recipe>): List<Recipe> {
@@ -41,7 +41,7 @@ data class FilterState(
 
     fun filterByAmountServes(recipeList: List<Recipe>): List<Recipe> {
         return when(amountPeopleServes) {
-            AmountServesFilterEnum.NONE -> recipeList
+            null -> recipeList
             AmountServesFilterEnum.ONE -> {
                 recipeList.filter { recipe ->
                     recipe.amountPeopleServes == 1
@@ -67,6 +67,18 @@ data class FilterState(
 
     fun isSelected(tag: TagFilterEnum): Boolean {
         return this.tag == tag
+    }
+
+    fun isSelected(difficult: DifficultState): Boolean {
+        return this.difficult == difficult
+    }
+
+    fun isSelected(amount: AmountServesFilterEnum): Boolean {
+        return this.amountPeopleServes == amount
+    }
+
+    fun hasAnyFilterSelected(): Boolean {
+        return this.difficult != null || this.amountPeopleServes != null
     }
 
     override fun equals(other: Any?): Boolean {

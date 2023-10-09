@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.LightGray
@@ -17,8 +18,9 @@ import com.example.receptia.ui.theme.LightGray
 @Composable
 fun Tag(
     text: String,
+    textStyle: TextStyle = MaterialTheme.typography.titleSmall,
     isSelected: Boolean,
-    updateTagFilter: () -> Unit = {}
+    updateTagFilter: () -> Unit = {},
 ) {
     val backgroundColor = when(isSelected) {
         true -> Green
@@ -40,7 +42,7 @@ fun Tag(
     ) {
         Text(
             text = text,
-            style = MaterialTheme.typography.titleSmall,
+            style = textStyle,
             color = textColor,
         )
     }
