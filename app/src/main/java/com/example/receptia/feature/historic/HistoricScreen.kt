@@ -40,6 +40,7 @@ import com.example.receptia.feature.historic.widget.GridList
 import com.example.receptia.feature.historic.widget.SearchBar
 import com.example.receptia.feature.historic.widget.Tag
 import com.example.receptia.feature.historic.widget.LoadingRecipeList
+import com.example.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
 import com.example.receptia.persistence.utils.DifficultState
 import com.example.receptia.ui.ComposableLifecycle
 import com.example.receptia.ui.theme.Green
@@ -173,7 +174,10 @@ private fun HistoricScreen(
                     RecipeHistoricUiState.Loading -> LoadingRecipeList()
                     is RecipeHistoricUiState.Success -> {
                         if (historicState.recipes.isNotEmpty()) {
-                            GridList(historicState.recipes)
+                            GridList(
+                                recipes = historicState.recipes,
+                                navigateToDescription = navController::navigateToRecipeDescription,
+                            )
                         } else {
                             Box(
                                 modifier = Modifier

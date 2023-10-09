@@ -2,6 +2,7 @@ package com.example.receptia.feature.historic.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,26 +31,36 @@ import com.example.receptia.ui.theme.LightGray
 import com.example.receptia.ui.widget.DifficultIcon
 
 @Composable
-fun GridList(recipes: List<Recipe>) {
+fun GridList(
+    recipes: List<Recipe>,
+    navigateToDescription: (String) -> Unit,
+) {
     LazyVerticalGrid(
         columns = GridCells.Adaptive(minSize = 150.dp),
         verticalArrangement = Arrangement.spacedBy(15.dp),
         horizontalArrangement = Arrangement.spacedBy(15.dp),
     ) {
         items(recipes) {
-            GridTile(it)
+            GridTile(
+                recipe = it,
+                navigateToDescription = navigateToDescription,
+            )
         }
     }
 }
 
 @Composable
-private fun GridTile(recipe: Recipe) {
+private fun GridTile(
+    recipe: Recipe,
+    navigateToDescription: (String) -> Unit,
+) {
     Column(
         modifier = Modifier
             .background(
                 color = LightGray,
                 shape = RoundedCornerShape(15.dp),
             )
+            .clickable { navigateToDescription(recipe.id) }
             .fillMaxWidth()
             .height(145.dp)
             .padding(horizontal = 10.dp, vertical = 15.dp),
