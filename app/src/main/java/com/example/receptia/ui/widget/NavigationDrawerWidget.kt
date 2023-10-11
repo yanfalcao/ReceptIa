@@ -29,6 +29,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.receptia.R
+import com.example.receptia.feature.avatar.navigation.navigateToAvatar
 import com.example.receptia.feature.historic.navigation.navigateToHistoric
 import com.example.receptia.feature.home.navigation.navigateToHome
 import com.example.receptia.feature.newRecipe.navigation.navigateToNewRecipe
@@ -61,7 +62,9 @@ private fun DrawerBody(
             .padding(start = 20.dp, end = 25.dp, top = 40.dp, bottom = 50.dp),
         horizontalAlignment = Alignment.Start,
     ) {
-        DrawerHeader()
+        DrawerHeader(
+            navController = navController,
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -118,15 +121,19 @@ private fun DrawerBody(
 }
 
 @Composable
-private fun DrawerHeader() {
+private fun DrawerHeader(
+    navController: NavController,
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         // TODO: Add avatar logic
         Image(
-            painter = painterResource(id = R.drawable.image_user),
+            painter = painterResource(id = R.drawable.img_user),
             contentDescription = null,
-            modifier = Modifier.height(85.dp),
+            modifier = Modifier
+                .height(85.dp)
+                .clickable { navController.navigateToAvatar() },
         )
 
         Spacer(modifier = Modifier.width(15.dp))

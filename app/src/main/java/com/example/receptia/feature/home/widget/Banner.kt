@@ -47,7 +47,7 @@ fun Banner(
             ),
     ) {
         Image(
-            painter = painterResource(id = R.drawable.image_snacks),
+            painter = painterResource(id = R.drawable.img_snacks),
             contentDescription = null,
             modifier = Modifier
                 .height(122.dp)

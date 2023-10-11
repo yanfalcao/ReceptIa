@@ -29,7 +29,7 @@ fun EmptyStateWidget(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Image(
-            painter = painterResource(id = R.drawable.grocery),
+            painter = painterResource(id = R.drawable.img_grocery),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.size(120.dp),

@@ -26,7 +26,7 @@ fun Background() {
         )
 
         Image(
-            painter = painterResource(id = R.drawable.background_login),
+            painter = painterResource(id = R.drawable.bg_login),
             contentDescription = stringResource(id = R.string.bg_login_description),
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize(),

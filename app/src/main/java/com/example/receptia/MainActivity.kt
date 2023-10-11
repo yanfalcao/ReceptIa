@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.example.receptia.feature.avatar.navigation.avatarScreen
 import com.example.receptia.feature.historic.navigation.recipeHistoricScreen
 import com.example.receptia.feature.home.navigation.homeScreen
 import com.example.receptia.feature.login.navigation.loginScreen
@@ -26,7 +27,7 @@ class MainActivity : ComponentActivity() {
             ReceptIaTheme {
                 NavHost(
                     navController = navController,
-                    startDestination = Screen.Historic.route,
+                    startDestination = Screen.Home.route,
                 ) {
                     splashScreen(
                         navController = navController,
@@ -44,6 +45,9 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                     )
                     recipeHistoricScreen(
+                        navController = navController,
+                    )
+                    avatarScreen(
                         navController = navController,
                     )
                 }
