@@ -4,5 +4,5 @@ import com.example.receptia.persistence.User
 
 data class SignInResult(
     val data: User?,
-    val errorMessage: String?
+    val error: SignInError?
 )

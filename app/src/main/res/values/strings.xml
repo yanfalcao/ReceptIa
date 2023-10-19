@@ -12,7 +12,7 @@
     <string name="banner_title">Novas receitas com Inteligência Artificial</string>
     <string name="last_recipes_title">Últimas receitas</string>
     <string name="start">Começar</string>
-    <string name="generic_error_message">Ocorreu algum error, tente novamente daqui a pouco!</string>
+    <string name="generic_error_message">Algo deu errado, tente novamente mais tarde.</string>
     
     <!--    new recipe-->
     <string name="new_recipe_title">Nova Receita</string>

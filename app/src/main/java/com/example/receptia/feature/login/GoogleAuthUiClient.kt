@@ -8,11 +8,14 @@ import com.google.android.gms.auth.api.identity.SignInClient
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.example.receptia.BuildConfig
+import com.example.receptia.model.SignInError
+import com.example.receptia.model.SignInErrorStatus
 import com.example.receptia.model.SignInResult
 import com.example.receptia.persistence.User
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.Status
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.tasks.await
-import java.util.concurrent.CancellationException
 
 class GoogleAuthUiClient(
     private val oneTapClient: SignInClient
@@ -26,17 +29,16 @@ class GoogleAuthUiClient(
             ).await()
         } catch (e: Exception) {
             e.printStackTrace()
-            if(e is CancellationException) throw e
             null
         }
         return result?.pendingIntent?.intentSender
     }
 
     suspend fun signInWithIntent(intent: Intent): SignInResult {
-        val credential = oneTapClient.getSignInCredentialFromIntent(intent)
-        val googleIdToken = credential.googleIdToken
-        val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
         return try {
+            val credential = oneTapClient.getSignInCredentialFromIntent(intent)
+            val googleIdToken = credential.googleIdToken
+            val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
             val userFirebase = auth.signInWithCredential(googleCredentials).await().user
             val user = userFirebase?.run {
                 User().apply {
@@ -46,14 +48,26 @@ class GoogleAuthUiClient(
             }
             SignInResult(
                 data = user,
-                errorMessage = null
+                error = null
             )
         } catch (e: Exception) {
             e.printStackTrace()
-            if(e is CancellationException) throw e
+            val status: SignInErrorStatus = when(e) {
+                is ApiException -> {
+                    if(e.status == Status.RESULT_CANCELED) {
+                        SignInErrorStatus.CANCELLED
+                    } else {
+                        SignInErrorStatus.GENERIC
+                    }
+                }
+                else -> SignInErrorStatus.GENERIC
+            }
             SignInResult(
                 data = null,
-                errorMessage = e.message
+                error = SignInError(
+                    message = e.message,
+                    status = status
+                )
             )
         }
     }
@@ -64,7 +78,6 @@ class GoogleAuthUiClient(
             auth.signOut()
         } catch (e: Exception) {
             e.printStackTrace()
-            if(e is CancellationException) throw e
         }
     }
 

@@ -3,6 +3,7 @@ package com.example.receptia.feature.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.receptia.feature.login.state.LoginUiState
+import com.example.receptia.model.SignInErrorStatus
 import com.example.receptia.model.SignInResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -18,7 +19,11 @@ class LoginViewModel : ViewModel() {
                 signInResult.data.create()
                 _loginUiState.value = LoginUiState.Success
             } else {
-                _loginUiState.value = LoginUiState.Error(message = signInResult.errorMessage)
+                _loginUiState.value = when(signInResult.error?.status) {
+                    null -> LoginUiState.Error
+                    SignInErrorStatus.CANCELLED -> LoginUiState.Failure
+                    SignInErrorStatus.GENERIC -> LoginUiState.Error
+                }
             }
         }
     }
@@ -26,6 +31,12 @@ class LoginViewModel : ViewModel() {
     fun startSignInLoading() {
         viewModelScope.launch {
             _loginUiState.value = LoginUiState.Loading
+        }
+    }
+
+    fun showSignInError() {
+        viewModelScope.launch {
+            _loginUiState.value = LoginUiState.Error
         }
     }
 }

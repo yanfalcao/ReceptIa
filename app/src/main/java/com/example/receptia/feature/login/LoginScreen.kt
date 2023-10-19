@@ -53,7 +53,8 @@ internal fun LoginRoute(
         loginUiState = loginUiState,
         processSignInGoogle = viewModel::processSignInGoogle,
         navigateToHome = navController::navigateToHome,
-        startSignInLoading = viewModel::startSignInLoading
+        startSignInLoading = viewModel::startSignInLoading,
+        showSignInError = viewModel::showSignInError
     )
 }
 
@@ -63,9 +64,9 @@ private fun LoginScreen(
     processSignInGoogle: (SignInResult) -> Unit = {},
     navigateToHome: (Boolean) -> Unit = {},
     startSignInLoading: () -> Unit = {},
+    showSignInError: () -> Unit = {}
 ) {
     val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
-    val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val genericErrorMessage = stringResource(id = R.string.generic_error_message)
 
@@ -94,9 +95,14 @@ private fun LoginScreen(
             val authUiClient = ReceptIaApplication.instance.googleAuthUiClient
             val signInIntentSender = authUiClient.signIn()
             launcher.launch(
-                IntentSenderRequest.Builder(
-                    signInIntentSender ?: return@launch
-                ).build()
+                if(signInIntentSender != null) {
+                    IntentSenderRequest.Builder(
+                        signInIntentSender
+                    ).build()
+                } else {
+                    showSignInError()
+                    return@launch
+                }
             )
         }
     }
@@ -104,9 +110,7 @@ private fun LoginScreen(
     LaunchedEffect(loginUiState) {
         when(loginUiState) {
             is LoginUiState.Error -> {
-                coroutineScope.launch {
-                    snackbarHostState.showSnackbar(message = genericErrorMessage)
-                }
+                snackbarHostState.showSnackbar(message = genericErrorMessage)
             }
             LoginUiState.Success -> {
                 val popUp = true
