@@ -20,7 +20,7 @@ class RealmPersistence private constructor() {
 
         private fun createInstance(): Realm {
             val realmConfig = RealmConfiguration
-                .Builder(schema = setOf(Recipe::class, Ingredient::class))
+                .Builder(schema = setOf(Recipe::class, Ingredient::class, User::class))
                 .name(dbFileName)
                 .schemaVersion(1)
                 .deleteRealmIfMigrationNeeded()

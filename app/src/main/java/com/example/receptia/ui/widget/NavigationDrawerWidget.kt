@@ -23,16 +23,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import com.example.receptia.R
+import com.example.receptia.ReceptIaApplication
 import com.example.receptia.feature.avatar.navigation.navigateToAvatar
 import com.example.receptia.feature.historic.navigation.navigateToHistoric
 import com.example.receptia.feature.home.navigation.navigateToHome
+import com.example.receptia.feature.login.navigation.navigateToLogin
 import com.example.receptia.feature.newRecipe.navigation.navigateToNewRecipe
+import com.example.receptia.persistence.User
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.titleMediumSmall
 import kotlinx.coroutines.launch
@@ -55,6 +60,16 @@ private fun DrawerBody(
     navController: NavController,
     drawerState: DrawerState
 ) {
+    val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
+    val onSighOut: () -> Unit = {
+        lifecycleScope.launch {
+            val authUiClient = ReceptIaApplication.instance.googleAuthUiClient
+            authUiClient.signOut()
+
+            navController.navigateToLogin(popUp = true)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxHeight()
@@ -116,6 +131,7 @@ private fun DrawerBody(
             iconResourceId = R.drawable.ic_logout,
             titleResourceId = R.string.drawer_logout,
             drawerState = drawerState,
+            onClick = onSighOut,
         )
     }
 }
@@ -124,6 +140,8 @@ private fun DrawerBody(
 private fun DrawerHeader(
     navController: NavController,
 ) {
+    val user = User.find()
+
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -138,9 +156,8 @@ private fun DrawerHeader(
 
         Spacer(modifier = Modifier.width(15.dp))
 
-        // TODO: Add name logic
         Text(
-            text = "Bernardo Lagos",
+            text = user.name ?: "",
             color = Color.Black,
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.labelLarge,

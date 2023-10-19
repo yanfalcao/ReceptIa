@@ -10,7 +10,11 @@ import javax.inject.Inject
 class RecipeRepository @Inject constructor() {
     suspend fun createChatCompletion(request: GptRequest): GptResponse {
         try {
-            val response = ReceptIaApplication.http.gptService().createChatCompletion(request)
+            val response = ReceptIaApplication.instance
+                .http
+                .gptService()
+                .createChatCompletion(request)
+
             when (response.code()) {
                 in 200..299 -> {
                     return response.body()

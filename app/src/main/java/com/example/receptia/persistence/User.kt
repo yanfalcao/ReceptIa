@@ -6,7 +6,6 @@ import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.UUID
 
 class User : RealmObject {
     companion object {
@@ -24,13 +23,14 @@ class User : RealmObject {
     }
 
     @PrimaryKey
-    var id: String = UUID.randomUUID().toString()
-    var name: String = ""
+    var id: String = ""
+    var name: String? = null
     var photoId: Int? = null
     var isLoggedIn: Boolean = false
 
     suspend fun create() {
         withContext(Dispatchers.IO) {
+            RealmPersistence.getInstance().writeBlocking { deleteAll() }
             realmCreate()
         }
     }
