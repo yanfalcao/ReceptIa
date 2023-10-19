@@ -23,3 +23,4 @@ val BlackLightTransparent = Color(0x0F000000)
 val BlackTransparent = Color(0x4D000000)
 
 val Red = Color(0xFFEF322D)
+val RedAlert = Color(0xFFDB1F1F)

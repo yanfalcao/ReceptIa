@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">ReceptIa</string>
     <string name="title_login">Gere Receitas usando IA</string>
     <string name="google_login">Login com Google</string>
@@ -12,6 +12,7 @@
     <string name="banner_title">Novas receitas com Inteligência Artificial</string>
     <string name="last_recipes_title">Últimas receitas</string>
     <string name="start">Começar</string>
+    <string name="generic_error_message">Ocorreu algum error, tente novamente daqui a pouco!</string>
     
     <!--    new recipe-->
     <string name="new_recipe_title">Nova Receita</string>
@@ -28,7 +29,7 @@
     <string name="error_max_char">Limite de 25 caracteres atingido</string>
     <string name="error_max_ingredient">Limite de 30 ingredientes atingido</string>
     <string name="error_create_recipe">Erro ao criar receita, tente novamente mais tarde</string>
-    <string name="creating_recipe_loading">Aguarde um momento enquanto a receita é gerada</string>
+    <string name="creating_recipe_loading" tools:ignore="Typos">Aguarde um momento enquanto a receita é gerada</string>
 
     <!--    historic-->
     <string name="historic_title">Receitas</string>
