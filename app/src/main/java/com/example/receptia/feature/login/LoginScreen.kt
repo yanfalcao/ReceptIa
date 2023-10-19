@@ -69,6 +69,7 @@ private fun LoginScreen(
     val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
     val snackbarHostState = remember { SnackbarHostState() }
     val genericErrorMessage = stringResource(id = R.string.generic_error_message)
+    val networkErrorMessage = stringResource(id = R.string.network_error)
 
     val isLoading = when(loginUiState) {
         LoginUiState.Loading -> true
@@ -90,20 +91,24 @@ private fun LoginScreen(
     )
     val onClickGoogleSignIn: () -> Unit = {
         lifecycleScope.launch {
-            startSignInLoading()
+            if(!ReceptIaApplication.instance.isNetworkConnected()) {
+                snackbarHostState.showSnackbar(message = networkErrorMessage)
+            } else {
+                startSignInLoading()
 
-            val authUiClient = ReceptIaApplication.instance.googleAuthUiClient
-            val signInIntentSender = authUiClient.signIn()
-            launcher.launch(
-                if(signInIntentSender != null) {
-                    IntentSenderRequest.Builder(
-                        signInIntentSender
-                    ).build()
-                } else {
-                    showSignInError()
-                    return@launch
-                }
-            )
+                val authUiClient = ReceptIaApplication.instance.googleAuthUiClient
+                val signInIntentSender = authUiClient.signIn()
+                launcher.launch(
+                    if(signInIntentSender != null) {
+                        IntentSenderRequest.Builder(
+                            signInIntentSender
+                        ).build()
+                    } else {
+                        showSignInError()
+                        return@launch
+                    }
+                )
+            }
         }
     }
 
