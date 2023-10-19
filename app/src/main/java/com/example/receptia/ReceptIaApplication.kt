@@ -1,6 +1,9 @@
 package com.example.receptia
 
 import android.app.Application
+import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import com.example.receptia.feature.login.GoogleAuthUiClient
 import com.example.receptia.network.retrofit.RetrofitNetwork
 import com.example.receptia.persistence.RealmPersistence
@@ -24,6 +27,19 @@ class ReceptIaApplication : Application() {
         configHttp()
         configPersistence()
         configGoogleAuth()
+    }
+
+    fun isNetworkConnected(): Boolean {
+        val manager = this.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = manager.activeNetwork ?: return false
+        val network = manager.getNetworkCapabilities(activeNetwork) ?: return false
+        return when {
+            network.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            network.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            network.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            network.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
+            else -> false
+        }
     }
 
     private fun configHttp() {
