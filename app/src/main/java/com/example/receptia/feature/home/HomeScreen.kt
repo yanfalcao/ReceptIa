@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.DrawerValue
@@ -37,7 +36,7 @@ import com.example.receptia.feature.recipeDescription.navigation.navigateToRecip
 import com.example.receptia.persistence.Recipe
 import com.example.receptia.ui.ComposableLifecycle
 import com.example.receptia.ui.widget.EmptyStateWidget
-import com.example.receptia.view.widget.NavigationDrawerWidget
+import com.example.receptia.ui.widget.NavigationDrawerWidget
 import com.example.receptia.view.widget.TopBarWidget
 
 @Composable
