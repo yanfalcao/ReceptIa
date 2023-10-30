@@ -34,4 +34,16 @@ class User : RealmObject {
             realmCreate()
         }
     }
+
+    suspend fun update(photoId: Int) {
+        withContext(Dispatchers.IO) {
+            val realm = RealmPersistence.getInstance()
+            val recipe = realm.query<User>("id == $0", id).find()[0]
+
+            realm.writeBlocking {
+                val recipeToUpdate = findLatest(recipe) ?: error("Cannot find latest version of embedded object")
+                recipeToUpdate.photoId = photoId
+            }
+        }
+    }
 }

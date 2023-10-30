@@ -3,6 +3,7 @@ package com.example.receptia.feature.avatar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.receptia.feature.avatar.state.ImageUiState
+import com.example.receptia.persistence.User
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -25,6 +26,19 @@ class AvatarViewModel : ViewModel() {
                 ImageUiState.Unselected -> {
                     _imageUiState.value = ImageUiState.Selected(imageId)
                 }
+            }
+        }
+    }
+
+    fun saveImage() {
+        viewModelScope.launch {
+            when(_imageUiState.value) {
+                is ImageUiState.Selected -> {
+                    val state = _imageUiState.value as ImageUiState.Selected
+
+                    User.find().update(photoId = state.imageId)
+                }
+                else -> {}
             }
         }
     }
