@@ -141,13 +141,13 @@ private fun DrawerHeader(
     navController: NavController,
 ) {
     val user = User.find()
+    val avatarRes = user.photoId ?: R.drawable.img_user
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // TODO: Add avatar logic
         Image(
-            painter = painterResource(id = R.drawable.img_user),
+            painter = painterResource(id = avatarRes),
             contentDescription = null,
             modifier = Modifier
                 .height(85.dp)

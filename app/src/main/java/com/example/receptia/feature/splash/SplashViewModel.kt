@@ -15,9 +15,6 @@ class SplashViewModel : ViewModel() {
             val user = ReceptIaApplication.instance.googleAuthUiClient.getSignedInUser()
             val isSignedIn = user != null
 
-            User.find()
-            user?.create()
-
             emit(SplashUiState.Success(logged = isSignedIn))
         }.stateIn(
             scope = viewModelScope,

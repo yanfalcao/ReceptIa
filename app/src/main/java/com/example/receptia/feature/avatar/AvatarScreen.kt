@@ -43,6 +43,7 @@ internal fun AvatarRoute(
     AvatarScreen(
         imageUiState = imageUiState,
         selectImage = viewModel::selectImage,
+        saveImage = viewModel::saveImage,
         onBackClick = navController::popBackStack,
     )
 }
@@ -52,6 +53,7 @@ internal fun AvatarRoute(
 private fun AvatarScreen(
     imageUiState: ImageUiState,
     selectImage: (Int) -> Unit,
+    saveImage: () -> Unit,
     onBackClick: () -> Unit,
 ) {
     val isSelected = imageUiState is ImageUiState.Selected
@@ -98,7 +100,10 @@ private fun AvatarScreen(
                     .padding(top = 20.dp, bottom = 20.dp)
                     .fillMaxWidth()
                     .height(50.dp),
-                onClick = { },
+                onClick = {
+                    saveImage()
+                    onBackClick()
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = Green),
                 enabled = isSelected,
             ) {
@@ -121,6 +126,7 @@ private fun AvatarScreenPreview() {
     AvatarScreen(
         imageUiState = ImageUiState.Selected(imageId = 2131230856),
         selectImage = {},
+        saveImage = {},
         onBackClick = {}
     )
 }
