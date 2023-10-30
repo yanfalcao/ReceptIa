@@ -46,7 +46,7 @@ import com.example.receptia.ui.ComposableLifecycle
 import com.example.receptia.ui.theme.Green
 import com.example.receptia.ui.theme.LightGray
 import com.example.receptia.ui.widget.EmptyStateWidget
-import com.example.receptia.view.widget.NavigationDrawerWidget
+import com.example.receptia.ui.widget.NavigationDrawerWidget
 import com.example.receptia.view.widget.TopBarWidget
 
 @Composable

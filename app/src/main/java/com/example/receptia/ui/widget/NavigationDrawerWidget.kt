@@ -1,4 +1,4 @@
-package com.example.receptia.view.widget
+package com.example.receptia.ui.widget
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
