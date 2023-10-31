@@ -4,10 +4,13 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import com.example.receptia.configs.RemoteConfig
+import com.example.receptia.configs.RemoteValues
 import com.example.receptia.feature.login.GoogleAuthUiClient
 import com.example.receptia.network.retrofit.RetrofitNetwork
 import com.example.receptia.persistence.RealmPersistence
 import com.google.android.gms.auth.api.identity.Identity
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
 import io.realm.kotlin.Realm
 
@@ -27,6 +30,8 @@ class ReceptIaApplication : Application() {
         configHttp()
         configPersistence()
         configGoogleAuth()
+        configRemoteConfig()
+        configCrashlytics()
     }
 
     fun isNetworkConnected(): Boolean {
@@ -53,6 +58,17 @@ class ReceptIaApplication : Application() {
     private fun configGoogleAuth() {
         googleAuthUiClient = GoogleAuthUiClient(
             oneTapClient = Identity.getSignInClient(this)
+        )
+    }
+
+    private fun configRemoteConfig() {
+        RemoteConfig.fetchConfigs()
+    }
+
+    private fun configCrashlytics() {
+        val crashlytics = FirebaseCrashlytics.getInstance()
+        crashlytics.setCrashlyticsCollectionEnabled(
+            RemoteValues.NON_FATAL_CRASHLYTICS_ENABLE
         )
     }
 }
