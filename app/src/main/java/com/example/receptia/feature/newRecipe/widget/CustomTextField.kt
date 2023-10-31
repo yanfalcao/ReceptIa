@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.example.receptia.R
 import com.example.receptia.feature.newRecipe.state.CheckFieldUiState
@@ -39,7 +38,7 @@ fun CustomTextField(
     onInputIngredient: (RecipeFieldState, String) -> Unit,
 ) {
     val maxChar = 25
-    var textFieldValue by remember { mutableStateOf(TextFieldValue("")) }
+    var textFieldValue by remember { mutableStateOf("") }
     var isErrorLimitChar by remember { mutableStateOf(false) }
     var isErrorUnfilled = checkFieldUiState is CheckFieldUiState.Unfilled &&
         checkFieldUiState.equalsField(ingredientUiState.state)
@@ -56,7 +55,7 @@ fun CustomTextField(
         BasicTextField(
             value = textFieldValue,
             onValueChange = { newText ->
-                if (newText.text.length <= maxChar) {
+                if (newText.length <= maxChar) {
                     textFieldValue = newText
                     isErrorUnfilled = false
                     isErrorLimitChar = false
@@ -67,8 +66,8 @@ fun CustomTextField(
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
             keyboardActions = KeyboardActions(
                 onSend = {
-                    onInputIngredient(ingredientUiState.state, textFieldValue.text)
-                    textFieldValue = TextFieldValue("")
+                    onInputIngredient(ingredientUiState.state, textFieldValue)
+                    textFieldValue = ""
                     isErrorLimitChar = false
                 },
             ),
@@ -91,7 +90,7 @@ fun CustomTextField(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Box {
-                        if (textFieldValue.text.isEmpty()) {
+                        if (textFieldValue.isEmpty()) {
                             Text(
                                 text = stringResource(id = R.string.placeholder_ingredient),
                                 color = Color.Gray,
