@@ -64,9 +64,9 @@ fun CustomTextField(
                     isErrorLimitChar = true
                 }
             },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
             keyboardActions = KeyboardActions(
-                onDone = {
+                onSend = {
                     onInputIngredient(ingredientUiState.state, textFieldValue.text)
                     textFieldValue = TextFieldValue("")
                     isErrorLimitChar = false
