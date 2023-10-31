@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <!-- app config -->
+    <entry>
+        <key>CHATGPT_API_ENABLED</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>NON_FATAL_CRASHLYTICS_ENABLE</key>
+        <value>true</value>
+    </entry>
+</defaultsMap>

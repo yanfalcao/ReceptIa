@@ -11,6 +11,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -21,6 +24,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.receptia.R
+import com.example.receptia.configs.RemoteValues
 import com.example.receptia.feature.newRecipe.preview.PreviewParameterData
 import com.example.receptia.feature.newRecipe.state.CheckFieldUiState
 import com.example.receptia.feature.newRecipe.state.CreateRecipeUiState
@@ -32,6 +36,7 @@ import com.example.receptia.feature.newRecipe.widget.ContinueButtom
 import com.example.receptia.feature.newRecipe.widget.CreateRecipeLoading
 import com.example.receptia.feature.newRecipe.widget.RecipeForm
 import com.example.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
+import com.example.receptia.ui.widget.CustomAlertDialog
 import com.example.receptia.view.widget.TopBarWidget
 
 @Composable
@@ -83,9 +88,18 @@ private fun NewRecipeScreen(
     onNavigateToRecipe: (String) -> Unit,
     cleanCreateRecipeUiState: () -> Unit,
 ) {
+    var openDialog by remember { mutableStateOf(false) }
     val limitErrorToast = stringResource(id = R.string.error_max_ingredient)
     val createRecipeErrorToast = stringResource(id = R.string.error_create_recipe)
     val context = LocalContext.current
+    val onContinueClick = {
+        if(RemoteValues.CHATGPT_API_ENABLED) {
+            createRecipe()
+        } else {
+            openDialog = true
+        }
+    }
+
 
     LaunchedEffect(isMaxIngredientLimit, createRecipeUiState) {
         if (isMaxIngredientLimit is ErrorUiState.IngredientMaxLimit) {
@@ -137,13 +151,22 @@ private fun NewRecipeScreen(
                         .align(Alignment.BottomCenter)
                         .padding(top = 15.dp, bottom = 20.dp),
                 ) {
-                    ContinueButtom(createRecipe = createRecipe)
+                    ContinueButtom(createRecipe = onContinueClick)
                 }
             }
         }
 
         if (createRecipeUiState is CreateRecipeUiState.Loading) {
             CreateRecipeLoading()
+        }
+    }
+
+    if(openDialog) {
+        CustomAlertDialog(
+            title = stringResource(id = R.string.alert),
+            description = stringResource(id = R.string.alert_description_api_limit),
+        ) {
+            openDialog = false
         }
     }
 }
