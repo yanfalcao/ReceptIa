@@ -234,7 +234,10 @@ class NewRecipeViewModel @Inject constructor(
         checkIngredientLimit()
 
         if (isAdd) {
-            if (isMaxIngredientsLimit.value is ErrorUiState.None) {
+            if (isMaxIngredientsLimit.value is ErrorUiState.None
+                && text.isNotEmpty()
+                && text.isNotBlank()
+            ) {
                 ingredients.add(text)
             }
         } else {
