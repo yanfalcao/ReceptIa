@@ -28,9 +28,10 @@ class HistoricViewModel : ViewModel() {
             _recipesUiState.value = RecipeHistoricUiState.Loading
 
             val recipes = Recipe.find()
+            recipeList.clear()
             recipeList.addAll(recipes.toMutableList())
 
-            _recipesUiState.value = RecipeHistoricUiState.Success(recipes = recipes)
+            applyFilter()
         }
     }
 
