@@ -21,9 +21,7 @@ import com.example.receptia.R
 
 @Preview(showBackground = true)
 @Composable
-fun EmptyStateWidget(
-    modifier: Modifier = Modifier,
-) {
+fun EmptyStateWidget() {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,

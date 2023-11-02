@@ -17,9 +17,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object RetrofitNetwork {
     private val okHttpClientGpt = OkHttpClient.Builder().apply {
-        readTimeout(60, TimeUnit.SECONDS)
-        connectTimeout(60, TimeUnit.SECONDS)
-        writeTimeout(60, TimeUnit.SECONDS)
+        readTimeout(30, TimeUnit.SECONDS)
+        connectTimeout(30, TimeUnit.SECONDS)
+        writeTimeout(30, TimeUnit.SECONDS)
         addInterceptor(
             Interceptor { chain ->
                 val builder = chain.request().newBuilder()
