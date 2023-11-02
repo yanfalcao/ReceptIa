@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -37,6 +38,7 @@ import com.example.receptia.feature.newRecipe.widget.CreateRecipeLoading
 import com.example.receptia.feature.newRecipe.widget.RecipeForm
 import com.example.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
 import com.example.receptia.ui.widget.CustomAlertDialog
+import com.example.receptia.ui.widget.CustomSnackbar
 import com.example.receptia.view.widget.TopBarWidget
 
 @Composable
@@ -88,6 +90,7 @@ private fun NewRecipeScreen(
     onNavigateToRecipe: (String) -> Unit,
     cleanCreateRecipeUiState: () -> Unit,
 ) {
+    val snackbarHostState = remember { SnackbarHostState() }
     var openDialog by remember { mutableStateOf(false) }
     val limitErrorToast = stringResource(id = R.string.error_max_ingredient)
     val createRecipeErrorToast = stringResource(id = R.string.error_create_recipe)
@@ -107,7 +110,7 @@ private fun NewRecipeScreen(
         }
         when (createRecipeUiState) {
             CreateRecipeUiState.Error -> {
-                Toast.makeText(context, createRecipeErrorToast, Toast.LENGTH_LONG).show()
+                snackbarHostState.showSnackbar(createRecipeErrorToast)
             }
             is CreateRecipeUiState.Success -> {
                 cleanCreateRecipeUiState()
@@ -119,6 +122,9 @@ private fun NewRecipeScreen(
 
     Box {
         Scaffold(
+            snackbarHost = {
+                CustomSnackbar.Alert(hostState = snackbarHostState)
+            },
             topBar = {
                 TopBarWidget(
                     title = stringResource(id = R.string.new_recipe_title),

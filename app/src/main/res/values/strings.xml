@@ -31,7 +31,7 @@
     <string name="error_field">Campo precisa ser preenchido</string>
     <string name="error_max_char">Limite de 25 caracteres atingido</string>
     <string name="error_max_ingredient">Limite de 30 ingredientes atingido</string>
-    <string name="error_create_recipe">Erro ao criar receita, tente novamente mais tarde</string>
+    <string name="error_create_recipe">O serviço do ChatGPT pode está congestionado, tente novamente mais tarde</string>
     <string name="creating_recipe_loading" tools:ignore="Typos">Aguarde um momento enquanto a receita é gerada</string>
     <string name="alert_description_api_limit">Devido ao ReceptIA ser um app pessoal sem patrocínio ou renda, foi preciso bloquear a criação de receitas temporariamente devido ao custo de uso da plataforma de IA usada na criação das receitas.</string>
 
