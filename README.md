@@ -64,3 +64,9 @@ The app sends to the AI, information about ingredients that you are allergic to,
 <a href="https://kotlinlang.org/" target="_blank">
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kotlin_Icon.png/1024px-Kotlin_Icon.png" alt="Kotlin" width="40" height="40"/> 
 </a>
+
+## Developer
+
+| ![Yan Falcão](https://avatars.githubusercontent.com/u/33384608?s=150&u=e409234f3e92d08fdf5427560d3181c690ceb86f&v=4)|
+|:---------------------:|
+|  [Yan Falcão](https://github.com/yanfalcao/)   |
