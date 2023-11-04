@@ -43,3 +43,22 @@ The app sends to the AI, information about ingredients that you are allergic to,
 :heavy_check_mark: Historic of your recipes with filters.
 
 :heavy_check_mark: Favorite your recipes.
+
+## Tools
+
+<a href="https://developer.android.com/?hl=pt-br/" target="_blank"> 
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/Android_robot_head.svg/2560px-Android_robot_head.svg.png" alt="Android" width="60" height="40"/> 
+</a>
+<a href="https://developer.android.com/jetpack/compose?hl=pt-br" target="_blank"> 
+  <img src="https://optimise2.assets-servd.host/gratis-creeper/production/blog/jetpack-compose-icon-rectangular.png?w=1500&auto=compress%2Cformat&fit=crop&dm=1664908177&s=fb3fbec73e74dfb24e5f0604f31f8f4f" alt="Android Compose" width="60" height="40"/> 
+</a> 
+<a href="https://developer.android.com/studio" target="_blank"> 
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Android_Studio_Icon_%282014-2019%29.svg/1200px-Android_Studio_Icon_%282014-2019%29.svg.png" alt="androidStudio" width="40" height="40"/> 
+</a>
+<a href="https://firebase.google.com/?hl=pt" target="_blank">
+  <img src="https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_96dp.png" alt="firebase" width="40" height="40"/> 
+</a>
+<a href="https://platform.openai.com/docs/guides/gpt" target="_blank">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/768px-ChatGPT_logo.svg.png" alt="ChatGPT API" width="40" height="40"/> 
+</a>
+
