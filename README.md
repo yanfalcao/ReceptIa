@@ -25,3 +25,10 @@
   <img alt="App image" src="https://i.imgur.com/ODttPqF.jpg" width="23%">
   <img alt="App image" src="https://i.imgur.com/mtWfCeE.jpg" width="23%">
 </div>
+
+## **Description**
+
+App developed to test my knowledge in Android Native and use new technologies and best practices. The app is designed to create recipes using artificial intelligence, specifically ChatGPT API, these recipes are generated based on your ingredients preferences, creating something perfect for you.
+
+The app sends to the AI, information about ingredients that you are allergic to, intolerant of, or dislike. Being inclusive of all the users.
+
