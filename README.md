@@ -32,3 +32,14 @@ App developed to test my knowledge in Android Native and use new technologies an
 
 The app sends to the AI, information about ingredients that you are allergic to, intolerant of, or dislike. Being inclusive of all the users.
 
+## Features
+
+:heavy_check_mark: Login with Google.
+
+:heavy_check_mark: Create recipes using ChatGPT API.
+
+:heavy_check_mark: Details of your recipes.
+
+:heavy_check_mark: Historic of your recipes with filters.
+
+:heavy_check_mark: Favorite your recipes.
