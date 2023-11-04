@@ -61,4 +61,6 @@ The app sends to the AI, information about ingredients that you are allergic to,
 <a href="https://platform.openai.com/docs/guides/gpt" target="_blank">
   <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/768px-ChatGPT_logo.svg.png" alt="ChatGPT API" width="40" height="40"/> 
 </a>
-
+<a href="https://kotlinlang.org/" target="_blank">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/Kotlin_Icon.png/1024px-Kotlin_Icon.png" alt="Kotlin" width="40" height="40"/> 
+</a>
