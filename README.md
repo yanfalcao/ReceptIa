@@ -68,8 +68,9 @@ The app sends to the AI, information about ingredients that you are allergic to,
 ## Getting Started
 
 1. [Install Android Studio](https://developer.android.com/studio/install.html),
-if you don't already have it.
-2. Download or clone the [ReceptIa Project](https://github.com/yanfalcao/ReceptIa).
+if you don't already have it;
+2. Download or clone the [ReceptIa Project](https://github.com/yanfalcao/ReceptIa);
+3. [Add Firebase to your Android project](https://firebase.google.com/docs/android/setup), following the intructions of <b>Option 1</b>, and the <b>Step 1</b>, <b>Step 2</b> and <b>Step 3.1</b>;
 
 ## Developer
 
