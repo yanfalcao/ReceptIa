@@ -84,11 +84,9 @@ if you don't already have it;
 12. Open the ```local.propeties``` file. Add the parameters below with the values saved on the last steps:
   ```
     GPT_API_KEY={YOUR_OPEN_AI_SECRET_KEY}
-	  WEB_CLIENT_ID={YOUR_FIREBASE_WEB_CLIENT_ID} 
+    WEB_CLIENT_ID={YOUR_FIREBASE_WEB_CLIENT_ID} 
   ```
 13. Build and run.
-
-
 
 ## Developer
 
