@@ -78,6 +78,15 @@ if you don't already have it;
 6. When prompted in the console, download the updated Firebase config file (google-services.json), which now contains the OAuth client information required for Google sign-in.
 7. Move this updated config file into your Android Studio project, replacing the now-outdated corresponding config file. (See [Add Firebase to your Android project.](https://firebase.google.com/docs/android/setup#add-config-file))
 8. In your firebase console open <b>Authentication</b>. Click <b>Sign-in method</b>, then click <b>Google</b>. Finally open <b>Web SDK Configuration</b> and save the <b>Web Client Id</b>;
+9. Now create your developer account on [OpenAI platform](https://platform.openai.com/)
+10. Click <b>Settings</b>. Open the <b>Manage Account</b>, then click <b>API Keys</b>. Finally, create your <b>secret key</b> and save its value;
+11. Open the ReceptIA into Android Studio;
+12. Open the ```local.propeties``` file. Add the parameters below with the values saved on the last steps:
+  ```
+    GPT_API_KEY={YOUR_OPEN_AI_SECRET_KEY}
+	  WEB_CLIENT_ID={YOUR_FIREBASE_WEB_CLIENT_ID} 
+  ```
+13. Build and run.
 
 
 
