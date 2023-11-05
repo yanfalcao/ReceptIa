@@ -32,6 +32,8 @@ App developed to test my knowledge in Android Native and use new technologies an
 
 The app sends to the AI, information about ingredients that you are allergic to, intolerant of, or dislike. Being inclusive of all the users.
 
+The app follows the practices and uses the official Android app [Now In Android](https://github.com/android/nowinandroid) as a reference.
+
 ## Features
 
 :heavy_check_mark: Login with Google.
