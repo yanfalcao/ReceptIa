@@ -71,6 +71,15 @@ The app sends to the AI, information about ingredients that you are allergic to,
 if you don't already have it;
 2. Download or clone the [ReceptIa Project](https://github.com/yanfalcao/ReceptIa);
 3. [Add Firebase to your Android project](https://firebase.google.com/docs/android/setup), following the intructions of <b>Option 1</b>, and the <b>Step 1</b>, <b>Step 2</b> and <b>Step 3.1</b>;
+4. If you haven't yet specified your app's SHA fingerprint in Firebase, do so from the [Settings page](https://console.firebase.google.com/project/_/settings/general/?_gl=1*glgr71*_ga*ODkwNzc5NTgyLjE2OTc0OTY4Mzc.*_ga_CW55HF8NVT*MTY5OTE0MDQxNy4xNS4xLjE2OTkxNDUwNjYuMTEuMC4w) of the Firebase console. Refer to [Authenticating Your Client](https://developers.google.com/android/guides/client-auth) for details on how to get your app's SHA fingerprint.
+5. Enable Google as a sign-in method in the Firebase console:
+   a. In the [Firebase console](https://console.firebase.google.com/?_gl=1*1t4rqnk*_ga*ODkwNzc5NTgyLjE2OTc0OTY4Mzc.*_ga_CW55HF8NVT*MTY5OTE0MDQxNy4xNS4xLjE2OTkxNDU0MTYuNjAuMC4w), open the Auth section.
+   b. On the Sign in method tab, enable the Google sign-in method and click Save.
+6. When prompted in the console, download the updated Firebase config file (google-services.json), which now contains the OAuth client information required for Google sign-in.
+7. Move this updated config file into your Android Studio project, replacing the now-outdated corresponding config file. (See [Add Firebase to your Android project.](https://firebase.google.com/docs/android/setup#add-config-file))
+8. In your firebase console open <b>Authentication</b>. Click <b>Sign-in method</b>, then click <b>Google</b>. Finally open <b>Web SDK Configuration</b> and save the <b>Web Client Id</b>;
+
+
 
 ## Developer
 
