@@ -1,5 +1,7 @@
 package com.example.receptia.feature.home
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -26,6 +29,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.receptia.R
+import com.example.receptia.configs.RemoteValues
 import com.example.receptia.feature.home.preview.RecipesPreviewParameterProvider
 import com.example.receptia.feature.home.state.RecipeFeedUiState
 import com.example.receptia.feature.home.widget.Banner
@@ -35,8 +39,10 @@ import com.example.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.example.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
 import com.example.receptia.persistence.Recipe
 import com.example.receptia.ui.ComposableLifecycle
+import com.example.receptia.ui.widget.CustomUpdateDialog
 import com.example.receptia.ui.widget.EmptyStateWidget
 import com.example.receptia.ui.widget.NavigationDrawerWidget
+import com.example.receptia.utils.UpdateAppUtil
 import com.example.receptia.view.widget.TopBarWidget
 
 @Composable
@@ -68,6 +74,8 @@ private fun HomeScreen(
     feedState: RecipeFeedUiState,
     navigateToNewRecipe: () -> Unit = {},
 ) {
+    val context = LocalContext.current
+    val appVersion = UpdateAppUtil.getAppVersion(context)
     val drawerState = rememberDrawerState(DrawerValue.Closed)
 
     NavigationDrawerWidget(
@@ -113,6 +121,18 @@ private fun HomeScreen(
                     }
                 }
             }
+        }
+    }
+
+    if(UpdateAppUtil.requiredUpdate(appVersion)) {
+        CustomUpdateDialog(
+            title = stringResource(id = R.string.update_the_app),
+            description = stringResource(id = R.string.update_the_app_description),
+        ) {
+            val updateUrl = RemoteValues.VALUE_APP_STORE_URL
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
         }
     }
 }
