@@ -9,4 +9,20 @@
         <key>NON_FATAL_CRASHLYTICS_ENABLE</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>CHATGPT_API_MODEL</key>
+        <value>gpt-3.5-turbo-1106</value>
+    </entry>
+    <entry>
+        <key>APP_STORE_URL</key>
+        <value></value>
+    </entry>
+    <entry>
+        <key>CURRENT_VERSION</key>
+        <value>1.0</value>
+    </entry>
+    <entry>
+        <key>FORCE_APP_UPDATE</key>
+        <value>true</value>
+    </entry>
 </defaultsMap>

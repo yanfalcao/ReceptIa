@@ -68,7 +68,7 @@ class ReceptIaApplication : Application() {
     private fun configCrashlytics() {
         val crashlytics = FirebaseCrashlytics.getInstance()
         crashlytics.setCrashlyticsCollectionEnabled(
-            RemoteValues.NON_FATAL_CRASHLYTICS_ENABLE
+            RemoteValues.VALUE_NON_FATAL_CRASHLYTICS_ENABLE
         )
     }
 }
