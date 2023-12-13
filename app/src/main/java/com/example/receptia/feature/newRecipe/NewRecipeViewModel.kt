@@ -2,6 +2,7 @@ package com.example.receptia.feature.newRecipe
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.receptia.configs.RemoteValues
 import com.example.receptia.feature.newRecipe.state.*
 import com.example.receptia.model.RecipePreferences
 import com.example.receptia.network.model.GptFuncitonCallRequest
@@ -265,6 +266,7 @@ class NewRecipeViewModel @Inject constructor(
 
     private fun getChatCompletionRequest(preferences: RecipePreferences): GptRequest {
         return GptRequest(
+            model = RemoteValues.VALUE_CHATGPT_API_MODEL,
             messages = listOf(
                 GtpMessage(
                     role = "system",

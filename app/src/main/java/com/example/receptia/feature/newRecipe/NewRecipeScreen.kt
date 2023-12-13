@@ -96,7 +96,7 @@ private fun NewRecipeScreen(
     val createRecipeErrorToast = stringResource(id = R.string.error_create_recipe)
     val context = LocalContext.current
     val onContinueClick = {
-        if(RemoteValues.CHATGPT_API_ENABLED) {
+        if(RemoteValues.VALUE_CHATGPT_API_ENABLED) {
             createRecipe()
         } else {
             openDialog = true

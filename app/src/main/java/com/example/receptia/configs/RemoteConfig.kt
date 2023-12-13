@@ -41,7 +41,17 @@ object RemoteConfig {
     }
 
     private fun updateConfigs() {
-        RemoteValues.CHATGPT_API_ENABLED = remoteConfig.getBoolean("CHATGPT_API_ENABLED")
-        RemoteValues.NON_FATAL_CRASHLYTICS_ENABLE = remoteConfig.getBoolean("NON_FATAL_CRASHLYTICS_ENABLE")
+        RemoteValues.VALUE_CHATGPT_API_ENABLED =
+            remoteConfig.getBoolean(RemoteKeys.KEY_CHATGPT_API_ENABLED)
+        RemoteValues.VALUE_NON_FATAL_CRASHLYTICS_ENABLE =
+            remoteConfig.getBoolean(RemoteKeys.KEY_NON_FATAL_CRASHLYTICS_ENABLE)
+        RemoteValues.VALUE_CHATGPT_API_MODEL =
+            remoteConfig.getString(RemoteKeys.KEY_CHATGPT_API_MODEL)
+        RemoteValues.VALUE_APP_STORE_URL =
+            remoteConfig.getString(RemoteKeys.KEY_APP_STORE_URL)
+        RemoteValues.VALUE_CURRENT_UPDATE_VERSION =
+            remoteConfig.getString(RemoteKeys.KEY_CURRENT_UPDATE_VERSION)
+        RemoteValues.KEY_FORCE_APP_UPDATE =
+            remoteConfig.getBoolean(RemoteKeys.KEY_FORCE_APP_UPDATE)
     }
 }
