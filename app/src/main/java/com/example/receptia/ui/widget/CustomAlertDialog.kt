@@ -35,3 +35,29 @@ fun CustomAlertDialog(
         }
     )
 }
+
+@Composable
+fun CustomUpdateDialog(
+    title: String,
+    description: String,
+    onUpdate: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = {},
+        icon = { Icon(imageVector = Icons.Outlined.Info, contentDescription = "Info") },
+        title = {
+            Text(text = title)
+        },
+        text = {
+            Text(text = description)
+        },
+        confirmButton = {},
+        dismissButton = {
+            TextButton(
+                onClick = onUpdate
+            ) {
+                Text(stringResource(id = R.string.update))
+            }
+        }
+    )
+}
