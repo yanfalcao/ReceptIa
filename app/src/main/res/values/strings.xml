@@ -4,6 +4,9 @@
     <string name="network_error">Conecte-se à internet</string>
     <string name="dismiss">Fechar</string>
     <string name="alert">Alerta</string>
+    <string name="update">Atualizar</string>
+    <string name="update_the_app">Atualize o app</string>
+    <string name="update_the_app_description">Nós recomendamos que você atualize o aplicativo para a última versão. Após a atualização você pode continuar usando o aplicativo normalmente.</string>
 
     <!--    home-->
     <string name="description_login">Gere receitas baseado nas suas preferências e nas dos seus convidados usando IA</string>
