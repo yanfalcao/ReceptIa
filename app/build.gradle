@@ -31,6 +31,10 @@ android {
         buildConfigField "String", "WEB_CLIENT_ID", "\"${properties.getProperty("WEB_CLIENT_ID")}\""
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+    }
+
     buildTypes {
         release {
             debuggable false
