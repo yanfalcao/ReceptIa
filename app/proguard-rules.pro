@@ -28,3 +28,33 @@
 -dontwarn org.openjsse.javax.net.ssl.SSLParameters*
 -dontwarn org.openjsse.javax.net.ssl.SSLSocket*
 -dontwarn org.openjsse.net.ssl.OpenJSSE*
+
+# ReceptIA App
+-keep class com.nexusfalcao.receptia.model.** { *; }
+-keep class com.nexusfalcao.receptia.persistence.** { *; }
+-keep class com.nexusfalcao.receptia.network.** { *; }
+
+# Retrofit2
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+
+ -keep,allowobfuscation,allowshrinking interface retrofit2.Call
+ -keep,allowobfuscation,allowshrinking class retrofit2.Response
+ -keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
+
+# OkHttp
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
+# Okio
+-dontwarn okio.**
+-keep class okio.** { *; }

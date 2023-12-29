@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.nexusfalcao.receptia.configs.RemoteValues
 import com.nexusfalcao.receptia.feature.newRecipe.state.*
 import com.nexusfalcao.receptia.model.RecipePreferences
-import com.nexusfalcao.receptia.network.model.GptFuncitonCallRequest
 import com.nexusfalcao.receptia.network.model.GptFunctions
 import com.nexusfalcao.receptia.network.model.GptRequest
 import com.nexusfalcao.receptia.network.model.GtpMessage
@@ -14,6 +13,7 @@ import com.nexusfalcao.receptia.persistence.utils.RecipeDeserializer
 import com.nexusfalcao.receptia.repository.RecipeRepository
 import com.nexusfalcao.receptia.utils.RequestMessageUtil
 import com.google.gson.GsonBuilder
+import com.nexusfalcao.receptia.network.model.GptFunction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -137,7 +137,7 @@ class NewRecipeViewModel @Inject constructor(
                         isAdd = false,
                     )
                 }
-                RecipeFieldState.MEAL -> {}
+                else -> {}
             }
         }
     }
@@ -184,6 +184,7 @@ class NewRecipeViewModel @Inject constructor(
                     recipePreferences.meal = text
                     _radioUiState.value = RadioUiState.Selected(textOption = text)
                 }
+                else -> {}
             }
         }
     }
@@ -202,10 +203,7 @@ class NewRecipeViewModel @Inject constructor(
                         .registerTypeAdapter(Recipe::class.java, RecipeDeserializer())
                         .create()
 
-                    val recipe = customDeserializer.fromJson(
-                        data.choices[0].message.functionCall.arguments,
-                        Recipe::class.java,
-                    )
+                    val recipe = customDeserializer.fromJson(data, Recipe::class.java)
                     recipe.create()
 
                     _createRecipeUiState.value = CreateRecipeUiState.Success(recipe.id)
@@ -277,13 +275,16 @@ class NewRecipeViewModel @Inject constructor(
                     content = RequestMessageUtil.newRecipePrompt(preferences),
                 ),
             ),
-            functions = listOf(
+            tools = listOf(
                 GptFunctions(
-                    name = "get_recipe",
-                    parameters = RequestMessageUtil.schema,
+                    type = "function",
+                    function = GptFunction(
+                        name = "get_recipe",
+                        parameters = RequestMessageUtil.schema
+                    ),
                 )
             ),
-            functionCall = GptFuncitonCallRequest(name = "get_recipe")
+            toolChoice = "auto"
         )
     }
 }
