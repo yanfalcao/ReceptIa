@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 data class GptRequest(
     val model: String,
     val messages: List<GtpMessage>,
-    val functions: List<GptFunctions>,
-    @SerializedName("function_call")
-    val functionCall: GptFuncitonCallRequest
+    val tools: List<GptFunctions>,
+    @SerializedName("tool_choice")
+    val toolChoice: String
 )
