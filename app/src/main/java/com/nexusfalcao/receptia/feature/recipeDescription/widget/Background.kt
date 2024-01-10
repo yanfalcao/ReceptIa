@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.theme.LightOrange
+import com.nexusfalcao.receptia.ui.theme.AntiqueWhite
 
 @Composable
 fun Background() {
@@ -28,7 +28,7 @@ fun Background() {
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = LightOrange),
+            .background(color = AntiqueWhite),
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_background_recipe),

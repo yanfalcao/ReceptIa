@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.persistence.Recipe
-import com.nexusfalcao.receptia.ui.theme.Red
+import com.nexusfalcao.receptia.ui.theme.DeepCarminePink
 
 @Composable
 fun Header(
@@ -44,7 +44,7 @@ fun Header(
                 true -> Icon(
                     imageVector = Icons.Default.Favorite,
                     modifier = Modifier.size(30.dp),
-                    tint = Red,
+                    tint = DeepCarminePink,
                     contentDescription = null,
                 )
                 false -> Icon(

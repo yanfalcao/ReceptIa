@@ -26,8 +26,8 @@ import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.historic.state.AmountServesFilterEnum
 import com.nexusfalcao.receptia.feature.historic.state.FilterState
 import com.nexusfalcao.receptia.persistence.utils.DifficultState
-import com.nexusfalcao.receptia.ui.theme.Green
-import com.nexusfalcao.receptia.ui.theme.MediumGray
+import com.nexusfalcao.receptia.ui.theme.Gray300
+import com.nexusfalcao.receptia.ui.theme.Olivine
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -124,7 +124,7 @@ fun BottomSheetFilter(
             ) {
                 Button(
                     onClick = onResetFilter,
-                    colors = ButtonDefaults.buttonColors(containerColor = MediumGray),
+                    colors = ButtonDefaults.buttonColors(containerColor = Gray300),
                 ) {
                     Text(
                         modifier = Modifier.padding(horizontal = 15.dp),
@@ -136,7 +136,7 @@ fun BottomSheetFilter(
 
                 Button(
                     onClick = onApplyFilter,
-                    colors = ButtonDefaults.buttonColors(containerColor = Green),
+                    colors = ButtonDefaults.buttonColors(containerColor = Olivine),
                 ) {
                     Text(
                         modifier = Modifier.padding(horizontal = 15.dp),

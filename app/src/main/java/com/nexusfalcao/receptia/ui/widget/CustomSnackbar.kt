@@ -23,15 +23,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.theme.RedAlert
-import com.nexusfalcao.receptia.ui.theme.OrangeAlert
+import com.nexusfalcao.receptia.ui.theme.MaximumRed
+import com.nexusfalcao.receptia.ui.theme.Fulvous
 
 object CustomSnackbar {
     @Composable
     fun Error(hostState: SnackbarHostState) {
         DefaultSnackbar(
             hostState = hostState,
-            backgroundColor = RedAlert,
+            backgroundColor = MaximumRed,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_baseline_cancel),
@@ -47,7 +47,7 @@ object CustomSnackbar {
     fun Alert(hostState: SnackbarHostState) {
         DefaultSnackbar(
             hostState = hostState,
-            backgroundColor = OrangeAlert,
+            backgroundColor = Fulvous,
         ) {
             Icon(
                 imageVector = Icons.Filled.Warning,
@@ -91,7 +91,7 @@ private fun DefaultSnackbarPreview() {
     Snackbar(
         modifier = Modifier.padding(12.dp),
         shape = RoundedCornerShape(12.dp),
-        containerColor = OrangeAlert,
+        containerColor = Fulvous,
     ) {
         Row (
             verticalAlignment = Alignment.CenterVertically

@@ -29,7 +29,7 @@ import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.newRecipe.state.CheckFieldUiState
 import com.nexusfalcao.receptia.feature.newRecipe.state.IngredientUiState
 import com.nexusfalcao.receptia.feature.newRecipe.state.RecipeFieldState
-import com.nexusfalcao.receptia.ui.theme.Gray
+import com.nexusfalcao.receptia.ui.theme.Gray400
 
 @Composable
 fun CustomTextField(
@@ -43,7 +43,7 @@ fun CustomTextField(
     var isErrorUnfilled = checkFieldUiState is CheckFieldUiState.Unfilled &&
         checkFieldUiState.equalsField(ingredientUiState.state)
 
-    val borderColor = if (isErrorUnfilled || isErrorLimitChar) Color.Red else Gray
+    val borderColor = if (isErrorUnfilled || isErrorLimitChar) Color.Red else Gray400
     val roundedCornerShape = RoundedCornerShape(size = 20.dp)
     val errorText = if (isErrorUnfilled) {
         stringResource(id = R.string.error_field)

@@ -21,7 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.feature.newRecipe.state.RecipeFieldState
 import com.nexusfalcao.receptia.feature.newRecipe.state.IngredientUiState
-import com.nexusfalcao.receptia.ui.theme.LightGreen
+import com.nexusfalcao.receptia.ui.theme.TeaGreen
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -45,7 +45,7 @@ fun FlexBoxLayout(
                 modifier = Modifier
                     .padding(vertical = 4.dp)
                     .background(
-                        color = LightGreen,
+                        color = TeaGreen,
                         shape = RoundedCornerShape(20.dp),
                     )
                     .padding(vertical = 6.dp, horizontal = 8.dp)

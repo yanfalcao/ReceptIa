@@ -43,8 +43,8 @@ import com.nexusfalcao.receptia.feature.historic.widget.LoadingRecipeList
 import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
 import com.nexusfalcao.receptia.persistence.utils.DifficultState
 import com.nexusfalcao.receptia.ui.ComposableLifecycle
-import com.nexusfalcao.receptia.ui.theme.Green
-import com.nexusfalcao.receptia.ui.theme.LightGray
+import com.nexusfalcao.receptia.ui.theme.Gray100
+import com.nexusfalcao.receptia.ui.theme.Olivine
 import com.nexusfalcao.receptia.ui.widget.EmptyStateWidget
 import com.nexusfalcao.receptia.ui.widget.NavigationDrawerWidget
 import com.nexusfalcao.receptia.view.widget.TopBarWidget
@@ -94,8 +94,8 @@ private fun HistoricScreen(
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     var showSheet by remember { mutableStateOf(false) }
     val backgroundFilterButton = when(filterUiState.hasAnyFilterSelected()) {
-        true -> Green
-        false -> LightGray
+        true -> Olivine
+        false -> Gray100
     }
 
     if (showSheet) {

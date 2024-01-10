@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.ui.theme.Green
+import com.nexusfalcao.receptia.ui.theme.Olivine
 
 @Preview
 @Composable
@@ -27,7 +27,7 @@ fun LoadingButton() {
             .width(55.dp),
     ) {
         CircularProgressIndicator(
-            color = Green,
+            color = Olivine,
             modifier = Modifier
                 .align(Alignment.Center)
                 .height(40.dp)

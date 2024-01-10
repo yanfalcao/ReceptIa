@@ -24,8 +24,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.feature.newRecipe.state.RadioUiState
 import com.nexusfalcao.receptia.feature.newRecipe.state.RecipeFieldState
-import com.nexusfalcao.receptia.ui.theme.Gray
-import com.nexusfalcao.receptia.ui.theme.Green
+import com.nexusfalcao.receptia.ui.theme.Gray400
+import com.nexusfalcao.receptia.ui.theme.Olivine
 
 @Composable
 fun CustomRadioButton(
@@ -43,12 +43,12 @@ fun CustomRadioButton(
     }
     val selectedModifier = when (isSelected) {
         true -> Modifier.background(
-            color = Green,
+            color = Olivine,
             shape = CircleShape,
         )
         false -> Modifier.border(
             width = 1.dp,
-            color = Gray,
+            color = Gray400,
             shape = CircleShape,
         )
     }
@@ -58,7 +58,7 @@ fun CustomRadioButton(
             .fillMaxWidth()
             .border(
                 width = 1.dp,
-                color = Gray,
+                color = Gray400,
                 shape = roundedCornerShape,
             )
             .background(

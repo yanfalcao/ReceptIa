@@ -31,7 +31,7 @@ import androidx.navigation.NavController
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.avatar.state.ImageUiState
 import com.nexusfalcao.receptia.feature.avatar.widget.GridListAvatar
-import com.nexusfalcao.receptia.ui.theme.Green
+import com.nexusfalcao.receptia.ui.theme.Olivine
 
 @Composable
 internal fun AvatarRoute(
@@ -104,7 +104,7 @@ private fun AvatarScreen(
                     saveImage()
                     onBackClick()
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Green),
+                colors = ButtonDefaults.buttonColors(containerColor = Olivine),
                 enabled = isSelected,
             ) {
                 Text(

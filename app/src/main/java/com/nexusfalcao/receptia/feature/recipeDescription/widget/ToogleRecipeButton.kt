@@ -18,8 +18,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.recipeDescription.state.ToogleRecipeState
-import com.nexusfalcao.receptia.ui.theme.Green
-import com.nexusfalcao.receptia.ui.theme.LightGray
+import com.nexusfalcao.receptia.ui.theme.Gray100
+import com.nexusfalcao.receptia.ui.theme.Olivine
 
 @Composable
 fun ToogleButton(
@@ -32,7 +32,7 @@ fun ToogleButton(
 
     Box(
         modifier = modifier
-            .background(color = LightGray, shape = cornerShape)
+            .background(color = Gray100, shape = cornerShape)
             .fillMaxWidth()
             .height(50.dp)
             .clip(cornerShape)
@@ -44,7 +44,7 @@ fun ToogleButton(
 
         Box(
             modifier = modifierToogle
-                .background(color = LightGray, shape = cornerShape)
+                .background(color = Gray100, shape = cornerShape)
                 .align(if (!isSelectedDetails) Alignment.TopStart else Alignment.TopEnd),
         ) {
             Text(
@@ -59,7 +59,7 @@ fun ToogleButton(
 
         Box(
             modifier = modifierToogle
-                .background(color = Green, shape = cornerShape)
+                .background(color = Olivine, shape = cornerShape)
                 .align(if (isSelectedDetails) Alignment.TopStart else Alignment.TopEnd),
         ) {
             Text(

@@ -13,13 +13,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.theme.BlackLightTransparent
-import com.nexusfalcao.receptia.ui.theme.LightGray
+import com.nexusfalcao.receptia.ui.theme.BlackTransparent05
+import com.nexusfalcao.receptia.ui.theme.Gray100
 
 @Composable
 fun FilterButton(
     modifier: Modifier,
-    backgrounColor: Color = LightGray,
+    backgrounColor: Color = Gray100,
     onClick:() -> Unit
 ) {
     Box(
@@ -28,8 +28,8 @@ fun FilterButton(
             .background(color = backgrounColor, shape = CircleShape)
             .shadow(
                 elevation = 4.dp,
-                spotColor = BlackLightTransparent,
-                ambientColor = BlackLightTransparent,
+                spotColor = BlackTransparent05,
+                ambientColor = BlackTransparent05,
             ),
         contentAlignment = Alignment.Center,
     ) {
