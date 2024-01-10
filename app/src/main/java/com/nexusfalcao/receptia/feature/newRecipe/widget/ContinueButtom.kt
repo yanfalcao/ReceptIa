@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.theme.Green
+import com.nexusfalcao.receptia.ui.theme.Olivine
 
 @Composable
 fun ContinueButtom(
@@ -25,7 +25,7 @@ fun ContinueButtom(
         modifier = Modifier
             .fillMaxWidth()
             .height(50.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Green),
+        colors = ButtonDefaults.buttonColors(containerColor = Olivine),
     ) {
         Text(
             text = stringResource(id = R.string.start),

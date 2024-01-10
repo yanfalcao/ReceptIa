@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.home.preview.RecipesPreviewParameterProvider
 import com.nexusfalcao.receptia.persistence.Recipe
-import com.nexusfalcao.receptia.ui.theme.LightGray
+import com.nexusfalcao.receptia.ui.theme.Gray100
 import com.nexusfalcao.receptia.ui.widget.DifficultIcon
 
 @Composable
@@ -58,7 +58,7 @@ private fun RecipeListTile(
     Box(
         modifier = Modifier
             .background(
-                color = LightGray,
+                color = Gray100,
                 shape = RoundedCornerShape(size = 15.dp),
             )
             .clickable {

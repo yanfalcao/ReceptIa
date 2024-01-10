@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.ui.theme.Green
-import com.nexusfalcao.receptia.ui.theme.LightGray
+import com.nexusfalcao.receptia.ui.theme.Gray100
+import com.nexusfalcao.receptia.ui.theme.Olivine
 
 @Composable
 fun Tag(
@@ -23,8 +23,8 @@ fun Tag(
     updateTagFilter: () -> Unit = {},
 ) {
     val backgroundColor = when(isSelected) {
-        true -> Green
-        false -> LightGray
+        true -> Olivine
+        false -> Gray100
     }
     val textColor = when(isSelected) {
         true -> Color.White

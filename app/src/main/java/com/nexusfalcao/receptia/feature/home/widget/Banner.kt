@@ -23,8 +23,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.theme.Green
-import com.nexusfalcao.receptia.ui.theme.LightGreen
+import com.nexusfalcao.receptia.ui.theme.Olivine
+import com.nexusfalcao.receptia.ui.theme.TeaGreen
 
 @Preview
 @Composable
@@ -36,7 +36,7 @@ fun Banner(
             .fillMaxWidth()
             .padding(vertical = 30.dp)
             .background(
-                color = LightGreen,
+                color = TeaGreen,
                 shape = RoundedCornerShape(size = 15.dp),
             )
             .padding(
@@ -66,7 +66,7 @@ fun Banner(
 
             Button(
                 onClick = navigateToNewRecipe,
-                colors = ButtonDefaults.buttonColors(containerColor = Green),
+                colors = ButtonDefaults.buttonColors(containerColor = Olivine),
             ) {
                 Text(
                     text = stringResource(id = R.string.start),

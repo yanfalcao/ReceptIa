@@ -27,7 +27,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.theme.BlackTransparent
+import com.nexusfalcao.receptia.ui.theme.BlackTransparent30
 
 @Preview(showBackground = true)
 @Composable
@@ -46,7 +46,7 @@ fun CreateRecipeLoading() {
 
     Box(
         modifier = Modifier
-            .background(color = BlackTransparent)
+            .background(color = BlackTransparent30)
             .fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {

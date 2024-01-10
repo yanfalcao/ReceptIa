@@ -10,14 +10,14 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.ui.theme.Green
+import com.nexusfalcao.receptia.ui.theme.Olivine
 
 @Composable
 fun OutlineCircularShape(
     modifier: Modifier = Modifier,
     shapeSize: Dp,
     stroke: Float = 10F,
-    color: Color = Green,
+    color: Color = Olivine,
 ) {
     Canvas(modifier = modifier.size(shapeSize)) {
         val canvasWidth = size.width

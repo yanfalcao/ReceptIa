@@ -18,7 +18,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.avatar.state.ImageUiState
-import com.nexusfalcao.receptia.ui.theme.Green
+import com.nexusfalcao.receptia.ui.theme.Olivine
 import com.nexusfalcao.receptia.ui.widget.OutlineCircularShape
 
 @Composable
@@ -70,7 +70,7 @@ private fun getOutlineColor(
     return when(imageUiState) {
         is ImageUiState.Selected -> {
             when(imageUiState.isSelected(imageId)) {
-                true -> Green
+                true -> Olivine
                 false -> Color.Transparent
             }
         }

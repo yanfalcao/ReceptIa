@@ -38,7 +38,7 @@ import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
 import com.nexusfalcao.receptia.feature.login.navigation.navigateToLogin
 import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.nexusfalcao.receptia.persistence.User
-import com.nexusfalcao.receptia.ui.theme.Green
+import com.nexusfalcao.receptia.ui.theme.Olivine
 import com.nexusfalcao.receptia.ui.theme.titleMediumSmall
 import kotlinx.coroutines.launch
 
@@ -88,7 +88,7 @@ private fun DrawerBody(
                 .height(1.dp)
                 .width(200.dp)
                 .fillMaxWidth()
-                .background(color = Green),
+                .background(color = Olivine),
         )
 
         Spacer(modifier = Modifier.height(30.dp))

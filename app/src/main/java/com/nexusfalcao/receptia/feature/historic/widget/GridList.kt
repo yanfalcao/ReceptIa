@@ -27,7 +27,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.persistence.Recipe
-import com.nexusfalcao.receptia.ui.theme.LightGray
+import com.nexusfalcao.receptia.ui.theme.Gray100
 import com.nexusfalcao.receptia.ui.widget.DifficultIcon
 
 @Composable
@@ -57,7 +57,7 @@ private fun GridTile(
     Column(
         modifier = Modifier
             .background(
-                color = LightGray,
+                color = Gray100,
                 shape = RoundedCornerShape(15.dp),
             )
             .clickable { navigateToDescription(recipe.id) }
