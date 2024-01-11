@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -47,7 +48,8 @@ fun BottomSheetFilter(
         dragHandle = { BottomSheetDefaults.DragHandle() },
     ) {
         Column(
-            modifier = Modifier.padding(start = 15.dp, end = 15.dp, bottom = 15.dp),
+            modifier = Modifier.safeDrawingPadding()
+                .padding(start = 15.dp, end = 15.dp, bottom = 15.dp),
             horizontalAlignment = Alignment.Start
         ) {
             Text(
