@@ -2,7 +2,9 @@ package com.nexusfalcao.receptia.feature.recipeDescription.widget
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,11 +14,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
+import com.nexusfalcao.receptia.feature.home.preview.PreviewParameterData
 import com.nexusfalcao.receptia.persistence.Recipe
+import com.nexusfalcao.receptia.ui.preview.ThemePreview
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 import com.nexusfalcao.receptia.ui.widget.DifficultIcon
 
 @Composable
@@ -31,6 +37,7 @@ fun DetailsBody(recipe: Recipe) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = recipe.description,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.labelSmall,
             )
         }
@@ -44,11 +51,13 @@ fun DetailsBody(recipe: Recipe) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_clock),
                     contentDescription = null,
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                 )
 
                 Text(
                     text = recipe.prepTime,
                     style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
             }
         }
@@ -66,6 +75,7 @@ fun DetailsBody(recipe: Recipe) {
                 Text(
                     text = recipe.difficult,
                     style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
             }
         }
@@ -79,11 +89,13 @@ fun DetailsBody(recipe: Recipe) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_dish),
                     contentDescription = null,
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                 )
 
                 Text(
                     text = recipe.amountPeopleServes.toString() + " " + stringResource(R.string.people),
                     style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
                 )
             }
         }
@@ -125,12 +137,24 @@ private fun NutritionTile(
     ) {
         Text(
             text = stringResource(title),
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.labelMedium,
         )
 
         Text(
             text = description,
+            color = MaterialTheme.colorScheme.onSurface,
             style = MaterialTheme.typography.labelSmall,
         )
+    }
+}
+
+@ThemePreview
+@Composable
+fun DetailsBodyPreview() {
+    ReceptIaTheme {
+        Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
+            DetailsBody(PreviewParameterData.recipe)
+        }
     }
 }
