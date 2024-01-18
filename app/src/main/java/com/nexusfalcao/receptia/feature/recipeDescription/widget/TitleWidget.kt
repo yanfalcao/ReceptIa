@@ -8,16 +8,14 @@ import androidx.compose.ui.res.stringResource
 
 @Composable
 fun Title(@StringRes text: Int) {
-    Text(
-        text = stringResource(id = text),
-        style = MaterialTheme.typography.titleSmall,
-    )
+    Title(text = stringResource(id = text))
 }
 
 @Composable
 fun Title(text: String) {
     Text(
         text = text,
+        color = MaterialTheme.colorScheme.onBackground,
         style = MaterialTheme.typography.titleSmall,
     )
 }

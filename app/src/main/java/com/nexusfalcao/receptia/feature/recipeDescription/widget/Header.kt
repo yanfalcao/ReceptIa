@@ -17,8 +17,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.nexusfalcao.receptia.feature.home.preview.PreviewParameterData
 import com.nexusfalcao.receptia.persistence.Recipe
+import com.nexusfalcao.receptia.ui.preview.ThemePreview
 import com.nexusfalcao.receptia.ui.theme.DeepCarminePink
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
 @Composable
 fun Header(
@@ -35,6 +38,7 @@ fun Header(
             text = recipe.name,
             style = MaterialTheme.typography.headlineMedium,
             modifier = Modifier.weight(1.0f),
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(modifier = Modifier.width(15.dp))
@@ -44,15 +48,35 @@ fun Header(
                 true -> Icon(
                     imageVector = Icons.Default.Favorite,
                     modifier = Modifier.size(30.dp),
-                    tint = DeepCarminePink,
+                    tint =  DeepCarminePink,
                     contentDescription = null,
                 )
                 false -> Icon(
                     imageVector = Icons.Default.FavoriteBorder,
                     modifier = Modifier.size(30.dp),
                     contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         }
+    }
+}
+
+@ThemePreview
+@Composable
+fun HeaderPreviewFavorite(){
+    ReceptIaTheme {
+        Header(recipe = PreviewParameterData.recipe)
+    }
+}
+
+@ThemePreview
+@Composable
+fun HeaderPreview(){
+    val recipe = PreviewParameterData.recipe
+    recipe.isFavorite = false
+
+    ReceptIaTheme {
+        Header(recipe = recipe)
     }
 }

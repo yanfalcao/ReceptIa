@@ -13,13 +13,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.recipeDescription.state.ToogleRecipeState
-import com.nexusfalcao.receptia.ui.theme.Gray100
-import com.nexusfalcao.receptia.ui.theme.Olivine
+import com.nexusfalcao.receptia.ui.preview.ThemePreview
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
 @Composable
 fun ToogleButton(
@@ -32,7 +31,10 @@ fun ToogleButton(
 
     Box(
         modifier = modifier
-            .background(color = Gray100, shape = cornerShape)
+            .background(
+                color = MaterialTheme.colorScheme.surface,
+                shape = cornerShape
+            )
             .fillMaxWidth()
             .height(50.dp)
             .clip(cornerShape)
@@ -44,7 +46,10 @@ fun ToogleButton(
 
         Box(
             modifier = modifierToogle
-                .background(color = Gray100, shape = cornerShape)
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = cornerShape
+                )
                 .align(if (!isSelectedDetails) Alignment.TopStart else Alignment.TopEnd),
         ) {
             Text(
@@ -52,14 +57,17 @@ fun ToogleButton(
                 text = stringResource(
                     id = if (!isSelectedDetails) R.string.details else R.string.recipe,
                 ),
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.labelMedium,
             )
         }
 
         Box(
             modifier = modifierToogle
-                .background(color = Olivine, shape = cornerShape)
+                .background(
+                    color = MaterialTheme.colorScheme.primary,
+                    shape = cornerShape
+                )
                 .align(if (isSelectedDetails) Alignment.TopStart else Alignment.TopEnd),
         ) {
             Text(
@@ -67,9 +75,29 @@ fun ToogleButton(
                 text = stringResource(
                     id = if (isSelectedDetails) R.string.details else R.string.recipe,
                 ),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onPrimary,
                 style = MaterialTheme.typography.labelMedium,
             )
         }
+    }
+}
+
+@ThemePreview
+@Composable
+private fun ToogleButtonDetailsPreview() {
+    ReceptIaTheme {
+        ToogleButton(
+            toogleState = ToogleRecipeState.DetailsSelected,
+        )
+    }
+}
+
+@ThemePreview
+@Composable
+private fun ToogleButtonRecipePreview() {
+    ReceptIaTheme {
+        ToogleButton(
+            toogleState = ToogleRecipeState.RecipeSelected,
+        )
     }
 }

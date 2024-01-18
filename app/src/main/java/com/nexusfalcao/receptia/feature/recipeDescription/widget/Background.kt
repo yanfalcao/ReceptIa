@@ -16,7 +16,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.nexusfalcao.receptia.R
+import com.nexusfalcao.receptia.feature.splash.SplashScreen
+import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.receptia.ui.theme.AntiqueWhite
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
 @Composable
 fun Background() {
@@ -56,5 +59,13 @@ fun Background() {
                 .align(Alignment.BottomCenter)
                 .background(color = MaterialTheme.colorScheme.background),
         )
+    }
+}
+
+@ThemePreviewShowsBakground
+@Composable
+fun BackgroundPreview() {
+    ReceptIaTheme {
+        Background()
     }
 }

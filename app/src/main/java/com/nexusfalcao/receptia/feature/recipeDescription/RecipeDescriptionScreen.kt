@@ -10,12 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.nexusfalcao.receptia.feature.recipeDescription.preview.PreviewParameterData
+import com.nexusfalcao.receptia.ui.preview.PreviewParameterData
 import com.nexusfalcao.receptia.feature.recipeDescription.state.RecipeUiState
 import com.nexusfalcao.receptia.feature.recipeDescription.state.ToogleRecipeState
 import com.nexusfalcao.receptia.feature.recipeDescription.widget.BackButton
@@ -24,6 +23,7 @@ import com.nexusfalcao.receptia.feature.recipeDescription.widget.DetailsBody
 import com.nexusfalcao.receptia.feature.recipeDescription.widget.Header
 import com.nexusfalcao.receptia.feature.recipeDescription.widget.RecipeBody
 import com.nexusfalcao.receptia.feature.recipeDescription.widget.ToogleButton
+import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
 @Composable
@@ -86,14 +86,20 @@ private fun RecipeDescriptionScreen(
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-)
+@ThemePreviewShowsBakground
 @Composable
-private fun RecipeDescriptionScreenPreview() {
+private fun DetailsScreenPreview() {
     RecipeDescriptionScreen(
         toogleState = ToogleRecipeState.DetailsSelected,
+        recipeUiState = RecipeUiState.Success(PreviewParameterData.recipe),
+    )
+}
+
+@ThemePreviewShowsBakground
+@Composable
+private fun RecipeScreenPreview() {
+    RecipeDescriptionScreen(
+        toogleState = ToogleRecipeState.RecipeSelected,
         recipeUiState = RecipeUiState.Success(PreviewParameterData.recipe),
     )
 }
