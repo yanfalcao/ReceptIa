@@ -4,7 +4,7 @@ import androidx.compose.ui.graphics.Color
 
 val BlackTransparent05 = Color(0xD000000)
 val BlackTransparent30 = Color(0x4D000000)
-val WhiteTransparent30 = Color(0x4DFFFFFF)
+val Gray600Transparent40 = Color(0x65757575)
 
 val DeepCarminePink = Color(0xFFEF322D)
 val MaximumRed = Color(0xFFDB1F1F)

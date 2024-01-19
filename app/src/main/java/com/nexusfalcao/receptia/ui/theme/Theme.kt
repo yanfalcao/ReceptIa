@@ -25,7 +25,7 @@ private val DarkColorScheme = darkColorScheme(
     outline = Gray500,
     error = MaximumRed,
     onError = Color.White,
-    scrim = WhiteTransparent30
+    scrim = Gray600Transparent40
 )
 
 private val LightColorScheme = lightColorScheme(

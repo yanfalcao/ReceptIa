@@ -2,6 +2,7 @@ package com.nexusfalcao.receptia.feature.newRecipe.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,7 +30,8 @@ import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.newRecipe.state.CheckFieldUiState
 import com.nexusfalcao.receptia.feature.newRecipe.state.IngredientUiState
 import com.nexusfalcao.receptia.feature.newRecipe.state.RecipeFieldState
-import com.nexusfalcao.receptia.ui.theme.Gray400
+import com.nexusfalcao.receptia.ui.preview.ThemePreview
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
 @Composable
 fun CustomTextField(
@@ -43,13 +45,10 @@ fun CustomTextField(
     var isErrorUnfilled = checkFieldUiState is CheckFieldUiState.Unfilled &&
         checkFieldUiState.equalsField(ingredientUiState.state)
 
-    val borderColor = if (isErrorUnfilled || isErrorLimitChar) Color.Red else Gray400
+    val borderColor = createBorderColor(isErrorUnfilled, isErrorLimitChar)
+    val backgroundColor = createBackgroundColor()
     val roundedCornerShape = RoundedCornerShape(size = 20.dp)
-    val errorText = if (isErrorUnfilled) {
-        stringResource(id = R.string.error_field)
-    } else {
-        stringResource(id = R.string.error_max_char)
-    }
+    val errorText = createErrorText(isErrorUnfilled)
 
     Column {
         BasicTextField(
@@ -75,15 +74,8 @@ fun CustomTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(45.dp)
-                .border(
-                    width = 1.dp,
-                    color = borderColor,
-                    shape = roundedCornerShape,
-                )
-                .background(
-                    color = Color.Transparent,
-                    shape = roundedCornerShape,
-                ),
+                .border(width = 1.dp, color = borderColor, shape = roundedCornerShape)
+                .background(color = backgroundColor, shape = roundedCornerShape),
             decorationBox = { innerTextField ->
                 Row(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp),
@@ -93,7 +85,7 @@ fun CustomTextField(
                         if (textFieldValue.isEmpty()) {
                             Text(
                                 text = stringResource(id = R.string.placeholder_ingredient),
-                                color = Color.Gray,
+                                color = MaterialTheme.colorScheme.outline,
                             )
                         }
                         innerTextField()
@@ -104,9 +96,79 @@ fun CustomTextField(
         if (isErrorUnfilled || isErrorLimitChar) {
             Text(
                 text = errorText,
-                color = Color.Red,
+                color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 10.dp),
+            )
+        }
+    }
+}
+
+@Composable
+private fun createErrorText(isErrorUnfilled: Boolean): String {
+    return if (isErrorUnfilled) {
+        stringResource(id = R.string.error_field)
+    } else {
+        stringResource(id = R.string.error_max_char)
+    }
+}
+
+@Composable
+private fun createBackgroundColor(): Color {
+    return when(isSystemInDarkTheme()) {
+        true -> MaterialTheme.colorScheme.surface
+        false -> Color.Transparent
+    }
+}
+
+@Composable
+private fun createBorderColor(isErrorUnfilled: Boolean, isErrorLimitChar: Boolean): Color {
+    return if (isErrorUnfilled || isErrorLimitChar) {
+        MaterialTheme.colorScheme.error
+    } else {
+        MaterialTheme.colorScheme.outline
+    }
+}
+
+@ThemePreview
+@Composable
+fun CustomTextFieldPreview(){
+    ReceptIaTheme {
+        Box (
+            modifier = Modifier
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(50.dp)
+        ){
+            CustomTextField(
+                ingredientUiState = IngredientUiState(
+                    ingredients = listOf("Macarrão", "Cogumelo"),
+                    state = RecipeFieldState.MEAL
+                ),
+                checkFieldUiState = CheckFieldUiState.Filled,
+                onInputIngredient = {_, _ ->},
+            )
+        }
+    }
+}
+
+@ThemePreview
+@Composable
+fun CustomTextFieldErrorPreview(){
+    ReceptIaTheme {
+        Box (
+            modifier = Modifier
+                .background(color = MaterialTheme.colorScheme.background)
+                .padding(50.dp)
+        ){
+            CustomTextField(
+                ingredientUiState = IngredientUiState(
+                    ingredients = listOf(),
+                    state = RecipeFieldState.FAVORITE
+                ),
+                checkFieldUiState = CheckFieldUiState.Unfilled(
+                    fields = mutableListOf(RecipeFieldState.FAVORITE)
+                ),
+                onInputIngredient = {_, _ ->},
             )
         }
     }

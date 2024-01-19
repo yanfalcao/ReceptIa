@@ -1,6 +1,7 @@
-package com.nexusfalcao.receptia.view.widget
+package com.nexusfalcao.receptia.ui.widget
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -12,14 +13,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
+import com.nexusfalcao.receptia.ui.preview.ThemePreview
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
+import com.nexusfalcao.receptia.ui.theme.logoIconResource
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,14 +43,14 @@ fun TopBarWidget(
         title = {
             if (title.isNullOrEmpty()) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_logo),
+                    painter = logoIconResource(),
                     contentDescription = stringResource(id = R.string.logo_icon_description),
                     modifier = Modifier.height(55.dp),
                 )
             } else {
                 Text(
                     text = title,
-                    color = Color.Black,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = MaterialTheme.typography.headlineSmall,
                 )
             }
@@ -67,5 +70,27 @@ fun TopBarWidget(
                 )
             }
         },
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background
+        ),
     )
+}
+
+@ThemePreview
+@Composable
+private fun TopBarLogoPreview() {
+    ReceptIaTheme {
+        TopBarWidget()
+    }
+}
+
+@ThemePreview
+@Composable
+private fun TopBarTituloPreview() {
+    ReceptIaTheme {
+        TopBarWidget(
+            title = "Receitas",
+            drawerEnabled = false,
+        )
+    }
 }

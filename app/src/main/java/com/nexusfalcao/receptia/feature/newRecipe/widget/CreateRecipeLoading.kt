@@ -16,10 +16,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -27,9 +25,9 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.theme.BlackTransparent30
+import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
-@Preview(showBackground = true)
 @Composable
 fun CreateRecipeLoading() {
     val anim = rememberLottieAnimatable()
@@ -46,17 +44,18 @@ fun CreateRecipeLoading() {
 
     Box(
         modifier = Modifier
-            .background(color = BlackTransparent30)
+            .background(color = MaterialTheme.colorScheme.scrim)
             .fillMaxSize(),
         contentAlignment = Alignment.Center,
     ) {
         Column(
             modifier = Modifier
                 .background(
-                    color = Color.White,
+                    color = MaterialTheme.colorScheme.background,
                     shape = RoundedCornerShape(15.dp),
                 )
-                .padding(horizontal = 30.dp, vertical = 15.dp).width(IntrinsicSize.Min),
+                .padding(horizontal = 30.dp, vertical = 15.dp)
+                .width(IntrinsicSize.Min),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             LottieAnimation(
@@ -67,10 +66,20 @@ fun CreateRecipeLoading() {
 
             Text(
                 text = stringResource(id = R.string.creating_recipe_loading),
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
             )
+        }
+    }
+}
+
+@ThemePreviewShowsBakground
+@Composable
+fun CreateRecipeLoadingPreview() {
+    ReceptIaTheme {
+        Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
+            CreateRecipeLoading()
         }
     }
 }
