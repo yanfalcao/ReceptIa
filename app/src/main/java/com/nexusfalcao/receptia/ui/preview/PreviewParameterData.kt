@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.recipeDescription.preview
+package com.nexusfalcao.receptia.ui.preview
 
 import com.nexusfalcao.receptia.persistence.Ingredient
 import com.nexusfalcao.receptia.persistence.Recipe

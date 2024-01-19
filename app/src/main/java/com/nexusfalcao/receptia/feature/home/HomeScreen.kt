@@ -43,7 +43,7 @@ import com.nexusfalcao.receptia.ui.widget.CustomUpdateDialog
 import com.nexusfalcao.receptia.ui.widget.EmptyStateWidget
 import com.nexusfalcao.receptia.ui.widget.NavigationDrawerWidget
 import com.nexusfalcao.receptia.utils.UpdateAppUtil
-import com.nexusfalcao.receptia.view.widget.TopBarWidget
+import com.nexusfalcao.receptia.ui.widget.TopBarWidget
 
 @Composable
 internal fun HomeRoute(

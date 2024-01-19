@@ -1,6 +1,8 @@
 package com.nexusfalcao.receptia.feature.newRecipe.widget
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -11,7 +13,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
@@ -19,6 +20,8 @@ import com.nexusfalcao.receptia.feature.newRecipe.state.CheckFieldUiState
 import com.nexusfalcao.receptia.feature.newRecipe.state.IngredientUiState
 import com.nexusfalcao.receptia.feature.newRecipe.state.RadioUiState
 import com.nexusfalcao.receptia.feature.newRecipe.state.RecipeFieldState
+import com.nexusfalcao.receptia.ui.preview.ThemePreview
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
 @Composable
 fun RecipeForm(
@@ -45,7 +48,7 @@ fun RecipeForm(
     ) {
         Text(
             text = stringResource(id = R.string.type_of_dish),
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onBackground,
             style = MaterialTheme.typography.titleSmall,
         )
 
@@ -62,7 +65,7 @@ fun RecipeForm(
         for (ingredient in ingredientTypeList) {
             Text(
                 text = ingredient.second,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = MaterialTheme.typography.titleSmall,
             )
 
@@ -114,9 +117,73 @@ private fun RadioField(
     if (isError) {
         Text(
             text = stringResource(id = R.string.error_field),
-            color = Color.Red,
+            color = MaterialTheme.colorScheme.error,
             style = MaterialTheme.typography.labelSmall,
             modifier = Modifier.padding(start = 10.dp),
         )
+    }
+}
+
+@ThemePreview
+@Composable
+fun RecipeFormPreview(){
+    ReceptIaTheme {
+        Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
+            RecipeForm(
+                radioUiState = RadioUiState.Selected("Almoço"),
+                favoriteIngredientUiState = IngredientUiState(
+                    ingredients = listOf("Macarrão", "Cogumelo"),
+                    state = RecipeFieldState.FAVORITE
+                ),
+                nonFavoriteIngredientsState = IngredientUiState(
+                    ingredients = listOf(),
+                    state = RecipeFieldState.NON_FAVORITE
+                ),
+                allergicIngredientsState = IngredientUiState(
+                    ingredients = listOf(),
+                    state = RecipeFieldState.ALLERGIC
+                ),
+                intolerantIngredientsState = IngredientUiState(
+                    ingredients = listOf(),
+                    state = RecipeFieldState.INTOLERANT
+                ),
+                checkFieldUiState = CheckFieldUiState.Filled,
+                addPreference = {_, _ ->},
+                removePreference = {_, _ ->},
+            )
+        }
+    }
+}
+
+@ThemePreview
+@Composable
+fun RecipeFormErrorPreview(){
+    ReceptIaTheme {
+        Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
+            RecipeForm(
+                radioUiState = RadioUiState.Unselected,
+                favoriteIngredientUiState = IngredientUiState(
+                    ingredients = listOf(),
+                    state = RecipeFieldState.FAVORITE
+                ),
+                nonFavoriteIngredientsState = IngredientUiState(
+                    ingredients = listOf(),
+                    state = RecipeFieldState.NON_FAVORITE
+                ),
+                allergicIngredientsState = IngredientUiState(
+                    ingredients = listOf(),
+                    state = RecipeFieldState.ALLERGIC
+                ),
+                intolerantIngredientsState = IngredientUiState(
+                    ingredients = listOf(),
+                    state = RecipeFieldState.INTOLERANT
+                ),
+                checkFieldUiState = CheckFieldUiState.Unfilled(
+                    mutableListOf(RecipeFieldState.MEAL, RecipeFieldState.FAVORITE)
+                ),
+                addPreference = {_, _ ->},
+                removePreference = {_, _ ->},
+            )
+        }
     }
 }

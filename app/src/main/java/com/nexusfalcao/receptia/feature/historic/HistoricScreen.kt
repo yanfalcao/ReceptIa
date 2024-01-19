@@ -47,7 +47,7 @@ import com.nexusfalcao.receptia.ui.theme.Gray100
 import com.nexusfalcao.receptia.ui.theme.Olivine
 import com.nexusfalcao.receptia.ui.widget.EmptyStateWidget
 import com.nexusfalcao.receptia.ui.widget.NavigationDrawerWidget
-import com.nexusfalcao.receptia.view.widget.TopBarWidget
+import com.nexusfalcao.receptia.ui.widget.TopBarWidget
 
 @Composable
 internal fun HistoricRoute(

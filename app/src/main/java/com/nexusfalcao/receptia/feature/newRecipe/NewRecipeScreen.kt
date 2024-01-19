@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -37,9 +36,11 @@ import com.nexusfalcao.receptia.feature.newRecipe.widget.ContinueButtom
 import com.nexusfalcao.receptia.feature.newRecipe.widget.CreateRecipeLoading
 import com.nexusfalcao.receptia.feature.newRecipe.widget.RecipeForm
 import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
+import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 import com.nexusfalcao.receptia.ui.widget.CustomAlertDialog
 import com.nexusfalcao.receptia.ui.widget.CustomSnackbar
-import com.nexusfalcao.receptia.view.widget.TopBarWidget
+import com.nexusfalcao.receptia.ui.widget.TopBarWidget
 
 @Composable
 internal fun NewRecipeRoute(
@@ -177,68 +178,68 @@ private fun NewRecipeScreen(
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-)
+@ThemePreviewShowsBakground
 @Composable
 private fun NewRecipeScreenPreview() {
-    NewRecipeScreen(
-        radioUiState = RadioUiState.Selected("Jantar"),
-        favoriteIngredientUiState = IngredientUiState(
-            ingredients = PreviewParameterData.ingredients,
-            state = RecipeFieldState.FAVORITE,
-        ),
-        nonFavoriteIngredientsState = IngredientUiState(
-            state = RecipeFieldState.FAVORITE,
-        ),
-        allergicIngredientsState = IngredientUiState(
-            state = RecipeFieldState.ALLERGIC,
-        ),
-        intolerantIngredientsState = IngredientUiState(
-            state = RecipeFieldState.INTOLERANT,
-        ),
-        checkFieldUiState = CheckFieldUiState.None,
-        createRecipeUiState = CreateRecipeUiState.None,
-        isMaxIngredientLimit = ErrorUiState.None,
-        createRecipe = {},
-        addPreference = { _, _ -> },
-        removePreference = { _, _ -> },
-        onBackClick = {},
-        onNavigateToRecipe = { _ -> },
-        cleanCreateRecipeUiState = {},
-    )
+    ReceptIaTheme {
+        NewRecipeScreen(
+            radioUiState = RadioUiState.Selected("Jantar"),
+            favoriteIngredientUiState = IngredientUiState(
+                ingredients = PreviewParameterData.ingredients,
+                state = RecipeFieldState.FAVORITE,
+            ),
+            nonFavoriteIngredientsState = IngredientUiState(
+                state = RecipeFieldState.FAVORITE,
+            ),
+            allergicIngredientsState = IngredientUiState(
+                state = RecipeFieldState.ALLERGIC,
+            ),
+            intolerantIngredientsState = IngredientUiState(
+                state = RecipeFieldState.INTOLERANT,
+            ),
+            checkFieldUiState = CheckFieldUiState.None,
+            createRecipeUiState = CreateRecipeUiState.None,
+            isMaxIngredientLimit = ErrorUiState.None,
+            createRecipe = {},
+            addPreference = { _, _ -> },
+            removePreference = { _, _ -> },
+            onBackClick = {},
+            onNavigateToRecipe = { _ -> },
+            cleanCreateRecipeUiState = {},
+        )
+    }
+
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-)
+@ThemePreviewShowsBakground
 @Composable
 private fun LoadingStatePreview() {
-    NewRecipeScreen(
-        radioUiState = RadioUiState.Selected("Jantar"),
-        favoriteIngredientUiState = IngredientUiState(
-            ingredients = PreviewParameterData.ingredients,
-            state = RecipeFieldState.FAVORITE,
-        ),
-        nonFavoriteIngredientsState = IngredientUiState(
-            state = RecipeFieldState.FAVORITE,
-        ),
-        allergicIngredientsState = IngredientUiState(
-            state = RecipeFieldState.ALLERGIC,
-        ),
-        intolerantIngredientsState = IngredientUiState(
-            state = RecipeFieldState.INTOLERANT,
-        ),
-        checkFieldUiState = CheckFieldUiState.None,
-        createRecipeUiState = CreateRecipeUiState.Loading,
-        isMaxIngredientLimit = ErrorUiState.None,
-        createRecipe = {},
-        addPreference = { _, _ -> },
-        removePreference = { _, _ -> },
-        onBackClick = {},
-        onNavigateToRecipe = { _ -> },
-        cleanCreateRecipeUiState = {},
-    )
+    ReceptIaTheme {
+        NewRecipeScreen(
+            radioUiState = RadioUiState.Selected("Jantar"),
+            favoriteIngredientUiState = IngredientUiState(
+                ingredients = PreviewParameterData.ingredients,
+                state = RecipeFieldState.FAVORITE,
+            ),
+            nonFavoriteIngredientsState = IngredientUiState(
+                state = RecipeFieldState.FAVORITE,
+            ),
+            allergicIngredientsState = IngredientUiState(
+                state = RecipeFieldState.ALLERGIC,
+            ),
+            intolerantIngredientsState = IngredientUiState(
+                state = RecipeFieldState.INTOLERANT,
+            ),
+            checkFieldUiState = CheckFieldUiState.None,
+            createRecipeUiState = CreateRecipeUiState.Loading,
+            isMaxIngredientLimit = ErrorUiState.None,
+            createRecipe = {},
+            addPreference = { _, _ -> },
+            removePreference = { _, _ -> },
+            onBackClick = {},
+            onNavigateToRecipe = { _ -> },
+            cleanCreateRecipeUiState = {},
+        )
+    }
+
 }
