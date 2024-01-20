@@ -5,11 +5,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.nexusfalcao.receptia.ui.preview.ThemePreview
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 import com.nexusfalcao.receptia.ui.widget.SkeletonLoadingWidget
 
-@Preview
 @Composable
 fun LoadingRecipeList() {
     Column {
@@ -17,5 +17,13 @@ fun LoadingRecipeList() {
             SkeletonLoadingWidget(Modifier.height(100.dp))
             Spacer(modifier = Modifier.height(15.dp))
         }
+    }
+}
+
+@ThemePreview
+@Composable
+fun LoadingRecipePreview() {
+    ReceptIaTheme {
+        LoadingRecipeList()
     }
 }

@@ -3,6 +3,7 @@ package com.nexusfalcao.receptia.feature.home.widget
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,15 +18,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.home.preview.RecipesPreviewParameterProvider
 import com.nexusfalcao.receptia.persistence.Recipe
-import com.nexusfalcao.receptia.ui.theme.Gray100
+import com.nexusfalcao.receptia.ui.preview.ThemePreview
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 import com.nexusfalcao.receptia.ui.widget.DifficultIcon
 
 @Composable
@@ -49,16 +50,21 @@ private fun RecipeListTile(
     recipe: Recipe,
     navigateToDescription: (String) -> Unit,
 ) {
-    val bookmarkIcon = if (recipe.isFavorite) {
-        R.drawable.ic_bookmark_green
+    val colorScheme = MaterialTheme.colorScheme
+    val bookmarkColor = if (recipe.isFavorite) {
+        colorScheme.primary
     } else {
-        R.drawable.ic_bookmark
+        colorScheme.surfaceTint
+    }
+    val colorFilter = when(isSystemInDarkTheme()) {
+        true -> ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+        false -> null
     }
 
     Box(
         modifier = Modifier
             .background(
-                color = Gray100,
+                color = colorScheme.surface,
                 shape = RoundedCornerShape(size = 15.dp),
             )
             .clickable {
@@ -68,13 +74,14 @@ private fun RecipeListTile(
             .fillMaxWidth(),
     ) {
         Image(
-            painter = painterResource(id = bookmarkIcon),
+            painter = painterResource(id = R.drawable.ic_bookmark),
             contentDescription = null,
+            colorFilter = ColorFilter.tint(color = bookmarkColor)
         )
 
         Text(
             text = recipe.name,
-            color = Color.Black,
+            color = colorScheme.onSurface,
             style = MaterialTheme.typography.labelMedium,
             modifier = Modifier
                 .padding(start = 40.dp, top = 12.dp),
@@ -88,11 +95,12 @@ private fun RecipeListTile(
             Image(
                 painter = painterResource(id = R.drawable.ic_clock),
                 contentDescription = null,
+                colorFilter = colorFilter,
             )
 
             Text(
                 text = recipe.prepTime,
-                color = Color.Black,
+                color = colorScheme.onSurface,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 8.dp),
             )
@@ -104,7 +112,7 @@ private fun RecipeListTile(
 
             Text(
                 text = recipe.difficult,
-                color = Color.Black,
+                color = colorScheme.onSurface,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 8.dp),
             )
@@ -112,14 +120,16 @@ private fun RecipeListTile(
     }
 }
 
-@Preview
+@ThemePreview
 @Composable
 private fun RecipeListPreview(
     @PreviewParameter(RecipesPreviewParameterProvider::class)
     recipes: List<Recipe>,
 ) {
-    RecipeList(
-        recipes = recipes,
-        navigateToDescription = {},
-    )
+    ReceptIaTheme {
+        RecipeList(
+            recipes = recipes,
+            navigateToDescription = {},
+        )
+    }
 }
