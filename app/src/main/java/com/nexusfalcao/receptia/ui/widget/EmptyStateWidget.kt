@@ -35,7 +35,7 @@ fun EmptyStateWidget() {
 
         Text(
             text = stringResource(id = R.string.empty_title),
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier
@@ -44,7 +44,7 @@ fun EmptyStateWidget() {
 
         Text(
             text = stringResource(id = R.string.empty_description),
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier

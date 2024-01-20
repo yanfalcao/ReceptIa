@@ -5,7 +5,8 @@ import android.content.pm.PackageManager
 import com.nexusfalcao.receptia.configs.RemoteValues
 
 object UpdateAppUtil {
-    fun requiredUpdate(appVersion: String) : Boolean {
+    fun requiredUpdate(context: Context) : Boolean {
+        val appVersion = getAppVersion(context)
         val currentVersion = RemoteValues.VALUE_CURRENT_UPDATE_VERSION
         val forceUpdate = RemoteValues.KEY_FORCE_APP_UPDATE
         if (forceUpdate && (currentVersion > appVersion)) {

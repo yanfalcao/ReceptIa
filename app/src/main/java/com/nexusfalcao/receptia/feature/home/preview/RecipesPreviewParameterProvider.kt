@@ -14,8 +14,8 @@ class RecipesPreviewParameterProvider : PreviewParameterProvider<List<Recipe>> {
 
 object PreviewParameterData {
     val recipeList = listOf(
-        recipe,
-        recipe,
+        recipe.apply { isFavorite = false },
+        recipe.apply { isFavorite = false },
         recipe,
         recipe,
         recipe,

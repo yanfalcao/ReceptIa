@@ -9,15 +9,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.nexusfalcao.receptia.ui.preview.ThemePreview
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
-@Preview
 @Composable
 fun SkeletonLoadingWidget(modifier: Modifier) {
     Box(
@@ -31,11 +31,12 @@ fun SkeletonLoadingWidget(modifier: Modifier) {
 }
 
 @Composable
-fun shimmerBrush(): Brush {
+private fun shimmerBrush(): Brush {
+    val colorSchema = MaterialTheme.colorScheme
     val shimmerColors = listOf(
-        Color.LightGray.copy(alpha = 0.6f),
-        Color.LightGray.copy(alpha = 0.2f),
-        Color.LightGray.copy(alpha = 0.6f),
+        colorSchema.surface.copy(alpha = 0.6f),
+        colorSchema.surface.copy(alpha = 0.2f),
+        colorSchema.surface.copy(alpha = 0.6f),
     )
 
     val transition = rememberInfiniteTransition()
