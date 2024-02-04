@@ -1,6 +1,7 @@
 package com.nexusfalcao.receptia.feature.historic.widget
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -22,22 +23,25 @@ fun Tag(
     isSelected: Boolean,
     updateTagFilter: () -> Unit = {},
 ) {
-    val backgroundColor = when(isSelected) {
-        true -> Olivine
-        false -> Gray100
-    }
+    val cornerShape = RoundedCornerShape(30.dp)
+    val colorScheme = MaterialTheme.colorScheme
     val textColor = when(isSelected) {
-        true -> Color.White
-        false -> Color.Black
+        true -> colorScheme.onPrimary
+        false -> colorScheme.onBackground
+    }
+    val backgroundColor = when(isSelected) {
+        true -> colorScheme.primary
+        false -> colorScheme.onBackground
+    }
+
+    val modifier = when(isSelected) {
+        true -> Modifier.background(color = backgroundColor, shape = cornerShape)
+        false -> Modifier.border(width = 1.dp, color = backgroundColor, shape = cornerShape)
     }
 
     Box(
-        modifier = Modifier
+        modifier = modifier
             .clickable { updateTagFilter() }
-            .background(
-                color = backgroundColor,
-                shape = RoundedCornerShape(30.dp),
-            )
             .padding(vertical = 5.dp, horizontal = 15.dp),
     ) {
         Text(
