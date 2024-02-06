@@ -21,7 +21,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -29,6 +28,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.nexusfalcao.receptia.R
+import com.nexusfalcao.receptia.ui.preview.PreviewParameterData as UiPreviewParameterData
 import com.nexusfalcao.receptia.feature.historic.preview.PreviewParameterData
 import com.nexusfalcao.receptia.feature.historic.state.AmountServesFilterEnum
 import com.nexusfalcao.receptia.feature.historic.state.FilterState
@@ -41,8 +41,10 @@ import com.nexusfalcao.receptia.feature.historic.widget.SearchBar
 import com.nexusfalcao.receptia.feature.historic.widget.Tag
 import com.nexusfalcao.receptia.feature.historic.widget.LoadingRecipeList
 import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
+import com.nexusfalcao.receptia.persistence.User
 import com.nexusfalcao.receptia.persistence.utils.DifficultState
 import com.nexusfalcao.receptia.ui.ComposableLifecycle
+import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.receptia.ui.theme.Gray100
 import com.nexusfalcao.receptia.ui.theme.Olivine
 import com.nexusfalcao.receptia.ui.widget.EmptyStateWidget
@@ -56,6 +58,7 @@ internal fun HistoricRoute(
 ) {
     val historicState by viewModel.recipesUiState.collectAsStateWithLifecycle()
     val filterUiState by viewModel.filterState.collectAsStateWithLifecycle()
+    val user = User.find()
 
     HistoricScreen(
         historicState = historicState,
@@ -67,6 +70,7 @@ internal fun HistoricRoute(
         updateAmountServesFilter = viewModel::updateAmountServesFilter,
         onApplyFilter = viewModel::applyFilter,
         onResetFilter = viewModel::resetFilter,
+        user = user,
     )
 
     ComposableLifecycle { _, event ->
@@ -90,6 +94,7 @@ private fun HistoricScreen(
     updateAmountServesFilter: (AmountServesFilterEnum) -> Unit = {},
     onApplyFilter: () -> Unit = {},
     onResetFilter: () -> Unit = {},
+    user: User,
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     var showSheet by remember { mutableStateOf(false) }
@@ -119,6 +124,8 @@ private fun HistoricScreen(
     NavigationDrawerWidget(
         drawerState = drawerState,
         navController = navController,
+        userName = user.name,
+        userPhotoId = user.photoId,
     ) {
         Scaffold(
             topBar = {
@@ -196,41 +203,35 @@ private fun HistoricScreen(
 
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-)
+@ThemePreviewShowsBakground
 @Composable
 private fun HistoricScreenPreview() {
     HistoricScreen(
         historicState = RecipeHistoricUiState.Success(PreviewParameterData.recipeList),
         filterUiState = FilterState(TagFilterEnum.ALL),
         navController = rememberNavController(),
+        user = UiPreviewParameterData.user,
     )
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-)
+@ThemePreviewShowsBakground
 @Composable
 private fun LoadingStatePreview() {
     HistoricScreen(
         historicState = RecipeHistoricUiState.Loading,
         filterUiState = FilterState(TagFilterEnum.ALL),
         navController = rememberNavController(),
+        user = UiPreviewParameterData.user,
     )
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-)
+@ThemePreviewShowsBakground
 @Composable
 private fun EmptyStatePreview() {
     HistoricScreen(
         historicState = RecipeHistoricUiState.Success(listOf()),
         filterUiState = FilterState(TagFilterEnum.ALL),
         navController = rememberNavController(),
+        user = UiPreviewParameterData.user,
     )
 }

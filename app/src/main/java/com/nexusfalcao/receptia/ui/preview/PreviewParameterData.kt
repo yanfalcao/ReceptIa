@@ -1,7 +1,9 @@
 package com.nexusfalcao.receptia.ui.preview
 
+import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.persistence.Ingredient
 import com.nexusfalcao.receptia.persistence.Recipe
+import com.nexusfalcao.receptia.persistence.User
 
 object PreviewParameterData {
     val recipe: Recipe
@@ -53,5 +55,11 @@ object PreviewParameterData {
                 "\n\n6. Adicione o tomate picado, o manjericão e a cebolinha à frigideira e cozinhe por mais alguns minutos." +
                 "\n\n7. Retorne os filés de frango à frigideira e misture tudo delicadamente." +
                 "\n\n8. Sirva o filé de frango ao limão com cogumelos acompanhado do bacon crocante por cima."
+        }
+
+    val user: User
+        get() = User().apply {
+            name = "Yan Falcão"
+            photoId = R.drawable.img_man_2
         }
 }

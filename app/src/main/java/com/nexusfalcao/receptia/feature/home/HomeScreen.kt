@@ -36,7 +36,9 @@ import com.nexusfalcao.receptia.feature.home.widget.RecipeList
 import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
 import com.nexusfalcao.receptia.persistence.Recipe
+import com.nexusfalcao.receptia.persistence.User
 import com.nexusfalcao.receptia.ui.ComposableLifecycle
+import com.nexusfalcao.receptia.ui.preview.PreviewParameterData
 import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 import com.nexusfalcao.receptia.ui.widget.CustomUpdateDialog
@@ -52,12 +54,14 @@ internal fun HomeRoute(
 ) {
     val context = LocalContext.current
     val feedState by viewModel.lastRecipesUiState.collectAsStateWithLifecycle()
+    val user = User.find()
 
     HomeScreen(
         feedState = feedState,
         navigateToNewRecipe = navController::navigateToNewRecipe,
         navController = navController,
-        isRequireUpdate = UpdateAppUtil.requiredUpdate(context)
+        isRequireUpdate = UpdateAppUtil.requiredUpdate(context),
+        user = user,
     )
 
     ComposableLifecycle { _, event ->
@@ -76,6 +80,7 @@ private fun HomeScreen(
     feedState: RecipeFeedUiState,
     navigateToNewRecipe: () -> Unit = {},
     isRequireUpdate: Boolean,
+    user: User,
 ) {
     val context = LocalContext.current
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -83,6 +88,8 @@ private fun HomeScreen(
     NavigationDrawerWidget(
         drawerState = drawerState,
         navController = navController,
+        userName = user.name,
+        userPhotoId = user.photoId,
     ) {
         Scaffold(
             topBar = { TopBarWidget(drawerState) },
@@ -152,6 +159,7 @@ private fun HomeScreenPreview(
             navController = rememberNavController(),
             feedState = RecipeFeedUiState.Success(recipes = recipes),
             isRequireUpdate = false,
+            user = PreviewParameterData.user,
         )
     }
 }
@@ -164,6 +172,7 @@ private fun LoadingStatePreview() {
             navController = rememberNavController(),
             feedState = RecipeFeedUiState.Loading,
             isRequireUpdate = false,
+            user = PreviewParameterData.user,
         )
     }
 }
@@ -176,6 +185,7 @@ private fun EmptyStatePreview() {
             navController = rememberNavController(),
             feedState = RecipeFeedUiState.Success(recipes = listOf()),
             isRequireUpdate = false,
+            user = PreviewParameterData.user,
         )
     }
 }
