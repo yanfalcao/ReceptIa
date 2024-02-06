@@ -37,7 +37,6 @@ import com.nexusfalcao.receptia.feature.historic.navigation.navigateToHistoric
 import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
 import com.nexusfalcao.receptia.feature.login.navigation.navigateToLogin
 import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
-import com.nexusfalcao.receptia.persistence.User
 import com.nexusfalcao.receptia.ui.theme.Olivine
 import com.nexusfalcao.receptia.ui.theme.titleMediumSmall
 import kotlinx.coroutines.launch
@@ -46,11 +45,18 @@ import kotlinx.coroutines.launch
 fun NavigationDrawerWidget(
     navController: NavController,
     drawerState: DrawerState,
+    userPhotoId: Int?,
+    userName: String?,
     content: @Composable () -> Unit,
 ) {
     ModalNavigationDrawer(
         drawerState = drawerState,
-        drawerContent = { DrawerBody(navController, drawerState) },
+        drawerContent = { DrawerBody(
+            navController = navController,
+            drawerState = drawerState,
+            userPhotoId = userPhotoId,
+            userName = userName,
+    ) },
         content = content,
     )
 }
@@ -58,7 +64,9 @@ fun NavigationDrawerWidget(
 @Composable
 private fun DrawerBody(
     navController: NavController,
-    drawerState: DrawerState
+    drawerState: DrawerState,
+    userPhotoId: Int?,
+    userName: String?,
 ) {
     val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
     val onSighOut: () -> Unit = {
@@ -79,6 +87,8 @@ private fun DrawerBody(
     ) {
         DrawerHeader(
             navController = navController,
+            userPhotoId = userPhotoId,
+            userName = userName,
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -139,9 +149,10 @@ private fun DrawerBody(
 @Composable
 private fun DrawerHeader(
     navController: NavController,
+    userPhotoId: Int?,
+    userName: String?,
 ) {
-    val user = User.find()
-    val avatarRes = user.photoId ?: R.drawable.img_user
+    val avatarRes = userPhotoId ?: R.drawable.img_user
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -157,7 +168,7 @@ private fun DrawerHeader(
         Spacer(modifier = Modifier.width(15.dp))
 
         Text(
-            text = user.name ?: "",
+            text = userName ?: "",
             color = Color.Black,
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.labelLarge,
