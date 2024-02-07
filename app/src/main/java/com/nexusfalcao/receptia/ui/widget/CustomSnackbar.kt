@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -23,7 +24,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.theme.MaximumRed
 import com.nexusfalcao.receptia.ui.theme.Fulvous
 
 object CustomSnackbar {
@@ -31,7 +31,7 @@ object CustomSnackbar {
     fun Error(hostState: SnackbarHostState) {
         DefaultSnackbar(
             hostState = hostState,
-            backgroundColor = MaximumRed,
+            backgroundColor = MaterialTheme.colorScheme.error,
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_baseline_cancel),
