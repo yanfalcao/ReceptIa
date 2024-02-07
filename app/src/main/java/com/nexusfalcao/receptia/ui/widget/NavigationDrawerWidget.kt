@@ -15,14 +15,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DrawerState
+import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -30,6 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.ReceptIaApplication
 import com.nexusfalcao.receptia.feature.avatar.navigation.navigateToAvatar
@@ -37,7 +40,9 @@ import com.nexusfalcao.receptia.feature.historic.navigation.navigateToHistoric
 import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
 import com.nexusfalcao.receptia.feature.login.navigation.navigateToLogin
 import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
-import com.nexusfalcao.receptia.ui.theme.Olivine
+import com.nexusfalcao.receptia.ui.preview.PreviewParameterData
+import com.nexusfalcao.receptia.ui.preview.ThemePreview
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 import com.nexusfalcao.receptia.ui.theme.titleMediumSmall
 import kotlinx.coroutines.launch
 
@@ -81,7 +86,7 @@ private fun DrawerBody(
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .background(color = Color.White)
+            .background(color = MaterialTheme.colorScheme.surface)
             .padding(start = 20.dp, end = 25.dp, top = 40.dp, bottom = 50.dp),
         horizontalAlignment = Alignment.Start,
     ) {
@@ -98,7 +103,7 @@ private fun DrawerBody(
                 .height(1.dp)
                 .width(200.dp)
                 .fillMaxWidth()
-                .background(color = Olivine),
+                .background(color = MaterialTheme.colorScheme.primary),
         )
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -110,16 +115,12 @@ private fun DrawerBody(
             drawerState = drawerState,
         )
 
-        Spacer(modifier = Modifier.height(26.dp))
-
         DrawerTile(
             iconResourceId = R.drawable.ic_add,
             titleResourceId = R.string.drawer_new_recipe,
             onClick = navController::navigateToNewRecipe,
             drawerState = drawerState,
         )
-
-        Spacer(modifier = Modifier.height(26.dp))
 
         DrawerTile(
             iconResourceId = R.drawable.ic_article,
@@ -169,7 +170,7 @@ private fun DrawerHeader(
 
         Text(
             text = userName ?: "",
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.labelLarge,
             modifier = Modifier.width(105.dp),
@@ -187,7 +188,10 @@ private fun DrawerTile(
     val coroutineScope = rememberCoroutineScope()
 
     Row(
-        modifier = Modifier.clickable(onClick = {
+        modifier = Modifier
+            .height(50.dp)
+            .width(200.dp)
+            .clickable(onClick = {
             coroutineScope.launch {
                 drawerState.close()
                 onClick()
@@ -199,15 +203,33 @@ private fun DrawerTile(
             painter = painterResource(id = iconResourceId),
             contentDescription = null,
             modifier = Modifier.width(26.dp),
+            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.primary)
         )
 
         Spacer(modifier = Modifier.width(15.dp))
 
         Text(
             text = stringResource(id = titleResourceId),
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.titleMediumSmall,
+        )
+    }
+}
+
+@ThemePreview
+@Composable
+private fun NavigationDrawerPreview() {
+    val user = PreviewParameterData.user
+    val drawerState = rememberDrawerState(DrawerValue.Open)
+    val navController = rememberNavController()
+
+    ReceptIaTheme {
+        DrawerBody(
+            userName = user.name,
+            userPhotoId = user.photoId,
+            drawerState = drawerState,
+            navController = navController
         )
     }
 }
