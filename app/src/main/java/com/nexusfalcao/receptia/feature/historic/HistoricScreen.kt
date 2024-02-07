@@ -111,7 +111,10 @@ private fun HistoricScreen(
                 showSheet = false
                 onResetFilter()
             },
-            onDismiss = { showSheet = false }
+            onDismiss = {
+                showSheet = false
+                onResetFilter()
+            }
         )
     }
 
