@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.feature.home.preview.PreviewParameterData
 import com.nexusfalcao.receptia.persistence.Recipe
 import com.nexusfalcao.receptia.ui.preview.ThemePreview
-import com.nexusfalcao.receptia.ui.theme.DeepCarminePink
+import com.nexusfalcao.receptia.ui.theme.FilledHeartColor
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
 @Composable
@@ -48,7 +48,7 @@ fun Header(
                 true -> Icon(
                     imageVector = Icons.Default.Favorite,
                     modifier = Modifier.size(30.dp),
-                    tint =  DeepCarminePink,
+                    tint =  FilledHeartColor,
                     contentDescription = null,
                 )
                 false -> Icon(

@@ -25,8 +25,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.ui.preview.ThemePreview
-import com.nexusfalcao.receptia.ui.theme.BlackTransparent05
+import com.nexusfalcao.receptia.ui.theme.AmbientShadowColor
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
+import com.nexusfalcao.receptia.ui.theme.SpotShadowColor
 
 @Composable
 fun SearchBar(
@@ -48,8 +49,8 @@ fun SearchBar(
         modifier = modifier
             .shadow(
                 elevation = 4.dp,
-                spotColor = BlackTransparent05,
-                ambientColor = BlackTransparent05,
+                spotColor = SpotShadowColor,
+                ambientColor = AmbientShadowColor,
             )
             .background(
                 color = MaterialTheme.colorScheme.surface,
