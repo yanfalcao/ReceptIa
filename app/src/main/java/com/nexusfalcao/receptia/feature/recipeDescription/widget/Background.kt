@@ -16,10 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.feature.splash.SplashScreen
 import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
-import com.nexusfalcao.receptia.ui.theme.AntiqueWhite
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
+import com.nexusfalcao.receptia.ui.theme.RecipeDescriptionBackgroundColor
 
 @Composable
 fun Background() {
@@ -31,7 +30,7 @@ fun Background() {
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = AntiqueWhite),
+            .background(color = RecipeDescriptionBackgroundColor),
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_background_recipe),

@@ -16,8 +16,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.ui.preview.ThemePreview
-import com.nexusfalcao.receptia.ui.theme.BlackTransparent05
+import com.nexusfalcao.receptia.ui.theme.AmbientShadowColor
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
+import com.nexusfalcao.receptia.ui.theme.SpotShadowColor
 
 @Composable
 fun FilterButton(
@@ -40,8 +41,8 @@ fun FilterButton(
             .background(color = backgroundColor, shape = CircleShape)
             .shadow(
                 elevation = 4.dp,
-                spotColor = BlackTransparent05,
-                ambientColor = BlackTransparent05,
+                spotColor = SpotShadowColor,
+                ambientColor = AmbientShadowColor,
             ),
         contentAlignment = Alignment.Center,
     ) {

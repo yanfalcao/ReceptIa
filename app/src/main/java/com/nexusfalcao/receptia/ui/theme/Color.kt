@@ -2,7 +2,20 @@ package com.nexusfalcao.receptia.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val BlackTransparent05 = Color(0xD000000)
+// Semantic colors
+val RecipeDescriptionBackgroundColor: Color
+    get() = AntiqueWhite
+val AlertSnackbarColor: Color
+    get() = Fulvous
+val FilledHeartColor: Color
+    get() = DeepCarminePink
+val AmbientShadowColor: Color
+    get() = BlackTransparent05
+val SpotShadowColor: Color
+    get() = BlackTransparent05
+
+// Primary color
+val BlackTransparent05 = Color(0x0D000000)
 val BlackTransparent30 = Color(0x4D000000)
 val Gray600Transparent40 = Color(0x65757575)
 

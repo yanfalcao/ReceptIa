@@ -24,7 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.theme.Fulvous
+import com.nexusfalcao.receptia.ui.theme.AlertSnackbarColor
 
 object CustomSnackbar {
     @Composable
@@ -47,7 +47,7 @@ object CustomSnackbar {
     fun Alert(hostState: SnackbarHostState) {
         DefaultSnackbar(
             hostState = hostState,
-            backgroundColor = Fulvous,
+            backgroundColor = AlertSnackbarColor,
         ) {
             Icon(
                 imageVector = Icons.Filled.Warning,
@@ -91,7 +91,7 @@ private fun DefaultSnackbarPreview() {
     Snackbar(
         modifier = Modifier.padding(12.dp),
         shape = RoundedCornerShape(12.dp),
-        containerColor = Fulvous,
+        containerColor = AlertSnackbarColor,
     ) {
         Row (
             verticalAlignment = Alignment.CenterVertically
