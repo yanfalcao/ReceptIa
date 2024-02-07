@@ -3,6 +3,7 @@ package com.nexusfalcao.receptia.feature.historic.widget
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,6 +11,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,8 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
+import com.nexusfalcao.receptia.ui.preview.ThemePreview
 import com.nexusfalcao.receptia.ui.theme.BlackTransparent05
-import com.nexusfalcao.receptia.ui.theme.Gray100
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
 @Composable
 fun SearchBar(
@@ -45,7 +48,7 @@ fun SearchBar(
                 ambientColor = BlackTransparent05,
             )
             .background(
-                color = Gray100,
+                color = MaterialTheme.colorScheme.surface,
                 shape = roundedCornerShape,
             ),
         decorationBox = { innerTextField ->
@@ -58,10 +61,19 @@ fun SearchBar(
                     imageVector = Icons.Default.Search,
                     modifier = Modifier.size(25.dp),
                     contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
 
                 innerTextField()
             }
         },
     )
+}
+
+@ThemePreview
+@Composable
+private fun SearchBarPreview() {
+    ReceptIaTheme {
+        SearchBar(modifier = Modifier.height(40.dp))
+    }
 }

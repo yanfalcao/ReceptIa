@@ -45,8 +45,7 @@ import com.nexusfalcao.receptia.persistence.User
 import com.nexusfalcao.receptia.persistence.utils.DifficultState
 import com.nexusfalcao.receptia.ui.ComposableLifecycle
 import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
-import com.nexusfalcao.receptia.ui.theme.Gray100
-import com.nexusfalcao.receptia.ui.theme.Olivine
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 import com.nexusfalcao.receptia.ui.widget.EmptyStateWidget
 import com.nexusfalcao.receptia.ui.widget.NavigationDrawerWidget
 import com.nexusfalcao.receptia.ui.widget.TopBarWidget
@@ -98,10 +97,6 @@ private fun HistoricScreen(
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     var showSheet by remember { mutableStateOf(false) }
-    val backgroundFilterButton = when(filterUiState.hasAnyFilterSelected()) {
-        true -> Olivine
-        false -> Gray100
-    }
 
     if (showSheet) {
         BottomSheetFilter(
@@ -154,7 +149,7 @@ private fun HistoricScreen(
 
                     FilterButton(
                         modifier = Modifier.size(40.dp),
-                        backgrounColor = backgroundFilterButton,
+                        hasAnyFilterSelected = filterUiState.hasAnyFilterSelected(),
                     ) {
                         showSheet = true
                     }
@@ -206,32 +201,41 @@ private fun HistoricScreen(
 @ThemePreviewShowsBakground
 @Composable
 private fun HistoricScreenPreview() {
-    HistoricScreen(
-        historicState = RecipeHistoricUiState.Success(PreviewParameterData.recipeList),
-        filterUiState = FilterState(TagFilterEnum.ALL),
-        navController = rememberNavController(),
-        user = UiPreviewParameterData.user,
-    )
+    ReceptIaTheme {
+        HistoricScreen(
+            historicState = RecipeHistoricUiState.Success(PreviewParameterData.recipeList),
+            filterUiState = FilterState(
+                tag = TagFilterEnum.FAVORITES,
+                difficult = DifficultState.Easy,
+            ),
+            navController = rememberNavController(),
+            user = UiPreviewParameterData.user,
+        )
+    }
 }
 
 @ThemePreviewShowsBakground
 @Composable
 private fun LoadingStatePreview() {
-    HistoricScreen(
-        historicState = RecipeHistoricUiState.Loading,
-        filterUiState = FilterState(TagFilterEnum.ALL),
-        navController = rememberNavController(),
-        user = UiPreviewParameterData.user,
-    )
+    ReceptIaTheme {
+        HistoricScreen(
+            historicState = RecipeHistoricUiState.Loading,
+            filterUiState = FilterState(TagFilterEnum.ALL),
+            navController = rememberNavController(),
+            user = UiPreviewParameterData.user,
+        )
+    }
 }
 
 @ThemePreviewShowsBakground
 @Composable
 private fun EmptyStatePreview() {
-    HistoricScreen(
-        historicState = RecipeHistoricUiState.Success(listOf()),
-        filterUiState = FilterState(TagFilterEnum.ALL),
-        navController = rememberNavController(),
-        user = UiPreviewParameterData.user,
-    )
+    ReceptIaTheme {
+        HistoricScreen(
+            historicState = RecipeHistoricUiState.Success(listOf()),
+            filterUiState = FilterState(TagFilterEnum.ALL),
+            navController = rememberNavController(),
+            user = UiPreviewParameterData.user,
+        )
+    }
 }
