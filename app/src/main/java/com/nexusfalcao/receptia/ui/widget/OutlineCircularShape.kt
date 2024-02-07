@@ -2,6 +2,7 @@ package com.nexusfalcao.receptia.ui.widget
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -10,14 +11,13 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.ui.theme.Olivine
 
 @Composable
 fun OutlineCircularShape(
     modifier: Modifier = Modifier,
     shapeSize: Dp,
     stroke: Float = 10F,
-    color: Color = Olivine,
+    color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Canvas(modifier = modifier.size(shapeSize)) {
         val canvasWidth = size.width

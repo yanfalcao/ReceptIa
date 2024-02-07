@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.avatar.state.ImageUiState
-import com.nexusfalcao.receptia.ui.theme.Olivine
 import com.nexusfalcao.receptia.ui.widget.OutlineCircularShape
 
 @Composable
@@ -37,6 +38,7 @@ fun GridListAvatar(
             val colorOutline = getOutlineColor(
                 imageId = it,
                 imageUiState = imageUiState,
+                colorScheme = MaterialTheme.colorScheme,
             )
 
             Box(
@@ -66,11 +68,12 @@ fun GridListAvatar(
 private fun getOutlineColor(
     imageId: Int,
     imageUiState: ImageUiState,
+    colorScheme: ColorScheme,
 ): Color {
     return when(imageUiState) {
         is ImageUiState.Selected -> {
             when(imageUiState.isSelected(imageId)) {
-                true -> Olivine
+                true -> colorScheme.primary
                 false -> Color.Transparent
             }
         }
