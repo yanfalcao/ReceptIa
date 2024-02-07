@@ -17,13 +17,12 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -31,7 +30,8 @@ import androidx.navigation.NavController
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.avatar.state.ImageUiState
 import com.nexusfalcao.receptia.feature.avatar.widget.GridListAvatar
-import com.nexusfalcao.receptia.ui.theme.Olivine
+import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
 @Composable
 internal fun AvatarRoute(
@@ -56,17 +56,20 @@ private fun AvatarScreen(
     saveImage: () -> Unit,
     onBackClick: () -> Unit,
 ) {
+    val colorScheme = MaterialTheme.colorScheme
     val isSelected = imageUiState is ImageUiState.Selected
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = colorScheme.background),
                 title = {},
                 navigationIcon = {
                     IconButton(onClick = onBackClick) {
                         Icon(
                             imageVector = Icons.Default.ArrowBack,
                             contentDescription = null,
+                            tint = colorScheme.onBackground
                         )
                     }
                 },
@@ -82,7 +85,7 @@ private fun AvatarScreen(
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(id = R.string.select_you_avatar),
-                color = Color.Black,
+                color = colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineMedium,
                 textAlign = TextAlign.Center
             )
@@ -104,12 +107,12 @@ private fun AvatarScreen(
                     saveImage()
                     onBackClick()
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = Olivine),
+                colors = ButtonDefaults.buttonColors(containerColor = colorScheme.primary),
                 enabled = isSelected,
             ) {
                 Text(
                     text = stringResource(id = R.string.select),
-                    color = Color.White,
+                    color = colorScheme.onPrimary,
                     style = MaterialTheme.typography.titleLarge,
                 )
             }
@@ -117,16 +120,15 @@ private fun AvatarScreen(
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-)
+@ThemePreviewShowsBakground
 @Composable
 private fun AvatarScreenPreview() {
-    AvatarScreen(
-        imageUiState = ImageUiState.Selected(imageId = 2131230856),
-        selectImage = {},
-        saveImage = {},
-        onBackClick = {}
-    )
+    ReceptIaTheme {
+        AvatarScreen(
+            imageUiState = ImageUiState.Selected(imageId = 2131230856),
+            selectImage = {},
+            saveImage = {},
+            onBackClick = {}
+        )
+    }
 }
