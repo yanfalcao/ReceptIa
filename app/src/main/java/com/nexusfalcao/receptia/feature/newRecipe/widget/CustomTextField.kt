@@ -6,9 +6,11 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
@@ -48,55 +50,66 @@ fun CustomTextField(
         checkFieldUiState.equalsField(ingredientUiState.state)
 
     val borderColor = createBorderColor(isErrorUnfilled, isErrorLimitChar)
-    val backgroundColor = createBackgroundColor()
     val roundedCornerShape = RoundedCornerShape(size = 20.dp)
     val errorText = createErrorText(isErrorUnfilled)
+    val sendIngredient = {
+        onInputIngredient(ingredientUiState.state, textFieldValue)
+        textFieldValue = ""
+        isErrorLimitChar = false
+    }
 
     Column {
-        BasicTextField(
-            cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
-            textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
-            value = textFieldValue,
-            onValueChange = { newText ->
-                if (newText.length <= maxChar) {
-                    textFieldValue = newText
-                    isErrorUnfilled = false
-                    isErrorLimitChar = false
-                } else {
-                    isErrorLimitChar = true
-                }
-            },
-            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
-            keyboardActions = KeyboardActions(
-                onSend = {
-                    onInputIngredient(ingredientUiState.state, textFieldValue)
-                    textFieldValue = ""
-                    isErrorLimitChar = false
-                },
-            ),
-            singleLine = true,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(45.dp)
-                .border(width = 1.dp, color = borderColor, shape = roundedCornerShape)
-                .background(color = backgroundColor, shape = roundedCornerShape),
-            decorationBox = { innerTextField ->
-                Row(
-                    modifier = Modifier.padding(start = 20.dp, end = 20.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Box {
-                        if (textFieldValue.isEmpty()) {
-                            Text(
-                                text = stringResource(id = R.string.placeholder_ingredient),
-                                color = MaterialTheme.colorScheme.outline,
-                            )
-                        }
-                        innerTextField()
+        Row {
+            BasicTextField(
+                cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
+                textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
+                value = textFieldValue,
+                onValueChange = { newText ->
+                    if (newText.length <= maxChar) {
+                        textFieldValue = newText
+                        isErrorUnfilled = false
+                        isErrorLimitChar = false
+                    } else {
+                        isErrorLimitChar = true
                     }
-                }
-            },
-        )
+                },
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
+                keyboardActions = KeyboardActions(
+                    onSend = {
+                        sendIngredient()
+                    },
+                ),
+                singleLine = true,
+                modifier = Modifier.weight(1f)
+                    .height(45.dp)
+                    .border(width = 1.dp, color = borderColor, shape = roundedCornerShape)
+                    .background(color = createBackgroundColor(), shape = roundedCornerShape),
+                decorationBox = { innerTextField ->
+                    Row(
+                        modifier = Modifier.padding(start = 20.dp, end = 20.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Box {
+                            if (textFieldValue.isEmpty()) {
+                                Text(
+                                    text = stringResource(id = R.string.placeholder_ingredient),
+                                    color = MaterialTheme.colorScheme.outline,
+                                )
+                            }
+                            innerTextField()
+                        }
+                    }
+                },
+            )
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            SendButtom(
+                modifier = Modifier.size(45.dp),
+                onClick = sendIngredient
+            )
+        }
+
         if (isErrorUnfilled || isErrorLimitChar) {
             Text(
                 text = errorText,
