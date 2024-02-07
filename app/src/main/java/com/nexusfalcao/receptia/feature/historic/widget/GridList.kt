@@ -57,7 +57,7 @@ private fun GridTile(
     Column(
         modifier = Modifier
             .background(
-                color = Gray100,
+                color = MaterialTheme.colorScheme.surface,
                 shape = RoundedCornerShape(15.dp),
             )
             .clickable { navigateToDescription(recipe.id) }
@@ -71,7 +71,7 @@ private fun GridTile(
             modifier = Modifier.padding(horizontal = 5.dp),
             text = recipe.name,
             style = MaterialTheme.typography.labelSmall,
-            color = Color.Black,
+            color = MaterialTheme.colorScheme.onSurface,
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Start,
@@ -88,7 +88,7 @@ private fun GridTile(
 
             Text(
                 text = recipe.prepTime,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 5.dp),
             )
@@ -104,7 +104,7 @@ private fun GridTile(
 
             Text(
                 text = recipe.difficult,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 5.dp),
             )

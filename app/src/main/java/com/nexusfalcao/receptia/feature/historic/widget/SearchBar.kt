@@ -20,6 +20,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.ui.preview.ThemePreview
@@ -40,6 +42,8 @@ fun SearchBar(
             text = newText
             updateSearchFilter(text.text)
         },
+        cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
+        textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
         singleLine = true,
         modifier = modifier
             .shadow(
