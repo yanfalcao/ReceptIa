@@ -22,11 +22,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.nexusfalcao.model.User
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.ui.preview.PreviewParameterData as UiPreviewParameterData
 import com.nexusfalcao.receptia.feature.historic.preview.PreviewParameterData
@@ -41,7 +42,6 @@ import com.nexusfalcao.receptia.feature.historic.widget.SearchBar
 import com.nexusfalcao.receptia.feature.historic.widget.Tag
 import com.nexusfalcao.receptia.feature.historic.widget.LoadingRecipeList
 import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
-import com.nexusfalcao.receptia.persistence.User
 import com.nexusfalcao.receptia.persistence.utils.DifficultState
 import com.nexusfalcao.receptia.ui.ComposableLifecycle
 import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
@@ -53,11 +53,11 @@ import com.nexusfalcao.receptia.ui.widget.TopBarWidget
 @Composable
 internal fun HistoricRoute(
     navController: NavController,
-    viewModel: HistoricViewModel = viewModel(),
+    viewModel: HistoricViewModel = hiltViewModel(),
 ) {
     val historicState by viewModel.recipesUiState.collectAsStateWithLifecycle()
     val filterUiState by viewModel.filterState.collectAsStateWithLifecycle()
-    val user = User.find()
+    val user = viewModel.getUser()
 
     HistoricScreen(
         historicState = historicState,
@@ -93,7 +93,7 @@ private fun HistoricScreen(
     updateAmountServesFilter: (AmountServesFilterEnum) -> Unit = {},
     onApplyFilter: () -> Unit = {},
     onResetFilter: () -> Unit = {},
-    user: User,
+    user: User?,
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     var showSheet by remember { mutableStateOf(false) }
@@ -122,8 +122,8 @@ private fun HistoricScreen(
     NavigationDrawerWidget(
         drawerState = drawerState,
         navController = navController,
-        userName = user.name,
-        userPhotoId = user.photoId,
+        userName = user?.name,
+        userPhotoId = user?.photoId,
     ) {
         Scaffold(
             topBar = {

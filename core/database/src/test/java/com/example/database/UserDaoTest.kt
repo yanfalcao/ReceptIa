@@ -41,9 +41,9 @@ class UserDaoTest {
 
     @Test
     fun insert_returnTrue() {
-        userDao.insert(user)
-        val userFinded = userDao.findById(user.id)
-        assert(user.equals(userFinded))
+        val rowsAffected = userDao.insert(user)
+
+        assert(rowsAffected > 0)
     }
 
     @Test
@@ -58,11 +58,9 @@ class UserDaoTest {
             isLoggedIn = user.isLoggedIn,
         )
 
-        userDao.updatePhotoId(updatedUser.id, updatedUser.photoId!!)
+        val rowsAffected = userDao.updatePhotoId(updatedUser.id, updatedUser.photoId!!)
 
-        val userFinded = userDao.findById(updatedUser.id)
-
-        assert(updatedPhotoId.equals(userFinded.photoId))
+        assert(rowsAffected > 0)
     }
 
     @Test

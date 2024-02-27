@@ -2,13 +2,18 @@ package com.nexusfalcao.receptia.feature.avatar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nexusfalcao.data.repository.UserRepository
 import com.nexusfalcao.receptia.feature.avatar.state.ImageUiState
-import com.nexusfalcao.receptia.persistence.User
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AvatarViewModel : ViewModel() {
+@HiltViewModel
+class AvatarViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
     private val _imageUiState = MutableStateFlow<ImageUiState>(ImageUiState.Unselected)
     val imageUiState: StateFlow<ImageUiState> = _imageUiState
 
@@ -36,7 +41,10 @@ class AvatarViewModel : ViewModel() {
                 is ImageUiState.Selected -> {
                     val state = _imageUiState.value as ImageUiState.Selected
 
-                    User.find().update(photoId = state.imageId)
+                    val user = userRepository.getUser()
+                    user?.let {
+                        userRepository.updatePhotoId(it.id, state.imageId)
+                    }
                 }
                 else -> {}
             }

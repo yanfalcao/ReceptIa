@@ -184,7 +184,6 @@ class NewRecipeViewModel @Inject constructor(
                     recipePreferences.meal = text
                     _radioUiState.value = RadioUiState.Selected(textOption = text)
                 }
-                else -> {}
             }
         }
     }

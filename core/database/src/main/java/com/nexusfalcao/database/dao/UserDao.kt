@@ -9,7 +9,7 @@ import com.nexusfalcao.database.model.UserEntity
 @Dao
 interface UserDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(user: UserEntity)
+    fun insert(user: UserEntity): Long
 
     @Query("SELECT * FROM user")
     fun findAll(): List<UserEntity>
@@ -18,8 +18,8 @@ interface UserDao {
     fun findById(id: String): UserEntity
 
     @Query("DELETE FROM user")
-    fun deleteAll()
+    fun deleteAll(): Int
 
     @Query("UPDATE user SET photo_id = :photoId WHERE id = :userId")
-    fun updatePhotoId(userId: String, photoId: Int)
+    fun updatePhotoId(userId: String, photoId: Int): Int
 }

@@ -7,16 +7,17 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.nexusfalcao.database.model.RecipeEntity
 import com.nexusfalcao.database.model.RecipeWithIngredients
-import com.nexusfalcao.database.model.UserEntity
 
 @Dao
 interface RecipeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(recipe: RecipeEntity)
 
+    @Transaction
     @Query("SELECT * FROM recipe WHERE recipe.id = :id")
-    fun findById(id: String): UserEntity
+    fun findById(id: String): RecipeWithIngredients
 
+    @Transaction
     @Query("SELECT * FROM recipe ORDER BY created_at DESC LIMIT :limit")
     fun findLimited(limit: Int): List<RecipeWithIngredients>
 
