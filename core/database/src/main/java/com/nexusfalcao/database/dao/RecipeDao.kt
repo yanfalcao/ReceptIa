@@ -11,7 +11,7 @@ import com.nexusfalcao.database.model.RecipeWithIngredients
 @Dao
 interface RecipeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(recipe: RecipeEntity)
+    fun insert(recipe: RecipeEntity): Long
 
     @Transaction
     @Query("SELECT * FROM recipe WHERE recipe.id = :id")
@@ -26,8 +26,8 @@ interface RecipeDao {
     fun findAll(): List<RecipeWithIngredients>
 
     @Query("DELETE FROM recipe")
-    fun deleteAll()
+    fun deleteAll(): Int
 
     @Query("UPDATE recipe SET is_favorite = :isFavorite WHERE id = :recipeId")
-    fun updateIsFavorite(recipeId: String, isFavorite: Boolean)
+    fun updateIsFavorite(recipeId: String, isFavorite: Boolean): Int
 }
