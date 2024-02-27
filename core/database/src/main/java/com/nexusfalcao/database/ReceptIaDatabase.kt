@@ -1,6 +1,6 @@
 package com.nexusfalcao.database
 
-import android.app.Activity
+import android.app.Application
 import androidx.room.Database
 import androidx.room.Room.databaseBuilder
 import androidx.room.RoomDatabase
@@ -25,9 +25,9 @@ abstract class ReceptIaDatabase : RoomDatabase() {
         private val DATABASE_NAME = "ReceptIaDatabase"
         private var database: ReceptIaDatabase? = null
 
-        fun getInstance(activity: Activity?): ReceptIaDatabase? {
+        fun getInstance(application: Application?): ReceptIaDatabase? {
             if (database == null) {
-                database = databaseBuilder(activity!!, ReceptIaDatabase::class.java, DATABASE_NAME)
+                database = databaseBuilder(application!!, ReceptIaDatabase::class.java, DATABASE_NAME)
                     .allowMainThreadQueries()
                     .build()
             }

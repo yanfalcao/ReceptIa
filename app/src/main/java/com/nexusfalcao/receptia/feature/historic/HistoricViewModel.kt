@@ -2,17 +2,24 @@ package com.nexusfalcao.receptia.feature.historic
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nexusfalcao.data.repository.UserRepository
+import com.nexusfalcao.model.User
 import com.nexusfalcao.receptia.feature.historic.state.AmountServesFilterEnum
 import com.nexusfalcao.receptia.feature.historic.state.FilterState
 import com.nexusfalcao.receptia.feature.historic.state.RecipeHistoricUiState
 import com.nexusfalcao.receptia.feature.historic.state.TagFilterEnum
 import com.nexusfalcao.receptia.persistence.Recipe
 import com.nexusfalcao.receptia.persistence.utils.DifficultState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HistoricViewModel : ViewModel() {
+@HiltViewModel
+class HistoricViewModel @Inject constructor(
+    private val userRepository: UserRepository
+) : ViewModel() {
     private val recipeList = mutableListOf<Recipe>()
 
     private val _filterState =
@@ -22,6 +29,10 @@ class HistoricViewModel : ViewModel() {
     private val _recipesUiState =
         MutableStateFlow<RecipeHistoricUiState>(RecipeHistoricUiState.Loading)
     val recipesUiState: StateFlow<RecipeHistoricUiState> = _recipesUiState
+
+    fun getUser(): User? {
+        return userRepository.getUser()
+    }
 
     fun updateRecipeHistoric() {
         viewModelScope.launch {

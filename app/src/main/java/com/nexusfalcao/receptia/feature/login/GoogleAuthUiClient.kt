@@ -11,7 +11,7 @@ import com.nexusfalcao.receptia.BuildConfig
 import com.nexusfalcao.receptia.model.SignInError
 import com.nexusfalcao.receptia.model.SignInErrorStatus
 import com.nexusfalcao.receptia.model.SignInResult
-import com.nexusfalcao.receptia.persistence.User
+import com.nexusfalcao.model.User
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
 import com.google.firebase.auth.GoogleAuthProvider
@@ -41,10 +41,11 @@ class GoogleAuthUiClient(
             val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
             val userFirebase = auth.signInWithCredential(googleCredentials).await().user
             val user = userFirebase?.run {
-                User().apply {
-                    id = uid
-                    name = displayName
-                }
+                User(
+                    id = uid,
+                    name = displayName,
+                    isLoggedIn = true,
+                )
             }
             SignInResult(
                 data = user,
@@ -82,10 +83,11 @@ class GoogleAuthUiClient(
     }
 
     fun getSignedInUser(): User? = auth.currentUser?.run {
-        User().apply {
-            id = uid
-            name = displayName
-        }
+        User(
+            id = uid,
+            name = displayName,
+            isLoggedIn = true,
+        )
     }
 
     private fun buildSignInRequest(): BeginSignInRequest {

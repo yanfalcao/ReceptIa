@@ -1,9 +1,10 @@
 package com.nexusfalcao.receptia.ui.preview
 
+import com.nexusfalcao.model.User
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.persistence.Ingredient
 import com.nexusfalcao.receptia.persistence.Recipe
-import com.nexusfalcao.receptia.persistence.User
+import java.util.UUID
 
 object PreviewParameterData {
     val recipe: Recipe
@@ -58,8 +59,10 @@ object PreviewParameterData {
         }
 
     val user: User
-        get() = User().apply {
-            name = "Yan Falcão"
-            photoId = R.drawable.img_man_2
-        }
+        get() = User(
+            id = UUID.randomUUID().toString(),
+            name = "Yan Falcão",
+            photoId = R.drawable.img_man_2,
+            isLoggedIn = true,
+        )
 }

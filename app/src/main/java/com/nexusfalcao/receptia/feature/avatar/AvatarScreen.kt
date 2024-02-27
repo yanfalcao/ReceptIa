@@ -24,8 +24,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.avatar.state.ImageUiState
@@ -36,7 +36,7 @@ import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 @Composable
 internal fun AvatarRoute(
     navController: NavController,
-    viewModel: AvatarViewModel = viewModel(),
+    viewModel: AvatarViewModel = hiltViewModel(),
 ) {
     val imageUiState by viewModel.imageUiState.collectAsStateWithLifecycle()
 
