@@ -18,7 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.feature.home.preview.PreviewParameterData
-import com.nexusfalcao.receptia.persistence.Recipe
+import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.receptia.ui.preview.ThemePreview
 import com.nexusfalcao.receptia.ui.theme.FilledHeartColor
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme

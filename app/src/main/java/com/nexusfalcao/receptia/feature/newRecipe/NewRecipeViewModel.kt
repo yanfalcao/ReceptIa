@@ -8,11 +8,11 @@ import com.nexusfalcao.receptia.model.RecipePreferences
 import com.nexusfalcao.receptia.network.model.GptFunctions
 import com.nexusfalcao.receptia.network.model.GptRequest
 import com.nexusfalcao.receptia.network.model.GtpMessage
-import com.nexusfalcao.receptia.persistence.Recipe
-import com.nexusfalcao.receptia.persistence.utils.RecipeDeserializer
-import com.nexusfalcao.receptia.repository.RecipeRepository
+import com.nexusfalcao.receptia.utils.RecipeDeserializer
+import com.nexusfalcao.receptia.repository.NetworkRepository
 import com.nexusfalcao.receptia.utils.RequestMessageUtil
 import com.google.gson.GsonBuilder
+import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.receptia.network.model.GptFunction
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,7 +26,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewRecipeViewModel @Inject constructor(
-    private val repository: RecipeRepository,
+    private val networkRepository: NetworkRepository,
+    private val recipeRepository: com.nexusfalcao.data.repository.RecipeRepository,
 ) : ViewModel() {
     private val INGREDIENT_LIMIT = 30
     private val recipePreferences = RecipePreferences()
@@ -196,14 +197,14 @@ class NewRecipeViewModel @Inject constructor(
                 val request = getChatCompletionRequest(recipePreferences)
 
                 try {
-                    val data = repository.createChatCompletion(request)
+                    val data = networkRepository.createChatCompletion(request)
 
                     val customDeserializer = GsonBuilder()
                         .registerTypeAdapter(Recipe::class.java, RecipeDeserializer())
                         .create()
 
                     val recipe = customDeserializer.fromJson(data, Recipe::class.java)
-                    recipe.create()
+                    recipeRepository.saveRecipe(recipe)
 
                     _createRecipeUiState.value = CreateRecipeUiState.Success(recipe.id)
                 } catch (e: Exception) {

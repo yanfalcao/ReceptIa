@@ -30,7 +30,7 @@ import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.historic.state.AmountServesFilterEnum
 import com.nexusfalcao.receptia.feature.historic.state.FilterState
 import com.nexusfalcao.receptia.feature.historic.state.TagFilterEnum
-import com.nexusfalcao.receptia.persistence.utils.DifficultState
+import com.nexusfalcao.model.state.DifficultState
 import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 

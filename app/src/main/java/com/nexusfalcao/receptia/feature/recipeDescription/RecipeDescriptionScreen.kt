@@ -11,6 +11,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -30,8 +31,10 @@ import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 internal fun RecipeDescriptionRoute(
     navController: NavController,
     recipeId: String,
-    viewModel: RecipeDescriptionViewModel = viewModel(factory = RecipeDescriptionVMFactory(recipeId)),
 ) {
+    val viewModel = hiltViewModel<RecipeDescriptionViewModel, RecipeDescriptionVMFactory> { factory ->
+        factory.create(recipeId)
+    }
     val toogleRecipeState by viewModel.toogleRecipeState.collectAsStateWithLifecycle()
     val recipeUiState by viewModel.recipeUiState.collectAsStateWithLifecycle()
 

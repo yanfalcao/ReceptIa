@@ -20,7 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.home.preview.PreviewParameterData
-import com.nexusfalcao.receptia.persistence.Recipe
+import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.receptia.ui.preview.ThemePreview
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 import com.nexusfalcao.receptia.ui.widget.DifficultIcon
@@ -55,7 +55,7 @@ fun DetailsBody(recipe: Recipe) {
                 )
 
                 Text(
-                    text = recipe.prepTime,
+                    text = recipe.recipeDetails.preparationTime,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
@@ -69,11 +69,11 @@ fun DetailsBody(recipe: Recipe) {
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
             ) {
                 DifficultIcon(
-                    difficultState = recipe.difficultState,
+                    difficultState = recipe.recipeDetails.difficultState,
                 )
 
                 Text(
-                    text = recipe.difficult,
+                    text = recipe.recipeDetails.difficult,
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
@@ -93,7 +93,7 @@ fun DetailsBody(recipe: Recipe) {
                 )
 
                 Text(
-                    text = recipe.amountPeopleServes.toString() + " " + stringResource(R.string.people),
+                    text = recipe.recipeDetails.amountPeopleServes.toString() + " " + stringResource(R.string.people),
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
@@ -109,17 +109,17 @@ fun DetailsBody(recipe: Recipe) {
             ) {
                 NutritionTile(
                     title = R.string.calories,
-                    description = recipe.amountCalories,
+                    description = recipe.recipeDetails.amountCalories,
                 )
 
                 NutritionTile(
                     title = R.string.carbs,
-                    description = recipe.amountCarbs,
+                    description = recipe.recipeDetails.amountCarbs,
                 )
 
                 NutritionTile(
                     title = R.string.proteins,
-                    description = recipe.amountProteins,
+                    description = recipe.recipeDetails.amountProteins,
                 )
             }
         }

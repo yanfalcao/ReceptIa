@@ -15,7 +15,7 @@ interface UserDao {
     fun findAll(): List<UserEntity>
 
     @Query("SELECT * FROM user WHERE user.id = :id")
-    fun findById(id: String): UserEntity
+    fun findById(id: String): UserEntity?
 
     @Query("DELETE FROM user")
     fun deleteAll(): Int

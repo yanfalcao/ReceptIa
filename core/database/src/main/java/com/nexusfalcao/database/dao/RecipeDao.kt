@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import com.nexusfalcao.database.model.RecipeEntity
-import com.nexusfalcao.database.model.RecipeWithIngredients
+import com.nexusfalcao.database.model.RecipeWithRelations
 
 @Dao
 interface RecipeDao {
@@ -15,15 +15,15 @@ interface RecipeDao {
 
     @Transaction
     @Query("SELECT * FROM recipe WHERE recipe.id = :id")
-    fun findById(id: String): RecipeWithIngredients
+    fun findById(id: String): RecipeWithRelations?
 
     @Transaction
     @Query("SELECT * FROM recipe ORDER BY created_at DESC LIMIT :limit")
-    fun findLimited(limit: Int): List<RecipeWithIngredients>
+    fun findLimited(limit: Int): List<RecipeWithRelations>
 
     @Transaction
     @Query("SELECT * FROM recipe")
-    fun findAll(): List<RecipeWithIngredients>
+    fun findAll(): List<RecipeWithRelations>
 
     @Query("DELETE FROM recipe")
     fun deleteAll(): Int

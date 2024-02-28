@@ -5,8 +5,10 @@ import com.example.database.util.DatabaseTestInstance
 import com.nexusfalcao.database.ReceptIaDatabase
 import com.nexusfalcao.database.dao.IngredientDao
 import com.nexusfalcao.database.dao.RecipeDao
+import com.nexusfalcao.database.dao.StepDao
 import com.nexusfalcao.database.model.IngredientEntity
 import com.nexusfalcao.database.model.RecipeEntity
+import com.nexusfalcao.database.model.StepEntity
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -18,16 +20,20 @@ class RecipeDaoTest {
     private lateinit var database: ReceptIaDatabase
     private lateinit var recipeDao: RecipeDao
     private lateinit var ingredientDao: IngredientDao
+    private lateinit var stepDao: StepDao
     private lateinit var recipe: RecipeEntity
     private lateinit var recipe2: RecipeEntity
     private lateinit var ingredients: List<IngredientEntity>
     private lateinit var ingredients2: List<IngredientEntity>
+    private lateinit var steps: List<StepEntity>
+    private lateinit var steps2: List<StepEntity>
 
     @Before
     fun setupDatabase() {
         database = DatabaseTestInstance(ApplicationProvider.getApplicationContext())
         recipeDao = database.recipeDao()
         ingredientDao = database.ingredientDao()
+        stepDao = database.stepDao()
     }
 
     @Before
@@ -35,7 +41,6 @@ class RecipeDaoTest {
         recipe = RecipeEntity(
             name = "Sample Recipe",
             description = "This is a sample recipe",
-            recipeSteps = "Step 1, Step 2, Step 3",
             amountCalories = "500",
             amountCarbs = "50g",
             amountProteins = "20g",
@@ -49,7 +54,6 @@ class RecipeDaoTest {
         recipe2 = RecipeEntity(
             name = "Sample Recipe",
             description = "This is a sample recipe",
-            recipeSteps = "Step 1, Step 2, Step 3",
             amountCalories = "500",
             amountCarbs = "50g",
             amountProteins = "20g",
@@ -71,6 +75,17 @@ class RecipeDaoTest {
             IngredientEntity(name = "Ingredient 1", measure = "100g", recipeId = recipe2.id),
             IngredientEntity(name = "Ingredient 2", measure = "200g", recipeId = recipe2.id),
         )
+
+        steps = listOf(
+            StepEntity(description = "Step 1", position = 1, recipeId = recipe.id),
+            StepEntity(description = "Step 2", position = 2, recipeId = recipe.id),
+        )
+
+        steps2 = listOf(
+            StepEntity(description = "Step 1", position = 1, recipeId = recipe2.id),
+            StepEntity(description = "Step 2", position = 2, recipeId = recipe2.id),
+            StepEntity(description = "Step 3", position = 3, recipeId = recipe2.id)
+        )
     }
 
     @After
@@ -91,32 +106,39 @@ class RecipeDaoTest {
         ingredients.forEach { item ->
             ingredientDao.insert(item)
         }
+        steps.forEach { item ->
+            stepDao.insert(item)
+        }
 
 
-        val recipeWithIngredients = recipeDao.findById(recipe.id)
+        val recipeWithRelations = recipeDao.findById(recipe.id)
 
-        assert(recipeWithIngredients.recipe.id == recipe.id)
-        assert(recipeWithIngredients.ingredients.size == ingredients.size)
+        assert(recipeWithRelations?.recipe?.id == recipe.id)
+        assert(recipeWithRelations?.ingredients?.size == ingredients.size)
+        assert(recipeWithRelations?.steps?.size == steps.size)
+    }
+
+    @Test
+    fun findById_returnFalse() {
+        recipeDao.deleteAll()
+
+        val recipeWithRelations = recipeDao.findById(recipe.id)
+
+        assert(recipeWithRelations == null)
     }
 
     @Test
     fun findLimited_returnTrue() {
         recipeDao.insert(recipe)
-        ingredients.forEach { item ->
-            ingredientDao.insert(item)
-        }
 
         recipeDao.insert(recipe2)
-        ingredients2.forEach { item ->
-            ingredientDao.insert(item)
-        }
 
 
-        val recipeWithIngredients = recipeDao.findLimited(1)
+        val recipeWithRelations = recipeDao.findLimited(1)
 
-        assert(recipeWithIngredients.isNotEmpty())
-        assert(recipeWithIngredients.size == 1)
-        assert(recipeWithIngredients[0].recipe.id == recipe2.id)
+        assert(recipeWithRelations.isNotEmpty())
+        assert(recipeWithRelations.size == 1)
+        assert(recipeWithRelations[0].recipe.id == recipe2.id)
     }
 
     @Test
@@ -125,18 +147,35 @@ class RecipeDaoTest {
         ingredients.forEach { item ->
             ingredientDao.insert(item)
         }
+        steps.forEach { item ->
+            stepDao.insert(item)
+        }
 
         recipeDao.insert(recipe2)
         ingredients2.forEach { item ->
             ingredientDao.insert(item)
         }
+        steps2.forEach { item ->
+            stepDao.insert(item)
+        }
 
 
-        val recipeWithIngredients = recipeDao.findAll()
+        val recipeWithRelations = recipeDao.findAll()
 
-        assert(recipeWithIngredients.size == 2)
-        assert(recipeWithIngredients[0].ingredients.size == ingredients.size)
-        assert(recipeWithIngredients[1].ingredients.size == ingredients2.size)
+        assert(recipeWithRelations.size == 2)
+        assert(recipeWithRelations[0].ingredients.size == ingredients.size)
+        assert(recipeWithRelations[1].ingredients.size == ingredients2.size)
+        assert(recipeWithRelations[0].steps.size == steps.size)
+        assert(recipeWithRelations[1].steps.size == steps2.size)
+    }
+
+    @Test
+    fun findAll_returnFalse() {
+        recipeDao.deleteAll()
+
+        val recipeWithRelations = recipeDao.findAll()
+
+        assert(recipeWithRelations.isEmpty())
     }
 
     @Test
@@ -154,23 +193,35 @@ class RecipeDaoTest {
         ingredients.forEach { item ->
             ingredientDao.insert(item)
         }
+        steps.forEach { item ->
+            stepDao.insert(item)
+        }
 
         recipeDao.insert(recipe2)
         ingredients2.forEach { item ->
             ingredientDao.insert(item)
         }
+        steps2.forEach { item ->
+            stepDao.insert(item)
+        }
 
 
         var rowsAffected = recipeDao.deleteAll()
-        val recipeWithIngredients = recipeDao.findAll()
+        val recipeWithRelations = recipeDao.findAll()
 
         assert(rowsAffected > 0)
-        assert(recipeWithIngredients.isEmpty())
+        assert(recipeWithRelations.isEmpty())
 
         rowsAffected = ingredientDao.deleteByRecipeId(recipe.id)
         assert(rowsAffected == ingredients.size)
 
         rowsAffected = ingredientDao.deleteByRecipeId(recipe2.id)
         assert(rowsAffected == ingredients2.size)
+
+        rowsAffected = stepDao.deleteByRecipeId(recipe.id)
+        assert(rowsAffected == steps.size)
+
+        rowsAffected = stepDao.deleteByRecipeId(recipe2.id)
+        assert(rowsAffected == steps2.size)
     }
 }

@@ -12,6 +12,7 @@ internal class DefaultUserRepository(
 ) : UserRepository {
     private val userDao: UserDao?
         get() = ReceptIaDatabase.getInstance(appContext)?.userDao()
+
     override fun getUser(): User? {
         return userDao?.findAll()
             ?.firstOrNull()

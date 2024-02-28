@@ -24,8 +24,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.persistence.Recipe
 import com.nexusfalcao.receptia.ui.widget.DifficultIcon
 
 @Composable
@@ -85,7 +85,7 @@ private fun GridTile(
             )
 
             Text(
-                text = recipe.prepTime,
+                text = recipe.recipeDetails.preparationTime,
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 5.dp),
@@ -96,12 +96,12 @@ private fun GridTile(
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             DifficultIcon(
-                difficultState = recipe.difficultState,
+                difficultState = recipe.recipeDetails.difficultState,
                 modifier = Modifier.size(16.dp),
             )
 
             Text(
-                text = recipe.difficult,
+                text = recipe.recipeDetails.difficult,
                 color = MaterialTheme.colorScheme.onSurface,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 5.dp),

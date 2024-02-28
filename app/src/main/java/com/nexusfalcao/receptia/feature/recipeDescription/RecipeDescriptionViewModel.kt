@@ -2,15 +2,22 @@ package com.nexusfalcao.receptia.feature.recipeDescription
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nexusfalcao.data.repository.RecipeRepository
 import com.nexusfalcao.receptia.feature.recipeDescription.state.RecipeUiState
 import com.nexusfalcao.receptia.feature.recipeDescription.state.ToogleRecipeState
-import com.nexusfalcao.receptia.persistence.Recipe
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-class RecipeDescriptionViewModel(val recipeId: String) : ViewModel() {
+@HiltViewModel
+class RecipeDescriptionViewModel @AssistedInject constructor(
+    @Assisted val recipeId: String,
+    private val recipeRepository: RecipeRepository,
+) : ViewModel() {
     private val _toogleRecipeState = MutableStateFlow<ToogleRecipeState>(ToogleRecipeState.DetailsSelected)
     val toogleRecipeState get() = _toogleRecipeState
 
@@ -28,18 +35,21 @@ class RecipeDescriptionViewModel(val recipeId: String) : ViewModel() {
 
     fun toogleFavorite() {
         viewModelScope.launch {
-            Recipe.toogleIsFavorite(id = recipeId)
-            val recipe = Recipe.find(recipeId)
+            recipeRepository.getRecipe(recipeId)?.let {
+                it.toogleIsFavorite()
+                recipeRepository.updateIsFavorite(recipeId, it.isFavorite)
 
-            _recipeUiState.value = RecipeUiState.Success(recipe = recipe)
+                _recipeUiState.value = RecipeUiState.Success(recipe = it)
+            }
         }
     }
 
     init {
         viewModelScope.launch {
             flow<RecipeUiState> {
-                val recipe = Recipe.find(recipeId)
-                emit(RecipeUiState.Success(recipe = recipe))
+                recipeRepository.getRecipe(recipeId)?.let {
+                    emit(RecipeUiState.Success(recipe = it))
+                }
             }.collect {
                 _recipeUiState.value = it
             }

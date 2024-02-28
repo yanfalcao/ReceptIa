@@ -2,14 +2,15 @@ package com.nexusfalcao.receptia.feature.historic
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nexusfalcao.data.repository.RecipeRepository
 import com.nexusfalcao.data.repository.UserRepository
+import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.model.User
 import com.nexusfalcao.receptia.feature.historic.state.AmountServesFilterEnum
 import com.nexusfalcao.receptia.feature.historic.state.FilterState
 import com.nexusfalcao.receptia.feature.historic.state.RecipeHistoricUiState
 import com.nexusfalcao.receptia.feature.historic.state.TagFilterEnum
-import com.nexusfalcao.receptia.persistence.Recipe
-import com.nexusfalcao.receptia.persistence.utils.DifficultState
+import com.nexusfalcao.model.state.DifficultState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HistoricViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
     private val recipeList = mutableListOf<Recipe>()
 
@@ -38,7 +40,7 @@ class HistoricViewModel @Inject constructor(
         viewModelScope.launch {
             _recipesUiState.value = RecipeHistoricUiState.Loading
 
-            val recipes = Recipe.find()
+            val recipes = recipeRepository.getRecipes()
             recipeList.clear()
             recipeList.addAll(recipes.toMutableList())
 

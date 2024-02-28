@@ -13,8 +13,6 @@ data class RecipeEntity(
     val id: String = UUID.randomUUID().toString(),
     val name: String,
     val description: String,
-    @ColumnInfo(name = "recipe_steps")
-    val recipeSteps: String,
     @ColumnInfo(name = "amount_calories")
     val amountCalories: String,
     @ColumnInfo(name = "amount_carbs")

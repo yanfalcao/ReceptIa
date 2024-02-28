@@ -1,6 +1,6 @@
 package com.nexusfalcao.receptia.feature.recipeDescription.state
 
-import com.nexusfalcao.receptia.persistence.Recipe
+import com.nexusfalcao.model.Recipe
 
 sealed interface RecipeUiState {
     object Loading : RecipeUiState
