@@ -94,14 +94,14 @@ class RecipeDaoTest {
     }
 
     @Test
-    fun insert_returnTrue() {
+    fun `test if recipe insert is save`() {
         val rowsAffected = recipeDao.insert(recipe)
 
         assert(rowsAffected > 0)
     }
 
     @Test
-    fun findById_returnTrue() {
+    fun `test if recife find by id is saved`() {
         recipeDao.insert(recipe)
         ingredients.forEach { item ->
             ingredientDao.insert(item)
@@ -119,7 +119,7 @@ class RecipeDaoTest {
     }
 
     @Test
-    fun findById_returnFalse() {
+    fun `test recipe find by id if database is empty`() {
         recipeDao.deleteAll()
 
         val recipeWithRelations = recipeDao.findById(recipe.id)
@@ -128,7 +128,7 @@ class RecipeDaoTest {
     }
 
     @Test
-    fun findLimited_returnTrue() {
+    fun `test if recipe find by limit returns correctly`() {
         recipeDao.insert(recipe)
 
         recipeDao.insert(recipe2)
@@ -138,11 +138,22 @@ class RecipeDaoTest {
 
         assert(recipeWithRelations.isNotEmpty())
         assert(recipeWithRelations.size == 1)
+    }
+
+    @Test
+    fun `test if recipe find by limit returns sorted descend by creation date`() {
+        recipeDao.insert(recipe)
+
+        recipeDao.insert(recipe2)
+
+
+        val recipeWithRelations = recipeDao.findLimited(1)
+
         assert(recipeWithRelations[0].recipe.id == recipe2.id)
     }
 
     @Test
-    fun findAll_returnTrue() {
+    fun `test if recipe find all returns correctly`() {
         recipeDao.insert(recipe)
         ingredients.forEach { item ->
             ingredientDao.insert(item)
@@ -170,7 +181,7 @@ class RecipeDaoTest {
     }
 
     @Test
-    fun findAll_returnFalse() {
+    fun `test recipe find all if database is empty`() {
         recipeDao.deleteAll()
 
         val recipeWithRelations = recipeDao.findAll()
@@ -179,7 +190,7 @@ class RecipeDaoTest {
     }
 
     @Test
-    fun updateIsFavorite_returnTrue() {
+    fun `test if recipe update isFavorite column is updated`() {
         recipeDao.insert(recipe)
 
         val rowsAffected = recipeDao.updateIsFavorite(recipe.id, true)
@@ -188,7 +199,7 @@ class RecipeDaoTest {
     }
 
     @Test
-    fun deleteAll_returnTrue() {
+    fun `test if recipe delete all clean the tables`() {
         recipeDao.insert(recipe)
         ingredients.forEach { item ->
             ingredientDao.insert(item)
