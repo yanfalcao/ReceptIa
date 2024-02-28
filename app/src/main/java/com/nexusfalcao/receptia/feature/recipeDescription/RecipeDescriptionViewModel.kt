@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-@HiltViewModel
+@HiltViewModel(assistedFactory = RecipeDescriptionVMFactory::class)
 class RecipeDescriptionViewModel @AssistedInject constructor(
     @Assisted val recipeId: String,
     private val recipeRepository: RecipeRepository,
