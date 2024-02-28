@@ -7,8 +7,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import com.nexusfalcao.model.state.DifficultState
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.persistence.utils.DifficultState
 
 @Composable
 fun DifficultIcon(

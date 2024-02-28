@@ -1,6 +1,9 @@
 package com.nexusfalcao.receptia.feature.historic.preview
 
-import com.nexusfalcao.receptia.persistence.Recipe
+import com.nexusfalcao.model.Recipe
+import com.nexusfalcao.model.RecipeDetails
+import java.util.Date
+import java.util.UUID
 
 object PreviewParameterData {
     val recipeList: List<Recipe>
@@ -20,15 +23,23 @@ object PreviewParameterData {
         )
 
     private fun RecipeMock(name: String = "Espaguete com Molho de Cogumelos e Bacon"): Recipe {
-        return Recipe().apply {
-            this.name = name
-            prepTime = "30 min"
-            difficult = "Fácil"
-            isFavorite = true
-            amountCalories = "450 kcal"
-            amountCarbs = "60g"
-            amountProteins = "15g"
-            amountPeopleServes = 2
-        }
+        return Recipe(
+            id = UUID.randomUUID().toString(),
+            name = name,
+            isFavorite = true,
+            recipeDetails = RecipeDetails(
+                preparationTime = "30 min",
+                difficult = "Fácil",
+                amountCalories = "450 kcal",
+                amountCarbs = "60g",
+                amountProteins = "15g",
+                amountPeopleServes = 2,
+                difficultLevel = 1
+            ),
+            ingredients = listOf(),
+            description = "",
+            createdAt = Date(),
+            recipeSteps = listOf()
+        )
     }
 }

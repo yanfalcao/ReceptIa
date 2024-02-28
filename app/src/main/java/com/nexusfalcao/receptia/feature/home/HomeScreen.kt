@@ -26,6 +26,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.model.User
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.configs.RemoteValues
@@ -36,7 +37,6 @@ import com.nexusfalcao.receptia.feature.home.widget.LoadingRecipeList
 import com.nexusfalcao.receptia.feature.home.widget.RecipeList
 import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
-import com.nexusfalcao.receptia.persistence.Recipe
 import com.nexusfalcao.receptia.ui.ComposableLifecycle
 import com.nexusfalcao.receptia.ui.preview.PreviewParameterData
 import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground

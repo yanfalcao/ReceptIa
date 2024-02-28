@@ -28,6 +28,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.nexusfalcao.model.User
+import com.nexusfalcao.model.state.DifficultState
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.ui.preview.PreviewParameterData as UiPreviewParameterData
 import com.nexusfalcao.receptia.feature.historic.preview.PreviewParameterData
@@ -42,7 +43,6 @@ import com.nexusfalcao.receptia.feature.historic.widget.SearchBar
 import com.nexusfalcao.receptia.feature.historic.widget.Tag
 import com.nexusfalcao.receptia.feature.historic.widget.LoadingRecipeList
 import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
-import com.nexusfalcao.receptia.persistence.utils.DifficultState
 import com.nexusfalcao.receptia.ui.ComposableLifecycle
 import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme

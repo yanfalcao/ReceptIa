@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.persistence.extension
+package com.nexusfalcao.receptia.utils
 
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject

@@ -8,7 +8,7 @@ import com.nexusfalcao.receptia.network.exceptions.UnseccessfulRequestException
 import com.nexusfalcao.receptia.network.model.GptRequest
 import javax.inject.Inject
 
-class RecipeRepository @Inject constructor() {
+class NetworkRepository @Inject constructor() {
     suspend fun createChatCompletion(request: GptRequest): JsonElement {
         try {
             Gson().toJson(request).toString()

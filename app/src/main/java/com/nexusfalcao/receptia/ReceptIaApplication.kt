@@ -8,11 +8,9 @@ import com.nexusfalcao.receptia.configs.RemoteConfig
 import com.nexusfalcao.receptia.configs.RemoteValues
 import com.nexusfalcao.receptia.feature.login.GoogleAuthUiClient
 import com.nexusfalcao.receptia.network.retrofit.RetrofitNetwork
-import com.nexusfalcao.receptia.persistence.RealmPersistence
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
-import io.realm.kotlin.Realm
 
 @HiltAndroidApp
 class ReceptIaApplication : Application() {
@@ -21,14 +19,12 @@ class ReceptIaApplication : Application() {
     }
 
     lateinit var http: RetrofitNetwork
-    lateinit var persistence: Realm
     lateinit var googleAuthUiClient: GoogleAuthUiClient
 
     override fun onCreate() {
         super.onCreate()
         instance = this
         configHttp()
-        configPersistence()
         configGoogleAuth()
         configRemoteConfig()
         configCrashlytics()
@@ -49,10 +45,6 @@ class ReceptIaApplication : Application() {
 
     private fun configHttp() {
         http = RetrofitNetwork
-    }
-
-    private fun configPersistence() {
-        persistence = RealmPersistence.getInstance()
     }
 
     private fun configGoogleAuth() {

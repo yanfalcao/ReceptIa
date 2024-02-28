@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.home.preview.PreviewParameterData
-import com.nexusfalcao.receptia.persistence.Recipe
+import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.receptia.ui.preview.ThemePreview
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
@@ -58,7 +58,7 @@ fun RecipeBody(recipe: Recipe) {
         Container {
             Text(
                 modifier = Modifier.fillMaxWidth(),
-                text = recipe.recipeSteps,
+                text = recipe.stepsToString(),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurface,
             )

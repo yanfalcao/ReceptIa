@@ -22,9 +22,9 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.home.preview.RecipesPreviewParameterProvider
-import com.nexusfalcao.receptia.persistence.Recipe
 import com.nexusfalcao.receptia.ui.preview.ThemePreview
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 import com.nexusfalcao.receptia.ui.widget.DifficultIcon
@@ -99,19 +99,19 @@ private fun RecipeListTile(
             )
 
             Text(
-                text = recipe.prepTime,
+                text = recipe.recipeDetails.preparationTime,
                 color = colorScheme.onSurface,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 8.dp),
             )
 
             DifficultIcon(
-                difficultState = recipe.difficultState,
+                difficultState = recipe.recipeDetails.difficultState,
                 modifier = Modifier.padding(start = 50.dp),
             )
 
             Text(
-                text = recipe.difficult,
+                text = recipe.recipeDetails.difficult,
                 color = colorScheme.onSurface,
                 style = MaterialTheme.typography.labelSmall,
                 modifier = Modifier.padding(start = 8.dp),

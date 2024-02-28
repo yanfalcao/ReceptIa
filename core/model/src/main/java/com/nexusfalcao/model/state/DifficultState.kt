@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.persistence.utils
+package com.nexusfalcao.model.state
 
 enum class DifficultState {
     Easy, Medium, Hard

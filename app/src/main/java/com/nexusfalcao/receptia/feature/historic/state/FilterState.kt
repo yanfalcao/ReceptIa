@@ -1,7 +1,7 @@
 package com.nexusfalcao.receptia.feature.historic.state
 
-import com.nexusfalcao.receptia.persistence.Recipe
-import com.nexusfalcao.receptia.persistence.utils.DifficultState
+import com.nexusfalcao.model.Recipe
+import com.nexusfalcao.model.state.DifficultState
 
 data class FilterState(
     var tag: TagFilterEnum = TagFilterEnum.ALL,
@@ -33,7 +33,7 @@ data class FilterState(
     fun filterByDifficult(recipeList: List<Recipe>): List<Recipe> {
         if (difficult != null) {
             return recipeList.filter { recipe ->
-                recipe.difficultState == difficult
+                recipe.recipeDetails.difficultState == difficult
             }.toList()
         }
         return recipeList
@@ -44,22 +44,22 @@ data class FilterState(
             null -> recipeList
             AmountServesFilterEnum.ONE -> {
                 recipeList.filter { recipe ->
-                    recipe.amountPeopleServes == 1
+                    recipe.recipeDetails.amountPeopleServes == 1
                 }.toList()
             }
             AmountServesFilterEnum.TWO -> {
                 recipeList.filter { recipe ->
-                    recipe.amountPeopleServes == 2
+                    recipe.recipeDetails.amountPeopleServes == 2
                 }.toList()
             }
             AmountServesFilterEnum.THREE -> {
                 recipeList.filter { recipe ->
-                    recipe.amountPeopleServes == 3
+                    recipe.recipeDetails.amountPeopleServes == 3
                 }.toList()
             }
             AmountServesFilterEnum.FOUR_OR_MORE -> {
                 recipeList.filter { recipe ->
-                    recipe.amountPeopleServes >= 4
+                    recipe.recipeDetails.amountPeopleServes >= 4
                 }.toList()
             }
         }
