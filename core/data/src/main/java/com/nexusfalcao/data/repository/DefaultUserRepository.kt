@@ -13,13 +13,13 @@ internal class DefaultUserRepository(
     private val userDao: UserDao?
         get() = ReceptIaDatabase.getInstance(appContext)?.userDao()
 
-    override fun getUser(): User? {
+    override fun findUser(): User? {
         return userDao?.findAll()
             ?.firstOrNull()
             ?.asUserModel()
     }
 
-    override fun saveUser(user: User): Boolean {
+    override fun insertUser(user: User): Boolean {
         userDao?.deleteAll()
         val rowsAffected = userDao?.insert(user.asUserEntity())
 

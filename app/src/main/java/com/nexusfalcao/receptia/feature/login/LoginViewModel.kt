@@ -22,7 +22,7 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             _loginUiState.value = LoginUiState.Loading
             if(signInResult.data != null) {
-                val isSaved = userRepository.saveUser(signInResult.data)
+                val isSaved = userRepository.insertUser(signInResult.data)
 
                 _loginUiState.value = when(isSaved) {
                     true -> LoginUiState.Success

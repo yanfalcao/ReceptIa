@@ -33,14 +33,14 @@ class HistoricViewModel @Inject constructor(
     val recipesUiState: StateFlow<RecipeHistoricUiState> = _recipesUiState
 
     fun getUser(): User? {
-        return userRepository.getUser()
+        return userRepository.findUser()
     }
 
     fun updateRecipeHistoric() {
         viewModelScope.launch {
             _recipesUiState.value = RecipeHistoricUiState.Loading
 
-            val recipes = recipeRepository.getRecipes()
+            val recipes = recipeRepository.findRecipes()
             recipeList.clear()
             recipeList.addAll(recipes.toMutableList())
 

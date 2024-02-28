@@ -41,7 +41,7 @@ class AvatarViewModel @Inject constructor(
                 is ImageUiState.Selected -> {
                     val state = _imageUiState.value as ImageUiState.Selected
 
-                    val user = userRepository.getUser()
+                    val user = userRepository.findUser()
                     user?.let {
                         userRepository.updatePhotoId(it.id, state.imageId)
                     }

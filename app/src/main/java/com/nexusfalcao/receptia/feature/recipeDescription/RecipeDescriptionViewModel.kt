@@ -35,7 +35,7 @@ class RecipeDescriptionViewModel @AssistedInject constructor(
 
     fun toogleFavorite() {
         viewModelScope.launch {
-            recipeRepository.getRecipe(recipeId)?.let {
+            recipeRepository.findRecipe(recipeId)?.let {
                 it.toogleIsFavorite()
                 recipeRepository.updateIsFavorite(recipeId, it.isFavorite)
 
@@ -47,7 +47,7 @@ class RecipeDescriptionViewModel @AssistedInject constructor(
     init {
         viewModelScope.launch {
             flow<RecipeUiState> {
-                recipeRepository.getRecipe(recipeId)?.let {
+                recipeRepository.findRecipe(recipeId)?.let {
                     emit(RecipeUiState.Success(recipe = it))
                 }
             }.collect {
