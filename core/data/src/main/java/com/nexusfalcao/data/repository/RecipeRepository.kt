@@ -3,13 +3,13 @@ package com.nexusfalcao.data.repository
 import com.nexusfalcao.model.Recipe
 
 interface RecipeRepository {
-    fun saveRecipe(recipe: Recipe): Boolean
+    fun insertRecipe(recipe: Recipe): Boolean
 
-    fun getRecipe(recipeId: String): Recipe?
+    fun findRecipe(recipeId: String): Recipe?
 
-    fun getRecipes(limit: Int): List<Recipe>
+    fun findRecipes(limit: Int): List<Recipe>
 
-    fun getRecipes(): List<Recipe>
+    fun findRecipes(): List<Recipe>
 
     fun updateIsFavorite(recipeId: String, isFavorite: Boolean): Boolean
 }

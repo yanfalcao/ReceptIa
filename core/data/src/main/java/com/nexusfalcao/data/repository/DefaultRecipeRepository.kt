@@ -20,7 +20,7 @@ internal class DefaultRecipeRepository(
     private val stepDao: StepDao?
         get() = ReceptIaDatabase.getInstance(appContext)?.stepDao()
 
-    override fun saveRecipe(recipe: Recipe): Boolean {
+    override fun insertRecipe(recipe: Recipe): Boolean {
         val rowsAffected = recipeDao?.insert(recipe.asRecipeEntity())
         recipe.ingredients.forEach { ingredient ->
             ingredientDao?.insert(ingredient.asIngredientEntity(recipe.id))
@@ -31,17 +31,17 @@ internal class DefaultRecipeRepository(
         return rowsAffected != null && rowsAffected > 0
     }
 
-    override fun getRecipe(recipeId: String): Recipe? {
+    override fun findRecipe(recipeId: String): Recipe? {
         return recipeDao?.findById(recipeId)?.asRecipeEntity()
     }
 
-    override fun getRecipes(limit: Int): List<Recipe> {
+    override fun findRecipes(limit: Int): List<Recipe> {
         return recipeDao?.findLimited(limit)?.map { item ->
             item.asRecipeEntity()
         } ?: listOf()
     }
 
-    override fun getRecipes(): List<Recipe> {
+    override fun findRecipes(): List<Recipe> {
         return recipeDao?.findAll()?.map { item ->
             item.asRecipeEntity()
         } ?: listOf()

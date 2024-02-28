@@ -21,13 +21,13 @@ class HomeViewModel @Inject constructor(
     val lastRecipesUiState: StateFlow<RecipeFeedUiState> = _lastRecipesUiState
 
     fun getUser(): User? {
-        return userRepository.getUser()
+        return userRepository.findUser()
     }
 
     fun updateLastRecipes() {
         viewModelScope.launch {
             _lastRecipesUiState.value = RecipeFeedUiState.Loading
-            val recipeList = recipeRepository.getRecipes(limit = 10)
+            val recipeList = recipeRepository.findRecipes(limit = 10)
 
             _lastRecipesUiState.value = RecipeFeedUiState.Success(recipes = recipeList)
         }

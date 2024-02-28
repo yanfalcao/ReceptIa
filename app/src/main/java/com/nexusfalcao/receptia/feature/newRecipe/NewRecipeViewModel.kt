@@ -204,7 +204,7 @@ class NewRecipeViewModel @Inject constructor(
                         .create()
 
                     val recipe = customDeserializer.fromJson(data, Recipe::class.java)
-                    recipeRepository.saveRecipe(recipe)
+                    recipeRepository.insertRecipe(recipe)
 
                     _createRecipeUiState.value = CreateRecipeUiState.Success(recipe.id)
                 } catch (e: Exception) {
