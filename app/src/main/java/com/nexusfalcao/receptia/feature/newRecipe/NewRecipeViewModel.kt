@@ -2,18 +2,10 @@ package com.nexusfalcao.receptia.feature.newRecipe
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nexusfalcao.receptia.configs.RemoteValues
 import com.nexusfalcao.receptia.feature.newRecipe.state.*
-import com.nexusfalcao.receptia.model.RecipePreferences
-import com.nexusfalcao.receptia.network.model.GptFunctions
-import com.nexusfalcao.receptia.network.model.GptRequest
-import com.nexusfalcao.receptia.network.model.GtpMessage
-import com.nexusfalcao.receptia.utils.RecipeDeserializer
-import com.nexusfalcao.receptia.repository.NetworkRepository
-import com.nexusfalcao.receptia.utils.RequestMessageUtil
-import com.google.gson.GsonBuilder
-import com.nexusfalcao.model.Recipe
-import com.nexusfalcao.receptia.network.model.GptFunction
+import com.nexusfalcao.data.repository.RecipeRepository
+import com.nexusfalcao.model.RecipePreference
+import com.nexusfalcao.receptia.configs.RemoteValues
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -26,11 +18,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewRecipeViewModel @Inject constructor(
-    private val networkRepository: NetworkRepository,
-    private val recipeRepository: com.nexusfalcao.data.repository.RecipeRepository,
+    private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
     private val INGREDIENT_LIMIT = 30
-    private val recipePreferences = RecipePreferences()
     private val continueButtonClicked = MutableStateFlow(false)
 
     private val _radioUiState = MutableStateFlow<RadioUiState>(RadioUiState.Unselected)
@@ -106,7 +96,6 @@ class NewRecipeViewModel @Inject constructor(
                     addOrRemoveIngredient(
                         recipeFieldState = recipeFieldState,
                         text = text,
-                        ingredients = recipePreferences.favoriteIngredients,
                         ingredientsState = _favoriteIngredientsState,
                         isAdd = false,
                     )
@@ -115,7 +104,6 @@ class NewRecipeViewModel @Inject constructor(
                     addOrRemoveIngredient(
                         recipeFieldState = recipeFieldState,
                         text = text,
-                        ingredients = recipePreferences.nonFavoriteIngredients,
                         ingredientsState = _nonFavoriteIngredientsState,
                         isAdd = false,
                     )
@@ -124,7 +112,6 @@ class NewRecipeViewModel @Inject constructor(
                     addOrRemoveIngredient(
                         recipeFieldState = recipeFieldState,
                         text = text,
-                        ingredients = recipePreferences.allergicIngredients,
                         ingredientsState = _allergicIngredientsState,
                         isAdd = false,
                     )
@@ -133,7 +120,6 @@ class NewRecipeViewModel @Inject constructor(
                     addOrRemoveIngredient(
                         recipeFieldState = recipeFieldState,
                         text = text,
-                        ingredients = recipePreferences.intolerantIngredients,
                         ingredientsState = _intolerantIngredientsState,
                         isAdd = false,
                     )
@@ -149,7 +135,6 @@ class NewRecipeViewModel @Inject constructor(
                     addOrRemoveIngredient(
                         recipeFieldState = recipeFieldState,
                         text = text,
-                        ingredients = recipePreferences.favoriteIngredients,
                         ingredientsState = _favoriteIngredientsState,
                         isAdd = true,
                     )
@@ -158,7 +143,6 @@ class NewRecipeViewModel @Inject constructor(
                     addOrRemoveIngredient(
                         recipeFieldState = recipeFieldState,
                         text = text,
-                        ingredients = recipePreferences.nonFavoriteIngredients,
                         ingredientsState = _nonFavoriteIngredientsState,
                         isAdd = true,
                     )
@@ -167,7 +151,6 @@ class NewRecipeViewModel @Inject constructor(
                     addOrRemoveIngredient(
                         recipeFieldState = recipeFieldState,
                         text = text,
-                        ingredients = recipePreferences.allergicIngredients,
                         ingredientsState = _allergicIngredientsState,
                         isAdd = true,
                     )
@@ -176,13 +159,11 @@ class NewRecipeViewModel @Inject constructor(
                     addOrRemoveIngredient(
                         recipeFieldState = recipeFieldState,
                         text = text,
-                        ingredients = recipePreferences.intolerantIngredients,
                         ingredientsState = _intolerantIngredientsState,
                         isAdd = true,
                     )
                 }
                 RecipeFieldState.MEAL -> {
-                    recipePreferences.meal = text
                     _radioUiState.value = RadioUiState.Selected(textOption = text)
                 }
             }
@@ -193,17 +174,23 @@ class NewRecipeViewModel @Inject constructor(
         viewModelScope.launch {
             if (checkFieldUiState.value is CheckFieldUiState.Filled) {
                 _createRecipeUiState.value = CreateRecipeUiState.Loading
-                recipePreferences.responseLanguage = Locale.getDefault().displayLanguage
-                val request = getChatCompletionRequest(recipePreferences)
-
                 try {
-                    val data = networkRepository.createChatCompletion(request)
+                    val meal = (_radioUiState.value as RadioUiState.Selected).textOption
+                    val preference = RecipePreference(
+                        favoriteIngredients = _favoriteIngredientsState.value.ingredients,
+                        nonFavoriteIngredients = _nonFavoriteIngredientsState.value.ingredients,
+                        intolerantIngredients = _intolerantIngredientsState.value.ingredients,
+                        allergicIngredients = _allergicIngredientsState.value.ingredients,
+                        meal = meal,
+                        responseLanguage = Locale.getDefault().displayLanguage
+                    )
 
-                    val customDeserializer = GsonBuilder()
-                        .registerTypeAdapter(Recipe::class.java, RecipeDeserializer())
-                        .create()
+                    val recipes = recipeRepository.callNewRecipe(
+                        preference = preference,
+                        apiModel = RemoteValues.VALUE_CHATGPT_API_MODEL
+                    )
 
-                    val recipe = customDeserializer.fromJson(data, Recipe::class.java)
+                    val recipe = recipes[0]
                     recipeRepository.insertRecipe(recipe)
 
                     _createRecipeUiState.value = CreateRecipeUiState.Success(recipe.id)
@@ -226,11 +213,12 @@ class NewRecipeViewModel @Inject constructor(
     private fun addOrRemoveIngredient(
         recipeFieldState: RecipeFieldState,
         text: String,
-        ingredients: MutableList<String>,
         ingredientsState: MutableStateFlow<IngredientUiState>,
         isAdd: Boolean,
     ) {
         checkIngredientLimit()
+
+        val ingredients = ingredientsState.value.ingredients.toMutableList()
 
         if (isAdd) {
             if (isMaxIngredientsLimit.value is ErrorUiState.None
@@ -250,41 +238,15 @@ class NewRecipeViewModel @Inject constructor(
     }
 
     private fun checkIngredientLimit() {
-        val countIngredients = recipePreferences.favoriteIngredients.size +
-            recipePreferences.intolerantIngredients.size +
-            recipePreferences.nonFavoriteIngredients.size +
-            recipePreferences.allergicIngredients.size
+        val countIngredients = _favoriteIngredientsState.value.ingredients.size +
+            _intolerantIngredientsState.value.ingredients.size +
+            _nonFavoriteIngredientsState.value.ingredients.size +
+            _allergicIngredientsState.value.ingredients.size
 
         _isMaxIngredientsLimit.value = if (countIngredients >= INGREDIENT_LIMIT) {
             ErrorUiState.IngredientMaxLimit
         } else {
             ErrorUiState.None
         }
-    }
-
-    private fun getChatCompletionRequest(preferences: RecipePreferences): GptRequest {
-        return GptRequest(
-            model = RemoteValues.VALUE_CHATGPT_API_MODEL,
-            messages = listOf(
-                GtpMessage(
-                    role = "system",
-                    content = RequestMessageUtil.systemContent,
-                ),
-                GtpMessage(
-                    role = "user",
-                    content = RequestMessageUtil.newRecipePrompt(preferences),
-                ),
-            ),
-            tools = listOf(
-                GptFunctions(
-                    type = "function",
-                    function = GptFunction(
-                        name = "get_recipe",
-                        parameters = RequestMessageUtil.schema
-                    ),
-                )
-            ),
-            toolChoice = "auto"
-        )
     }
 }
