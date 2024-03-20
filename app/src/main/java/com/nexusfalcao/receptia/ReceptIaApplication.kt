@@ -7,7 +7,6 @@ import android.net.NetworkCapabilities
 import com.nexusfalcao.receptia.configs.RemoteConfig
 import com.nexusfalcao.receptia.configs.RemoteValues
 import com.nexusfalcao.receptia.feature.login.GoogleAuthUiClient
-import com.nexusfalcao.receptia.network.retrofit.RetrofitNetwork
 import com.google.android.gms.auth.api.identity.Identity
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.HiltAndroidApp
@@ -18,13 +17,11 @@ class ReceptIaApplication : Application() {
         lateinit var instance: ReceptIaApplication
     }
 
-    lateinit var http: RetrofitNetwork
     lateinit var googleAuthUiClient: GoogleAuthUiClient
 
     override fun onCreate() {
         super.onCreate()
         instance = this
-        configHttp()
         configGoogleAuth()
         configRemoteConfig()
         configCrashlytics()
@@ -41,10 +38,6 @@ class ReceptIaApplication : Application() {
             network.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> true
             else -> false
         }
-    }
-
-    private fun configHttp() {
-        http = RetrofitNetwork
     }
 
     private fun configGoogleAuth() {

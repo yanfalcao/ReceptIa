@@ -1,6 +1,7 @@
 package com.nexusfalcao.data.repository
 
 import com.nexusfalcao.model.Recipe
+import com.nexusfalcao.model.RecipePreference
 
 interface RecipeRepository {
     fun insertRecipe(recipe: Recipe): Boolean
@@ -12,4 +13,6 @@ interface RecipeRepository {
     fun findRecipes(): List<Recipe>
 
     fun updateIsFavorite(recipeId: String, isFavorite: Boolean): Boolean
+
+    suspend fun callNewRecipe(preference: RecipePreference, apiModel: String): List<Recipe>
 }

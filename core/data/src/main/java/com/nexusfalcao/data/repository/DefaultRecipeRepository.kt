@@ -4,11 +4,21 @@ import android.app.Application
 import com.nexusfalcao.data.extensions.asIngredientEntity
 import com.nexusfalcao.data.extensions.asRecipeEntity
 import com.nexusfalcao.data.extensions.asStepEntity
+import com.nexusfalcao.data.extensions.getRecipes
+import com.nexusfalcao.data.extensions.prompt
 import com.nexusfalcao.database.ReceptIaDatabase
 import com.nexusfalcao.database.dao.IngredientDao
 import com.nexusfalcao.database.dao.RecipeDao
 import com.nexusfalcao.database.dao.StepDao
 import com.nexusfalcao.model.Recipe
+import com.nexusfalcao.model.RecipePreference
+import com.nexusfalcao.network.model.request.GptFunction
+import com.nexusfalcao.network.model.request.GptRequest
+import com.nexusfalcao.network.model.request.GptTool
+import com.nexusfalcao.network.model.request.GtpMessage
+import com.nexusfalcao.network.retrofit.ChatgptNetworkApi
+import com.nexusfalcao.network.retrofit.RetrofitNetwork
+import com.nexusfalcao.network.util.RecipeRequestUtil
 
 internal class DefaultRecipeRepository(
     private val appContext: Application
@@ -19,6 +29,8 @@ internal class DefaultRecipeRepository(
         get() = ReceptIaDatabase.getInstance(appContext)?.ingredientDao()
     private val stepDao: StepDao?
         get() = ReceptIaDatabase.getInstance(appContext)?.stepDao()
+    private val chatgptNetworkApi: ChatgptNetworkApi
+        get() = RetrofitNetwork.gptService()
 
     override fun insertRecipe(recipe: Recipe): Boolean {
         val rowsAffected = recipeDao?.insert(recipe.asRecipeEntity())
@@ -51,5 +63,43 @@ internal class DefaultRecipeRepository(
         val rowsAffected = recipeDao?.updateIsFavorite(recipeId, isFavorite)
 
         return rowsAffected != null && rowsAffected > 0
+    }
+
+    override suspend fun callNewRecipe(preference: RecipePreference, apiModel: String): List<Recipe> {
+        return try {
+            val request = getNewRecipeRequest(preference, apiModel)
+            val response = chatgptNetworkApi.createNewRecipe(request)
+
+            response.body()?.getRecipes() ?: listOf()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            listOf()
+        }
+    }
+
+    private fun getNewRecipeRequest(preference: RecipePreference, apiModel: String): GptRequest {
+        return GptRequest(
+            model = apiModel,
+            messages = listOf(
+                GtpMessage(
+                    role = "system",
+                    content = RecipeRequestUtil.systemContent,
+                ),
+                GtpMessage(
+                    role = "user",
+                    content = preference.prompt(),
+                ),
+            ),
+            tools = listOf(
+                GptTool(
+                    type = "function",
+                    function = GptFunction(
+                        name = "get_recipe",
+                        parameters = RecipeRequestUtil.schema
+                    ),
+                )
+            ),
+            toolChoice = "auto"
+        )
     }
 }
