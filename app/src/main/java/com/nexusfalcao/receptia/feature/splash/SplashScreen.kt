@@ -18,9 +18,9 @@ import androidx.navigation.NavController
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
 import com.nexusfalcao.receptia.feature.login.navigation.navigateToLogin
-import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
-import com.nexusfalcao.receptia.ui.theme.logoIconResource
+import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.theme.logoIconResource
 
 @Composable
 internal fun SplashRoute(

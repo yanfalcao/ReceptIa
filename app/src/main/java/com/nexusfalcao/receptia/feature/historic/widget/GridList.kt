@@ -26,7 +26,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.widget.DifficultIcon
+import com.nexusfalcao.designsystem.widget.DifficultIcon
 
 @Composable
 fun GridList(
@@ -96,7 +96,7 @@ private fun GridTile(
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             DifficultIcon(
-                difficultState = recipe.recipeDetails.recipeDifficult,
+                recipeDifficult = recipe.recipeDetails.recipeDifficult,
                 modifier = Modifier.size(16.dp),
             )
 

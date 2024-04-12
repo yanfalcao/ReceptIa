@@ -36,8 +36,8 @@ import com.nexusfalcao.receptia.feature.login.widget.GoogleLoginButton
 import com.nexusfalcao.receptia.feature.login.widget.LoadingButton
 import com.nexusfalcao.receptia.feature.login.widget.Title
 import com.nexusfalcao.receptia.model.SignInResult
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
-import com.nexusfalcao.receptia.ui.widget.CustomSnackbar
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.widget.CustomSnackbar
 import kotlinx.coroutines.launch
 
 @Composable

@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.home.preview.PreviewParameterData
 import com.nexusfalcao.model.Recipe
-import com.nexusfalcao.receptia.ui.preview.ThemePreview
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
 fun RecipeBody(recipe: Recipe) {

@@ -13,9 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.nexusfalcao.receptia.ui.preview.PreviewParameterData
+import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.receptia.feature.recipeDescription.state.RecipeUiState
 import com.nexusfalcao.receptia.feature.recipeDescription.state.ToogleRecipeState
 import com.nexusfalcao.receptia.feature.recipeDescription.widget.BackButton
@@ -24,8 +23,8 @@ import com.nexusfalcao.receptia.feature.recipeDescription.widget.DetailsBody
 import com.nexusfalcao.receptia.feature.recipeDescription.widget.Header
 import com.nexusfalcao.receptia.feature.recipeDescription.widget.RecipeBody
 import com.nexusfalcao.receptia.feature.recipeDescription.widget.ToogleButton
-import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
 internal fun RecipeDescriptionRoute(

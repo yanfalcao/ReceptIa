@@ -25,9 +25,9 @@ import androidx.compose.ui.unit.dp
 import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.home.preview.RecipesPreviewParameterProvider
-import com.nexusfalcao.receptia.ui.preview.ThemePreview
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
-import com.nexusfalcao.receptia.ui.widget.DifficultIcon
+import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.widget.DifficultIcon
 
 @Composable
 fun RecipeList(
@@ -106,7 +106,7 @@ private fun RecipeListTile(
             )
 
             DifficultIcon(
-                difficultState = recipe.recipeDetails.recipeDifficult,
+                recipeDifficult = recipe.recipeDetails.recipeDifficult,
                 modifier = Modifier.padding(start = 50.dp),
             )
 

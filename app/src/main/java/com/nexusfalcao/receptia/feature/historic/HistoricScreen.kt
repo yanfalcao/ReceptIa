@@ -30,7 +30,7 @@ import androidx.navigation.compose.rememberNavController
 import com.nexusfalcao.model.User
 import com.nexusfalcao.model.state.RecipeDifficult
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.preview.PreviewParameterData as UiPreviewParameterData
+import com.nexusfalcao.designsystem.preview.PreviewParameterData as UiPreviewParameterData
 import com.nexusfalcao.receptia.feature.historic.preview.PreviewParameterData
 import com.nexusfalcao.receptia.feature.historic.state.AmountServesFilterEnum
 import com.nexusfalcao.receptia.feature.historic.state.FilterState
@@ -43,12 +43,16 @@ import com.nexusfalcao.receptia.feature.historic.widget.SearchBar
 import com.nexusfalcao.receptia.feature.historic.widget.Tag
 import com.nexusfalcao.receptia.feature.historic.widget.LoadingRecipeList
 import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
-import com.nexusfalcao.receptia.ui.ComposableLifecycle
-import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
-import com.nexusfalcao.receptia.ui.widget.EmptyStateWidget
-import com.nexusfalcao.receptia.ui.widget.NavigationDrawerWidget
-import com.nexusfalcao.receptia.ui.widget.TopBarWidget
+import com.nexusfalcao.designsystem.ComposableLifecycle
+import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.widget.EmptyStateWidget
+import com.nexusfalcao.designsystem.widget.NavigationDrawerWidget
+import com.nexusfalcao.designsystem.widget.TopBarWidget
+import com.nexusfalcao.receptia.feature.avatar.navigation.navigateToAvatar
+import com.nexusfalcao.receptia.feature.historic.navigation.navigateToHistoric
+import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
+import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 
 @Composable
 internal fun HistoricRoute(
@@ -121,7 +125,11 @@ private fun HistoricScreen(
 
     NavigationDrawerWidget(
         drawerState = drawerState,
-        navController = navController,
+        toHome = navController::navigateToHome,
+        toNewRecipe = navController::navigateToNewRecipe,
+        toRecipeCatalog = navController::navigateToHistoric,
+        toAvatar = navController::navigateToAvatar,
+        onSignOut = {},
         userName = user?.name,
         userPhotoId = user?.photoId,
     ) {

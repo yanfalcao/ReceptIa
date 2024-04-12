@@ -36,11 +36,11 @@ import com.nexusfalcao.receptia.feature.newRecipe.widget.ContinueButtom
 import com.nexusfalcao.receptia.feature.newRecipe.widget.CreateRecipeLoading
 import com.nexusfalcao.receptia.feature.newRecipe.widget.RecipeForm
 import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
-import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
-import com.nexusfalcao.receptia.ui.widget.CustomAlertDialog
-import com.nexusfalcao.receptia.ui.widget.CustomSnackbar
-import com.nexusfalcao.receptia.ui.widget.TopBarWidget
+import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.widget.CustomAlertDialog
+import com.nexusfalcao.designsystem.widget.CustomSnackbar
+import com.nexusfalcao.designsystem.widget.TopBarWidget
 
 @Composable
 internal fun NewRecipeRoute(

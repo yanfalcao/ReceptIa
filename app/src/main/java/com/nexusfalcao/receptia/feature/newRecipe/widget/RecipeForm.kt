@@ -20,8 +20,8 @@ import com.nexusfalcao.receptia.feature.newRecipe.state.CheckFieldUiState
 import com.nexusfalcao.receptia.feature.newRecipe.state.IngredientUiState
 import com.nexusfalcao.receptia.feature.newRecipe.state.RadioUiState
 import com.nexusfalcao.receptia.feature.newRecipe.state.RecipeFieldState
-import com.nexusfalcao.receptia.ui.preview.ThemePreview
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
 fun RecipeForm(

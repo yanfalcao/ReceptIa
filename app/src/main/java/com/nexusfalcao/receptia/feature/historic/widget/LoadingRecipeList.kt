@@ -7,7 +7,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.ui.widget.SkeletonLoadingWidget
+import com.nexusfalcao.designsystem.widget.SkeletonLoadingWidget
 
 @Composable
 fun LoadingRecipeList() {
