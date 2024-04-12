@@ -69,7 +69,7 @@ fun DetailsBody(recipe: Recipe) {
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
             ) {
                 DifficultIcon(
-                    difficultState = recipe.recipeDetails.difficultState,
+                    difficultState = recipe.recipeDetails.recipeDifficult,
                 )
 
                 Text(

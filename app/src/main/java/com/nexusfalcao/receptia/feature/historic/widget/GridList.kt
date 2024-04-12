@@ -96,7 +96,7 @@ private fun GridTile(
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             DifficultIcon(
-                difficultState = recipe.recipeDetails.difficultState,
+                difficultState = recipe.recipeDetails.recipeDifficult,
                 modifier = Modifier.size(16.dp),
             )
 

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="dismiss">Fechar</string>
+    <string name="update">Atualizar</string>
+    <string name="empty_title">Não há receitas ainda!</string>
+    <string name="empty_description">Sem receitas geradas ainda, gerer algumas para começar</string>
+
+    <!--    drawer-->
+    <string name="drawer_home">Início</string>
+    <string name="drawer_new_recipe">Nova receita</string>
+    <string name="drawer_recepies_store">Receitas</string>
+    <string name="drawer_profile">Perfil</string>
+    <string name="drawer_logout">Sair</string>
+</resources>

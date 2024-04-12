@@ -10,7 +10,7 @@ import com.nexusfalcao.receptia.feature.historic.state.AmountServesFilterEnum
 import com.nexusfalcao.receptia.feature.historic.state.FilterState
 import com.nexusfalcao.receptia.feature.historic.state.RecipeHistoricUiState
 import com.nexusfalcao.receptia.feature.historic.state.TagFilterEnum
-import com.nexusfalcao.model.state.DifficultState
+import com.nexusfalcao.model.state.RecipeDifficult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -74,7 +74,7 @@ class HistoricViewModel @Inject constructor(
         }
     }
 
-    fun updateDifficultFilter(difficult: DifficultState) {
+    fun updateDifficultFilter(difficult: RecipeDifficult) {
         viewModelScope.launch {
             val state = _filterState.value
             state.difficult = difficult

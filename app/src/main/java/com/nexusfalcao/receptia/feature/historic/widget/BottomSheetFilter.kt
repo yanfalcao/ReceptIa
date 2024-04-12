@@ -30,7 +30,7 @@ import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.historic.state.AmountServesFilterEnum
 import com.nexusfalcao.receptia.feature.historic.state.FilterState
 import com.nexusfalcao.receptia.feature.historic.state.TagFilterEnum
-import com.nexusfalcao.model.state.DifficultState
+import com.nexusfalcao.model.state.RecipeDifficult
 import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
 
@@ -41,7 +41,7 @@ fun BottomSheetFilter(
     onDismiss: () -> Unit,
     onApplyFilter: () -> Unit,
     onResetFilter: () -> Unit,
-    updateDifficultFilter: (DifficultState) -> Unit,
+    updateDifficultFilter: (RecipeDifficult) -> Unit,
     updateAmountServesFilter: (AmountServesFilterEnum) -> Unit,
 ) {
     val modalBottomSheetState: SheetState = rememberModalBottomSheetState()
@@ -67,7 +67,7 @@ private fun BottomSheetBody(
     filterUiState: FilterState,
     onApplyFilter: () -> Unit,
     onResetFilter: () -> Unit,
-    updateDifficultFilter: (DifficultState) -> Unit,
+    updateDifficultFilter: (RecipeDifficult) -> Unit,
     updateAmountServesFilter: (AmountServesFilterEnum) -> Unit,
 ) {
     val colorScheme = MaterialTheme.colorScheme
@@ -100,11 +100,11 @@ private fun BottomSheetBody(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(5.dp),
         ) {
-            for (level in DifficultState.values()) {
+            for (level in RecipeDifficult.values()) {
                 val levelText = when(level) {
-                    DifficultState.Easy -> stringResource(id = R.string.easy)
-                    DifficultState.Medium -> stringResource(id = R.string.medium)
-                    DifficultState.Hard -> stringResource(id = R.string.hard)
+                    RecipeDifficult.Easy -> stringResource(id = R.string.easy)
+                    RecipeDifficult.Medium -> stringResource(id = R.string.medium)
+                    RecipeDifficult.Hard -> stringResource(id = R.string.hard)
                 }
 
                 Tag(
@@ -197,7 +197,7 @@ private fun BottomSheetFilter() {
                 BottomSheetBody(
                     filterUiState = FilterState(
                         tag = TagFilterEnum.FAVORITES,
-                        difficult = DifficultState.Easy
+                        difficult = RecipeDifficult.Easy
                     ),
                     onApplyFilter = {},
                     onResetFilter = {},

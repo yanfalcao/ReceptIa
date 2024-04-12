@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.ui.widget
+package com.nexusfalcao.designsystem.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.height
@@ -16,12 +16,10 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.preview.ThemePreview
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
-import com.nexusfalcao.receptia.ui.theme.logoIconResource
+import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.theme.logoIconResource
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -43,7 +41,7 @@ fun TopBarWidget(
             if (title.isNullOrEmpty()) {
                 Image(
                     painter = logoIconResource(),
-                    contentDescription = stringResource(id = R.string.logo_icon_description),
+                    contentDescription = null,
                     modifier = Modifier.height(55.dp),
                 )
             } else {

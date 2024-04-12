@@ -1,5 +1,5 @@
 package com.nexusfalcao.model.state
 
-enum class DifficultState {
+enum class RecipeDifficult {
     Easy, Medium, Hard
 }

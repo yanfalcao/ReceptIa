@@ -106,7 +106,7 @@ private fun RecipeListTile(
             )
 
             DifficultIcon(
-                difficultState = recipe.recipeDetails.difficultState,
+                difficultState = recipe.recipeDetails.recipeDifficult,
                 modifier = Modifier.padding(start = 50.dp),
             )
 
