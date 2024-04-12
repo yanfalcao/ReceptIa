@@ -28,7 +28,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.nexusfalcao.model.User
-import com.nexusfalcao.model.state.DifficultState
+import com.nexusfalcao.model.state.RecipeDifficult
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.ui.preview.PreviewParameterData as UiPreviewParameterData
 import com.nexusfalcao.receptia.feature.historic.preview.PreviewParameterData
@@ -89,7 +89,7 @@ private fun HistoricScreen(
     navController: NavController,
     updateTagFilter: (TagFilterEnum) -> Unit = {},
     updateSearchFilter: (String) -> Unit = {},
-    updateDifficultFilter: (DifficultState) -> Unit = {},
+    updateDifficultFilter: (RecipeDifficult) -> Unit = {},
     updateAmountServesFilter: (AmountServesFilterEnum) -> Unit = {},
     onApplyFilter: () -> Unit = {},
     onResetFilter: () -> Unit = {},
@@ -209,7 +209,7 @@ private fun HistoricScreenPreview() {
             historicState = RecipeHistoricUiState.Success(PreviewParameterData.recipeList),
             filterUiState = FilterState(
                 tag = TagFilterEnum.FAVORITES,
-                difficult = DifficultState.Easy,
+                difficult = RecipeDifficult.Easy,
             ),
             navController = rememberNavController(),
             user = UiPreviewParameterData.user,

@@ -1,6 +1,6 @@
 package com.nexusfalcao.model
 
-import com.nexusfalcao.model.state.DifficultState
+import com.nexusfalcao.model.state.RecipeDifficult
 
 data class RecipeDetails(
     val amountCalories: String,
@@ -11,14 +11,14 @@ data class RecipeDetails(
     val difficultLevel: Int,
     val amountPeopleServes: Int,
 ) {
-    var difficultState: DifficultState = DifficultState.Easy
+    var recipeDifficult: RecipeDifficult = RecipeDifficult.Easy
         private set
         get() {
             return when(difficultLevel) {
-                1 -> DifficultState.Easy
-                2 -> DifficultState.Medium
-                3 -> DifficultState.Hard
-                else -> DifficultState.Easy
+                1 -> RecipeDifficult.Easy
+                2 -> RecipeDifficult.Medium
+                3 -> RecipeDifficult.Hard
+                else -> RecipeDifficult.Easy
             }
         }
 }

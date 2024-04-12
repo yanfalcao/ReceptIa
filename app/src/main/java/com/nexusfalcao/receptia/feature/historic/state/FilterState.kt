@@ -1,11 +1,11 @@
 package com.nexusfalcao.receptia.feature.historic.state
 
 import com.nexusfalcao.model.Recipe
-import com.nexusfalcao.model.state.DifficultState
+import com.nexusfalcao.model.state.RecipeDifficult
 
 data class FilterState(
     var tag: TagFilterEnum = TagFilterEnum.ALL,
-    var difficult: DifficultState? = null,
+    var difficult: RecipeDifficult? = null,
     var amountPeopleServes: AmountServesFilterEnum? = null,
     var search: String = "",
 ) {
@@ -33,7 +33,7 @@ data class FilterState(
     fun filterByDifficult(recipeList: List<Recipe>): List<Recipe> {
         if (difficult != null) {
             return recipeList.filter { recipe ->
-                recipe.recipeDetails.difficultState == difficult
+                recipe.recipeDetails.recipeDifficult == difficult
             }.toList()
         }
         return recipeList
@@ -69,7 +69,7 @@ data class FilterState(
         return this.tag == tag
     }
 
-    fun isSelected(difficult: DifficultState): Boolean {
+    fun isSelected(difficult: RecipeDifficult): Boolean {
         return this.difficult == difficult
     }
 
