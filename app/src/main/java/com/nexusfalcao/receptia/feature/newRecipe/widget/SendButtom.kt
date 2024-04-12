@@ -13,8 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.ui.preview.ThemePreview
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
 fun SendButtom(

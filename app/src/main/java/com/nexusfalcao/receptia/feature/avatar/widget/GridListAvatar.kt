@@ -20,7 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.avatar.state.ImageUiState
-import com.nexusfalcao.receptia.ui.widget.OutlineCircularShape
+import com.nexusfalcao.designsystem.widget.OutlineCircularShape
 
 @Composable
 fun GridListAvatar(

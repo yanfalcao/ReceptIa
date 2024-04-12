@@ -15,10 +15,10 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.preview.ThemePreview
-import com.nexusfalcao.receptia.ui.theme.AmbientShadowColor
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
-import com.nexusfalcao.receptia.ui.theme.SpotShadowColor
+import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.theme.AmbientShadowColor
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.theme.SpotShadowColor
 
 @Composable
 fun FilterButton(

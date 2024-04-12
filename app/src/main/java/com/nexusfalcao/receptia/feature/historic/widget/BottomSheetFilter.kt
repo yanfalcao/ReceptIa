@@ -31,8 +31,8 @@ import com.nexusfalcao.receptia.feature.historic.state.AmountServesFilterEnum
 import com.nexusfalcao.receptia.feature.historic.state.FilterState
 import com.nexusfalcao.receptia.feature.historic.state.TagFilterEnum
 import com.nexusfalcao.model.state.RecipeDifficult
-import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

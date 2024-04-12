@@ -24,10 +24,10 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.ui.preview.ThemePreview
-import com.nexusfalcao.receptia.ui.theme.AmbientShadowColor
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
-import com.nexusfalcao.receptia.ui.theme.SpotShadowColor
+import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.theme.AmbientShadowColor
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.theme.SpotShadowColor
 
 @Composable
 fun SearchBar(

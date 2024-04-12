@@ -16,9 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
-import com.nexusfalcao.receptia.ui.theme.RecipeDescriptionBackgroundColor
+import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.theme.RecipeDescriptionBackgroundColor
 
 @Composable
 fun Background() {

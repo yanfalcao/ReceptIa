@@ -21,9 +21,9 @@ import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.feature.home.preview.PreviewParameterData
 import com.nexusfalcao.model.Recipe
-import com.nexusfalcao.receptia.ui.preview.ThemePreview
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
-import com.nexusfalcao.receptia.ui.widget.DifficultIcon
+import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.widget.DifficultIcon
 
 @Composable
 fun DetailsBody(recipe: Recipe) {
@@ -69,7 +69,7 @@ fun DetailsBody(recipe: Recipe) {
                 horizontalArrangement = Arrangement.spacedBy(15.dp),
             ) {
                 DifficultIcon(
-                    difficultState = recipe.recipeDetails.recipeDifficult,
+                    recipeDifficult = recipe.recipeDetails.recipeDifficult,
                 )
 
                 Text(

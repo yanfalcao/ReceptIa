@@ -37,15 +37,18 @@ import com.nexusfalcao.receptia.feature.home.widget.LoadingRecipeList
 import com.nexusfalcao.receptia.feature.home.widget.RecipeList
 import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
-import com.nexusfalcao.receptia.ui.ComposableLifecycle
-import com.nexusfalcao.receptia.ui.preview.PreviewParameterData
-import com.nexusfalcao.receptia.ui.preview.ThemePreviewShowsBakground
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
-import com.nexusfalcao.receptia.ui.widget.CustomUpdateDialog
-import com.nexusfalcao.receptia.ui.widget.EmptyStateWidget
-import com.nexusfalcao.receptia.ui.widget.NavigationDrawerWidget
+import com.nexusfalcao.designsystem.ComposableLifecycle
+import com.nexusfalcao.designsystem.preview.PreviewParameterData
+import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.widget.CustomUpdateDialog
+import com.nexusfalcao.designsystem.widget.EmptyStateWidget
+import com.nexusfalcao.designsystem.widget.NavigationDrawerWidget
 import com.nexusfalcao.receptia.utils.UpdateAppUtil
-import com.nexusfalcao.receptia.ui.widget.TopBarWidget
+import com.nexusfalcao.designsystem.widget.TopBarWidget
+import com.nexusfalcao.receptia.feature.avatar.navigation.navigateToAvatar
+import com.nexusfalcao.receptia.feature.historic.navigation.navigateToHistoric
+import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
 
 @Composable
 internal fun HomeRoute(
@@ -87,7 +90,11 @@ private fun HomeScreen(
 
     NavigationDrawerWidget(
         drawerState = drawerState,
-        navController = navController,
+        toHome = navController::navigateToHome,
+        toNewRecipe = navController::navigateToNewRecipe,
+        toRecipeCatalog = navController::navigateToHistoric,
+        toAvatar = navController::navigateToAvatar,
+        onSignOut = {},
         userName = user?.name,
         userPhotoId = user?.photoId,
     ) {

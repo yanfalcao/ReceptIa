@@ -13,7 +13,7 @@ import com.nexusfalcao.receptia.feature.newRecipe.navigation.newRecipeScreen
 import com.nexusfalcao.receptia.feature.recipeDescription.navigation.recipeDescriptionScreen
 import com.nexusfalcao.receptia.feature.splash.navigation.splashScreen
 import com.nexusfalcao.receptia.navigation.Screen
-import com.nexusfalcao.receptia.ui.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
