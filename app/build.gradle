@@ -78,6 +78,7 @@ dependencies {
     implementation project(path: ':core:data')
     implementation project(path: ':core:model')
     implementation project(path: ':core:designsystem')
+    implementation project(path: ':feature:recipecatalog')
 
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'

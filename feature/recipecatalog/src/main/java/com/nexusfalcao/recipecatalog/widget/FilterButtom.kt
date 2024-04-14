@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.historic.widget
+package com.nexusfalcao.recipecatalog.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -14,11 +14,11 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.R
 import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.AmbientShadowColor
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.theme.SpotShadowColor
+import com.nexusfalcao.recipecatalog.R
 
 @Composable
 fun FilterButton(

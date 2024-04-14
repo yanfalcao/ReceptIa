@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.historic.preview
+package com.nexusfalcao.recipecatalog.preview
 
 import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.model.RecipeDetails

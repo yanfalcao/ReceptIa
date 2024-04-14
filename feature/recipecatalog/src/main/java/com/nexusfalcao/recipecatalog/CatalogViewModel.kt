@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.historic
+package com.nexusfalcao.recipecatalog
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,10 +6,10 @@ import com.nexusfalcao.data.repository.RecipeRepository
 import com.nexusfalcao.data.repository.UserRepository
 import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.model.User
-import com.nexusfalcao.receptia.feature.historic.state.AmountServesFilterEnum
-import com.nexusfalcao.receptia.feature.historic.state.FilterState
-import com.nexusfalcao.receptia.feature.historic.state.RecipeHistoricUiState
-import com.nexusfalcao.receptia.feature.historic.state.TagFilterEnum
+import com.nexusfalcao.recipecatalog.state.AmountServesFilterEnum
+import com.nexusfalcao.recipecatalog.state.FilterState
+import com.nexusfalcao.recipecatalog.state.RecipeHistoricUiState
+import com.nexusfalcao.recipecatalog.state.TagFilterEnum
 import com.nexusfalcao.model.state.RecipeDifficult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HistoricViewModel @Inject constructor(
+class CatalogViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
