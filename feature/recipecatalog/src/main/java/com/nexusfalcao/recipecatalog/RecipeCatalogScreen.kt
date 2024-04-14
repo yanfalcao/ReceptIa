@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.historic
+package com.nexusfalcao.recipecatalog
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,39 +25,35 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.nexusfalcao.model.User
 import com.nexusfalcao.model.state.RecipeDifficult
-import com.nexusfalcao.receptia.R
 import com.nexusfalcao.designsystem.preview.PreviewParameterData as UiPreviewParameterData
-import com.nexusfalcao.receptia.feature.historic.preview.PreviewParameterData
-import com.nexusfalcao.receptia.feature.historic.state.AmountServesFilterEnum
-import com.nexusfalcao.receptia.feature.historic.state.FilterState
-import com.nexusfalcao.receptia.feature.historic.state.RecipeHistoricUiState
-import com.nexusfalcao.receptia.feature.historic.state.TagFilterEnum
-import com.nexusfalcao.receptia.feature.historic.widget.BottomSheetFilter
-import com.nexusfalcao.receptia.feature.historic.widget.FilterButton
-import com.nexusfalcao.receptia.feature.historic.widget.GridList
-import com.nexusfalcao.receptia.feature.historic.widget.SearchBar
-import com.nexusfalcao.receptia.feature.historic.widget.Tag
-import com.nexusfalcao.receptia.feature.historic.widget.LoadingRecipeList
-import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
+import com.nexusfalcao.recipecatalog.preview.PreviewParameterData
+import com.nexusfalcao.recipecatalog.state.AmountServesFilterEnum
+import com.nexusfalcao.recipecatalog.state.FilterState
+import com.nexusfalcao.recipecatalog.state.RecipeHistoricUiState
+import com.nexusfalcao.recipecatalog.state.TagFilterEnum
+import com.nexusfalcao.recipecatalog.widget.BottomSheetFilter
+import com.nexusfalcao.recipecatalog.widget.FilterButton
+import com.nexusfalcao.recipecatalog.widget.GridList
+import com.nexusfalcao.recipecatalog.widget.SearchBar
+import com.nexusfalcao.recipecatalog.widget.Tag
+import com.nexusfalcao.recipecatalog.widget.LoadingRecipeList
 import com.nexusfalcao.designsystem.ComposableLifecycle
 import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
 import com.nexusfalcao.designsystem.widget.NavigationDrawerWidget
 import com.nexusfalcao.designsystem.widget.TopBarWidget
-import com.nexusfalcao.receptia.feature.avatar.navigation.navigateToAvatar
-import com.nexusfalcao.receptia.feature.historic.navigation.navigateToHistoric
-import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
-import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 
 @Composable
-internal fun HistoricRoute(
-    navController: NavController,
-    viewModel: HistoricViewModel = hiltViewModel(),
+internal fun RecipeCatalogRoute(
+    navigateToAvatar: () -> Unit = {},
+    navigateToHome: () -> Unit = {},
+    navigateToNewRecipe: () -> Unit = {},
+    navigateToRecipeDescription: (String) -> Unit = {},
+    navigateToCatalog: () -> Unit = {},
+    viewModel: CatalogViewModel = hiltViewModel(),
 ) {
     val historicState by viewModel.recipesUiState.collectAsStateWithLifecycle()
     val filterUiState by viewModel.filterState.collectAsStateWithLifecycle()
@@ -66,7 +62,6 @@ internal fun HistoricRoute(
     HistoricScreen(
         historicState = historicState,
         filterUiState = filterUiState,
-        navController = navController,
         updateTagFilter = viewModel::updateTagFilter,
         updateSearchFilter = viewModel::updateSearchFilter,
         updateDifficultFilter = viewModel::updateDifficultFilter,
@@ -74,6 +69,11 @@ internal fun HistoricRoute(
         onApplyFilter = viewModel::applyFilter,
         onResetFilter = viewModel::resetFilter,
         user = user,
+        navigateToAvatar = navigateToAvatar,
+        navigateToHome = navigateToHome,
+        navigateToNewRecipe = navigateToNewRecipe,
+        navigateToRecipeDescription = navigateToRecipeDescription,
+        navigateToCatalog = navigateToCatalog,
     )
 
     ComposableLifecycle { _, event ->
@@ -90,7 +90,6 @@ internal fun HistoricRoute(
 private fun HistoricScreen(
     historicState: RecipeHistoricUiState,
     filterUiState: FilterState,
-    navController: NavController,
     updateTagFilter: (TagFilterEnum) -> Unit = {},
     updateSearchFilter: (String) -> Unit = {},
     updateDifficultFilter: (RecipeDifficult) -> Unit = {},
@@ -98,6 +97,11 @@ private fun HistoricScreen(
     onApplyFilter: () -> Unit = {},
     onResetFilter: () -> Unit = {},
     user: User?,
+    navigateToAvatar: () -> Unit = {},
+    navigateToHome: () -> Unit = {},
+    navigateToNewRecipe: () -> Unit = {},
+    navigateToRecipeDescription: (String) -> Unit = {},
+    navigateToCatalog: () -> Unit = {},
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     var showSheet by remember { mutableStateOf(false) }
@@ -125,10 +129,10 @@ private fun HistoricScreen(
 
     NavigationDrawerWidget(
         drawerState = drawerState,
-        toHome = navController::navigateToHome,
-        toNewRecipe = navController::navigateToNewRecipe,
-        toRecipeCatalog = navController::navigateToHistoric,
-        toAvatar = navController::navigateToAvatar,
+        toHome = navigateToHome,
+        toNewRecipe = navigateToNewRecipe,
+        toRecipeCatalog = navigateToCatalog,
+        toAvatar = navigateToAvatar,
         onSignOut = {},
         userName = user?.name,
         userPhotoId = user?.photoId,
@@ -189,7 +193,7 @@ private fun HistoricScreen(
                         if (historicState.recipes.isNotEmpty()) {
                             GridList(
                                 recipes = historicState.recipes,
-                                navigateToDescription = navController::navigateToRecipeDescription,
+                                navigateToDescription = navigateToRecipeDescription,
                             )
                         } else {
                             Box(
@@ -219,7 +223,11 @@ private fun HistoricScreenPreview() {
                 tag = TagFilterEnum.FAVORITES,
                 difficult = RecipeDifficult.Easy,
             ),
-            navController = rememberNavController(),
+            navigateToAvatar = {},
+            navigateToHome = {},
+            navigateToNewRecipe = {},
+            navigateToRecipeDescription = {},
+            navigateToCatalog = {},
             user = UiPreviewParameterData.user,
         )
     }
@@ -232,7 +240,11 @@ private fun LoadingStatePreview() {
         HistoricScreen(
             historicState = RecipeHistoricUiState.Loading,
             filterUiState = FilterState(TagFilterEnum.ALL),
-            navController = rememberNavController(),
+            navigateToAvatar = {},
+            navigateToHome = {},
+            navigateToNewRecipe = {},
+            navigateToRecipeDescription = {},
+            navigateToCatalog = {},
             user = UiPreviewParameterData.user,
         )
     }
@@ -245,7 +257,11 @@ private fun EmptyStatePreview() {
         HistoricScreen(
             historicState = RecipeHistoricUiState.Success(listOf()),
             filterUiState = FilterState(TagFilterEnum.ALL),
-            navController = rememberNavController(),
+            navigateToAvatar = {},
+            navigateToHome = {},
+            navigateToNewRecipe = {},
+            navigateToRecipeDescription = {},
+            navigateToCatalog = {},
             user = UiPreviewParameterData.user,
         )
     }

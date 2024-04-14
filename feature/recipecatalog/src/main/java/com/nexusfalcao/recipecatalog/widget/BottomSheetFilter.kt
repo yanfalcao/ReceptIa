@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.historic.widget
+package com.nexusfalcao.recipecatalog.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,13 +26,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.feature.historic.state.AmountServesFilterEnum
-import com.nexusfalcao.receptia.feature.historic.state.FilterState
-import com.nexusfalcao.receptia.feature.historic.state.TagFilterEnum
+import com.nexusfalcao.recipecatalog.state.FilterState
+import com.nexusfalcao.recipecatalog.state.TagFilterEnum
 import com.nexusfalcao.model.state.RecipeDifficult
 import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.recipecatalog.R
+import com.nexusfalcao.recipecatalog.state.AmountServesFilterEnum
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -130,7 +130,7 @@ private fun BottomSheetBody(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(5.dp),
         ) {
-            for (amount in AmountServesFilterEnum.values()) {
+            for (amount in com.nexusfalcao.recipecatalog.state.AmountServesFilterEnum.values()) {
                 val levelText = when(amount) {
                     AmountServesFilterEnum.ONE -> stringResource(id = R.string.one_in_number)
                     AmountServesFilterEnum.TWO -> stringResource(id = R.string.two_in_number)

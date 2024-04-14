@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.historic.state
+package com.nexusfalcao.recipecatalog.state
 
 import com.nexusfalcao.model.Recipe
 

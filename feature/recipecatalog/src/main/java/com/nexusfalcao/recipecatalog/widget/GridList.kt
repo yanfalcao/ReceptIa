@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.historic.widget
+package com.nexusfalcao.recipecatalog.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,8 +25,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.model.Recipe
-import com.nexusfalcao.receptia.R
 import com.nexusfalcao.designsystem.widget.DifficultIcon
+import com.nexusfalcao.recipecatalog.R
 
 @Composable
 fun GridList(

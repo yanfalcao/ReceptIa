@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.historic.widget
+package com.nexusfalcao.recipecatalog.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

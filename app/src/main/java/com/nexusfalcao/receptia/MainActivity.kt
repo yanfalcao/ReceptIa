@@ -6,7 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.nexusfalcao.receptia.feature.avatar.navigation.avatarScreen
-import com.nexusfalcao.receptia.feature.historic.navigation.recipeHistoricScreen
 import com.nexusfalcao.receptia.feature.home.navigation.homeScreen
 import com.nexusfalcao.receptia.feature.login.navigation.loginScreen
 import com.nexusfalcao.receptia.feature.newRecipe.navigation.newRecipeScreen
@@ -14,6 +13,12 @@ import com.nexusfalcao.receptia.feature.recipeDescription.navigation.recipeDescr
 import com.nexusfalcao.receptia.feature.splash.navigation.splashScreen
 import com.nexusfalcao.receptia.navigation.Screen
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.receptia.feature.avatar.navigation.navigateToAvatar
+import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
+import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
+import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
+import com.nexusfalcao.recipecatalog.navigation.navigateToCatalog
+import com.nexusfalcao.recipecatalog.navigation.recipeCatalogScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -43,8 +48,12 @@ class MainActivity : ComponentActivity() {
                     recipeDescriptionScreen(
                         navController = navController,
                     )
-                    recipeHistoricScreen(
-                        navController = navController,
+                    recipeCatalogScreen(
+                        navigateToAvatar = navController::navigateToAvatar,
+                        navigateToHome = navController::navigateToHome,
+                        navigateToNewRecipe = navController::navigateToNewRecipe,
+                        navigateToRecipeDescription = navController::navigateToRecipeDescription,
+                        navigateToCatalog = navController::navigateToCatalog,
                     )
                     avatarScreen(
                         navController = navController,

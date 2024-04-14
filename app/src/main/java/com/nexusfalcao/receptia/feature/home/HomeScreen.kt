@@ -47,8 +47,8 @@ import com.nexusfalcao.designsystem.widget.NavigationDrawerWidget
 import com.nexusfalcao.receptia.utils.UpdateAppUtil
 import com.nexusfalcao.designsystem.widget.TopBarWidget
 import com.nexusfalcao.receptia.feature.avatar.navigation.navigateToAvatar
-import com.nexusfalcao.receptia.feature.historic.navigation.navigateToHistoric
 import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
+import com.nexusfalcao.recipecatalog.navigation.navigateToCatalog
 
 @Composable
 internal fun HomeRoute(
@@ -92,7 +92,7 @@ private fun HomeScreen(
         drawerState = drawerState,
         toHome = navController::navigateToHome,
         toNewRecipe = navController::navigateToNewRecipe,
-        toRecipeCatalog = navController::navigateToHistoric,
+        toRecipeCatalog = navController::navigateToCatalog,
         toAvatar = navController::navigateToAvatar,
         onSignOut = {},
         userName = user?.name,
