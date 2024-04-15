@@ -1,5 +1,6 @@
-package com.nexusfalcao.receptia.feature.home
+package com.nexusfalcao.home
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.Box
@@ -24,19 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.model.User
-import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.configs.RemoteValues
-import com.nexusfalcao.receptia.feature.home.preview.RecipesPreviewParameterProvider
-import com.nexusfalcao.receptia.feature.home.state.RecipeFeedUiState
-import com.nexusfalcao.receptia.feature.home.widget.Banner
-import com.nexusfalcao.receptia.feature.home.widget.LoadingRecipeList
-import com.nexusfalcao.receptia.feature.home.widget.RecipeList
-import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
-import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
+import com.nexusfalcao.home.preview.RecipesPreviewParameterProvider
+import com.nexusfalcao.home.state.RecipeFeedUiState
+import com.nexusfalcao.home.widget.Banner
+import com.nexusfalcao.home.widget.LoadingRecipeList
+import com.nexusfalcao.home.widget.RecipeList
 import com.nexusfalcao.designsystem.ComposableLifecycle
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
@@ -44,15 +39,17 @@ import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomUpdateDialog
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
 import com.nexusfalcao.designsystem.widget.NavigationDrawerWidget
-import com.nexusfalcao.receptia.utils.UpdateAppUtil
 import com.nexusfalcao.designsystem.widget.TopBarWidget
-import com.nexusfalcao.avatar.navigation.navigateToAvatar
-import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
-import com.nexusfalcao.recipecatalog.navigation.navigateToCatalog
 
 @Composable
 internal fun HomeRoute(
-    navController: NavController,
+    isRequireUpdate: (Context) -> Boolean,
+    appStoreUrl: String,
+    navigateToNewRecipe: () -> Unit = {},
+    navigateToCatalog: () -> Unit = {},
+    navigateToAvatar: () -> Unit = {},
+    navigateToRecipeDescription: (String) -> Unit = {},
+    navigateToHome: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -61,9 +58,13 @@ internal fun HomeRoute(
 
     HomeScreen(
         feedState = feedState,
-        navigateToNewRecipe = navController::navigateToNewRecipe,
-        navController = navController,
-        isRequireUpdate = UpdateAppUtil.requiredUpdate(context),
+        navigateToNewRecipe = navigateToNewRecipe,
+        navigateToAvatar = navigateToAvatar,
+        navigateToCatalog = navigateToCatalog,
+        navigateToRecipeDescription = navigateToRecipeDescription,
+        navigateToHome = navigateToHome,
+        isRequireUpdate = isRequireUpdate(context),
+        appStoreUrl = appStoreUrl,
         user = user,
     )
 
@@ -79,9 +80,13 @@ internal fun HomeRoute(
 
 @Composable
 private fun HomeScreen(
-    navController: NavController,
     feedState: RecipeFeedUiState,
+    appStoreUrl: String,
     navigateToNewRecipe: () -> Unit = {},
+    navigateToCatalog: () -> Unit = {},
+    navigateToAvatar: () -> Unit = {},
+    navigateToRecipeDescription: (String) -> Unit = {},
+    navigateToHome: () -> Unit = {},
     isRequireUpdate: Boolean,
     user: User?,
 ) {
@@ -90,10 +95,10 @@ private fun HomeScreen(
 
     NavigationDrawerWidget(
         drawerState = drawerState,
-        toHome = navController::navigateToHome,
-        toNewRecipe = navController::navigateToNewRecipe,
-        toRecipeCatalog = navController::navigateToCatalog,
-        toAvatar = navController::navigateToAvatar,
+        toHome = navigateToHome,
+        toNewRecipe = navigateToNewRecipe,
+        toRecipeCatalog = navigateToCatalog,
+        toAvatar = navigateToAvatar,
         onSignOut = {},
         userName = user?.name,
         userPhotoId = user?.photoId,
@@ -124,7 +129,7 @@ private fun HomeScreen(
                         if (feedState.recipes.isNotEmpty()) {
                             RecipeList(
                                 feedState.recipes,
-                                navigateToDescription = navController::navigateToRecipeDescription,
+                                navigateToDescription = navigateToRecipeDescription,
                             )
                         } else {
                             Box(
@@ -147,8 +152,7 @@ private fun HomeScreen(
             title = stringResource(id = R.string.update_the_app),
             description = stringResource(id = R.string.update_the_app_description),
         ) {
-            val updateUrl = RemoteValues.VALUE_APP_STORE_URL
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(updateUrl))
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(appStoreUrl))
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(intent)
         }
@@ -163,9 +167,9 @@ private fun HomeScreenPreview(
 ) {
     ReceptIaTheme {
         HomeScreen(
-            navController = rememberNavController(),
             feedState = RecipeFeedUiState.Success(recipes = recipes),
             isRequireUpdate = false,
+            appStoreUrl = "",
             user = PreviewParameterData.user,
         )
     }
@@ -176,9 +180,9 @@ private fun HomeScreenPreview(
 private fun LoadingStatePreview() {
     ReceptIaTheme {
         HomeScreen(
-            navController = rememberNavController(),
             feedState = RecipeFeedUiState.Loading,
             isRequireUpdate = false,
+            appStoreUrl = "",
             user = PreviewParameterData.user,
         )
     }
@@ -189,9 +193,9 @@ private fun LoadingStatePreview() {
 private fun EmptyStatePreview() {
     ReceptIaTheme {
         HomeScreen(
-            navController = rememberNavController(),
             feedState = RecipeFeedUiState.Success(recipes = listOf()),
             isRequireUpdate = false,
+            appStoreUrl = "",
             user = PreviewParameterData.user,
         )
     }

@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.home.widget
+package com.nexusfalcao.home.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,9 +22,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.R
 import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.home.R
 
 @Composable
 fun Banner(

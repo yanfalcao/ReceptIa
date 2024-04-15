@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.home.widget
+package com.nexusfalcao.home.widget
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

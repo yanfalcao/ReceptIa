@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.home.state
+package com.nexusfalcao.home.state
 
 import com.nexusfalcao.model.Recipe
 

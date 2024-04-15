@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="banner_title">Novas receitas com Inteligência Artificial</string>
+    <string name="start">Começar</string>
+    <string name="last_recipes_title">Últimas receitas</string>
+    <string name="update_the_app">Atualize o app</string>
+    <string name="update_the_app_description">Nós recomendamos que você atualize o aplicativo para a última versão. Após a atualização você pode continuar usando o aplicativo normalmente.</string>
+</resources>

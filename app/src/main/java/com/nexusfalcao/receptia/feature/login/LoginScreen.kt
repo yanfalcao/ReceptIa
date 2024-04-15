@@ -28,7 +28,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.ReceptIaApplication
-import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
+import com.nexusfalcao.home.navigation.navigateToHome
 import com.nexusfalcao.receptia.feature.login.state.LoginUiState
 import com.nexusfalcao.receptia.feature.login.widget.Background
 import com.nexusfalcao.receptia.feature.login.widget.Description

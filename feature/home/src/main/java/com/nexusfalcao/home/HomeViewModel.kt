@@ -1,11 +1,11 @@
-package com.nexusfalcao.receptia.feature.home
+package com.nexusfalcao.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nexusfalcao.data.repository.RecipeRepository
 import com.nexusfalcao.data.repository.UserRepository
 import com.nexusfalcao.model.User
-import com.nexusfalcao.receptia.feature.home.state.RecipeFeedUiState
+import com.nexusfalcao.home.state.RecipeFeedUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

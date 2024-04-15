@@ -1,8 +1,8 @@
-package com.nexusfalcao.receptia.feature.home.preview
+package com.nexusfalcao.home.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.nexusfalcao.model.Ingredient
-import com.nexusfalcao.receptia.feature.home.preview.PreviewParameterData.recipeList
+import com.nexusfalcao.home.preview.PreviewParameterData.recipeList
 import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.model.RecipeDetails
 import com.nexusfalcao.model.Step
