@@ -39,33 +39,19 @@
     <string name="alert_description_api_limit">Devido ao ReceptIA ser um app pessoal sem patrocínio ou renda, foi preciso bloquear a criação de receitas temporariamente devido ao custo de uso da plataforma de IA usada na criação das receitas.</string>
 
     <!--    historic-->
-    <string name="historic_title">Receitas</string>
-    <string name="all">Todos</string>
-    <string name="favorites">Favoritos</string>
-    <string name="details">Detalhes</string>
-    <string name="recipe">Receita</string>
     <string name="description">Descrição</string>
     <string name="prep_time">Tempo</string>
     <string name="easeRecipe">Facilidade</string>
-    <string name="nutrition">Nutrição</string>
     <string name="amount_people_serves">Serve quantas pessoas</string>
     <string name="people">pessoas</string>
+    <string name="nutrition">Nutrição</string>
     <string name="calories">Calorias</string>
     <string name="carbs">Carboidratos</string>
     <string name="proteins">Proteina</string>
     <string name="ingredients_amount">%1$d Ingredientes</string>
     <string name="praparation">Modo de Preparo</string>
-    <string name="filter">Filtro</string>
-    <string name="difficult">Dificuldade</string>
-    <string name="easy">Fácil</string>
-    <string name="medium">Médio</string>
-    <string name="hard">Difícil</string>
-    <string name="one_in_number">1</string>
-    <string name="two_in_number">2</string>
-    <string name="three_in_number">3</string>
-    <string name="four_or_more">4+</string>
-    <string name="reset">Zerar</string>
-    <string name="apply">Aplicar</string>
+    <string name="details">Detalhes</string>
+    <string name="recipe">Receita</string>
 
     <!--    drawer-->
     <string name="drawer_home">Início</string>
