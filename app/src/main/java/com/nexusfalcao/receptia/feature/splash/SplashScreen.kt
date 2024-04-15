@@ -16,7 +16,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
+import com.nexusfalcao.home.navigation.navigateToHome
 import com.nexusfalcao.receptia.feature.login.navigation.navigateToLogin
 import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme

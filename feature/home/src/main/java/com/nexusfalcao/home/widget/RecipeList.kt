@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.home.widget
+package com.nexusfalcao.home.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,11 +23,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.model.Recipe
-import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.feature.home.preview.RecipesPreviewParameterProvider
+import com.nexusfalcao.home.preview.RecipesPreviewParameterProvider
 import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.DifficultIcon
+import com.nexusfalcao.home.R
 
 @Composable
 fun RecipeList(

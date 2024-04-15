@@ -19,7 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.feature.home.preview.PreviewParameterData
+import com.nexusfalcao.home.preview.PreviewParameterData
 import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
@@ -154,7 +154,7 @@ private fun NutritionTile(
 fun DetailsBodyPreview() {
     ReceptIaTheme {
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
-            DetailsBody(PreviewParameterData.recipe)
+            DetailsBody(com.nexusfalcao.home.preview.PreviewParameterData.recipe)
         }
     }
 }
