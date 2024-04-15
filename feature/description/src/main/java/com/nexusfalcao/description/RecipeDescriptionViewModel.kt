@@ -1,10 +1,10 @@
-package com.nexusfalcao.receptia.feature.recipeDescription
+package com.nexusfalcao.description
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nexusfalcao.data.repository.RecipeRepository
-import com.nexusfalcao.receptia.feature.recipeDescription.state.RecipeUiState
-import com.nexusfalcao.receptia.feature.recipeDescription.state.ToogleRecipeState
+import com.nexusfalcao.description.state.RecipeUiState
+import com.nexusfalcao.description.state.ToogleRecipeState
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +24,18 @@ class RecipeDescriptionViewModel @AssistedInject constructor(
     private val _recipeUiState = MutableStateFlow<RecipeUiState>(RecipeUiState.Loading)
     val recipeUiState: StateFlow<RecipeUiState> = _recipeUiState
 
+    init {
+        viewModelScope.launch {
+            flow<RecipeUiState> {
+                recipeRepository.findRecipe(recipeId)?.let {
+                    emit(RecipeUiState.Success(recipe = it))
+                }
+            }.collect {
+                _recipeUiState.value = it
+            }
+        }
+    }
+
     fun selectRecipeToogle() {
         viewModelScope.launch {
             _toogleRecipeState.value = when (_toogleRecipeState.value) {
@@ -40,18 +52,6 @@ class RecipeDescriptionViewModel @AssistedInject constructor(
                 recipeRepository.updateIsFavorite(recipeId, it.isFavorite)
 
                 _recipeUiState.value = RecipeUiState.Success(recipe = it)
-            }
-        }
-    }
-
-    init {
-        viewModelScope.launch {
-            flow<RecipeUiState> {
-                recipeRepository.findRecipe(recipeId)?.let {
-                    emit(RecipeUiState.Success(recipe = it))
-                }
-            }.collect {
-                _recipeUiState.value = it
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.recipeDescription.widget
+package com.nexusfalcao.description.widget
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.home.preview.PreviewParameterData
+import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.FilledHeartColor
@@ -66,14 +66,14 @@ fun Header(
 @Composable
 fun HeaderPreviewFavorite(){
     ReceptIaTheme {
-        Header(recipe = com.nexusfalcao.home.preview.PreviewParameterData.recipe)
+        Header(recipe = PreviewParameterData.recipe)
     }
 }
 
 @ThemePreview
 @Composable
 fun HeaderPreview(){
-    val recipe = com.nexusfalcao.home.preview.PreviewParameterData.recipe
+    val recipe = PreviewParameterData.recipe
     recipe.isFavorite = false
 
     ReceptIaTheme {

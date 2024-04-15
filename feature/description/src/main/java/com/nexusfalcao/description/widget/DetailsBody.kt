@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.recipeDescription.widget
+package com.nexusfalcao.description.widget
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -16,10 +16,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.R
-import com.nexusfalcao.home.preview.PreviewParameterData
+import com.nexusfalcao.description.R
+import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
@@ -27,6 +28,8 @@ import com.nexusfalcao.designsystem.widget.DifficultIcon
 
 @Composable
 fun DetailsBody(recipe: Recipe) {
+    val amountPeopleServes = recipe.recipeDetails.amountPeopleServes
+
     Column(
         modifier = Modifier.verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.spacedBy(15.dp),
@@ -80,7 +83,7 @@ fun DetailsBody(recipe: Recipe) {
             }
         }
 
-        Title(R.string.amount_people_serves)
+        Title(R.string.serves_up)
 
         Container {
             Row(
@@ -93,7 +96,7 @@ fun DetailsBody(recipe: Recipe) {
                 )
 
                 Text(
-                    text = recipe.recipeDetails.amountPeopleServes.toString() + " " + stringResource(R.string.people),
+                    text = "${amountPeopleServes} ${pluralStringResource(R.plurals.people, amountPeopleServes)}",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
@@ -154,7 +157,7 @@ private fun NutritionTile(
 fun DetailsBodyPreview() {
     ReceptIaTheme {
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
-            DetailsBody(com.nexusfalcao.home.preview.PreviewParameterData.recipe)
+            DetailsBody(PreviewParameterData.recipe)
         }
     }
 }

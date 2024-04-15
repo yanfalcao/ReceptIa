@@ -34,28 +34,6 @@
     <string name="creating_recipe_loading" tools:ignore="Typos">Aguarde um momento enquanto a receita é gerada</string>
     <string name="alert_description_api_limit">Devido ao ReceptIA ser um app pessoal sem patrocínio ou renda, foi preciso bloquear a criação de receitas temporariamente devido ao custo de uso da plataforma de IA usada na criação das receitas.</string>
 
-    <!--    historic-->
-    <string name="description">Descrição</string>
-    <string name="prep_time">Tempo</string>
-    <string name="easeRecipe">Facilidade</string>
-    <string name="amount_people_serves">Serve quantas pessoas</string>
-    <string name="people">pessoas</string>
-    <string name="nutrition">Nutrição</string>
-    <string name="calories">Calorias</string>
-    <string name="carbs">Carboidratos</string>
-    <string name="proteins">Proteina</string>
-    <string name="ingredients_amount">%1$d Ingredientes</string>
-    <string name="praparation">Modo de Preparo</string>
-    <string name="details">Detalhes</string>
-    <string name="recipe">Receita</string>
-
-    <!--    drawer-->
-    <string name="drawer_home">Início</string>
-    <string name="drawer_new_recipe">Nova receita</string>
-    <string name="drawer_recepies_store">Receitas</string>
-    <string name="drawer_profile">Perfil</string>
-    <string name="drawer_logout">Sair</string>
-
     <!--    content description-->
     <string name="bg_login_description">Imagem de uma mesa com comidas diversas</string>
     <string name="google_icon_description">Icone da empresa Google</string>

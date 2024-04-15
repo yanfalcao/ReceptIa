@@ -9,7 +9,7 @@ import com.nexusfalcao.avatar.navigation.avatarScreen
 import com.nexusfalcao.home.navigation.homeScreen
 import com.nexusfalcao.receptia.feature.login.navigation.loginScreen
 import com.nexusfalcao.receptia.feature.newRecipe.navigation.newRecipeScreen
-import com.nexusfalcao.receptia.feature.recipeDescription.navigation.recipeDescriptionScreen
+import com.nexusfalcao.description.navigation.recipeDescriptionScreen
 import com.nexusfalcao.receptia.feature.splash.navigation.splashScreen
 import com.nexusfalcao.receptia.navigation.Screen
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
@@ -17,7 +17,7 @@ import com.nexusfalcao.avatar.navigation.navigateToAvatar
 import com.nexusfalcao.home.navigation.navigateToHome
 import com.nexusfalcao.receptia.configs.RemoteValues
 import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
-import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
+import com.nexusfalcao.description.navigation.navigateToRecipeDescription
 import com.nexusfalcao.receptia.utils.UpdateAppUtil
 import com.nexusfalcao.recipecatalog.navigation.navigateToCatalog
 import com.nexusfalcao.recipecatalog.navigation.recipeCatalogScreen

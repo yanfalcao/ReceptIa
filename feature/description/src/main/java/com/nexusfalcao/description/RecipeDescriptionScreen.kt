@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.recipeDescription
+package com.nexusfalcao.description
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,14 +15,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
-import com.nexusfalcao.receptia.feature.recipeDescription.state.RecipeUiState
-import com.nexusfalcao.receptia.feature.recipeDescription.state.ToogleRecipeState
-import com.nexusfalcao.receptia.feature.recipeDescription.widget.BackButton
-import com.nexusfalcao.receptia.feature.recipeDescription.widget.Background
-import com.nexusfalcao.receptia.feature.recipeDescription.widget.DetailsBody
-import com.nexusfalcao.receptia.feature.recipeDescription.widget.Header
-import com.nexusfalcao.receptia.feature.recipeDescription.widget.RecipeBody
-import com.nexusfalcao.receptia.feature.recipeDescription.widget.ToogleButton
+import com.nexusfalcao.description.state.RecipeUiState
+import com.nexusfalcao.description.state.ToogleRecipeState
+import com.nexusfalcao.description.widget.BackButton
+import com.nexusfalcao.description.widget.Background
+import com.nexusfalcao.description.widget.DetailsBody
+import com.nexusfalcao.description.widget.Header
+import com.nexusfalcao.description.widget.RecipeBody
+import com.nexusfalcao.description.widget.ToogleButton
 import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 

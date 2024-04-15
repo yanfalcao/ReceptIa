@@ -35,7 +35,7 @@ import com.nexusfalcao.receptia.feature.newRecipe.state.RecipeFieldState
 import com.nexusfalcao.receptia.feature.newRecipe.widget.ContinueButtom
 import com.nexusfalcao.receptia.feature.newRecipe.widget.CreateRecipeLoading
 import com.nexusfalcao.receptia.feature.newRecipe.widget.RecipeForm
-import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription
+import com.nexusfalcao.description.navigation.navigateToRecipeDescription
 import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomAlertDialog

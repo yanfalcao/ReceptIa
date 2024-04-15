@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.recipeDescription.state
+package com.nexusfalcao.description.state
 
 import com.nexusfalcao.model.Recipe
 

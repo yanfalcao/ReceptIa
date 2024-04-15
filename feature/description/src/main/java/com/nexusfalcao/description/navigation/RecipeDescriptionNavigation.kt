@@ -1,19 +1,20 @@
-package com.nexusfalcao.receptia.feature.recipeDescription.navigation
+package com.nexusfalcao.description.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.nexusfalcao.receptia.feature.recipeDescription.RecipeDescriptionRoute
-import com.nexusfalcao.receptia.navigation.Keys
-import com.nexusfalcao.receptia.navigation.Screen
+import com.nexusfalcao.description.RecipeDescriptionRoute
+
+const val RECIPE_ID_KEY = "recipe_id"
+const val RECIPE_DESCRIPTION_ROUTE = "recipe_description_screen/{${RECIPE_ID_KEY}}"
 
 fun NavController.navigateToRecipeDescription(recipeId: String) {
     val destination = currentBackStackEntry?.destination?.route
-    val route = Screen.RecipeDescription.route
+    val route = RECIPE_DESCRIPTION_ROUTE
     val routeWithParam = route.replace(
-        oldValue = "{${Keys.RECIPE_ID}}",
+        oldValue = "{${RECIPE_ID_KEY}}",
         newValue = recipeId,
     )
 
@@ -26,14 +27,14 @@ fun NavGraphBuilder.recipeDescriptionScreen(
     navController: NavController,
 ) {
     composable(
-        Screen.RecipeDescription.route,
+        RECIPE_DESCRIPTION_ROUTE,
         arguments = listOf(
-            navArgument(Keys.RECIPE_ID) {
+            navArgument(RECIPE_ID_KEY) {
                 type = NavType.StringType
             },
         ),
     ) {
-        it.arguments?.getString(Keys.RECIPE_ID)?.let { id ->
+        it.arguments?.getString(RECIPE_ID_KEY)?.let { id ->
             RecipeDescriptionRoute(
                 navController = navController,
                 recipeId = id,
