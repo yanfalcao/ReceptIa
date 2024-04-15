@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.avatar.state
+package com.nexusfalcao.avatar.state
 
 sealed interface ImageUiState {
     object Unselected : ImageUiState

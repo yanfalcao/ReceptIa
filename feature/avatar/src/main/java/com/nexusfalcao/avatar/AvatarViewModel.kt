@@ -1,9 +1,9 @@
-package com.nexusfalcao.receptia.feature.avatar
+package com.nexusfalcao.avatar
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.nexusfalcao.data.repository.UserRepository
-import com.nexusfalcao.receptia.feature.avatar.state.ImageUiState
+import com.nexusfalcao.avatar.state.ImageUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

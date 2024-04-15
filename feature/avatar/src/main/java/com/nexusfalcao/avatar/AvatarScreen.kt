@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.avatar
+package com.nexusfalcao.avatar
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -27,9 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.feature.avatar.state.ImageUiState
-import com.nexusfalcao.receptia.feature.avatar.widget.GridListAvatar
+import com.nexusfalcao.avatar.state.ImageUiState
+import com.nexusfalcao.avatar.widget.GridListAvatar
 import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 

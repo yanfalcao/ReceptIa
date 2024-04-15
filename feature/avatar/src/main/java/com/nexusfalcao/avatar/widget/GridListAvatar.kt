@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.avatar.widget
+package com.nexusfalcao.avatar.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -18,8 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.feature.avatar.state.ImageUiState
+import com.nexusfalcao.avatar.R
+import com.nexusfalcao.avatar.state.ImageUiState
 import com.nexusfalcao.designsystem.widget.OutlineCircularShape
 
 @Composable

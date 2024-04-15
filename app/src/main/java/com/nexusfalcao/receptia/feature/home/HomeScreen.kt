@@ -46,7 +46,7 @@ import com.nexusfalcao.designsystem.widget.EmptyStateWidget
 import com.nexusfalcao.designsystem.widget.NavigationDrawerWidget
 import com.nexusfalcao.receptia.utils.UpdateAppUtil
 import com.nexusfalcao.designsystem.widget.TopBarWidget
-import com.nexusfalcao.receptia.feature.avatar.navigation.navigateToAvatar
+import com.nexusfalcao.avatar.navigation.navigateToAvatar
 import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
 import com.nexusfalcao.recipecatalog.navigation.navigateToCatalog
 
