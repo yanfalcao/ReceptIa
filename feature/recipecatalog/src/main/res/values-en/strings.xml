@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="historic_title">Recipes</string>
+    <string name="all">All</string>
+    <string name="favorites">Favorites</string>
+    <string name="filter">Filters &amp; Sorts</string>
+    <string name="difficult">Recipe difficulty</string>
+    <string name="easy">Easy</string>
+    <string name="medium">Medium</string>
+    <string name="hard">Hard</string>
+    <string name="amount_people_serves">Amount of people served</string>
+    <string name="one_in_number">1</string>
+    <string name="two_in_number">2</string>
+    <string name="three_in_number">3</string>
+    <string name="four_or_more">4+</string>
+    <string name="reset">Reset</string>
+    <string name="apply">Apply</string>
+</resources>
