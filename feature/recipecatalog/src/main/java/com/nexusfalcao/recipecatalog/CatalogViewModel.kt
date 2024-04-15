@@ -8,7 +8,7 @@ import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.model.User
 import com.nexusfalcao.recipecatalog.state.AmountServesFilterEnum
 import com.nexusfalcao.recipecatalog.state.FilterState
-import com.nexusfalcao.recipecatalog.state.RecipeHistoricUiState
+import com.nexusfalcao.recipecatalog.state.CatalogUiState
 import com.nexusfalcao.recipecatalog.state.TagFilterEnum
 import com.nexusfalcao.model.state.RecipeDifficult
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,8 +29,8 @@ class CatalogViewModel @Inject constructor(
     val filterState: StateFlow<FilterState> = _filterState
 
     private val _recipesUiState =
-        MutableStateFlow<RecipeHistoricUiState>(RecipeHistoricUiState.Loading)
-    val recipesUiState: StateFlow<RecipeHistoricUiState> = _recipesUiState
+        MutableStateFlow<CatalogUiState>(CatalogUiState.Loading)
+    val recipesUiState: StateFlow<CatalogUiState> = _recipesUiState
 
     fun getUser(): User? {
         return userRepository.findUser()
@@ -38,7 +38,7 @@ class CatalogViewModel @Inject constructor(
 
     fun updateRecipeHistoric() {
         viewModelScope.launch {
-            _recipesUiState.value = RecipeHistoricUiState.Loading
+            _recipesUiState.value = CatalogUiState.Loading
 
             val recipes = recipeRepository.findRecipes()
             recipeList.clear()
@@ -55,9 +55,9 @@ class CatalogViewModel @Inject constructor(
                 state.tag = tagFilter
 
                 _filterState.value = state
-                _recipesUiState.value = RecipeHistoricUiState.Loading
+                _recipesUiState.value = CatalogUiState.Loading
 
-                _recipesUiState.value = RecipeHistoricUiState.Success(filterList(state))
+                _recipesUiState.value = CatalogUiState.Success(filterList(state))
             }
         }
     }
@@ -68,9 +68,9 @@ class CatalogViewModel @Inject constructor(
             state.search = search
 
             _filterState.value = state
-            _recipesUiState.value = RecipeHistoricUiState.Loading
+            _recipesUiState.value = CatalogUiState.Loading
 
-            _recipesUiState.value = RecipeHistoricUiState.Success(filterList(state))
+            _recipesUiState.value = CatalogUiState.Success(filterList(state))
         }
     }
 
@@ -94,10 +94,10 @@ class CatalogViewModel @Inject constructor(
 
     fun applyFilter() {
         viewModelScope.launch {
-            _recipesUiState.value = RecipeHistoricUiState.Loading
+            _recipesUiState.value = CatalogUiState.Loading
 
             val state = _filterState.value
-            _recipesUiState.value = RecipeHistoricUiState.Success(filterList(state))
+            _recipesUiState.value = CatalogUiState.Success(filterList(state))
         }
     }
 
@@ -108,9 +108,9 @@ class CatalogViewModel @Inject constructor(
             state.amountPeopleServes = null
 
             _filterState.value = state
-            _recipesUiState.value = RecipeHistoricUiState.Loading
+            _recipesUiState.value = CatalogUiState.Loading
 
-            _recipesUiState.value = RecipeHistoricUiState.Success(filterList(state))
+            _recipesUiState.value = CatalogUiState.Success(filterList(state))
         }
     }
 

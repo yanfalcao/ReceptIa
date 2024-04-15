@@ -130,7 +130,7 @@ private fun BottomSheetBody(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(5.dp),
         ) {
-            for (amount in com.nexusfalcao.recipecatalog.state.AmountServesFilterEnum.values()) {
+            for (amount in AmountServesFilterEnum.values()) {
                 val levelText = when(amount) {
                     AmountServesFilterEnum.ONE -> stringResource(id = R.string.one_in_number)
                     AmountServesFilterEnum.TWO -> stringResource(id = R.string.two_in_number)

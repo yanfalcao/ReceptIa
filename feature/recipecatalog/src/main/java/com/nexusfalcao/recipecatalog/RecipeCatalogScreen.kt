@@ -31,7 +31,7 @@ import com.nexusfalcao.designsystem.preview.PreviewParameterData as UiPreviewPar
 import com.nexusfalcao.recipecatalog.preview.PreviewParameterData
 import com.nexusfalcao.recipecatalog.state.AmountServesFilterEnum
 import com.nexusfalcao.recipecatalog.state.FilterState
-import com.nexusfalcao.recipecatalog.state.RecipeHistoricUiState
+import com.nexusfalcao.recipecatalog.state.CatalogUiState
 import com.nexusfalcao.recipecatalog.state.TagFilterEnum
 import com.nexusfalcao.recipecatalog.widget.BottomSheetFilter
 import com.nexusfalcao.recipecatalog.widget.FilterButton
@@ -59,8 +59,8 @@ internal fun RecipeCatalogRoute(
     val filterUiState by viewModel.filterState.collectAsStateWithLifecycle()
     val user = viewModel.getUser()
 
-    HistoricScreen(
-        historicState = historicState,
+    CatalogScreen(
+        catalogState = historicState,
         filterUiState = filterUiState,
         updateTagFilter = viewModel::updateTagFilter,
         updateSearchFilter = viewModel::updateSearchFilter,
@@ -87,8 +87,8 @@ internal fun RecipeCatalogRoute(
 }
 
 @Composable
-private fun HistoricScreen(
-    historicState: RecipeHistoricUiState,
+private fun CatalogScreen(
+    catalogState: CatalogUiState,
     filterUiState: FilterState,
     updateTagFilter: (TagFilterEnum) -> Unit = {},
     updateSearchFilter: (String) -> Unit = {},
@@ -187,12 +187,12 @@ private fun HistoricScreen(
                     }
                 }
 
-                when (historicState) {
-                    RecipeHistoricUiState.Loading -> LoadingRecipeList()
-                    is RecipeHistoricUiState.Success -> {
-                        if (historicState.recipes.isNotEmpty()) {
+                when (catalogState) {
+                    CatalogUiState.Loading -> LoadingRecipeList()
+                    is CatalogUiState.Success -> {
+                        if (catalogState.recipes.isNotEmpty()) {
                             GridList(
-                                recipes = historicState.recipes,
+                                recipes = catalogState.recipes,
                                 navigateToDescription = navigateToRecipeDescription,
                             )
                         } else {
@@ -217,8 +217,8 @@ private fun HistoricScreen(
 @Composable
 private fun HistoricScreenPreview() {
     ReceptIaTheme {
-        HistoricScreen(
-            historicState = RecipeHistoricUiState.Success(PreviewParameterData.recipeList),
+        CatalogScreen(
+            catalogState = CatalogUiState.Success(PreviewParameterData.recipeList),
             filterUiState = FilterState(
                 tag = TagFilterEnum.FAVORITES,
                 difficult = RecipeDifficult.Easy,
@@ -237,8 +237,8 @@ private fun HistoricScreenPreview() {
 @Composable
 private fun LoadingStatePreview() {
     ReceptIaTheme {
-        HistoricScreen(
-            historicState = RecipeHistoricUiState.Loading,
+        CatalogScreen(
+            catalogState = CatalogUiState.Loading,
             filterUiState = FilterState(TagFilterEnum.ALL),
             navigateToAvatar = {},
             navigateToHome = {},
@@ -254,8 +254,8 @@ private fun LoadingStatePreview() {
 @Composable
 private fun EmptyStatePreview() {
     ReceptIaTheme {
-        HistoricScreen(
-            historicState = RecipeHistoricUiState.Success(listOf()),
+        CatalogScreen(
+            catalogState = CatalogUiState.Success(listOf()),
             filterUiState = FilterState(TagFilterEnum.ALL),
             navigateToAvatar = {},
             navigateToHome = {},

@@ -2,10 +2,10 @@ package com.nexusfalcao.recipecatalog.state
 
 import com.nexusfalcao.model.Recipe
 
-sealed interface RecipeHistoricUiState {
-    object Loading : RecipeHistoricUiState
+sealed interface CatalogUiState {
+    object Loading : CatalogUiState
 
     data class Success(
         val recipes: List<Recipe>,
-    ) : RecipeHistoricUiState
+    ) : CatalogUiState
 }
