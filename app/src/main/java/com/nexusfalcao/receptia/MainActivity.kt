@@ -5,7 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.nexusfalcao.receptia.feature.avatar.navigation.avatarScreen
+import com.nexusfalcao.avatar.navigation.avatarScreen
 import com.nexusfalcao.receptia.feature.home.navigation.homeScreen
 import com.nexusfalcao.receptia.feature.login.navigation.loginScreen
 import com.nexusfalcao.receptia.feature.newRecipe.navigation.newRecipeScreen
@@ -13,7 +13,7 @@ import com.nexusfalcao.receptia.feature.recipeDescription.navigation.recipeDescr
 import com.nexusfalcao.receptia.feature.splash.navigation.splashScreen
 import com.nexusfalcao.receptia.navigation.Screen
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
-import com.nexusfalcao.receptia.feature.avatar.navigation.navigateToAvatar
+import com.nexusfalcao.avatar.navigation.navigateToAvatar
 import com.nexusfalcao.receptia.feature.home.navigation.navigateToHome
 import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
 import com.nexusfalcao.receptia.feature.recipeDescription.navigation.navigateToRecipeDescription

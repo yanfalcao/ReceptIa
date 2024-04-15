@@ -64,8 +64,4 @@
     <string name="bg_login_description">Imagem de uma mesa com comidas diversas</string>
     <string name="google_icon_description">Icone da empresa Google</string>
     <string name="logo_icon_description">Imagem do logotipo do app contendo o nome do aplicativo Receptia com uma campânula cobrindo as letras R, E e C</string>
-
-    <!--    avatar-->
-    <string name="select_you_avatar">Selecione seu avatar</string>
-    <string name="select">Selecionar</string>
 </resources>
