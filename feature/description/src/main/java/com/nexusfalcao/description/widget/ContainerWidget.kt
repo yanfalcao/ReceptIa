@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.recipeDescription.widget
+package com.nexusfalcao.description.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

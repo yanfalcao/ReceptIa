@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="description">Description</string>
+    <string name="prep_time">Preparation Time</string>
+    <string name="easeRecipe">Ease of Recipe</string>
+    <string name="serves_up">Serves up</string>
+    <plurals name="people">
+        <item quantity="one">person</item>
+        <item quantity="other">people</item>
+    </plurals>
+    <string name="nutrition">Nutrition Facts</string>
+    <string name="calories">Calories</string>
+    <string name="carbs">Carbohydrate</string>
+    <string name="proteins">Protein</string>
+    <string name="ingredients_amount">%1$d Ingredients</string>
+    <string name="praparation">Preparation Method</string>
+    <string name="details">Details</string>
+    <string name="recipe">Recipe</string>
+</resources>

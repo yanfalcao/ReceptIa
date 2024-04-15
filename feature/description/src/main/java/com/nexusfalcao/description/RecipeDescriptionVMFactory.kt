@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.recipeDescription
+package com.nexusfalcao.description
 
 import dagger.assisted.AssistedFactory
 

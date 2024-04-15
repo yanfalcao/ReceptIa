@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.recipeDescription.widget
+package com.nexusfalcao.description.widget
 
 import androidx.annotation.StringRes
 import androidx.compose.material3.MaterialTheme

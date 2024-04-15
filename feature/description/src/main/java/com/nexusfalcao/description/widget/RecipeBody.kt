@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.recipeDescription.widget
+package com.nexusfalcao.description.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,8 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.receptia.R
-import com.nexusfalcao.home.preview.PreviewParameterData
+import com.nexusfalcao.description.R
+import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
@@ -71,7 +71,7 @@ fun RecipeBody(recipe: Recipe) {
 fun RecipeBodyPreview() {
     ReceptIaTheme {
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
-            RecipeBody(com.nexusfalcao.home.preview.PreviewParameterData.recipe)
+            RecipeBody(PreviewParameterData.recipe)
         }
     }
 }
