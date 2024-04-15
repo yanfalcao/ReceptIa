@@ -13,7 +13,7 @@ data class FilterState(
         return when (tag) {
             TagFilterEnum.FAVORITES -> {
                 recipeList.filter { recipe ->
-                    tag == TagFilterEnum.FAVORITES && recipe.isFavorite
+                    recipe.isFavorite
                 }.toList()
             }
 
