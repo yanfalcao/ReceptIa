@@ -1,7 +1,7 @@
 package com.nexusfalcao.createrecipe.preview
 
 object PreviewParameterData {
-    val ingredients = listOf(
+    val ingredients = arrayListOf(
         "tomate",
         "queijo",
         "frango",

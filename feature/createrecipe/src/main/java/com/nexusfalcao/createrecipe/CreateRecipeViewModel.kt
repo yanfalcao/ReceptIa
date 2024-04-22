@@ -30,33 +30,8 @@ class CreateRecipeViewModel @Inject constructor(
     private val _radioUiState = MutableStateFlow<RadioUiState>(RadioUiState.Unselected)
     val radioUiState get() = _radioUiState
 
-    private val _favoriteIngredientsState = MutableStateFlow(
-        IngredientUiState(
-            state = RecipeFieldState.FAVORITE,
-        ),
-    )
-    val favoriteIngredientsState get() = _favoriteIngredientsState
-
-    private val _nonFavoriteIngredientsState = MutableStateFlow(
-        IngredientUiState(
-            state = RecipeFieldState.NON_FAVORITE,
-        ),
-    )
-    val nonFavoriteIngredientsState get() = _nonFavoriteIngredientsState
-
-    private val _allergicIngredientsState = MutableStateFlow(
-        IngredientUiState(
-            state = RecipeFieldState.ALLERGIC,
-        ),
-    )
-    val allergicIngredientsState get() = _allergicIngredientsState
-
-    private val _intolerantIngredientsState = MutableStateFlow(
-        IngredientUiState(
-            state = RecipeFieldState.INTOLERANT,
-        ),
-    )
-    val intolerantIngredientsState get() = _intolerantIngredientsState
+    private val _ingredientsState = MutableStateFlow(IngredientUiState())
+    val ingredientsState get() = _ingredientsState
 
     private val _createRecipeUiState = MutableStateFlow<CreateRecipeUiState>(CreateRecipeUiState.None)
     val createRecipeUiState get() = _createRecipeUiState
@@ -66,12 +41,11 @@ class CreateRecipeViewModel @Inject constructor(
 
     val checkFieldUiState = combine(
         radioUiState,
-        favoriteIngredientsState,
+        ingredientsState,
         continueButtonClicked,
-    ) { radioUiState, favoriteIngredientsState, continueButtonClicked ->
-        if (radioUiState is RadioUiState.Selected &&
-            favoriteIngredientsState.ingredients.isNotEmpty()
-        ) {
+    ) { radioUiState, ingredientsState, continueButtonClicked ->
+        val favoriteIngredientsList = ingredientsState.favoriteIngredients
+        if (radioUiState is RadioUiState.Selected && favoriteIngredientsList.isNotEmpty()) {
             CheckFieldUiState.Filled
         } else {
             if (continueButtonClicked) {
@@ -79,7 +53,7 @@ class CreateRecipeViewModel @Inject constructor(
                 if (radioUiState is RadioUiState.Unselected) {
                     fields.add(RecipeFieldState.MEAL)
                 }
-                if (favoriteIngredientsState.ingredients.isEmpty()) {
+                if (favoriteIngredientsList.isEmpty()) {
                     fields.add(RecipeFieldState.FAVORITE)
                 }
                 CheckFieldUiState.Unfilled(fields)
@@ -95,80 +69,25 @@ class CreateRecipeViewModel @Inject constructor(
 
     fun removePreference(recipeFieldState: RecipeFieldState, text: String) {
         viewModelScope.launch {
-            when (recipeFieldState) {
-                RecipeFieldState.FAVORITE -> {
-                    addOrRemoveIngredient(
-                        recipeFieldState = recipeFieldState,
-                        text = text,
-                        ingredientsState = _favoriteIngredientsState,
-                        isAdd = false,
-                    )
-                }
-                RecipeFieldState.NON_FAVORITE -> {
-                    addOrRemoveIngredient(
-                        recipeFieldState = recipeFieldState,
-                        text = text,
-                        ingredientsState = _nonFavoriteIngredientsState,
-                        isAdd = false,
-                    )
-                }
-                RecipeFieldState.ALLERGIC -> {
-                    addOrRemoveIngredient(
-                        recipeFieldState = recipeFieldState,
-                        text = text,
-                        ingredientsState = _allergicIngredientsState,
-                        isAdd = false,
-                    )
-                }
-                RecipeFieldState.INTOLERANT -> {
-                    addOrRemoveIngredient(
-                        recipeFieldState = recipeFieldState,
-                        text = text,
-                        ingredientsState = _intolerantIngredientsState,
-                        isAdd = false,
-                    )
-                }
-                else -> {}
-            }
+            val ingredients = _ingredientsState.value.copy()
+
+            ingredients.removeIngredient(recipeFieldState, text)
+            changeMaxIngredientState(ingredients)
+            _ingredientsState.value = ingredients
         }
     }
     fun addPreference(recipeFieldState: RecipeFieldState, text: String) {
         viewModelScope.launch {
-            when (recipeFieldState) {
-                RecipeFieldState.FAVORITE -> {
-                    addOrRemoveIngredient(
-                        recipeFieldState = recipeFieldState,
-                        text = text,
-                        ingredientsState = _favoriteIngredientsState,
-                        isAdd = true,
-                    )
-                }
-                RecipeFieldState.NON_FAVORITE -> {
-                    addOrRemoveIngredient(
-                        recipeFieldState = recipeFieldState,
-                        text = text,
-                        ingredientsState = _nonFavoriteIngredientsState,
-                        isAdd = true,
-                    )
-                }
-                RecipeFieldState.ALLERGIC -> {
-                    addOrRemoveIngredient(
-                        recipeFieldState = recipeFieldState,
-                        text = text,
-                        ingredientsState = _allergicIngredientsState,
-                        isAdd = true,
-                    )
-                }
-                RecipeFieldState.INTOLERANT -> {
-                    addOrRemoveIngredient(
-                        recipeFieldState = recipeFieldState,
-                        text = text,
-                        ingredientsState = _intolerantIngredientsState,
-                        isAdd = true,
-                    )
-                }
-                RecipeFieldState.MEAL -> {
-                    _radioUiState.value = RadioUiState.Selected(textOption = text)
+            if(recipeFieldState is RecipeFieldState.MEAL){
+                _radioUiState.value = RadioUiState.Selected(text)
+            } else {
+                val ingredients = _ingredientsState.value.copy()
+
+                if (!isIngredientLimitReached(ingredients) && text.isNotEmpty() && text.isNotBlank()) {
+                    ingredients.addIngredient(recipeFieldState, text)
+                    _ingredientsState.value = ingredients
+                } else {
+                    changeMaxIngredientState(ingredients)
                 }
             }
         }
@@ -176,15 +95,17 @@ class CreateRecipeViewModel @Inject constructor(
 
     fun createRecipe(chatGptApiModel: String) {
         viewModelScope.launch {
+            _isMaxIngredientsLimit.value = ErrorUiState.None
+
             if (checkFieldUiState.value is CheckFieldUiState.Filled) {
                 _createRecipeUiState.value = CreateRecipeUiState.Loading
                 try {
                     val meal = (_radioUiState.value as RadioUiState.Selected).textOption
                     val preference = RecipePreference(
-                        favoriteIngredients = _favoriteIngredientsState.value.ingredients,
-                        nonFavoriteIngredients = _nonFavoriteIngredientsState.value.ingredients,
-                        intolerantIngredients = _intolerantIngredientsState.value.ingredients,
-                        allergicIngredients = _allergicIngredientsState.value.ingredients,
+                        favoriteIngredients = _ingredientsState.value.favoriteIngredients,
+                        nonFavoriteIngredients = _ingredientsState.value.nonFavoritesIngredients,
+                        intolerantIngredients = _ingredientsState.value.intolerantIngredients,
+                        allergicIngredients = _ingredientsState.value.allergicingredients,
                         meal = meal,
                         responseLanguage = Locale.getDefault().displayLanguage
                     )
@@ -214,43 +135,20 @@ class CreateRecipeViewModel @Inject constructor(
         }
     }
 
-    private fun addOrRemoveIngredient(
-        recipeFieldState: RecipeFieldState,
-        text: String,
-        ingredientsState: MutableStateFlow<IngredientUiState>,
-        isAdd: Boolean,
-    ) {
-        checkIngredientLimit()
+    private fun isIngredientLimitReached(ingredients: IngredientUiState): Boolean {
+        val countIngredients = ingredients.favoriteIngredients.size +
+                ingredients.intolerantIngredients.size +
+                ingredients.allergicingredients.size +
+                ingredients.nonFavoritesIngredients.size
 
-        val ingredients = ingredientsState.value.ingredients.toMutableList()
-
-        if (isAdd) {
-            if (isMaxIngredientsLimit.value is ErrorUiState.None
-                && text.isNotEmpty()
-                && text.isNotBlank()
-            ) {
-                ingredients.add(text)
-            }
-        } else {
-            ingredients.remove(text)
-        }
-
-        ingredientsState.value = IngredientUiState(
-            ingredients = ingredients.toList(),
-            state = recipeFieldState,
-        )
+        return countIngredients >= INGREDIENT_LIMIT
     }
 
-    private fun checkIngredientLimit() {
-        val countIngredients = _favoriteIngredientsState.value.ingredients.size +
-            _intolerantIngredientsState.value.ingredients.size +
-            _nonFavoriteIngredientsState.value.ingredients.size +
-            _allergicIngredientsState.value.ingredients.size
-
-        _isMaxIngredientsLimit.value = if (countIngredients >= INGREDIENT_LIMIT) {
-            ErrorUiState.IngredientMaxLimit
+    private fun changeMaxIngredientState(ingredients: IngredientUiState) {
+        if (isIngredientLimitReached(ingredients)) {
+            _isMaxIngredientsLimit.value = ErrorUiState.IngredientMaxLimit
         } else {
-            ErrorUiState.None
+            _isMaxIngredientsLimit.value = ErrorUiState.None
         }
     }
 }

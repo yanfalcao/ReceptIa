@@ -26,19 +26,16 @@ import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 @Composable
 fun RecipeForm(
     radioUiState: RadioUiState,
-    favoriteIngredientUiState: IngredientUiState,
-    nonFavoriteIngredientsState: IngredientUiState,
-    allergicIngredientsState: IngredientUiState,
-    intolerantIngredientsState: IngredientUiState,
+    ingredientState: IngredientUiState,
     checkFieldUiState: CheckFieldUiState,
     addPreference: (RecipeFieldState, String) -> Unit,
     removePreference: (RecipeFieldState, String) -> Unit,
 ) {
     val ingredientTypeList = listOf(
-        Pair(favoriteIngredientUiState, stringResource(R.string.favorite_ingredients)),
-        Pair(nonFavoriteIngredientsState, stringResource(R.string.non_favorite_ingredients)),
-        Pair(allergicIngredientsState, stringResource(R.string.allergic_ingredients)),
-        Pair(intolerantIngredientsState, stringResource(R.string.intolerant_ingredients)),
+        Pair(RecipeFieldState.FAVORITE, stringResource(R.string.favorite_ingredients)),
+        Pair(RecipeFieldState.NON_FAVORITE, stringResource(R.string.non_favorite_ingredients)),
+        Pair(RecipeFieldState.ALLERGIC, stringResource(R.string.allergic_ingredients)),
+        Pair(RecipeFieldState.INTOLERANT, stringResource(R.string.intolerant_ingredients)),
     )
 
     Column(
@@ -72,14 +69,15 @@ fun RecipeForm(
             Spacer(modifier = Modifier.height(15.dp))
 
             CustomTextField(
-                ingredientUiState = ingredient.first,
+                recipeFieldState = ingredient.first,
                 checkFieldUiState = checkFieldUiState,
                 onInputIngredient = addPreference,
             )
 
             FlexBoxLayout(
                 modifier = Modifier.padding(top = 6.dp),
-                ingredientUiState = ingredient.first,
+                ingredientUiState = ingredientState,
+                recipeFieldState = ingredient.first,
                 onRemoveIngredient = removePreference,
             )
 
@@ -131,21 +129,8 @@ fun RecipeFormPreview(){
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
             RecipeForm(
                 radioUiState = RadioUiState.Selected("Almoço"),
-                favoriteIngredientUiState = IngredientUiState(
-                    ingredients = listOf("Macarrão", "Cogumelo"),
-                    state = RecipeFieldState.FAVORITE
-                ),
-                nonFavoriteIngredientsState = IngredientUiState(
-                    ingredients = listOf(),
-                    state = RecipeFieldState.NON_FAVORITE
-                ),
-                allergicIngredientsState = IngredientUiState(
-                    ingredients = listOf(),
-                    state = RecipeFieldState.ALLERGIC
-                ),
-                intolerantIngredientsState = IngredientUiState(
-                    ingredients = listOf(),
-                    state = RecipeFieldState.INTOLERANT
+                ingredientState = IngredientUiState(
+                    favoriteIngredients = arrayListOf("Macarrão", "Cogumelo"),
                 ),
                 checkFieldUiState = CheckFieldUiState.Filled,
                 addPreference = {_, _ ->},
@@ -162,22 +147,7 @@ fun RecipeFormErrorPreview(){
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
             RecipeForm(
                 radioUiState = RadioUiState.Unselected,
-                favoriteIngredientUiState = IngredientUiState(
-                    ingredients = listOf(),
-                    state = RecipeFieldState.FAVORITE
-                ),
-                nonFavoriteIngredientsState = IngredientUiState(
-                    ingredients = listOf(),
-                    state = RecipeFieldState.NON_FAVORITE
-                ),
-                allergicIngredientsState = IngredientUiState(
-                    ingredients = listOf(),
-                    state = RecipeFieldState.ALLERGIC
-                ),
-                intolerantIngredientsState = IngredientUiState(
-                    ingredients = listOf(),
-                    state = RecipeFieldState.INTOLERANT
-                ),
+                ingredientState = IngredientUiState(),
                 checkFieldUiState = CheckFieldUiState.Unfilled(
                     mutableListOf(RecipeFieldState.MEAL, RecipeFieldState.FAVORITE)
                 ),
