@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="start">Start</string>
+    <string name="alert">Alert</string>
+    <string name="creating_recipe_loading" tools:ignore="Typos">Please wait a moment while the recipe is being generated</string>
+    <string name="placeholder_ingredient">Enter the ingredient</string>
+    <string name="favorite_ingredients">Favorite Ingredients</string>
+    <string name="non_favorite_ingredients">Non-favorite ingredients</string>
+    <string name="allergic_ingredients">Ingredients I\'m Allergic To</string>
+    <string name="intolerant_ingredients">Ingredients I\'m Intolerant To</string>
+    <string name="new_recipe_title">Create Recipe</string>
+    <string name="type_of_dish">Type of Dish</string>
+    <string name="breakfast">Breakfast</string>
+    <string name="lunch">Lunch</string>
+    <string name="dinner">Dinner</string>
+
+    <string name="error_field">Field needs to be filled</string>
+    <string name="error_max_char">Limit of 25 characters reached</string>
+    <string name="error_max_ingredient">Limit of 30 ingredients reached</string>
+    <string name="error_create_recipe">The ChatGPT service may be congested, please try again later</string>
+    <string name="alert_description_api_limit">Due to ReceptIA being a personal app without sponsorship or income, it was necessary to temporarily block the creation of recipes due to the cost of using the AI platform used in creating the recipes.</string>
+</resources>

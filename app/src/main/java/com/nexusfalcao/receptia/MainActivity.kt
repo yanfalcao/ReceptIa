@@ -8,15 +8,15 @@ import androidx.navigation.compose.rememberNavController
 import com.nexusfalcao.avatar.navigation.avatarScreen
 import com.nexusfalcao.home.navigation.homeScreen
 import com.nexusfalcao.receptia.feature.login.navigation.loginScreen
-import com.nexusfalcao.receptia.feature.newRecipe.navigation.newRecipeScreen
 import com.nexusfalcao.description.navigation.recipeDescriptionScreen
 import com.nexusfalcao.receptia.feature.splash.navigation.splashScreen
 import com.nexusfalcao.receptia.navigation.Screen
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.avatar.navigation.navigateToAvatar
+import com.nexusfalcao.createrecipe.navigation.createRecipeScreen
 import com.nexusfalcao.home.navigation.navigateToHome
 import com.nexusfalcao.receptia.configs.RemoteValues
-import com.nexusfalcao.receptia.feature.newRecipe.navigation.navigateToNewRecipe
+import com.nexusfalcao.createrecipe.navigation.navigateToCreateRecipe
 import com.nexusfalcao.description.navigation.navigateToRecipeDescription
 import com.nexusfalcao.receptia.utils.UpdateAppUtil
 import com.nexusfalcao.recipecatalog.navigation.navigateToCatalog
@@ -45,13 +45,16 @@ class MainActivity : ComponentActivity() {
                         isRequireUpdate = UpdateAppUtil::requiredUpdate,
                         appStoreUrl = RemoteValues.VALUE_APP_STORE_URL,
                         navigateToAvatar = navController::navigateToAvatar,
-                        navigateToNewRecipe = navController::navigateToNewRecipe,
+                        navigateToNewRecipe = navController::navigateToCreateRecipe,
                         navigateToCatalog = navController::navigateToCatalog,
                         navigateToRecipeDescription = navController::navigateToRecipeDescription,
                         navigateToHome = navController::navigateToHome
                     )
-                    newRecipeScreen(
-                        navController = navController,
+                    createRecipeScreen(
+                        chatGptApiModel = RemoteValues.VALUE_CHATGPT_API_MODEL,
+                        isChatGptApiEnabled = RemoteValues.VALUE_CHATGPT_API_ENABLED,
+                        onNavigateToRecipeDescription = navController::navigateToRecipeDescription,
+                        popBackStack = navController::popBackStack
                     )
                     recipeDescriptionScreen(
                         navController = navController,
@@ -59,7 +62,7 @@ class MainActivity : ComponentActivity() {
                     recipeCatalogScreen(
                         navigateToAvatar = navController::navigateToAvatar,
                         navigateToHome = navController::navigateToHome,
-                        navigateToNewRecipe = navController::navigateToNewRecipe,
+                        navigateToNewRecipe = navController::navigateToCreateRecipe,
                         navigateToRecipeDescription = navController::navigateToRecipeDescription,
                         navigateToCatalog = navController::navigateToCatalog,
                     )
