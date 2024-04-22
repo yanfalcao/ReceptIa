@@ -21,7 +21,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
-class NewRecipeViewModel @Inject constructor(
+class CreateRecipeViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
     private val INGREDIENT_LIMIT = 30
