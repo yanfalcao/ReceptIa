@@ -44,7 +44,7 @@ internal fun CreateRecipeRoute(
     chatGptApiModel: String,
     onNavigateToRecipeDescription: (String) -> Unit,
     popBackStack: () -> Unit,
-    viewModel: NewRecipeViewModel = hiltViewModel(),
+    viewModel: CreateRecipeViewModel = hiltViewModel(),
 ) {
     val radioUiState by viewModel.radioUiState.collectAsStateWithLifecycle()
     val favoriteIngredientsState by viewModel.favoriteIngredientsState.collectAsStateWithLifecycle()
@@ -55,7 +55,7 @@ internal fun CreateRecipeRoute(
     val createRecipeUiState by viewModel.createRecipeUiState.collectAsStateWithLifecycle()
     val isMaxIngredientLimit by viewModel.isMaxIngredientsLimit.collectAsStateWithLifecycle()
 
-    NewRecipeScreen(
+    CreateRecipeScreen(
         radioUiState = radioUiState,
         favoriteIngredientUiState = favoriteIngredientsState,
         nonFavoriteIngredientsState = nonFavoriteIngredientsState,
@@ -75,7 +75,7 @@ internal fun CreateRecipeRoute(
 }
 
 @Composable
-private fun NewRecipeScreen(
+private fun CreateRecipeScreen(
     radioUiState: RadioUiState,
     favoriteIngredientUiState: IngredientUiState,
     nonFavoriteIngredientsState: IngredientUiState,
@@ -183,7 +183,7 @@ private fun NewRecipeScreen(
 @Composable
 private fun NewRecipeScreenPreview() {
     ReceptIaTheme {
-        NewRecipeScreen(
+        CreateRecipeScreen(
             radioUiState = RadioUiState.Selected("Jantar"),
             favoriteIngredientUiState = IngredientUiState(
                 ingredients = PreviewParameterData.ingredients,
@@ -217,7 +217,7 @@ private fun NewRecipeScreenPreview() {
 @Composable
 private fun LoadingStatePreview() {
     ReceptIaTheme {
-        NewRecipeScreen(
+        CreateRecipeScreen(
             radioUiState = RadioUiState.Selected("Jantar"),
             favoriteIngredientUiState = IngredientUiState(
                 ingredients = PreviewParameterData.ingredients,
