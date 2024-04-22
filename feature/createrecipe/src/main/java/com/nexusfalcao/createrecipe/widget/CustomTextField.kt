@@ -32,30 +32,27 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.createrecipe.R
 import com.nexusfalcao.createrecipe.state.CheckFieldUiState
-import com.nexusfalcao.createrecipe.state.IngredientUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
 import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
 fun CustomTextField(
-    ingredientUiState: IngredientUiState,
+    recipeFieldState: RecipeFieldState,
     checkFieldUiState: CheckFieldUiState,
     onInputIngredient: (RecipeFieldState, String) -> Unit,
 ) {
     val maxChar = 25
     var textFieldValue by remember { mutableStateOf("") }
-    var isErrorLimitChar by remember { mutableStateOf(false) }
     var isErrorUnfilled = checkFieldUiState is CheckFieldUiState.Unfilled &&
-        checkFieldUiState.equalsField(ingredientUiState.state)
+        checkFieldUiState.equalsField(recipeFieldState)
 
-    val borderColor = createBorderColor(isErrorUnfilled, isErrorLimitChar)
+    val borderColor = createBorderColor(isErrorUnfilled)
     val roundedCornerShape = RoundedCornerShape(size = 20.dp)
-    val errorText = createErrorText(isErrorUnfilled)
+    val errorText = stringResource(id = R.string.error_field)
     val sendIngredient = {
-        onInputIngredient(ingredientUiState.state, textFieldValue)
+        onInputIngredient(recipeFieldState, textFieldValue)
         textFieldValue = ""
-        isErrorLimitChar = false
     }
 
     Column {
@@ -68,9 +65,6 @@ fun CustomTextField(
                     if (newText.length <= maxChar) {
                         textFieldValue = newText
                         isErrorUnfilled = false
-                        isErrorLimitChar = false
-                    } else {
-                        isErrorLimitChar = true
                     }
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
@@ -110,7 +104,7 @@ fun CustomTextField(
             )
         }
 
-        if (isErrorUnfilled || isErrorLimitChar) {
+        if (isErrorUnfilled) {
             Text(
                 text = errorText,
                 color = MaterialTheme.colorScheme.error,
@@ -118,15 +112,6 @@ fun CustomTextField(
                 modifier = Modifier.padding(start = 10.dp),
             )
         }
-    }
-}
-
-@Composable
-private fun createErrorText(isErrorUnfilled: Boolean): String {
-    return if (isErrorUnfilled) {
-        stringResource(id = R.string.error_field)
-    } else {
-        stringResource(id = R.string.error_max_char)
     }
 }
 
@@ -139,8 +124,8 @@ private fun createBackgroundColor(): Color {
 }
 
 @Composable
-private fun createBorderColor(isErrorUnfilled: Boolean, isErrorLimitChar: Boolean): Color {
-    return if (isErrorUnfilled || isErrorLimitChar) {
+private fun createBorderColor(isErrorUnfilled: Boolean): Color {
+    return if (isErrorUnfilled) {
         MaterialTheme.colorScheme.error
     } else {
         MaterialTheme.colorScheme.outline
@@ -157,10 +142,7 @@ fun CustomTextFieldPreview(){
                 .padding(50.dp)
         ){
             CustomTextField(
-                ingredientUiState = IngredientUiState(
-                    ingredients = listOf("Macarrão", "Cogumelo"),
-                    state = RecipeFieldState.MEAL
-                ),
+                recipeFieldState = RecipeFieldState.MEAL,
                 checkFieldUiState = CheckFieldUiState.Filled,
                 onInputIngredient = {_, _ ->},
             )
@@ -178,10 +160,7 @@ fun CustomTextFieldErrorPreview(){
                 .padding(50.dp)
         ){
             CustomTextField(
-                ingredientUiState = IngredientUiState(
-                    ingredients = listOf(),
-                    state = RecipeFieldState.FAVORITE
-                ),
+                recipeFieldState = RecipeFieldState.FAVORITE,
                 checkFieldUiState = CheckFieldUiState.Unfilled(
                     fields = mutableListOf(RecipeFieldState.FAVORITE)
                 ),

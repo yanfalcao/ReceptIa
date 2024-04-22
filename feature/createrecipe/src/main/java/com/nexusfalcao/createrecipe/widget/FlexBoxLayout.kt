@@ -29,14 +29,12 @@ import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 @Composable
 fun FlexBoxLayout(
     modifier: Modifier,
+    recipeFieldState: RecipeFieldState,
     ingredientUiState: IngredientUiState,
     onRemoveIngredient: (RecipeFieldState, String) -> Unit,
 ) {
-    val ingredientList = if (ingredientUiState.ingredients.isEmpty()) {
-        return
-    } else {
-        ingredientUiState.ingredients
-    }
+    val ingredientList = ingredientUiState.getIngredient(recipeFieldState)
+    if (ingredientList.isEmpty()) return
 
     FlowRow(
         modifier = modifier,
@@ -52,7 +50,7 @@ fun FlexBoxLayout(
                     )
                     .padding(vertical = 6.dp, horizontal = 8.dp)
                     .clickable {
-                        onRemoveIngredient(ingredientUiState.state, ingredient)
+                        onRemoveIngredient(recipeFieldState, ingredient)
                     },
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -87,9 +85,9 @@ fun FlexBoxLayoutPreview(){
             FlexBoxLayout(
                 modifier = Modifier,
                 ingredientUiState = IngredientUiState(
-                    ingredients = listOf("Macarrão", "Cogumelo"),
-                    state = RecipeFieldState.FAVORITE
+                    favoriteIngredients = arrayListOf("Macarrão", "Cogumelo")
                 ),
+                recipeFieldState = RecipeFieldState.FAVORITE,
                 onRemoveIngredient = {_, _ ->}
             )
         }

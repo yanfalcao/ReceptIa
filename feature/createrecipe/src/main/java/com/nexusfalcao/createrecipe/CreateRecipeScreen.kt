@@ -47,20 +47,14 @@ internal fun CreateRecipeRoute(
     viewModel: CreateRecipeViewModel = hiltViewModel(),
 ) {
     val radioUiState by viewModel.radioUiState.collectAsStateWithLifecycle()
-    val favoriteIngredientsState by viewModel.favoriteIngredientsState.collectAsStateWithLifecycle()
-    val nonFavoriteIngredientsState by viewModel.nonFavoriteIngredientsState.collectAsStateWithLifecycle()
-    val allergicIngredientsState by viewModel.allergicIngredientsState.collectAsStateWithLifecycle()
-    val intolerantIngredientsState by viewModel.intolerantIngredientsState.collectAsStateWithLifecycle()
+    val ingredientsState by viewModel.ingredientsState.collectAsStateWithLifecycle()
     val checkFieldUiState by viewModel.checkFieldUiState.collectAsStateWithLifecycle()
     val createRecipeUiState by viewModel.createRecipeUiState.collectAsStateWithLifecycle()
     val isMaxIngredientLimit by viewModel.isMaxIngredientsLimit.collectAsStateWithLifecycle()
 
     CreateRecipeScreen(
         radioUiState = radioUiState,
-        favoriteIngredientUiState = favoriteIngredientsState,
-        nonFavoriteIngredientsState = nonFavoriteIngredientsState,
-        allergicIngredientsState = allergicIngredientsState,
-        intolerantIngredientsState = intolerantIngredientsState,
+        ingredientsState = ingredientsState,
         checkFieldUiState = checkFieldUiState,
         createRecipeUiState = createRecipeUiState,
         isMaxIngredientLimit = isMaxIngredientLimit,
@@ -77,10 +71,7 @@ internal fun CreateRecipeRoute(
 @Composable
 private fun CreateRecipeScreen(
     radioUiState: RadioUiState,
-    favoriteIngredientUiState: IngredientUiState,
-    nonFavoriteIngredientsState: IngredientUiState,
-    allergicIngredientsState: IngredientUiState,
-    intolerantIngredientsState: IngredientUiState,
+    ingredientsState: IngredientUiState,
     checkFieldUiState: CheckFieldUiState,
     createRecipeUiState: CreateRecipeUiState,
     isMaxIngredientLimit: ErrorUiState,
@@ -143,10 +134,7 @@ private fun CreateRecipeScreen(
             ) {
                 RecipeForm(
                     radioUiState = radioUiState,
-                    favoriteIngredientUiState = favoriteIngredientUiState,
-                    nonFavoriteIngredientsState = nonFavoriteIngredientsState,
-                    allergicIngredientsState = allergicIngredientsState,
-                    intolerantIngredientsState = intolerantIngredientsState,
+                    ingredientState = ingredientsState,
                     checkFieldUiState = checkFieldUiState,
                     addPreference = addPreference,
                     removePreference = removePreference,
@@ -185,18 +173,8 @@ private fun NewRecipeScreenPreview() {
     ReceptIaTheme {
         CreateRecipeScreen(
             radioUiState = RadioUiState.Selected("Jantar"),
-            favoriteIngredientUiState = IngredientUiState(
-                ingredients = PreviewParameterData.ingredients,
-                state = RecipeFieldState.FAVORITE,
-            ),
-            nonFavoriteIngredientsState = IngredientUiState(
-                state = RecipeFieldState.FAVORITE,
-            ),
-            allergicIngredientsState = IngredientUiState(
-                state = RecipeFieldState.ALLERGIC,
-            ),
-            intolerantIngredientsState = IngredientUiState(
-                state = RecipeFieldState.INTOLERANT,
+            ingredientsState = IngredientUiState(
+                favoriteIngredients = PreviewParameterData.ingredients,
             ),
             checkFieldUiState = CheckFieldUiState.None,
             createRecipeUiState = CreateRecipeUiState.None,
@@ -219,18 +197,8 @@ private fun LoadingStatePreview() {
     ReceptIaTheme {
         CreateRecipeScreen(
             radioUiState = RadioUiState.Selected("Jantar"),
-            favoriteIngredientUiState = IngredientUiState(
-                ingredients = PreviewParameterData.ingredients,
-                state = RecipeFieldState.FAVORITE,
-            ),
-            nonFavoriteIngredientsState = IngredientUiState(
-                state = RecipeFieldState.FAVORITE,
-            ),
-            allergicIngredientsState = IngredientUiState(
-                state = RecipeFieldState.ALLERGIC,
-            ),
-            intolerantIngredientsState = IngredientUiState(
-                state = RecipeFieldState.INTOLERANT,
+            ingredientsState = IngredientUiState(
+                favoriteIngredients = PreviewParameterData.ingredients,
             ),
             checkFieldUiState = CheckFieldUiState.None,
             createRecipeUiState = CreateRecipeUiState.Loading,
