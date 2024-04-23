@@ -45,13 +45,13 @@ internal fun CreateRecipeRoute(
     popBackStack: () -> Unit,
     viewModel: CreateRecipeViewModel = hiltViewModel(),
 ) {
-    val ingredientsState by viewModel.fieldsUiState.collectAsStateWithLifecycle()
+    val fieldsUiState by viewModel.fieldsUiState.collectAsStateWithLifecycle()
     val checkFieldUiState by viewModel.checkFieldUiState.collectAsStateWithLifecycle()
     val createRecipeUiState by viewModel.createRecipeUiState.collectAsStateWithLifecycle()
     val errorUiState by viewModel.errorUiState.collectAsStateWithLifecycle()
 
     CreateRecipeScreen(
-        fieldsUiState = ingredientsState,
+        fieldsUiState = fieldsUiState,
         checkFieldUiState = checkFieldUiState,
         createRecipeUiState = createRecipeUiState,
         errorUiState = errorUiState,

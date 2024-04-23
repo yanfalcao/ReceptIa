@@ -25,7 +25,8 @@ class CreateRecipeViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
     private val CHAR_LIMIT = 750
-    private val continueButtonClicked = MutableStateFlow(false)
+
+    private val _hasCriationTries = MutableStateFlow(false)
 
     private val _fieldsUiState = MutableStateFlow(FieldsUiState())
     val fieldsUiState get() = _fieldsUiState
@@ -38,19 +39,17 @@ class CreateRecipeViewModel @Inject constructor(
 
     val checkFieldUiState = combine(
         fieldsUiState,
-        continueButtonClicked,
-    ) { fieldsUiState, continueButtonClicked ->
+        _hasCriationTries,
+    ) { fieldsUiState, hasCriationTries ->
         val favoriteIngredientsList = fieldsUiState.favoriteIngredients
         if (fieldsUiState.meal is RadioUiState.Selected && favoriteIngredientsList.isNotEmpty()) {
             CheckFieldUiState.Filled
         } else {
-            if (continueButtonClicked) {
-                val fields = mutableListOf<RecipeFieldState>()
-                if (fieldsUiState.meal is RadioUiState.Unselected) {
-                    fields.add(RecipeFieldState.MEAL)
-                }
-                if (favoriteIngredientsList.isEmpty()) {
-                    fields.add(RecipeFieldState.FAVORITE)
+            // Just throw the error if the user has already tried to create a recipe
+            if (hasCriationTries) {
+                val fields = mutableListOf<RecipeFieldState>().apply {
+                    if (fieldsUiState.meal is RadioUiState.Unselected) add(RecipeFieldState.MEAL)
+                    if (favoriteIngredientsList.isEmpty()) add(RecipeFieldState.FAVORITE)
                 }
                 CheckFieldUiState.Unfilled(fields)
             } else {
@@ -121,7 +120,7 @@ class CreateRecipeViewModel @Inject constructor(
                     _createRecipeUiState.value = CreateRecipeUiState.Error
                 }
             } else {
-                continueButtonClicked.value = true
+                _hasCriationTries.value = true
             }
         }
     }
