@@ -9,14 +9,11 @@ sealed interface CheckFieldUiState {
             return checkFieldUiState is Unfilled && checkFieldUiState.fields.contains(recipeField)
         }
     }
+
     object None : CheckFieldUiState
     object Filled : CheckFieldUiState
 
     data class Unfilled(
         val fields: MutableList<RecipeFieldState>,
-    ) : CheckFieldUiState {
-        fun equalsField(recipeField: RecipeFieldState): Boolean {
-            return fields.contains(recipeField)
-        }
-    }
+    ) : CheckFieldUiState
 }
