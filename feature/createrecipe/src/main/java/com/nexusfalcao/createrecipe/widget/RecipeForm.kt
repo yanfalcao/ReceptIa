@@ -17,7 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.createrecipe.R
 import com.nexusfalcao.createrecipe.state.CheckFieldUiState
-import com.nexusfalcao.createrecipe.state.IngredientUiState
+import com.nexusfalcao.createrecipe.state.FieldsUiState
 import com.nexusfalcao.createrecipe.state.RadioUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
 import com.nexusfalcao.designsystem.preview.ThemePreview
@@ -25,8 +25,7 @@ import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
 fun RecipeForm(
-    radioUiState: RadioUiState,
-    ingredientState: IngredientUiState,
+    fieldsUiState: FieldsUiState,
     checkFieldUiState: CheckFieldUiState,
     addPreference: (RecipeFieldState, String) -> Unit,
     removePreference: (RecipeFieldState, String) -> Unit,
@@ -53,7 +52,7 @@ fun RecipeForm(
 
         RadioField(
             checkFieldUiState = checkFieldUiState,
-            radioUiState = radioUiState,
+            radioUiState = fieldsUiState.meal,
             addPreference = addPreference,
         )
 
@@ -76,7 +75,7 @@ fun RecipeForm(
 
             FlexBoxLayout(
                 modifier = Modifier.padding(top = 6.dp),
-                ingredientUiState = ingredientState,
+                fieldsUiState = fieldsUiState,
                 recipeFieldState = ingredient.first,
                 onRemoveIngredient = removePreference,
             )
@@ -125,13 +124,15 @@ private fun RadioField(
 @ThemePreview
 @Composable
 fun RecipeFormPreview(){
+    val fieldsUiState = FieldsUiState(
+        favoriteIngredients = arrayListOf("Macarrão", "Cogumelo"),
+    )
+    fieldsUiState.addField(RecipeFieldState.MEAL, "Almoço")
+
     ReceptIaTheme {
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
             RecipeForm(
-                radioUiState = RadioUiState.Selected("Almoço"),
-                ingredientState = IngredientUiState(
-                    favoriteIngredients = arrayListOf("Macarrão", "Cogumelo"),
-                ),
+                fieldsUiState = fieldsUiState,
                 checkFieldUiState = CheckFieldUiState.Filled,
                 addPreference = {_, _ ->},
                 removePreference = {_, _ ->},
@@ -146,8 +147,7 @@ fun RecipeFormErrorPreview(){
     ReceptIaTheme {
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
             RecipeForm(
-                radioUiState = RadioUiState.Unselected,
-                ingredientState = IngredientUiState(),
+                fieldsUiState = FieldsUiState(),
                 checkFieldUiState = CheckFieldUiState.Unfilled(
                     mutableListOf(RecipeFieldState.MEAL, RecipeFieldState.FAVORITE)
                 ),
