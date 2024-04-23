@@ -93,34 +93,21 @@ class CreateRecipeViewModel @Inject constructor(
         viewModelScope.launch {
             _errorUiState.value = ErrorUiState.None
 
-            if (checkFieldUiState.value is CheckFieldUiState.Filled) {
-                _createRecipeUiState.value = CreateRecipeUiState.Loading
-                try {
-                    val meal = (_fieldsUiState.value.meal as RadioUiState.Selected).textOption
-                    val preference = RecipePreference(
-                        favoriteIngredients = _fieldsUiState.value.favoriteIngredients,
-                        nonFavoriteIngredients = _fieldsUiState.value.nonFavoritesIngredients,
-                        intolerantIngredients = _fieldsUiState.value.intolerantIngredients,
-                        allergicIngredients = _fieldsUiState.value.allergicingredients,
-                        meal = meal,
-                        responseLanguage = Locale.getDefault().displayLanguage
-                    )
-
-                    val recipes = recipeRepository.callNewRecipe(
-                        preference = preference,
-                        apiModel = chatGptApiModel
-                    )
-
-                    val recipe = recipes[0]
-                    recipeRepository.insertRecipe(recipe)
-
-                    _createRecipeUiState.value = CreateRecipeUiState.Success(recipe.id)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                    _createRecipeUiState.value = CreateRecipeUiState.Error
-                }
-            } else {
+            if (checkFieldUiState.value !is CheckFieldUiState.Filled) {
                 _hasCriationTries.value = true
+                return@launch
+            }
+
+            _createRecipeUiState.value = CreateRecipeUiState.Loading
+            try {
+                val preference = createRecipePreference()
+                val recipes = recipeRepository.callNewRecipe(preference, chatGptApiModel)
+
+                recipeRepository.insertRecipe(recipes[0])
+
+                _createRecipeUiState.value = CreateRecipeUiState.Success(recipes[0].id)
+            } catch (e: Exception) {
+                _createRecipeUiState.value = CreateRecipeUiState.Error
             }
         }
     }
@@ -149,5 +136,18 @@ class CreateRecipeViewModel @Inject constructor(
         } else {
             _errorUiState.value = ErrorUiState.None
         }
+    }
+
+    private fun createRecipePreference(): RecipePreference {
+        val fieldsUiState = _fieldsUiState.value
+
+        return RecipePreference(
+            favoriteIngredients = fieldsUiState.favoriteIngredients,
+            nonFavoriteIngredients = fieldsUiState.nonFavoritesIngredients,
+            intolerantIngredients = fieldsUiState.intolerantIngredients,
+            allergicIngredients = fieldsUiState.allergicingredients,
+            meal = (fieldsUiState.meal as RadioUiState.Selected).textOption,
+            responseLanguage = Locale.getDefault().displayLanguage
+        )
     }
 }
