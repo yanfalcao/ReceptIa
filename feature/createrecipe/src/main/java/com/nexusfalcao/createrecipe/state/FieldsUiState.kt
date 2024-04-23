@@ -20,6 +20,17 @@ data class FieldsUiState(
         }
     }
 
+    fun getListStringSize(state: RecipeFieldState): Int {
+        val ingredient = getIngredient(state)
+        var listStringSize = 0
+
+        ingredient.forEach {
+            listStringSize += it.length
+        }
+
+        return listStringSize
+    }
+
     fun addField(state: RecipeFieldState, text: String) {
         when (state) {
             RecipeFieldState.FAVORITE -> {

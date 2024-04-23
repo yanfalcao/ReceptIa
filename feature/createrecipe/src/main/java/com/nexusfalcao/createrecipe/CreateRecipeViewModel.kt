@@ -24,7 +24,7 @@ import javax.inject.Inject
 class CreateRecipeViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
-    private val INGREDIENT_LIMIT = 30
+    private val CHAR_LIMIT = 750
     private val continueButtonClicked = MutableStateFlow(false)
 
     private val _fieldsUiState = MutableStateFlow(FieldsUiState())
@@ -33,8 +33,8 @@ class CreateRecipeViewModel @Inject constructor(
     private val _createRecipeUiState = MutableStateFlow<CreateRecipeUiState>(CreateRecipeUiState.None)
     val createRecipeUiState get() = _createRecipeUiState
 
-    private val _isMaxIngredientsLimit = MutableStateFlow<ErrorUiState>(ErrorUiState.None)
-    val isMaxIngredientsLimit get() = _isMaxIngredientsLimit
+    private val _errorUiState = MutableStateFlow<ErrorUiState>(ErrorUiState.None)
+    val errorUiState get() = _errorUiState
 
     val checkFieldUiState = combine(
         fieldsUiState,
@@ -65,27 +65,26 @@ class CreateRecipeViewModel @Inject constructor(
 
     fun removePreference(recipeFieldState: RecipeFieldState, text: String) {
         viewModelScope.launch {
-            val ingredients = _fieldsUiState.value.copy()
+            val fields = _fieldsUiState.value.copy()
 
-            ingredients.removeIngredient(recipeFieldState, text)
-            changeMaxIngredientState(ingredients)
-            _fieldsUiState.value = ingredients
+            fields.removeIngredient(recipeFieldState, text)
+            changeErrorUiState(fields)
+            _fieldsUiState.value = fields
         }
     }
     fun addPreference(recipeFieldState: RecipeFieldState, text: String) {
         viewModelScope.launch {
-            if(recipeFieldState is RecipeFieldState.MEAL){
-                val fields = _fieldsUiState.value.copy()
-                fields.addField(recipeFieldState, text)
-                _fieldsUiState.value = fields
-            } else {
-                val fields = _fieldsUiState.value.copy()
+            val fieldsUiStateCopy = _fieldsUiState.value.copy()
 
-                if (!isIngredientLimitReached(fields) && text.isNotEmpty() && text.isNotBlank()) {
-                    fields.addField(recipeFieldState, text)
-                    _fieldsUiState.value = fields
+            if(recipeFieldState is RecipeFieldState.MEAL){
+                fieldsUiStateCopy.addField(recipeFieldState, text)
+                _fieldsUiState.value = fieldsUiStateCopy
+            } else {
+                if (!isCharLimitReached(fieldsUiStateCopy) && text.isNotEmpty() && text.isNotBlank()) {
+                    fieldsUiStateCopy.addField(recipeFieldState, text)
+                    _fieldsUiState.value = fieldsUiStateCopy
                 } else {
-                    changeMaxIngredientState(fields)
+                    changeErrorUiState(fieldsUiStateCopy)
                 }
             }
         }
@@ -93,7 +92,7 @@ class CreateRecipeViewModel @Inject constructor(
 
     fun createRecipe(chatGptApiModel: String) {
         viewModelScope.launch {
-            _isMaxIngredientsLimit.value = ErrorUiState.None
+            _errorUiState.value = ErrorUiState.None
 
             if (checkFieldUiState.value is CheckFieldUiState.Filled) {
                 _createRecipeUiState.value = CreateRecipeUiState.Loading
@@ -133,20 +132,23 @@ class CreateRecipeViewModel @Inject constructor(
         }
     }
 
-    private fun isIngredientLimitReached(ingredients: FieldsUiState): Boolean {
-        val countIngredients = ingredients.favoriteIngredients.size +
-                ingredients.intolerantIngredients.size +
-                ingredients.allergicingredients.size +
-                ingredients.nonFavoritesIngredients.size
+    /***
+     * Check if the character limit has been reached in all the ingredients fields
+     */
+    private fun isCharLimitReached(fieldState: FieldsUiState): Boolean {
+        val ingredientsStringSize = fieldState.getListStringSize(RecipeFieldState.FAVORITE) +
+                fieldState.getListStringSize(RecipeFieldState.NON_FAVORITE) +
+                fieldState.getListStringSize(RecipeFieldState.ALLERGIC) +
+                fieldState.getListStringSize(RecipeFieldState.INTOLERANT)
 
-        return countIngredients >= INGREDIENT_LIMIT
+        return ingredientsStringSize >= CHAR_LIMIT
     }
 
-    private fun changeMaxIngredientState(ingredients: FieldsUiState) {
-        if (isIngredientLimitReached(ingredients)) {
-            _isMaxIngredientsLimit.value = ErrorUiState.IngredientMaxLimit
+    private fun changeErrorUiState(ingredients: FieldsUiState) {
+        if (isCharLimitReached(ingredients)) {
+            _errorUiState.value = ErrorUiState.IngredientMaxLimit
         } else {
-            _isMaxIngredientsLimit.value = ErrorUiState.None
+            _errorUiState.value = ErrorUiState.None
         }
     }
 }

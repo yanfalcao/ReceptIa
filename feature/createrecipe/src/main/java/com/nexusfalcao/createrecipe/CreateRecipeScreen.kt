@@ -48,13 +48,13 @@ internal fun CreateRecipeRoute(
     val ingredientsState by viewModel.fieldsUiState.collectAsStateWithLifecycle()
     val checkFieldUiState by viewModel.checkFieldUiState.collectAsStateWithLifecycle()
     val createRecipeUiState by viewModel.createRecipeUiState.collectAsStateWithLifecycle()
-    val isMaxIngredientLimit by viewModel.isMaxIngredientsLimit.collectAsStateWithLifecycle()
+    val errorUiState by viewModel.errorUiState.collectAsStateWithLifecycle()
 
     CreateRecipeScreen(
         fieldsUiState = ingredientsState,
         checkFieldUiState = checkFieldUiState,
         createRecipeUiState = createRecipeUiState,
-        isMaxIngredientLimit = isMaxIngredientLimit,
+        errorUiState = errorUiState,
         createRecipe = { viewModel.createRecipe(chatGptApiModel) },
         addPreference = viewModel::addPreference,
         removePreference = viewModel::removePreference,
@@ -70,7 +70,7 @@ private fun CreateRecipeScreen(
     fieldsUiState: FieldsUiState,
     checkFieldUiState: CheckFieldUiState,
     createRecipeUiState: CreateRecipeUiState,
-    isMaxIngredientLimit: ErrorUiState,
+    errorUiState: ErrorUiState,
     createRecipe: () -> Unit,
     cleanCreateRecipeUiState: () -> Unit,
     addPreference: (RecipeFieldState, String) -> Unit,
@@ -81,8 +81,8 @@ private fun CreateRecipeScreen(
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     var openDialog by remember { mutableStateOf(false) }
-    val limitErrorToast = stringResource(id = R.string.error_max_ingredient)
-    val createRecipeErrorToast = stringResource(id = R.string.error_create_recipe)
+    val stringErrorMaxChar = stringResource(id = R.string.error_max_char)
+    val stringErrorCreateRecipe = stringResource(id = R.string.error_create_recipe)
     val context = LocalContext.current
     val onContinueClick = {
         if(isChatGptApiEnabled) {
@@ -93,13 +93,13 @@ private fun CreateRecipeScreen(
     }
 
 
-    LaunchedEffect(isMaxIngredientLimit, createRecipeUiState) {
-        if (isMaxIngredientLimit is ErrorUiState.IngredientMaxLimit) {
-            Toast.makeText(context, limitErrorToast, Toast.LENGTH_SHORT).show()
+    LaunchedEffect(errorUiState, createRecipeUiState) {
+        if (errorUiState is ErrorUiState.IngredientMaxLimit) {
+            Toast.makeText(context, stringErrorMaxChar, Toast.LENGTH_SHORT).show()
         }
         when (createRecipeUiState) {
             CreateRecipeUiState.Error -> {
-                snackbarHostState.showSnackbar(createRecipeErrorToast)
+                snackbarHostState.showSnackbar(stringErrorCreateRecipe)
             }
             is CreateRecipeUiState.Success -> {
                 cleanCreateRecipeUiState()
@@ -175,7 +175,7 @@ private fun NewRecipeScreenPreview() {
             fieldsUiState = fieldsUiState,
             checkFieldUiState = CheckFieldUiState.None,
             createRecipeUiState = CreateRecipeUiState.None,
-            isMaxIngredientLimit = ErrorUiState.None,
+            errorUiState = ErrorUiState.None,
             createRecipe = {},
             addPreference = { _, _ -> },
             removePreference = { _, _ -> },
@@ -201,7 +201,7 @@ private fun LoadingStatePreview() {
             fieldsUiState = fieldsUiState,
             checkFieldUiState = CheckFieldUiState.None,
             createRecipeUiState = CreateRecipeUiState.Loading,
-            isMaxIngredientLimit = ErrorUiState.None,
+            errorUiState = ErrorUiState.None,
             createRecipe = {},
             addPreference = { _, _ -> },
             removePreference = { _, _ -> },
