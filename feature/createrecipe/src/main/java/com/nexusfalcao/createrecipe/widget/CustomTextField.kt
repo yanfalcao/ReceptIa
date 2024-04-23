@@ -44,8 +44,10 @@ fun CustomTextField(
 ) {
     val maxChar = 25
     var textFieldValue by remember { mutableStateOf("") }
-    var isErrorUnfilled = checkFieldUiState is CheckFieldUiState.Unfilled &&
-        checkFieldUiState.equalsField(recipeFieldState)
+    var isErrorUnfilled = CheckFieldUiState.isUnfilled(
+        checkFieldUiState = checkFieldUiState,
+        recipeField = recipeFieldState
+    )
 
     val borderColor = createBorderColor(isErrorUnfilled)
     val roundedCornerShape = RoundedCornerShape(size = 20.dp)

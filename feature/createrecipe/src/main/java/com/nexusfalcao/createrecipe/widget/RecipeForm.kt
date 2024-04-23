@@ -96,8 +96,10 @@ private fun RadioField(
         stringResource(R.string.lunch),
         stringResource(R.string.dinner),
     )
-    val isError = checkFieldUiState is CheckFieldUiState.Unfilled &&
-        checkFieldUiState.equalsField(RecipeFieldState.MEAL)
+    val isError = CheckFieldUiState.isUnfilled(
+        checkFieldUiState = checkFieldUiState,
+        recipeField = RecipeFieldState.MEAL,
+    )
 
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
