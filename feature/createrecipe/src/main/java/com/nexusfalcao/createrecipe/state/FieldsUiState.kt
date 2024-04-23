@@ -1,11 +1,15 @@
 package com.nexusfalcao.createrecipe.state
 
-data class IngredientUiState(
+data class FieldsUiState(
     val favoriteIngredients: ArrayList<String> = arrayListOf(),
     val nonFavoritesIngredients: ArrayList<String> = arrayListOf(),
     val allergicingredients: ArrayList<String> = arrayListOf(),
     val intolerantIngredients: ArrayList<String> = arrayListOf(),
+    private var _meal: RadioUiState = RadioUiState.Unselected,
 ) {
+    val meal: RadioUiState
+        get() = _meal
+
     fun getIngredient(state: RecipeFieldState): List<String> {
         return when (state) {
             RecipeFieldState.FAVORITE -> favoriteIngredients
@@ -16,21 +20,23 @@ data class IngredientUiState(
         }
     }
 
-    fun addIngredient(state: RecipeFieldState, ingredient: String) {
+    fun addField(state: RecipeFieldState, text: String) {
         when (state) {
             RecipeFieldState.FAVORITE -> {
-                favoriteIngredients.add(ingredient)
+                favoriteIngredients.add(text)
             }
             RecipeFieldState.NON_FAVORITE -> {
-                nonFavoritesIngredients.add(ingredient)
+                nonFavoritesIngredients.add(text)
             }
             RecipeFieldState.ALLERGIC -> {
-                allergicingredients.add(ingredient)
+                allergicingredients.add(text)
             }
             RecipeFieldState.INTOLERANT -> {
-                intolerantIngredients.add(ingredient)
+                intolerantIngredients.add(text)
             }
-            else -> {}
+            RecipeFieldState.MEAL -> {
+                _meal = RadioUiState.Selected(text)
+            }
         }
     }
 
@@ -48,15 +54,18 @@ data class IngredientUiState(
             RecipeFieldState.INTOLERANT -> {
                 intolerantIngredients.remove(ingredient)
             }
-            else -> {}
+            RecipeFieldState.MEAL -> {
+                _meal = RadioUiState.Unselected
+            }
         }
     }
 
-    fun copy() = IngredientUiState(
+    fun copy() = FieldsUiState(
         favoriteIngredients = copyIngredient(favoriteIngredients),
         nonFavoritesIngredients = copyIngredient(nonFavoritesIngredients),
         allergicingredients = copyIngredient(allergicingredients),
         intolerantIngredients = copyIngredient(intolerantIngredients),
+        _meal = copyRadioUiState(_meal)
     )
 
     private fun copyIngredient(ingredient: ArrayList<String>): ArrayList<String> {
@@ -65,12 +74,20 @@ data class IngredientUiState(
         return copy
     }
 
+    private fun copyRadioUiState(radioUiState: RadioUiState): RadioUiState {
+        return when (radioUiState) {
+            is RadioUiState.Selected -> RadioUiState.Selected(radioUiState.textOption)
+            RadioUiState.Unselected -> RadioUiState.Unselected
+        }
+    }
+
     override fun equals(other: Any?): Boolean {
-        if (other is IngredientUiState) {
+        if (other is FieldsUiState) {
             return favoriteIngredients == other.favoriteIngredients &&
                     nonFavoritesIngredients == other.nonFavoritesIngredients &&
                     allergicingredients == other.allergicingredients &&
-                    intolerantIngredients == other.intolerantIngredients
+                    intolerantIngredients == other.intolerantIngredients &&
+                    _meal == other._meal
         }
         return false
     }

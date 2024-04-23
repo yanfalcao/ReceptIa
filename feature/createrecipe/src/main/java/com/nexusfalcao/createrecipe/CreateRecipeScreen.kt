@@ -26,8 +26,7 @@ import com.nexusfalcao.createrecipe.preview.PreviewParameterData
 import com.nexusfalcao.createrecipe.state.CheckFieldUiState
 import com.nexusfalcao.createrecipe.state.CreateRecipeUiState
 import com.nexusfalcao.createrecipe.state.ErrorUiState
-import com.nexusfalcao.createrecipe.state.IngredientUiState
-import com.nexusfalcao.createrecipe.state.RadioUiState
+import com.nexusfalcao.createrecipe.state.FieldsUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
 import com.nexusfalcao.createrecipe.widget.ContinueButtom
 import com.nexusfalcao.createrecipe.widget.CreateRecipeLoading
@@ -46,15 +45,13 @@ internal fun CreateRecipeRoute(
     popBackStack: () -> Unit,
     viewModel: CreateRecipeViewModel = hiltViewModel(),
 ) {
-    val radioUiState by viewModel.radioUiState.collectAsStateWithLifecycle()
-    val ingredientsState by viewModel.ingredientsState.collectAsStateWithLifecycle()
+    val ingredientsState by viewModel.fieldsUiState.collectAsStateWithLifecycle()
     val checkFieldUiState by viewModel.checkFieldUiState.collectAsStateWithLifecycle()
     val createRecipeUiState by viewModel.createRecipeUiState.collectAsStateWithLifecycle()
     val isMaxIngredientLimit by viewModel.isMaxIngredientsLimit.collectAsStateWithLifecycle()
 
     CreateRecipeScreen(
-        radioUiState = radioUiState,
-        ingredientsState = ingredientsState,
+        fieldsUiState = ingredientsState,
         checkFieldUiState = checkFieldUiState,
         createRecipeUiState = createRecipeUiState,
         isMaxIngredientLimit = isMaxIngredientLimit,
@@ -70,18 +67,17 @@ internal fun CreateRecipeRoute(
 
 @Composable
 private fun CreateRecipeScreen(
-    radioUiState: RadioUiState,
-    ingredientsState: IngredientUiState,
+    fieldsUiState: FieldsUiState,
     checkFieldUiState: CheckFieldUiState,
     createRecipeUiState: CreateRecipeUiState,
     isMaxIngredientLimit: ErrorUiState,
     createRecipe: () -> Unit,
+    cleanCreateRecipeUiState: () -> Unit,
     addPreference: (RecipeFieldState, String) -> Unit,
     removePreference: (RecipeFieldState, String) -> Unit,
+    isChatGptApiEnabled: Boolean,
     onBackClick: () -> Unit,
     onNavigateToRecipe: (String) -> Unit,
-    cleanCreateRecipeUiState: () -> Unit,
-    isChatGptApiEnabled: Boolean,
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
     var openDialog by remember { mutableStateOf(false) }
@@ -133,8 +129,7 @@ private fun CreateRecipeScreen(
                     .padding(start = 25.dp, end = 25.dp, top = 20.dp),
             ) {
                 RecipeForm(
-                    radioUiState = radioUiState,
-                    ingredientState = ingredientsState,
+                    fieldsUiState = fieldsUiState,
                     checkFieldUiState = checkFieldUiState,
                     addPreference = addPreference,
                     removePreference = removePreference,
@@ -170,12 +165,14 @@ private fun CreateRecipeScreen(
 @ThemePreviewShowsBakground
 @Composable
 private fun NewRecipeScreenPreview() {
+    val fieldsUiState = FieldsUiState(
+        favoriteIngredients = PreviewParameterData.ingredients,
+    )
+    fieldsUiState.addField(RecipeFieldState.MEAL, "Jantar")
+
     ReceptIaTheme {
         CreateRecipeScreen(
-            radioUiState = RadioUiState.Selected("Jantar"),
-            ingredientsState = IngredientUiState(
-                favoriteIngredients = PreviewParameterData.ingredients,
-            ),
+            fieldsUiState = fieldsUiState,
             checkFieldUiState = CheckFieldUiState.None,
             createRecipeUiState = CreateRecipeUiState.None,
             isMaxIngredientLimit = ErrorUiState.None,
@@ -194,12 +191,14 @@ private fun NewRecipeScreenPreview() {
 @ThemePreviewShowsBakground
 @Composable
 private fun LoadingStatePreview() {
+    val fieldsUiState = FieldsUiState(
+        favoriteIngredients = PreviewParameterData.ingredients,
+    )
+    fieldsUiState.addField(RecipeFieldState.MEAL, "Jantar")
+
     ReceptIaTheme {
         CreateRecipeScreen(
-            radioUiState = RadioUiState.Selected("Jantar"),
-            ingredientsState = IngredientUiState(
-                favoriteIngredients = PreviewParameterData.ingredients,
-            ),
+            fieldsUiState = fieldsUiState,
             checkFieldUiState = CheckFieldUiState.None,
             createRecipeUiState = CreateRecipeUiState.Loading,
             isMaxIngredientLimit = ErrorUiState.None,

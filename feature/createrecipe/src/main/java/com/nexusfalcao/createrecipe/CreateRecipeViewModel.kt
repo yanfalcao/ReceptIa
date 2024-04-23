@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.nexusfalcao.createrecipe.state.CheckFieldUiState
 import com.nexusfalcao.createrecipe.state.CreateRecipeUiState
 import com.nexusfalcao.createrecipe.state.ErrorUiState
-import com.nexusfalcao.createrecipe.state.IngredientUiState
+import com.nexusfalcao.createrecipe.state.FieldsUiState
 import com.nexusfalcao.createrecipe.state.RadioUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
 import com.nexusfalcao.data.repository.RecipeRepository
@@ -27,11 +27,8 @@ class CreateRecipeViewModel @Inject constructor(
     private val INGREDIENT_LIMIT = 30
     private val continueButtonClicked = MutableStateFlow(false)
 
-    private val _radioUiState = MutableStateFlow<RadioUiState>(RadioUiState.Unselected)
-    val radioUiState get() = _radioUiState
-
-    private val _ingredientsState = MutableStateFlow(IngredientUiState())
-    val ingredientsState get() = _ingredientsState
+    private val _fieldsUiState = MutableStateFlow(FieldsUiState())
+    val fieldsUiState get() = _fieldsUiState
 
     private val _createRecipeUiState = MutableStateFlow<CreateRecipeUiState>(CreateRecipeUiState.None)
     val createRecipeUiState get() = _createRecipeUiState
@@ -40,17 +37,16 @@ class CreateRecipeViewModel @Inject constructor(
     val isMaxIngredientsLimit get() = _isMaxIngredientsLimit
 
     val checkFieldUiState = combine(
-        radioUiState,
-        ingredientsState,
+        fieldsUiState,
         continueButtonClicked,
-    ) { radioUiState, ingredientsState, continueButtonClicked ->
-        val favoriteIngredientsList = ingredientsState.favoriteIngredients
-        if (radioUiState is RadioUiState.Selected && favoriteIngredientsList.isNotEmpty()) {
+    ) { fieldsUiState, continueButtonClicked ->
+        val favoriteIngredientsList = fieldsUiState.favoriteIngredients
+        if (fieldsUiState.meal is RadioUiState.Selected && favoriteIngredientsList.isNotEmpty()) {
             CheckFieldUiState.Filled
         } else {
             if (continueButtonClicked) {
                 val fields = mutableListOf<RecipeFieldState>()
-                if (radioUiState is RadioUiState.Unselected) {
+                if (fieldsUiState.meal is RadioUiState.Unselected) {
                     fields.add(RecipeFieldState.MEAL)
                 }
                 if (favoriteIngredientsList.isEmpty()) {
@@ -69,25 +65,27 @@ class CreateRecipeViewModel @Inject constructor(
 
     fun removePreference(recipeFieldState: RecipeFieldState, text: String) {
         viewModelScope.launch {
-            val ingredients = _ingredientsState.value.copy()
+            val ingredients = _fieldsUiState.value.copy()
 
             ingredients.removeIngredient(recipeFieldState, text)
             changeMaxIngredientState(ingredients)
-            _ingredientsState.value = ingredients
+            _fieldsUiState.value = ingredients
         }
     }
     fun addPreference(recipeFieldState: RecipeFieldState, text: String) {
         viewModelScope.launch {
             if(recipeFieldState is RecipeFieldState.MEAL){
-                _radioUiState.value = RadioUiState.Selected(text)
+                val fields = _fieldsUiState.value.copy()
+                fields.addField(recipeFieldState, text)
+                _fieldsUiState.value = fields
             } else {
-                val ingredients = _ingredientsState.value.copy()
+                val fields = _fieldsUiState.value.copy()
 
-                if (!isIngredientLimitReached(ingredients) && text.isNotEmpty() && text.isNotBlank()) {
-                    ingredients.addIngredient(recipeFieldState, text)
-                    _ingredientsState.value = ingredients
+                if (!isIngredientLimitReached(fields) && text.isNotEmpty() && text.isNotBlank()) {
+                    fields.addField(recipeFieldState, text)
+                    _fieldsUiState.value = fields
                 } else {
-                    changeMaxIngredientState(ingredients)
+                    changeMaxIngredientState(fields)
                 }
             }
         }
@@ -100,12 +98,12 @@ class CreateRecipeViewModel @Inject constructor(
             if (checkFieldUiState.value is CheckFieldUiState.Filled) {
                 _createRecipeUiState.value = CreateRecipeUiState.Loading
                 try {
-                    val meal = (_radioUiState.value as RadioUiState.Selected).textOption
+                    val meal = (_fieldsUiState.value.meal as RadioUiState.Selected).textOption
                     val preference = RecipePreference(
-                        favoriteIngredients = _ingredientsState.value.favoriteIngredients,
-                        nonFavoriteIngredients = _ingredientsState.value.nonFavoritesIngredients,
-                        intolerantIngredients = _ingredientsState.value.intolerantIngredients,
-                        allergicIngredients = _ingredientsState.value.allergicingredients,
+                        favoriteIngredients = _fieldsUiState.value.favoriteIngredients,
+                        nonFavoriteIngredients = _fieldsUiState.value.nonFavoritesIngredients,
+                        intolerantIngredients = _fieldsUiState.value.intolerantIngredients,
+                        allergicIngredients = _fieldsUiState.value.allergicingredients,
                         meal = meal,
                         responseLanguage = Locale.getDefault().displayLanguage
                     )
@@ -135,7 +133,7 @@ class CreateRecipeViewModel @Inject constructor(
         }
     }
 
-    private fun isIngredientLimitReached(ingredients: IngredientUiState): Boolean {
+    private fun isIngredientLimitReached(ingredients: FieldsUiState): Boolean {
         val countIngredients = ingredients.favoriteIngredients.size +
                 ingredients.intolerantIngredients.size +
                 ingredients.allergicingredients.size +
@@ -144,7 +142,7 @@ class CreateRecipeViewModel @Inject constructor(
         return countIngredients >= INGREDIENT_LIMIT
     }
 
-    private fun changeMaxIngredientState(ingredients: IngredientUiState) {
+    private fun changeMaxIngredientState(ingredients: FieldsUiState) {
         if (isIngredientLimitReached(ingredients)) {
             _isMaxIngredientsLimit.value = ErrorUiState.IngredientMaxLimit
         } else {

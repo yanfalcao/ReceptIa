@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
-import com.nexusfalcao.createrecipe.state.IngredientUiState
+import com.nexusfalcao.createrecipe.state.FieldsUiState
 import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
@@ -30,10 +30,10 @@ import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 fun FlexBoxLayout(
     modifier: Modifier,
     recipeFieldState: RecipeFieldState,
-    ingredientUiState: IngredientUiState,
+    fieldsUiState: FieldsUiState,
     onRemoveIngredient: (RecipeFieldState, String) -> Unit,
 ) {
-    val ingredientList = ingredientUiState.getIngredient(recipeFieldState)
+    val ingredientList = fieldsUiState.getIngredient(recipeFieldState)
     if (ingredientList.isEmpty()) return
 
     FlowRow(
@@ -84,7 +84,7 @@ fun FlexBoxLayoutPreview(){
         ){
             FlexBoxLayout(
                 modifier = Modifier,
-                ingredientUiState = IngredientUiState(
+                fieldsUiState = FieldsUiState(
                     favoriteIngredients = arrayListOf("Macarrão", "Cogumelo")
                 ),
                 recipeFieldState = RecipeFieldState.FAVORITE,
