@@ -1,0 +1,108 @@
+{
+  "project_info": {
+    "project_number": "752374235035",
+    "project_id": "receptia-5fb57",
+    "storage_bucket": "receptia-5fb57.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752374235035:android:22ea79d83b0ffc30ceab3e",
+        "android_client_info": {
+          "package_name": "com.example.receptia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752374235035-8nsm2teinb0fou4k8ia3tmlmhu4sln4n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.receptia",
+            "certificate_hash": "5c93f83d451c12fe08993785c4e35bd76249d280"
+          }
+        },
+        {
+          "client_id": "752374235035-libft31arbf4bjmb7l268afuv7grpo17.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.receptia",
+            "certificate_hash": "b3f892c1d358702bc6303e8ede8ac6b9bf63c636"
+          }
+        },
+        {
+          "client_id": "752374235035-2utgv0rp8b3ctnmmrj6m8872hb6vo3pf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC0VajA3pdRGl-OmIMihNvkE3Dbi2INNQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752374235035-2utgv0rp8b3ctnmmrj6m8872hb6vo3pf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:752374235035:android:f51fb666f9ee8300ceab3e",
+        "android_client_info": {
+          "package_name": "com.nexusfalcao.receptia"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "752374235035-4vf4iidri3c626dc51gts7niij7225v9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nexusfalcao.receptia",
+            "certificate_hash": "b3f892c1d358702bc6303e8ede8ac6b9bf63c636"
+          }
+        },
+        {
+          "client_id": "752374235035-og58g038ge0nosnkkm6uplbtevdj8nto.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nexusfalcao.receptia",
+            "certificate_hash": "2714cc827b4ab7470021ca6538f564c44df028c2"
+          }
+        },
+        {
+          "client_id": "752374235035-r87r48tc6thufjftvau4meh3nn67u5v0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nexusfalcao.receptia",
+            "certificate_hash": "5c93f83d451c12fe08993785c4e35bd76249d280"
+          }
+        },
+        {
+          "client_id": "752374235035-2utgv0rp8b3ctnmmrj6m8872hb6vo3pf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAC0VajA3pdRGl-OmIMihNvkE3Dbi2INNQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "752374235035-2utgv0rp8b3ctnmmrj6m8872hb6vo3pf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

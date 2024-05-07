@@ -78,6 +78,7 @@ dependencies {
     implementation project(path: ':core:data')
     implementation project(path: ':core:model')
     implementation project(path: ':core:designsystem')
+    implementation project(path: ':core:authentication')
     implementation project(path: ':feature:recipecatalog')
     implementation project(path: ':feature:avatar')
     implementation project(path: ':feature:home')

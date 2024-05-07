@@ -66,7 +66,7 @@ class CreateRecipeViewModel @Inject constructor(
         viewModelScope.launch {
             val fields = _fieldsUiState.value.copy()
 
-            fields.removeIngredient(recipeFieldState, text)
+            fields.removeField(recipeFieldState, text)
             changeErrorUiState(fields)
             _fieldsUiState.value = fields
         }

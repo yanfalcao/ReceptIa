@@ -51,7 +51,7 @@ data class FieldsUiState(
         }
     }
 
-    fun removeIngredient(state: RecipeFieldState, ingredient: String) {
+    fun removeField(state: RecipeFieldState, ingredient: String) {
         when (state) {
             RecipeFieldState.FAVORITE -> {
                 favoriteIngredients.remove(ingredient)
