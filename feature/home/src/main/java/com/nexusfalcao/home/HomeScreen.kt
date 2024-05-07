@@ -50,6 +50,7 @@ internal fun HomeRoute(
     navigateToAvatar: () -> Unit = {},
     navigateToRecipeDescription: (String) -> Unit = {},
     navigateToHome: () -> Unit = {},
+    signOut: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
@@ -63,6 +64,7 @@ internal fun HomeRoute(
         navigateToCatalog = navigateToCatalog,
         navigateToRecipeDescription = navigateToRecipeDescription,
         navigateToHome = navigateToHome,
+        signOut = signOut,
         isRequireUpdate = isRequireUpdate(context),
         appStoreUrl = appStoreUrl,
         user = user,
@@ -87,6 +89,7 @@ private fun HomeScreen(
     navigateToAvatar: () -> Unit = {},
     navigateToRecipeDescription: (String) -> Unit = {},
     navigateToHome: () -> Unit = {},
+    signOut: () -> Unit = {},
     isRequireUpdate: Boolean,
     user: User?,
 ) {
@@ -99,7 +102,7 @@ private fun HomeScreen(
         toNewRecipe = navigateToNewRecipe,
         toRecipeCatalog = navigateToCatalog,
         toAvatar = navigateToAvatar,
-        onSignOut = {},
+        onSignOut = signOut,
         userName = user?.name,
         userPhotoId = user?.photoId,
     ) {

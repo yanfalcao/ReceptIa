@@ -31,6 +31,7 @@ fun NavGraphBuilder.homeScreen(
     navigateToAvatar: () -> Unit = {},
     navigateToRecipeDescription: (String) -> Unit = {},
     navigateToHome: () -> Unit = {},
+    signOut: () -> Unit = {},
 ) {
     composable(HOME_ROUTE) {
         HomeRoute(
@@ -41,6 +42,7 @@ fun NavGraphBuilder.homeScreen(
             navigateToCatalog = navigateToCatalog,
             navigateToRecipeDescription = navigateToRecipeDescription,
             navigateToHome = navigateToHome,
+            signOut = signOut,
         )
     }
 }

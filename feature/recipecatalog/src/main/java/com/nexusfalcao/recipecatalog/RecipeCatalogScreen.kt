@@ -53,6 +53,7 @@ internal fun RecipeCatalogRoute(
     navigateToNewRecipe: () -> Unit = {},
     navigateToRecipeDescription: (String) -> Unit = {},
     navigateToCatalog: () -> Unit = {},
+    signOut: () -> Unit = {},
     viewModel: CatalogViewModel = hiltViewModel(),
 ) {
     val historicState by viewModel.recipesUiState.collectAsStateWithLifecycle()
@@ -74,6 +75,7 @@ internal fun RecipeCatalogRoute(
         navigateToNewRecipe = navigateToNewRecipe,
         navigateToRecipeDescription = navigateToRecipeDescription,
         navigateToCatalog = navigateToCatalog,
+        signOut = signOut,
     )
 
     ComposableLifecycle { _, event ->
@@ -102,6 +104,7 @@ private fun CatalogScreen(
     navigateToNewRecipe: () -> Unit = {},
     navigateToRecipeDescription: (String) -> Unit = {},
     navigateToCatalog: () -> Unit = {},
+    signOut: () -> Unit = {},
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     var showSheet by remember { mutableStateOf(false) }
@@ -133,7 +136,7 @@ private fun CatalogScreen(
         toNewRecipe = navigateToNewRecipe,
         toRecipeCatalog = navigateToCatalog,
         toAvatar = navigateToAvatar,
-        onSignOut = {},
+        onSignOut = signOut,
         userName = user?.name,
         userPhotoId = user?.photoId,
     ) {

@@ -77,17 +77,6 @@ private fun DrawerBody(
     toAvatar: () -> Unit,
     onSignOut: () -> Unit,
 ) {
-    // TODO: Add signout logic
-    /*val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
-    val onSighOut: () -> Unit = {
-        lifecycleScope.launch {
-            val authUiClient = ReceptIaApplication.instance.googleAuthUiClient
-            authUiClient.signOut()
-
-            navController.navigateToLogin(popUp = true)
-        }
-    }*/
-
     Column(
         modifier = Modifier
             .fillMaxHeight()

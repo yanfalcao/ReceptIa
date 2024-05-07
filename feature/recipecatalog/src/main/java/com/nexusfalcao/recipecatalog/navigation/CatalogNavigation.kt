@@ -28,6 +28,7 @@ fun NavGraphBuilder.recipeCatalogScreen(
     navigateToNewRecipe: () -> Unit = {},
     navigateToRecipeDescription: (String) -> Unit = {},
     navigateToCatalog: () -> Unit = {},
+    signOut: () -> Unit = {},
 ) {
     composable(RECIPE_CATALOG_ROUTE) {
         RecipeCatalogRoute(
@@ -36,6 +37,7 @@ fun NavGraphBuilder.recipeCatalogScreen(
             navigateToNewRecipe = navigateToNewRecipe,
             navigateToRecipeDescription = navigateToRecipeDescription,
             navigateToCatalog = navigateToCatalog,
+            signOut = signOut,
         )
     }
 }

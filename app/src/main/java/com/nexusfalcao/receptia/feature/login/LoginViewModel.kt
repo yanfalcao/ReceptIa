@@ -1,11 +1,12 @@
 package com.nexusfalcao.receptia.feature.login
 
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.nexusfalcao.authentication.GoogleAuthenticator
+import com.nexusfalcao.authentication.exception.CancelledAuthException
 import com.nexusfalcao.data.repository.UserRepository
 import com.nexusfalcao.receptia.feature.login.state.LoginUiState
-import com.nexusfalcao.receptia.model.SignInErrorStatus
-import com.nexusfalcao.receptia.model.SignInResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
@@ -13,26 +14,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    val googleAuthenticator: GoogleAuthenticator
 ) : ViewModel() {
     private val _loginUiState = MutableStateFlow<LoginUiState>(LoginUiState.Started)
     val loginUiState get() = _loginUiState
 
-    fun processSignInGoogle(signInResult: SignInResult) {
+    fun processSignInGoogle(intent: Intent) {
         viewModelScope.launch {
-            _loginUiState.value = LoginUiState.Loading
-            if(signInResult.data != null) {
-                val isSaved = userRepository.insertUser(signInResult.data)
+            try {
+                _loginUiState.value = LoginUiState.Loading
+                val user = googleAuthenticator.processGoogleSignInResult(intent)
+                val isSaved = userRepository.insertUser(user)
 
                 _loginUiState.value = when(isSaved) {
                     true -> LoginUiState.Success
                     false -> LoginUiState.Error
                 }
-            } else {
-                _loginUiState.value = when(signInResult.error?.status) {
-                    null -> LoginUiState.Error
-                    SignInErrorStatus.CANCELLED -> LoginUiState.Failure
-                    SignInErrorStatus.GENERIC -> LoginUiState.Error
+            } catch (e: Exception) {
+                _loginUiState.value = when(e) {
+                    is CancelledAuthException -> LoginUiState.Failure
+                    else -> LoginUiState.Error
                 }
             }
         }

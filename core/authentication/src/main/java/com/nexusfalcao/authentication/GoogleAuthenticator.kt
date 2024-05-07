@@ -1,42 +1,45 @@
-package com.nexusfalcao.receptia.feature.login
+package com.nexusfalcao.authentication
 
+import android.app.Application
 import android.content.Intent
 import android.content.IntentSender
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.BeginSignInRequest.GoogleIdTokenRequestOptions
+import com.google.android.gms.auth.api.identity.Identity
 import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
-import com.nexusfalcao.receptia.BuildConfig
-import com.nexusfalcao.receptia.model.SignInError
-import com.nexusfalcao.receptia.model.SignInErrorStatus
-import com.nexusfalcao.receptia.model.SignInResult
-import com.nexusfalcao.model.User
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.Status
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.nexusfalcao.authentication.exception.CancelledAuthException
+import com.nexusfalcao.authentication.exception.GenericAuthException
+import com.nexusfalcao.model.User
+import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.tasks.await
+import javax.inject.Inject
 
-class GoogleAuthUiClient(
-    private val oneTapClient: SignInClient
+@Module
+@InstallIn(SingletonComponent::class)
+class GoogleAuthenticator @Inject constructor(
+    appContext: Application
 ) {
     private val auth = Firebase.auth
+    private val signInClient: SignInClient = Identity.getSignInClient(appContext)
 
-    suspend fun signIn(): IntentSender? {
+    suspend fun initiateGoogleSignIn(): IntentSender? {
         val result = try {
-            oneTapClient.beginSignIn(
-                buildSignInRequest()
-            ).await()
+            signInClient.beginSignIn(buildSignInRequest()).await()
         } catch (e: Exception) {
             e.printStackTrace()
             null
         }
         return result?.pendingIntent?.intentSender
     }
-
-    suspend fun signInWithIntent(intent: Intent): SignInResult {
+    suspend fun processGoogleSignInResult(intent: Intent): User {
         return try {
-            val credential = oneTapClient.getSignInCredentialFromIntent(intent)
+            val credential = signInClient.getSignInCredentialFromIntent(intent)
             val googleIdToken = credential.googleIdToken
             val googleCredentials = GoogleAuthProvider.getCredential(googleIdToken, null)
             val userFirebase = auth.signInWithCredential(googleCredentials).await().user
@@ -47,53 +50,41 @@ class GoogleAuthUiClient(
                     isLoggedIn = true,
                 )
             }
-            SignInResult(
-                data = user,
-                error = null
-            )
+
+            user ?: throw GenericAuthException("User not found")
         } catch (e: Exception) {
-            e.printStackTrace()
-            val status: SignInErrorStatus = when(e) {
+            when(e) {
                 is ApiException -> {
                     if(e.status == Status.RESULT_CANCELED) {
-                        SignInErrorStatus.CANCELLED
+                        throw CancelledAuthException("User cancelled the sign in")
                     } else {
-                        SignInErrorStatus.GENERIC
+                        throw GenericAuthException(e.message ?: "Error during sign in")
                     }
                 }
-                else -> SignInErrorStatus.GENERIC
+                else -> throw GenericAuthException(e.message ?: "Error during sign in")
             }
-            SignInResult(
-                data = null,
-                error = SignInError(
-                    message = e.message,
-                    status = status
-                )
-            )
         }
+    }
+
+    fun isUserLoggedIn(): Boolean {
+        val user = auth.currentUser
+        return user != null
     }
 
     suspend fun signOut() {
         try {
-            oneTapClient.signOut().await()
+            signInClient.signOut().await()
             auth.signOut()
         } catch (e: Exception) {
             e.printStackTrace()
+            throw GenericAuthException(e.message ?: "Error during sign out")
         }
-    }
-
-    fun getSignedInUser(): User? = auth.currentUser?.run {
-        User(
-            id = uid,
-            name = displayName,
-            isLoggedIn = true,
-        )
     }
 
     private fun buildSignInRequest(): BeginSignInRequest {
         return BeginSignInRequest.builder()
             .setGoogleIdTokenRequestOptions(
-                GoogleIdTokenRequestOptions.builder()
+                BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
                     .setSupported(true)
                     .setFilterByAuthorizedAccounts(false)
                     .setServerClientId(BuildConfig.WEB_CLIENT_ID)

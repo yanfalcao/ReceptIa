@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
@@ -25,7 +26,7 @@ import com.nexusfalcao.designsystem.theme.logoIconResource
 @Composable
 internal fun SplashRoute(
     navController: NavController,
-    viewModel: SplashViewModel = viewModel(),
+    viewModel: SplashViewModel = hiltViewModel(),
 ) {
     val splashUiState by viewModel.splashState.collectAsStateWithLifecycle()
 

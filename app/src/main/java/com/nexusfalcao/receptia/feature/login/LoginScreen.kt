@@ -1,5 +1,7 @@
 package com.nexusfalcao.receptia.feature.login
 
+import android.app.Application
+import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import com.nexusfalcao.authentication.GoogleAuthenticator
 import com.nexusfalcao.receptia.R
 import com.nexusfalcao.receptia.ReceptIaApplication
 import com.nexusfalcao.home.navigation.navigateToHome
@@ -35,7 +38,6 @@ import com.nexusfalcao.receptia.feature.login.widget.Description
 import com.nexusfalcao.receptia.feature.login.widget.GoogleLoginButton
 import com.nexusfalcao.receptia.feature.login.widget.LoadingButton
 import com.nexusfalcao.receptia.feature.login.widget.Title
-import com.nexusfalcao.receptia.model.SignInResult
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomSnackbar
 import kotlinx.coroutines.launch
@@ -48,6 +50,7 @@ internal fun LoginRoute(
     val loginUiState by viewModel.loginUiState.collectAsStateWithLifecycle()
 
     LoginScreen(
+        googleAuthenticator = viewModel.googleAuthenticator,
         loginUiState = loginUiState,
         processSignInGoogle = viewModel::processSignInGoogle,
         navigateToHome = navController::navigateToHome,
@@ -59,10 +62,11 @@ internal fun LoginRoute(
 @Composable
 private fun LoginScreen(
     loginUiState: LoginUiState,
-    processSignInGoogle: (SignInResult) -> Unit = {},
-    navigateToHome: (Boolean) -> Unit = {},
+    googleAuthenticator: GoogleAuthenticator,
+    processSignInGoogle: (Intent) -> Unit = {},
     startSignInLoading: () -> Unit = {},
-    showSignInError: () -> Unit = {}
+    showSignInError: () -> Unit = {},
+    navigateToHome: (Boolean) -> Unit = {}
 ) {
     val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
     val snackbarHostState = remember { SnackbarHostState() }
@@ -79,11 +83,8 @@ private fun LoginScreen(
         contract = ActivityResultContracts.StartIntentSenderForResult(),
         onResult = { result ->
             lifecycleScope.launch {
-                val authUiClient = ReceptIaApplication.instance.googleAuthUiClient
-                val signInResult = authUiClient.signInWithIntent(
-                    intent = result.data ?: return@launch
-                )
-                processSignInGoogle(signInResult)
+                val intent = result.data ?: return@launch
+                processSignInGoogle(intent)
             }
         }
     )
@@ -94,8 +95,7 @@ private fun LoginScreen(
             } else {
                 startSignInLoading()
 
-                val authUiClient = ReceptIaApplication.instance.googleAuthUiClient
-                val signInIntentSender = authUiClient.signIn()
+                val signInIntentSender = googleAuthenticator.initiateGoogleSignIn()
                 launcher.launch(
                     if(signInIntentSender != null) {
                         IntentSenderRequest.Builder(
@@ -163,7 +163,10 @@ private fun LoginScreen(
 )
 @Composable
 private fun LoginScreenPreview() {
-    LoginScreen(loginUiState = LoginUiState.Started)
+    LoginScreen(
+        googleAuthenticator = GoogleAuthenticator(Application()),
+        loginUiState = LoginUiState.Started
+    )
 }
 
 @Preview(
@@ -172,5 +175,8 @@ private fun LoginScreenPreview() {
 )
 @Composable
 private fun LoadingStatePreview() {
-    LoginScreen(loginUiState = LoginUiState.Loading)
+    LoginScreen(
+        googleAuthenticator = GoogleAuthenticator(Application()),
+        loginUiState = LoginUiState.Loading
+    )
 }
