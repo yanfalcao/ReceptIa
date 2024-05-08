@@ -52,7 +52,7 @@ fun SplashScreen() {
     ) {
         Image(
             painter = logoIconResource(),
-            contentDescription = stringResource(id = R.string.logo_icon_description),
+            contentDescription = null,
             Modifier.scale(1.1f),
         )
     }
