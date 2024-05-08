@@ -22,6 +22,7 @@
             <option value="$PROJECT_DIR$/feature/createrecipe" />
             <option value="$PROJECT_DIR$/feature/description" />
             <option value="$PROJECT_DIR$/feature/home" />
+            <option value="$PROJECT_DIR$/feature/login" />
             <option value="$PROJECT_DIR$/feature/recipecatalog" />
           </set>
         </option>
