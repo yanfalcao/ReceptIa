@@ -84,6 +84,7 @@ dependencies {
     implementation project(path: ':feature:home')
     implementation project(path: ':feature:description')
     implementation project(path: ':feature:createrecipe')
+    implementation project(path: ':feature:login')
 
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'

@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.login.state
+package com.nexusfalcao.login.state
 
 sealed interface LoginUiState {
     object Started : LoginUiState

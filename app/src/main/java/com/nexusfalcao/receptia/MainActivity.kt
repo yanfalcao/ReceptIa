@@ -10,7 +10,6 @@ import androidx.navigation.compose.rememberNavController
 import com.nexusfalcao.authentication.GoogleAuthenticator
 import com.nexusfalcao.avatar.navigation.avatarScreen
 import com.nexusfalcao.home.navigation.homeScreen
-import com.nexusfalcao.receptia.feature.login.navigation.loginScreen
 import com.nexusfalcao.description.navigation.recipeDescriptionScreen
 import com.nexusfalcao.receptia.feature.splash.navigation.splashScreen
 import com.nexusfalcao.receptia.navigation.Screen
@@ -21,7 +20,8 @@ import com.nexusfalcao.home.navigation.navigateToHome
 import com.nexusfalcao.receptia.configs.RemoteValues
 import com.nexusfalcao.createrecipe.navigation.navigateToCreateRecipe
 import com.nexusfalcao.description.navigation.navigateToRecipeDescription
-import com.nexusfalcao.receptia.feature.login.navigation.navigateToLogin
+import com.nexusfalcao.login.navigation.loginScreen
+import com.nexusfalcao.login.navigation.navigateToLogin
 import com.nexusfalcao.receptia.utils.UpdateAppUtil
 import com.nexusfalcao.recipecatalog.navigation.navigateToCatalog
 import com.nexusfalcao.recipecatalog.navigation.recipeCatalogScreen
@@ -53,7 +53,8 @@ class MainActivity : ComponentActivity() {
                         navController = navController,
                     )
                     loginScreen(
-                        navController = navController,
+                        navigateToHome = navController::navigateToHome,
+                        isNetworkConnected = ReceptIaApplication.instance::isNetworkConnected,
                     )
                     homeScreen(
                         isRequireUpdate = UpdateAppUtil::requiredUpdate,

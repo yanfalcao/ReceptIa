@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.login
+package com.nexusfalcao.login
 
 import android.content.Intent
 import androidx.lifecycle.ViewModel
@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.nexusfalcao.authentication.GoogleAuthenticator
 import com.nexusfalcao.authentication.exception.CancelledAuthException
 import com.nexusfalcao.data.repository.UserRepository
-import com.nexusfalcao.receptia.feature.login.state.LoginUiState
+import com.nexusfalcao.login.state.LoginUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
