@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.login.widget
+package com.nexusfalcao.login.widget
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -13,7 +13,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import com.nexusfalcao.receptia.R
+import com.nexusfalcao.login.R
 
 @Preview
 @Composable

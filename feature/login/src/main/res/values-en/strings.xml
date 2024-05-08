@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bg_login_description">Image of a table with various foods</string>
+    <string name="description_login">Generate recipes based on your preferences and those of your guests using AI</string>
+    <string name="google_icon_description">Icon of Google company</string>
+    <string name="google_login">Login with Google</string>
+    <string name="title_login">Generate Recipes using AI</string>
+    <string name="generic_error_message">Something went wrong, try again later.</string>
+    <string name="network_error">Connect to the internet</string>
+</resources>

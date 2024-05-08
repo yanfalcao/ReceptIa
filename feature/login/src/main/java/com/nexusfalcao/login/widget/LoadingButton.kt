@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.login.widget
+package com.nexusfalcao.login.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

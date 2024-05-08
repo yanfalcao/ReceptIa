@@ -1,23 +1,18 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">ReceptIa</string>
-    <string name="title_login">Gere Receitas usando IA</string>
     <string name="network_error">Conecte-se à internet</string>
     <string name="dismiss">Fechar</string>
     <string name="alert">Alerta</string>
     <string name="update">Atualizar</string>
 
     <!--    home-->
-    <string name="description_login">Gere receitas baseado nas suas preferências e nas dos seus convidados usando IA</string>
     <string name="empty_title">Não há receitas ainda!</string>
     <string name="empty_description">Sem receitas geradas ainda, gerer algumas para começar</string>
 
     <!--    login-->
-    <string name="google_login">Login com Google</string>
     <string name="start">Começar</string>
     <string name="generic_error_message">Algo deu errado, tente novamente mais tarde.</string>
 
     <!--    content description-->
-    <string name="bg_login_description">Imagem de uma mesa com comidas diversas</string>
-    <string name="google_icon_description">Icone da empresa Google</string>
     <string name="logo_icon_description">Imagem do logotipo do app contendo o nome do aplicativo Receptia com uma campânula cobrindo as letras R, E e C</string>
 </resources>

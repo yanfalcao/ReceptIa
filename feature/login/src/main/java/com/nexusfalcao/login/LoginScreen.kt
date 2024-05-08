@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.login
+package com.nexusfalcao.login
 
 import android.app.Application
 import android.content.Intent
@@ -27,24 +27,21 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.NavController
 import com.nexusfalcao.authentication.GoogleAuthenticator
-import com.nexusfalcao.receptia.R
-import com.nexusfalcao.receptia.ReceptIaApplication
-import com.nexusfalcao.home.navigation.navigateToHome
-import com.nexusfalcao.receptia.feature.login.state.LoginUiState
-import com.nexusfalcao.receptia.feature.login.widget.Background
-import com.nexusfalcao.receptia.feature.login.widget.Description
-import com.nexusfalcao.receptia.feature.login.widget.GoogleLoginButton
-import com.nexusfalcao.receptia.feature.login.widget.LoadingButton
-import com.nexusfalcao.receptia.feature.login.widget.Title
+import com.nexusfalcao.login.state.LoginUiState
+import com.nexusfalcao.login.widget.Background
+import com.nexusfalcao.login.widget.Description
+import com.nexusfalcao.login.widget.GoogleLoginButton
+import com.nexusfalcao.login.widget.LoadingButton
+import com.nexusfalcao.login.widget.Title
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomSnackbar
 import kotlinx.coroutines.launch
 
 @Composable
 internal fun LoginRoute(
-    navController: NavController,
+    navigateToHome: (Boolean) -> Unit,
+    isNetworkConnected: () -> Boolean,
     viewModel: LoginViewModel = hiltViewModel(),
 ) {
     val loginUiState by viewModel.loginUiState.collectAsStateWithLifecycle()
@@ -53,9 +50,10 @@ internal fun LoginRoute(
         googleAuthenticator = viewModel.googleAuthenticator,
         loginUiState = loginUiState,
         processSignInGoogle = viewModel::processSignInGoogle,
-        navigateToHome = navController::navigateToHome,
+        navigateToHome = navigateToHome,
         startSignInLoading = viewModel::startSignInLoading,
-        showSignInError = viewModel::showSignInError
+        showSignInError = viewModel::showSignInError,
+        isNetworkConnected = isNetworkConnected,
     )
 }
 
@@ -66,7 +64,8 @@ private fun LoginScreen(
     processSignInGoogle: (Intent) -> Unit = {},
     startSignInLoading: () -> Unit = {},
     showSignInError: () -> Unit = {},
-    navigateToHome: (Boolean) -> Unit = {}
+    navigateToHome: (Boolean) -> Unit = {},
+    isNetworkConnected: () -> Boolean,
 ) {
     val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
     val snackbarHostState = remember { SnackbarHostState() }
@@ -90,7 +89,7 @@ private fun LoginScreen(
     )
     val onClickGoogleSignIn: () -> Unit = {
         lifecycleScope.launch {
-            if(!ReceptIaApplication.instance.isNetworkConnected()) {
+            if(!isNetworkConnected()) {
                 snackbarHostState.showSnackbar(message = networkErrorMessage)
             } else {
                 startSignInLoading()
@@ -165,7 +164,8 @@ private fun LoginScreen(
 private fun LoginScreenPreview() {
     LoginScreen(
         googleAuthenticator = GoogleAuthenticator(Application()),
-        loginUiState = LoginUiState.Started
+        loginUiState = LoginUiState.Started,
+        isNetworkConnected = { true }
     )
 }
 
@@ -177,6 +177,7 @@ private fun LoginScreenPreview() {
 private fun LoadingStatePreview() {
     LoginScreen(
         googleAuthenticator = GoogleAuthenticator(Application()),
-        loginUiState = LoginUiState.Loading
+        loginUiState = LoginUiState.Loading,
+        isNetworkConnected = { true }
     )
 }
