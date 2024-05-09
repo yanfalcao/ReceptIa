@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.splash
+package com.nexusfalcao.splash
 
 sealed interface SplashUiState {
     object Loading : SplashUiState

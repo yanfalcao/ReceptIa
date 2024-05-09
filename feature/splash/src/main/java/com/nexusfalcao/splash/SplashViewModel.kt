@@ -1,4 +1,4 @@
-package com.nexusfalcao.receptia.feature.splash
+package com.nexusfalcao.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
