@@ -1,0 +1,20 @@
+[versions]
+version_lifecycle = "2.7.0"
+version_dagger = "2.50"
+version_hilt = "1.2.0"
+version_coroutines = "1.7.3"
+version_activity_compose = "1.9.0"
+
+[libraries]
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "version_lifecycle"}
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "version_lifecycle"}
+androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "version_lifecycle"}
+
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "version_activity_compose"}
+
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "version_dagger"}
+hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "version_hilt"}
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "version_dagger"}
+
+coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "version_coroutines"}
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "version_coroutines"}
