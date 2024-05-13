@@ -46,22 +46,22 @@ dependencies {
     implementation(libs.androidx.lifecycle.runtime.compose)
 
     // Lottie
-    implementation("com.airbnb.android:lottie-compose:6.1.0")
+    implementation(libs.lottie.compose)
 
-    // Compose
-    implementation("androidx.compose.material3:material3:1.2.1")
-    implementation("androidx.compose.material:material")
-    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation(libs.androidx.compose.ui.material3)
+    implementation(libs.androidx.compose.ui.material)
+    implementation(libs.androidx.compose.ui.tooling.preview)
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
 
-    debugImplementation("androidx.compose.ui:ui-tooling:1.6.6")
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.11.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.android.material)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.junit.ext)
+    androidTestImplementation(libs.espresso)
 }
