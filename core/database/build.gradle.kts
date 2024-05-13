@@ -36,20 +36,20 @@ android {
 }
 
 dependencies {
-    implementation("androidx.test:core-ktx:1.5.0")
+    implementation(libs.androidx.core.test)
     val room_version = "2.6.1"
 
-    implementation("androidx.room:room-runtime:$room_version")
-    kapt("androidx.room:room-compiler:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
+    implementation(libs.room.runtime)
+    kapt(libs.room.compiler)
+    implementation(libs.room.ktx)
 
     implementation(libs.coroutines.android)
 
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("com.google.truth:truth:1.0.1")
-    androidTestImplementation("android.arch.core:core-testing:1.1.1")
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.junit.ext)
+    androidTestImplementation(libs.espresso)
+    androidTestImplementation(libs.truth)
+    androidTestImplementation(libs.core.testing)
 
-    testImplementation("org.robolectric:robolectric:4.11.1")
+    testImplementation(libs.robolectric)
 }
