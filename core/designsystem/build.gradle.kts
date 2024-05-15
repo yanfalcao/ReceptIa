@@ -1,11 +1,11 @@
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
     namespace = "com.nexusfalcao.designsystem"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26

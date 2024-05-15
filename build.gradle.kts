@@ -1,17 +1,17 @@
 buildscript {
     dependencies {
         classpath("com.google.gms:google-services:4.4.0")
-        classpath("com.android.tools.build:gradle:8.1.2")
+        classpath("com.android.tools.build:gradle:8.4.0")
         classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
     }
-}// Top-level build file where you can add configuration options common to all sub-projects/modules.
+} // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
-    id("com.android.application") version "8.1.2" apply false
-    id("com.android.library") version "8.1.2" apply false
-    id("org.jetbrains.kotlin.android") version "1.9.10" apply false
-    id("com.google.dagger.hilt.android") version "2.50" apply false
-    id("org.jetbrains.kotlin.jvm") version "1.8.10" apply false
-    id("org.jetbrains.kotlin.kapt") version "1.9.22" apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.dagger.hilt.android) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.kapt) apply false
 }
 
 allprojects {
