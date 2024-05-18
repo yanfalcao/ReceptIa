@@ -1,12 +1,10 @@
 package com.nexusfalcao.data.repository
 
-import android.app.Application
 import com.nexusfalcao.data.extensions.asIngredientEntity
 import com.nexusfalcao.data.extensions.asRecipeEntity
 import com.nexusfalcao.data.extensions.asStepEntity
 import com.nexusfalcao.data.extensions.getRecipes
 import com.nexusfalcao.data.extensions.prompt
-import com.nexusfalcao.database.ReceptIaDatabase
 import com.nexusfalcao.database.dao.IngredientDao
 import com.nexusfalcao.database.dao.RecipeDao
 import com.nexusfalcao.database.dao.StepDao
@@ -17,21 +15,14 @@ import com.nexusfalcao.network.model.request.GptRequest
 import com.nexusfalcao.network.model.request.GptTool
 import com.nexusfalcao.network.model.request.GtpMessage
 import com.nexusfalcao.network.retrofit.ChatgptNetworkApi
-import com.nexusfalcao.network.retrofit.RetrofitNetwork
 import com.nexusfalcao.network.util.RecipeRequestUtil
 
 internal class DefaultRecipeRepository(
-    private val appContext: Application
+    private val recipeDao: RecipeDao?,
+    private val ingredientDao: IngredientDao?,
+    private val stepDao: StepDao?,
+    private val chatgptNetworkApi: ChatgptNetworkApi,
 ) : RecipeRepository {
-    private val recipeDao: RecipeDao?
-        get() = ReceptIaDatabase.getInstance(appContext)?.recipeDao()
-    private val ingredientDao: IngredientDao?
-        get() = ReceptIaDatabase.getInstance(appContext)?.ingredientDao()
-    private val stepDao: StepDao?
-        get() = ReceptIaDatabase.getInstance(appContext)?.stepDao()
-    private val chatgptNetworkApi: ChatgptNetworkApi
-        get() = RetrofitNetwork.gptService()
-
     override fun insertRecipe(recipe: Recipe): Boolean {
         val rowsAffected = recipeDao?.insert(recipe.asRecipeEntity())
         recipe.ingredients.forEach { ingredient ->
@@ -59,13 +50,19 @@ internal class DefaultRecipeRepository(
         } ?: listOf()
     }
 
-    override fun updateIsFavorite(recipeId: String, isFavorite: Boolean): Boolean {
+    override fun updateIsFavorite(
+        recipeId: String,
+        isFavorite: Boolean,
+    ): Boolean {
         val rowsAffected = recipeDao?.updateIsFavorite(recipeId, isFavorite)
 
         return rowsAffected != null && rowsAffected > 0
     }
 
-    override suspend fun callNewRecipe(preference: RecipePreference, apiModel: String): List<Recipe> {
+    override suspend fun callNewRecipe(
+        preference: RecipePreference,
+        apiModel: String,
+    ): List<Recipe> {
         return try {
             val request = getNewRecipeRequest(preference, apiModel)
             val response = chatgptNetworkApi.createNewRecipe(request)
@@ -77,29 +74,35 @@ internal class DefaultRecipeRepository(
         }
     }
 
-    private fun getNewRecipeRequest(preference: RecipePreference, apiModel: String): GptRequest {
+    private fun getNewRecipeRequest(
+        preference: RecipePreference,
+        apiModel: String,
+    ): GptRequest {
         return GptRequest(
             model = apiModel,
-            messages = listOf(
-                GtpMessage(
-                    role = "system",
-                    content = RecipeRequestUtil.systemContent,
-                ),
-                GtpMessage(
-                    role = "user",
-                    content = preference.prompt(),
-                ),
-            ),
-            tools = listOf(
-                GptTool(
-                    type = "function",
-                    function = GptFunction(
-                        name = "get_recipe",
-                        parameters = RecipeRequestUtil.schema
+            messages =
+                listOf(
+                    GtpMessage(
+                        role = "system",
+                        content = RecipeRequestUtil.systemContent,
                     ),
-                )
-            ),
-            toolChoice = "auto"
+                    GtpMessage(
+                        role = "user",
+                        content = preference.prompt(),
+                    ),
+                ),
+            tools =
+                listOf(
+                    GptTool(
+                        type = "function",
+                        function =
+                            GptFunction(
+                                name = "get_recipe",
+                                parameters = RecipeRequestUtil.schema,
+                            ),
+                    ),
+                ),
+            toolChoice = "auto",
         )
     }
 }

@@ -38,54 +38,60 @@ class RecipeDaoTest {
 
     @Before
     fun setupRecipe() {
-        recipe = RecipeEntity(
-            name = "Sample Recipe",
-            description = "This is a sample recipe",
-            amountCalories = "500",
-            amountCarbs = "50g",
-            amountProteins = "20g",
-            prepTime = "30 minutes",
-            difficult = "Medium",
-            difficultLevel = 3,
-            amountPeopleServes = 4,
-            isFavorite = false
-        )
+        recipe =
+            RecipeEntity(
+                name = "Sample Recipe",
+                description = "This is a sample recipe",
+                amountCalories = "500",
+                amountCarbs = "50g",
+                amountProteins = "20g",
+                prepTime = "30 minutes",
+                difficult = "Medium",
+                difficultLevel = 3,
+                amountPeopleServes = 4,
+                isFavorite = false,
+            )
 
-        recipe2 = RecipeEntity(
-            name = "Sample Recipe",
-            description = "This is a sample recipe",
-            amountCalories = "500",
-            amountCarbs = "50g",
-            amountProteins = "20g",
-            prepTime = "30 minutes",
-            difficult = "Medium",
-            difficultLevel = 3,
-            amountPeopleServes = 4,
-            isFavorite = false,
-            createdAt = recipe.createdAt + 10
-        )
+        recipe2 =
+            RecipeEntity(
+                name = "Sample Recipe",
+                description = "This is a sample recipe",
+                amountCalories = "500",
+                amountCarbs = "50g",
+                amountProteins = "20g",
+                prepTime = "30 minutes",
+                difficult = "Medium",
+                difficultLevel = 3,
+                amountPeopleServes = 4,
+                isFavorite = false,
+                createdAt = recipe.createdAt + 10,
+            )
 
-        ingredients = listOf(
-            IngredientEntity(name = "Ingredient 1", measure = "100g", recipeId = recipe.id),
-            IngredientEntity(name = "Ingredient 2", measure = "200g", recipeId = recipe.id),
-            IngredientEntity(name = "Ingredient 3", measure = "50g", recipeId = recipe.id)
-        )
+        ingredients =
+            listOf(
+                IngredientEntity(name = "Ingredient 1", measure = "100g", recipeId = recipe.id),
+                IngredientEntity(name = "Ingredient 2", measure = "200g", recipeId = recipe.id),
+                IngredientEntity(name = "Ingredient 3", measure = "50g", recipeId = recipe.id),
+            )
 
-        ingredients2 = listOf(
-            IngredientEntity(name = "Ingredient 1", measure = "100g", recipeId = recipe2.id),
-            IngredientEntity(name = "Ingredient 2", measure = "200g", recipeId = recipe2.id),
-        )
+        ingredients2 =
+            listOf(
+                IngredientEntity(name = "Ingredient 1", measure = "100g", recipeId = recipe2.id),
+                IngredientEntity(name = "Ingredient 2", measure = "200g", recipeId = recipe2.id),
+            )
 
-        steps = listOf(
-            StepEntity(description = "Step 1", position = 1, recipeId = recipe.id),
-            StepEntity(description = "Step 2", position = 2, recipeId = recipe.id),
-        )
+        steps =
+            listOf(
+                StepEntity(description = "Step 1", position = 1, recipeId = recipe.id),
+                StepEntity(description = "Step 2", position = 2, recipeId = recipe.id),
+            )
 
-        steps2 = listOf(
-            StepEntity(description = "Step 1", position = 1, recipeId = recipe2.id),
-            StepEntity(description = "Step 2", position = 2, recipeId = recipe2.id),
-            StepEntity(description = "Step 3", position = 3, recipeId = recipe2.id)
-        )
+        steps2 =
+            listOf(
+                StepEntity(description = "Step 1", position = 1, recipeId = recipe2.id),
+                StepEntity(description = "Step 2", position = 2, recipeId = recipe2.id),
+                StepEntity(description = "Step 3", position = 3, recipeId = recipe2.id),
+            )
     }
 
     @After
@@ -101,7 +107,7 @@ class RecipeDaoTest {
     }
 
     @Test
-    fun `test if recife find by id is saved`() {
+    fun `test if recipe find by id is saved`() {
         recipeDao.insert(recipe)
         ingredients.forEach { item ->
             ingredientDao.insert(item)
@@ -109,7 +115,6 @@ class RecipeDaoTest {
         steps.forEach { item ->
             stepDao.insert(item)
         }
-
 
         val recipeWithRelations = recipeDao.findById(recipe.id)
 
@@ -133,7 +138,6 @@ class RecipeDaoTest {
 
         recipeDao.insert(recipe2)
 
-
         val recipeWithRelations = recipeDao.findLimited(1)
 
         assert(recipeWithRelations.isNotEmpty())
@@ -145,7 +149,6 @@ class RecipeDaoTest {
         recipeDao.insert(recipe)
 
         recipeDao.insert(recipe2)
-
 
         val recipeWithRelations = recipeDao.findLimited(1)
 
@@ -169,7 +172,6 @@ class RecipeDaoTest {
         steps2.forEach { item ->
             stepDao.insert(item)
         }
-
 
         val recipeWithRelations = recipeDao.findAll()
 
@@ -215,7 +217,6 @@ class RecipeDaoTest {
         steps2.forEach { item ->
             stepDao.insert(item)
         }
-
 
         var rowsAffected = recipeDao.deleteAll()
         val recipeWithRelations = recipeDao.findAll()
