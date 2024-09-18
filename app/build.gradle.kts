@@ -16,7 +16,7 @@ android {
 
     defaultConfig {
         applicationId = "com.nexusfalcao.receptia"
-        minSdk = 26
+        minSdk = 28
         targetSdk = 34
         versionCode = 10004
         versionName = "1.0.4"
