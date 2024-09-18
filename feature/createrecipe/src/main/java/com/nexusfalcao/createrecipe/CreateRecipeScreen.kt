@@ -18,10 +18,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import com.nexusfalcao.createrecipe.preview.PreviewParameterData
 import com.nexusfalcao.createrecipe.state.CheckFieldUiState
 import com.nexusfalcao.createrecipe.state.CreateRecipeUiState
@@ -36,6 +38,7 @@ import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomAlertDialog
 import com.nexusfalcao.designsystem.widget.CustomSnackbar
 import com.nexusfalcao.designsystem.widget.TopBarWidget
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun CreateRecipeRoute(
@@ -43,6 +46,7 @@ internal fun CreateRecipeRoute(
     chatGptApiModel: String,
     onNavigateToRecipeDescription: (String) -> Unit,
     popBackStack: () -> Unit,
+    isNetworkConnected: () -> Boolean,
     viewModel: CreateRecipeViewModel = hiltViewModel(),
 ) {
     val fieldsUiState by viewModel.fieldsUiState.collectAsStateWithLifecycle()
@@ -61,7 +65,8 @@ internal fun CreateRecipeRoute(
         onBackClick = popBackStack,
         onNavigateToRecipe = onNavigateToRecipeDescription,
         cleanCreateRecipeUiState = viewModel::cleanCreateRecipeUiState,
-        isChatGptApiEnabled = isChatGptApiEnabled
+        isChatGptApiEnabled = isChatGptApiEnabled,
+        isNetworkConnected = isNetworkConnected,
     )
 }
 
@@ -76,22 +81,30 @@ private fun CreateRecipeScreen(
     addPreference: (RecipeFieldState, String) -> Unit,
     removePreference: (RecipeFieldState, String) -> Unit,
     isChatGptApiEnabled: Boolean,
+    isNetworkConnected: () -> Boolean,
     onBackClick: () -> Unit,
     onNavigateToRecipe: (String) -> Unit,
 ) {
+    val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
     val snackbarHostState = remember { SnackbarHostState() }
     var openDialog by remember { mutableStateOf(false) }
     val stringErrorMaxChar = stringResource(id = R.string.error_max_char)
     val stringErrorCreateRecipe = stringResource(id = R.string.error_create_recipe)
+    val networkErrorMessage = stringResource(id = R.string.network_error)
     val context = LocalContext.current
-    val onContinueClick = {
-        if(isChatGptApiEnabled) {
-            createRecipe()
+    val onContinueClick: () -> Unit = {
+        if (!isNetworkConnected()) {
+            lifecycleScope.launch {
+                snackbarHostState.showSnackbar(message = networkErrorMessage)
+            }
         } else {
-            openDialog = true
+            if (isChatGptApiEnabled) {
+                createRecipe()
+            } else {
+                openDialog = true
+            }
         }
     }
-
 
     LaunchedEffect(errorUiState, createRecipeUiState) {
         if (errorUiState is ErrorUiState.IngredientMaxLimit) {
@@ -123,10 +136,11 @@ private fun CreateRecipeScreen(
             },
         ) { padding ->
             Box(
-                modifier = Modifier
-                    .padding(padding)
-                    .fillMaxSize()
-                    .padding(start = 25.dp, end = 25.dp, top = 20.dp),
+                modifier =
+                    Modifier
+                        .padding(padding)
+                        .fillMaxSize()
+                        .padding(start = 25.dp, end = 25.dp, top = 20.dp),
             ) {
                 RecipeForm(
                     fieldsUiState = fieldsUiState,
@@ -136,11 +150,12 @@ private fun CreateRecipeScreen(
                 )
 
                 Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(color = MaterialTheme.colorScheme.background)
-                        .align(Alignment.BottomCenter)
-                        .padding(top = 15.dp, bottom = 20.dp),
+                    modifier =
+                        Modifier
+                            .fillMaxWidth()
+                            .background(color = MaterialTheme.colorScheme.background)
+                            .align(Alignment.BottomCenter)
+                            .padding(top = 15.dp, bottom = 20.dp),
                 ) {
                     ContinueButtom(createRecipe = onContinueClick)
                 }
@@ -152,7 +167,7 @@ private fun CreateRecipeScreen(
         }
     }
 
-    if(openDialog) {
+    if (openDialog) {
         CustomAlertDialog(
             title = stringResource(id = R.string.alert),
             description = stringResource(id = R.string.alert_description_api_limit),
@@ -165,9 +180,10 @@ private fun CreateRecipeScreen(
 @ThemePreviewShowsBakground
 @Composable
 private fun NewRecipeScreenPreview() {
-    val fieldsUiState = FieldsUiState(
-        favoriteIngredients = PreviewParameterData.ingredients,
-    )
+    val fieldsUiState =
+        FieldsUiState(
+            favoriteIngredients = PreviewParameterData.ingredients,
+        )
     fieldsUiState.addField(RecipeFieldState.MEAL, "Jantar")
 
     ReceptIaTheme {
@@ -182,18 +198,19 @@ private fun NewRecipeScreenPreview() {
             onBackClick = {},
             onNavigateToRecipe = { _ -> },
             cleanCreateRecipeUiState = {},
-            isChatGptApiEnabled = false
+            isChatGptApiEnabled = false,
+            isNetworkConnected = { true },
         )
     }
-
 }
 
 @ThemePreviewShowsBakground
 @Composable
 private fun LoadingStatePreview() {
-    val fieldsUiState = FieldsUiState(
-        favoriteIngredients = PreviewParameterData.ingredients,
-    )
+    val fieldsUiState =
+        FieldsUiState(
+            favoriteIngredients = PreviewParameterData.ingredients,
+        )
     fieldsUiState.addField(RecipeFieldState.MEAL, "Jantar")
 
     ReceptIaTheme {
@@ -208,8 +225,8 @@ private fun LoadingStatePreview() {
             onBackClick = {},
             onNavigateToRecipe = { _ -> },
             cleanCreateRecipeUiState = {},
-            isChatGptApiEnabled = false
+            isChatGptApiEnabled = false,
+            isNetworkConnected = { true },
         )
     }
-
 }

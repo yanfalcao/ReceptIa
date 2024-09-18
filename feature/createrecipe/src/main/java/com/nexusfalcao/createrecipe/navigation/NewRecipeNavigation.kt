@@ -21,13 +21,15 @@ fun NavGraphBuilder.createRecipeScreen(
     isChatGptApiEnabled: Boolean,
     onNavigateToRecipeDescription: (String) -> Unit,
     popBackStack: () -> Unit,
+    isNetworkConnected: () -> Boolean
 ) {
     composable(CREATE_RECIPE_ROUTE) {
         CreateRecipeRoute(
             onNavigateToRecipeDescription = onNavigateToRecipeDescription,
             popBackStack = popBackStack,
             isChatGptApiEnabled = isChatGptApiEnabled,
-            chatGptApiModel = chatGptApiModel
+            chatGptApiModel = chatGptApiModel,
+            isNetworkConnected = isNetworkConnected
         )
     }
 }

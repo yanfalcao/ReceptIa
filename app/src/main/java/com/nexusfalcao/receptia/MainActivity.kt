@@ -9,17 +9,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import com.nexusfalcao.authentication.GoogleAuthenticator
 import com.nexusfalcao.avatar.navigation.avatarScreen
-import com.nexusfalcao.home.navigation.homeScreen
-import com.nexusfalcao.description.navigation.recipeDescriptionScreen
-import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.avatar.navigation.navigateToAvatar
 import com.nexusfalcao.createrecipe.navigation.createRecipeScreen
-import com.nexusfalcao.home.navigation.navigateToHome
-import com.nexusfalcao.receptia.configs.RemoteValues
 import com.nexusfalcao.createrecipe.navigation.navigateToCreateRecipe
 import com.nexusfalcao.description.navigation.navigateToRecipeDescription
+import com.nexusfalcao.description.navigation.recipeDescriptionScreen
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.home.navigation.homeScreen
+import com.nexusfalcao.home.navigation.navigateToHome
 import com.nexusfalcao.login.navigation.loginScreen
 import com.nexusfalcao.login.navigation.navigateToLogin
+import com.nexusfalcao.receptia.configs.RemoteValues
 import com.nexusfalcao.receptia.utils.UpdateAppUtil
 import com.nexusfalcao.recipecatalog.navigation.navigateToCatalog
 import com.nexusfalcao.recipecatalog.navigation.recipeCatalogScreen
@@ -71,7 +71,8 @@ class MainActivity : ComponentActivity() {
                         chatGptApiModel = RemoteValues.VALUE_CHATGPT_API_MODEL,
                         isChatGptApiEnabled = RemoteValues.VALUE_CHATGPT_API_ENABLED,
                         onNavigateToRecipeDescription = navController::navigateToRecipeDescription,
-                        popBackStack = navController::popBackStack
+                        popBackStack = navController::popBackStack,
+                        isNetworkConnected = ReceptIaApplication.instance::isNetworkConnected,
                     )
                     recipeDescriptionScreen(
                         navController = navController,
