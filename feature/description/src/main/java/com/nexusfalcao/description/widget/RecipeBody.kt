@@ -41,12 +41,14 @@ fun RecipeBody(recipe: Recipe) {
                             text = ingredient.name,
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.weight(4f),
                         )
 
                         Text(
                             text = ingredient.measure,
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.weight(1f),
                         )
                     }
                 }
