@@ -44,14 +44,21 @@ fun CustomTextField(
 ) {
     val maxChar = 25
     var textFieldValue by remember { mutableStateOf("") }
-    var isErrorUnfilled = CheckFieldUiState.isUnfilled(
-        checkFieldUiState = checkFieldUiState,
-        recipeField = recipeFieldState
-    )
+    var isEssencialUnfilled =
+        CheckFieldUiState.isEssencialFieldUnfilled(
+            checkFieldUiState = checkFieldUiState,
+            recipeField = recipeFieldState,
+        )
+    var isUnfilled =
+        CheckFieldUiState.isUnfilled(
+            checkFieldUiState = checkFieldUiState,
+            recipeField = recipeFieldState,
+        ) && textFieldValue.isNotEmpty()
 
-    val borderColor = createBorderColor(isErrorUnfilled)
+    val borderColor = createBorderColor(isEssencialUnfilled)
     val roundedCornerShape = RoundedCornerShape(size = 20.dp)
-    val errorText = stringResource(id = R.string.error_field)
+    val unfilledErrorText = stringResource(id = R.string.error_field)
+    val unsentErrorText = stringResource(id = R.string.error_unsent)
     val sendIngredient = {
         onInputIngredient(recipeFieldState, textFieldValue)
         textFieldValue = ""
@@ -66,20 +73,22 @@ fun CustomTextField(
                 onValueChange = { newText ->
                     if (newText.length <= maxChar) {
                         textFieldValue = newText
-                        isErrorUnfilled = false
+                        isEssencialUnfilled = false
                     }
                 },
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Send),
-                keyboardActions = KeyboardActions(
-                    onSend = {
-                        sendIngredient()
-                    },
-                ),
+                keyboardActions =
+                    KeyboardActions(
+                        onSend = {
+                            sendIngredient()
+                        },
+                    ),
                 singleLine = true,
-                modifier = Modifier.weight(1f)
-                    .height(45.dp)
-                    .border(width = 1.dp, color = borderColor, shape = roundedCornerShape)
-                    .background(color = createBackgroundColor(), shape = roundedCornerShape),
+                modifier =
+                    Modifier.weight(1f)
+                        .height(45.dp)
+                        .border(width = 1.dp, color = borderColor, shape = roundedCornerShape)
+                        .background(color = createBackgroundColor(), shape = roundedCornerShape),
                 decorationBox = { innerTextField ->
                     Row(
                         modifier = Modifier.padding(start = 20.dp, end = 20.dp),
@@ -102,24 +111,31 @@ fun CustomTextField(
 
             SendButtom(
                 modifier = Modifier.size(45.dp),
-                onClick = sendIngredient
+                onClick = sendIngredient,
             )
         }
 
-        if (isErrorUnfilled) {
-            Text(
-                text = errorText,
-                color = MaterialTheme.colorScheme.error,
-                style = MaterialTheme.typography.labelSmall,
-                modifier = Modifier.padding(start = 10.dp),
-            )
+        if (isUnfilled) {
+            hintErrorText(text = unsentErrorText)
+        } else if (isEssencialUnfilled) {
+            hintErrorText(text = unfilledErrorText)
         }
     }
 }
 
 @Composable
+private fun hintErrorText(text: String) {
+    Text(
+        text = text,
+        color = MaterialTheme.colorScheme.error,
+        style = MaterialTheme.typography.labelSmall,
+        modifier = Modifier.padding(start = 10.dp),
+    )
+}
+
+@Composable
 private fun createBackgroundColor(): Color {
-    return when(isSystemInDarkTheme()) {
+    return when (isSystemInDarkTheme()) {
         true -> MaterialTheme.colorScheme.surface
         false -> Color.Transparent
     }
@@ -136,17 +152,18 @@ private fun createBorderColor(isErrorUnfilled: Boolean): Color {
 
 @ThemePreview
 @Composable
-fun CustomTextFieldPreview(){
+fun CustomTextFieldPreview() {
     ReceptIaTheme {
-        Box (
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(50.dp)
-        ){
+        Box(
+            modifier =
+                Modifier
+                    .background(color = MaterialTheme.colorScheme.background)
+                    .padding(50.dp),
+        ) {
             CustomTextField(
                 recipeFieldState = RecipeFieldState.MEAL,
                 checkFieldUiState = CheckFieldUiState.Filled,
-                onInputIngredient = {_, _ ->},
+                onInputIngredient = { _, _ -> },
             )
         }
     }
@@ -154,19 +171,21 @@ fun CustomTextFieldPreview(){
 
 @ThemePreview
 @Composable
-fun CustomTextFieldErrorPreview(){
+fun CustomTextFieldErrorPreview() {
     ReceptIaTheme {
-        Box (
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(50.dp)
-        ){
+        Box(
+            modifier =
+                Modifier
+                    .background(color = MaterialTheme.colorScheme.background)
+                    .padding(50.dp),
+        ) {
             CustomTextField(
                 recipeFieldState = RecipeFieldState.FAVORITE,
-                checkFieldUiState = CheckFieldUiState.Unfilled(
-                    fields = mutableListOf(RecipeFieldState.FAVORITE)
-                ),
-                onInputIngredient = {_, _ ->},
+                checkFieldUiState =
+                    CheckFieldUiState.Unfilled(
+                        fields = mutableListOf(RecipeFieldState.FAVORITE),
+                    ),
+                onInputIngredient = { _, _ -> },
             )
         }
     }

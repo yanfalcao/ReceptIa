@@ -15,6 +15,7 @@
     <string name="dinner">Dinner</string>
 
     <string name="error_field">Field needs to be filled</string>
+    <string name="error_unsent">Click send to save the ingredient</string>
     <string name="error_max_char">Recipe character limit has been reached</string>
     <string name="error_create_recipe">The ChatGPT service may be congested, please try again later</string>
     <string name="alert_description_api_limit">Due to ReceptIA being a personal app without sponsorship or income, it was necessary to temporarily block the creation of recipes due to the cost of using the AI platform used in creating the recipes.</string>
