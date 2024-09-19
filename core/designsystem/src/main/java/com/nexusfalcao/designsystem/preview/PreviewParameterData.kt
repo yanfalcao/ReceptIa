@@ -33,8 +33,8 @@ object PreviewParameterData {
                 ),
                 Ingredient(
                     id = UUID.randomUUID().toString(),
-                    name = "Limão",
-                    measure = "1 unid"
+                    name = "Fresh fruits (e.g. berries, banana, man",
+                    measure = "1 cup, chopped"
                 ),
                 Ingredient(
                     id = UUID.randomUUID().toString(),
