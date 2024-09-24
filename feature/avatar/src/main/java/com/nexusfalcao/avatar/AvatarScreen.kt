@@ -29,7 +29,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.nexusfalcao.avatar.state.ImageUiState
 import com.nexusfalcao.avatar.widget.GridListAvatar
-import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
+import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -68,7 +69,7 @@ private fun AvatarScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = null,
-                            tint = colorScheme.onBackground
+                            tint = colorScheme.onBackground,
                         )
                     }
                 },
@@ -76,17 +77,18 @@ private fun AvatarScreen(
         },
     ) { padding ->
         Column(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize()
-                .padding(start = 25.dp, end = 25.dp),
+            modifier =
+                Modifier
+                    .padding(padding)
+                    .fillMaxSize()
+                    .padding(start = 25.dp, end = 25.dp),
         ) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(id = R.string.select_you_avatar),
                 color = colorScheme.onBackground,
                 style = MaterialTheme.typography.headlineMedium,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
 
             Spacer(modifier = Modifier.height(25.dp))
@@ -94,14 +96,15 @@ private fun AvatarScreen(
             GridListAvatar(
                 imageUiState = imageUiState,
                 selectImage = selectImage,
-                modifier = Modifier.weight(weight = 1.0f)
+                modifier = Modifier.weight(weight = 1.0f),
             )
 
             Button(
-                modifier = Modifier
-                    .padding(top = 20.dp, bottom = 20.dp)
-                    .fillMaxWidth()
-                    .height(50.dp),
+                modifier =
+                    Modifier
+                        .padding(top = 20.dp, bottom = 20.dp)
+                        .fillMaxWidth()
+                        .height(50.dp),
                 onClick = {
                     saveImage()
                     onBackClick()
@@ -119,7 +122,8 @@ private fun AvatarScreen(
     }
 }
 
-@ThemePreviewShowsBakground
+@FontSizeAcessibilityPreview
+@ThemePreview
 @Composable
 private fun AvatarScreenPreview() {
     ReceptIaTheme {
@@ -127,7 +131,7 @@ private fun AvatarScreenPreview() {
             imageUiState = ImageUiState.Selected(imageId = 2131230856),
             selectImage = {},
             saveImage = {},
-            onBackClick = {}
+            onBackClick = {},
         )
     }
 }
