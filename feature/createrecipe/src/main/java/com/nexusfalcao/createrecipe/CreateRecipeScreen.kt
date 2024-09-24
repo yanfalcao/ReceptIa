@@ -18,10 +18,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import com.nexusfalcao.createrecipe.preview.PreviewParameterData
@@ -33,6 +33,7 @@ import com.nexusfalcao.createrecipe.state.RecipeFieldState
 import com.nexusfalcao.createrecipe.widget.ContinueButtom
 import com.nexusfalcao.createrecipe.widget.CreateRecipeLoading
 import com.nexusfalcao.createrecipe.widget.RecipeForm
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomAlertDialog
@@ -177,9 +178,10 @@ private fun CreateRecipeScreen(
     }
 }
 
+@FontSizeAcessibilityPreview
 @ThemePreviewShowsBakground
 @Composable
-private fun NewRecipeScreenPreview() {
+private fun NewRecipePreview() {
     val fieldsUiState =
         FieldsUiState(
             favoriteIngredients = PreviewParameterData.ingredients,

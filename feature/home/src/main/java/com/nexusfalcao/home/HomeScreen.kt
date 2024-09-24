@@ -33,6 +33,7 @@ import com.nexusfalcao.home.widget.Banner
 import com.nexusfalcao.home.widget.LoadingRecipeList
 import com.nexusfalcao.home.widget.RecipeList
 import com.nexusfalcao.designsystem.ComposableLifecycle
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
@@ -162,9 +163,10 @@ private fun HomeScreen(
     }
 }
 
+@FontSizeAcessibilityPreview
 @ThemePreviewShowsBakground
 @Composable
-private fun HomeScreenPreview(
+private fun HomePreview(
     @PreviewParameter(RecipesPreviewParameterProvider::class)
     recipes: List<Recipe>,
 ) {
@@ -180,7 +182,7 @@ private fun HomeScreenPreview(
 
 @ThemePreviewShowsBakground
 @Composable
-private fun LoadingStatePreview() {
+private fun LoadingPreview() {
     ReceptIaTheme {
         HomeScreen(
             feedState = RecipeFeedUiState.Loading,
@@ -191,9 +193,10 @@ private fun LoadingStatePreview() {
     }
 }
 
+@FontSizeAcessibilityPreview
 @ThemePreviewShowsBakground
 @Composable
-private fun EmptyStatePreview() {
+private fun EmptyPreview() {
     ReceptIaTheme {
         HomeScreen(
             feedState = RecipeFeedUiState.Success(recipes = listOf()),
