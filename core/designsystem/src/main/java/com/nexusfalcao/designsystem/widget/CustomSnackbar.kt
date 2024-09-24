@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.designsystem.R
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.theme.AlertSnackbarColor
 
 object CustomSnackbar {
@@ -85,6 +86,7 @@ object CustomSnackbar {
     }
 }
 
+@FontSizeAcessibilityPreview
 @Preview(showBackground = true,)
 @Composable
 private fun DefaultSnackbarPreview() {

@@ -10,6 +10,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.nexusfalcao.designsystem.R
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
@@ -78,6 +79,7 @@ fun CustomUpdateDialog(
     )
 }
 
+@FontSizeAcessibilityPreview
 @ThemePreview
 @Composable
 private fun UpdatePreview() {
