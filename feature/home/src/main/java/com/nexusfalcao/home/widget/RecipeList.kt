@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,12 +23,13 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.model.Recipe
-import com.nexusfalcao.home.preview.RecipesPreviewParameterProvider
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.DifficultIcon
 import com.nexusfalcao.home.R
+import com.nexusfalcao.home.preview.RecipesPreviewParameterProvider
+import com.nexusfalcao.model.Recipe
 
 @Composable
 fun RecipeList(
@@ -51,45 +53,54 @@ private fun RecipeListTile(
     navigateToDescription: (String) -> Unit,
 ) {
     val colorScheme = MaterialTheme.colorScheme
-    val bookmarkColor = if (recipe.isFavorite) {
-        colorScheme.primary
-    } else {
-        colorScheme.surfaceTint
-    }
-    val colorFilter = when(isSystemInDarkTheme()) {
-        true -> ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
-        false -> null
-    }
+    val bookmarkColor =
+        if (recipe.isFavorite) {
+            colorScheme.primary
+        } else {
+            colorScheme.surfaceTint
+        }
+    val colorFilter =
+        when (isSystemInDarkTheme()) {
+            true -> ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+            false -> null
+        }
 
-    Box(
-        modifier = Modifier
-            .background(
-                color = colorScheme.surface,
-                shape = RoundedCornerShape(size = 15.dp),
-            )
-            .clickable {
-                navigateToDescription(recipe.id)
-            }
-            .padding(start = 15.dp, end = 25.dp)
-            .fillMaxWidth(),
+    Column(
+        modifier =
+            Modifier
+                .background(
+                    color = colorScheme.surface,
+                    shape = RoundedCornerShape(size = 15.dp),
+                )
+                .clickable {
+                    navigateToDescription(recipe.id)
+                }
+                .padding(start = 15.dp, end = 25.dp)
+                .fillMaxWidth(),
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_bookmark),
-            contentDescription = null,
-            colorFilter = ColorFilter.tint(color = bookmarkColor)
-        )
+        Box(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_bookmark),
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(color = bookmarkColor),
+            )
 
-        Text(
-            text = recipe.name,
-            color = colorScheme.onSurface,
-            style = MaterialTheme.typography.labelMedium,
-            modifier = Modifier
-                .padding(start = 40.dp, top = 12.dp),
-        )
+            Text(
+                text = recipe.name,
+                color = colorScheme.onSurface,
+                style = MaterialTheme.typography.labelMedium,
+                modifier =
+                Modifier
+                    .padding(start = 40.dp, top = 12.dp),
+            )
+        }
 
         Row(
-            modifier = Modifier
-                .padding(top = 75.dp, bottom = 10.dp),
+            modifier =
+                Modifier
+                    .padding(top = 15.dp, bottom = 10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Image(
@@ -120,6 +131,7 @@ private fun RecipeListTile(
     }
 }
 
+@FontSizeAcessibilityPreview
 @ThemePreview
 @Composable
 private fun RecipeListPreview(

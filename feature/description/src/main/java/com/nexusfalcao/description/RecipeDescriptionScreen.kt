@@ -23,6 +23,7 @@ import com.nexusfalcao.description.widget.DetailsBody
 import com.nexusfalcao.description.widget.Header
 import com.nexusfalcao.description.widget.RecipeBody
 import com.nexusfalcao.description.widget.ToogleButton
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
@@ -88,6 +89,7 @@ private fun RecipeDescriptionScreen(
     }
 }
 
+@FontSizeAcessibilityPreview
 @ThemePreviewShowsBakground
 @Composable
 private fun DetailsScreenPreview() {
@@ -97,6 +99,7 @@ private fun DetailsScreenPreview() {
     )
 }
 
+@FontSizeAcessibilityPreview
 @ThemePreviewShowsBakground
 @Composable
 private fun RecipeScreenPreview() {
