@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DrawerState
@@ -30,6 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.designsystem.R
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
@@ -78,26 +80,28 @@ private fun DrawerBody(
     onSignOut: () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxHeight()
-            .background(color = MaterialTheme.colorScheme.surface)
-            .padding(start = 20.dp, end = 25.dp, top = 40.dp, bottom = 50.dp),
+        modifier =
+            Modifier
+                .fillMaxHeight()
+                .background(color = MaterialTheme.colorScheme.surface)
+                .padding(start = 20.dp, end = 25.dp, top = 40.dp, bottom = 50.dp),
         horizontalAlignment = Alignment.Start,
     ) {
         DrawerHeader(
             userPhotoId = userPhotoId,
             userName = userName,
-            toAvatar = toAvatar
+            toAvatar = toAvatar,
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
         Box(
-            modifier = Modifier
-                .height(1.dp)
-                .width(200.dp)
-                .fillMaxWidth()
-                .background(color = MaterialTheme.colorScheme.primary),
+            modifier =
+                Modifier
+                    .height(1.dp)
+                    .width(200.dp)
+                    .fillMaxWidth()
+                    .background(color = MaterialTheme.colorScheme.primary),
         )
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -155,9 +159,10 @@ private fun DrawerHeader(
         Image(
             painter = painterResource(id = avatarRes),
             contentDescription = null,
-            modifier = Modifier
-                .height(85.dp)
-                .clickable { toAvatar() },
+            modifier =
+                Modifier
+                    .height(85.dp)
+                    .clickable { toAvatar() },
         )
 
         Spacer(modifier = Modifier.width(15.dp))
@@ -177,27 +182,28 @@ private fun DrawerTile(
     @DrawableRes iconResourceId: Int,
     @StringRes titleResourceId: Int,
     onClick: () -> Unit = {},
-    drawerState: DrawerState
+    drawerState: DrawerState,
 ) {
     val coroutineScope = rememberCoroutineScope()
 
     Row(
-        modifier = Modifier
-            .height(50.dp)
-            .width(200.dp)
-            .clickable(onClick = {
-                coroutineScope.launch {
-                    drawerState.close()
-                    onClick()
-                }
-            }),
+        modifier =
+            Modifier
+                .width(200.dp)
+                .heightIn(min = 50.dp, max = 80.dp)
+                .clickable(onClick = {
+                    coroutineScope.launch {
+                        drawerState.close()
+                        onClick()
+                    }
+                }),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
             painter = painterResource(id = iconResourceId),
             contentDescription = null,
             modifier = Modifier.width(26.dp),
-            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.primary)
+            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.primary),
         )
 
         Spacer(modifier = Modifier.width(15.dp))
@@ -212,8 +218,9 @@ private fun DrawerTile(
 }
 
 @ThemePreview
+@FontSizeAcessibilityPreview
 @Composable
-private fun NavigationDrawerPreview() {
+private fun DrawerPreview() {
     val user = PreviewParameterData.user
     val drawerState = rememberDrawerState(DrawerValue.Open)
 
