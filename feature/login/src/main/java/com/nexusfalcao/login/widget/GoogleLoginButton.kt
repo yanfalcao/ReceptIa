@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
@@ -21,21 +22,22 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.login.R
 
-@Preview
+@FontSizeAcessibilityPreview
 @Composable
 fun GoogleLoginButton(loginGoogle: () -> Unit = {}) {
     Button(
         onClick = loginGoogle,
         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
         modifier = Modifier
-            .height(55.dp)
+            .heightIn(min = 55.dp, max = 95.dp)
             .fillMaxWidth()
             .padding(start = 25.dp, end = 25.dp),
     ) {
         Row(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
         ) {
             Image(
