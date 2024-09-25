@@ -24,11 +24,11 @@ import javax.inject.Inject
 @InstallIn(SingletonComponent::class)
 class GoogleAuthenticator @Inject constructor(
     appContext: Application
-) {
+) : GoogleAuthenticationService {
     private val auth = Firebase.auth
     private val signInClient: SignInClient = Identity.getSignInClient(appContext)
 
-    suspend fun initiateGoogleSignIn(): IntentSender? {
+    override suspend fun initiateGoogleSignIn(): IntentSender? {
         val result = try {
             signInClient.beginSignIn(buildSignInRequest()).await()
         } catch (e: Exception) {
@@ -37,7 +37,7 @@ class GoogleAuthenticator @Inject constructor(
         }
         return result?.pendingIntent?.intentSender
     }
-    suspend fun processGoogleSignInResult(intent: Intent): User {
+    override suspend fun processGoogleSignInResult(intent: Intent): User {
         return try {
             val credential = signInClient.getSignInCredentialFromIntent(intent)
             val googleIdToken = credential.googleIdToken
@@ -66,12 +66,12 @@ class GoogleAuthenticator @Inject constructor(
         }
     }
 
-    fun isUserLoggedIn(): Boolean {
+    override fun isUserLoggedIn(): Boolean {
         val user = auth.currentUser
         return user != null
     }
 
-    suspend fun signOut() {
+    override suspend fun signOut() {
         try {
             signInClient.signOut().await()
             auth.signOut()

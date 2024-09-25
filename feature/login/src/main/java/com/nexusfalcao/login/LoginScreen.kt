@@ -1,6 +1,5 @@
 package com.nexusfalcao.login
 
-import android.app.Application
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.IntentSenderRequest
@@ -27,15 +26,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import com.nexusfalcao.authentication.GoogleAuthenticator
+import com.nexusfalcao.authentication.GoogleAuthenticationService
+import com.nexusfalcao.authentication.fake.FakeGoogleAuthenticator
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.widget.CustomSnackbar
 import com.nexusfalcao.login.state.LoginUiState
 import com.nexusfalcao.login.widget.Background
 import com.nexusfalcao.login.widget.Description
 import com.nexusfalcao.login.widget.GoogleLoginButton
 import com.nexusfalcao.login.widget.LoadingButton
 import com.nexusfalcao.login.widget.Title
-import com.nexusfalcao.designsystem.theme.ReceptIaTheme
-import com.nexusfalcao.designsystem.widget.CustomSnackbar
 import kotlinx.coroutines.launch
 
 @Composable
@@ -60,7 +61,7 @@ internal fun LoginRoute(
 @Composable
 private fun LoginScreen(
     loginUiState: LoginUiState,
-    googleAuthenticator: GoogleAuthenticator,
+    googleAuthenticator: GoogleAuthenticationService,
     processSignInGoogle: (Intent) -> Unit = {},
     startSignInLoading: () -> Unit = {},
     showSignInError: () -> Unit = {},
@@ -72,45 +73,47 @@ private fun LoginScreen(
     val genericErrorMessage = stringResource(id = R.string.generic_error_message)
     val networkErrorMessage = stringResource(id = R.string.network_error)
 
-    val isLoading = when(loginUiState) {
-        LoginUiState.Loading -> true
-        LoginUiState.Success -> true
-        else -> false
-    }
-
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartIntentSenderForResult(),
-        onResult = { result ->
-            lifecycleScope.launch {
-                val intent = result.data ?: return@launch
-                processSignInGoogle(intent)
-            }
+    val isLoading =
+        when (loginUiState) {
+            LoginUiState.Loading -> true
+            LoginUiState.Success -> true
+            else -> false
         }
-    )
+
+    val launcher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartIntentSenderForResult(),
+            onResult = { result ->
+                lifecycleScope.launch {
+                    val intent = result.data ?: return@launch
+                    processSignInGoogle(intent)
+                }
+            },
+        )
     val onClickGoogleSignIn: () -> Unit = {
         lifecycleScope.launch {
-            if(!isNetworkConnected()) {
+            if (!isNetworkConnected()) {
                 snackbarHostState.showSnackbar(message = networkErrorMessage)
             } else {
                 startSignInLoading()
 
                 val signInIntentSender = googleAuthenticator.initiateGoogleSignIn()
                 launcher.launch(
-                    if(signInIntentSender != null) {
+                    if (signInIntentSender != null) {
                         IntentSenderRequest.Builder(
-                            signInIntentSender
+                            signInIntentSender,
                         ).build()
                     } else {
                         showSignInError()
                         return@launch
-                    }
+                    },
                 )
             }
         }
     }
 
     LaunchedEffect(loginUiState) {
-        when(loginUiState) {
+        when (loginUiState) {
             is LoginUiState.Error -> {
                 snackbarHostState.showSnackbar(message = genericErrorMessage)
             }
@@ -126,12 +129,13 @@ private fun LoginScreen(
         Scaffold(
             snackbarHost = {
                 CustomSnackbar.Error(hostState = snackbarHostState)
-            }
+            },
         ) { padding ->
             Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(padding),
+                modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(padding),
             ) {
                 Background()
                 Column(
@@ -156,16 +160,17 @@ private fun LoginScreen(
     }
 }
 
+@FontSizeAcessibilityPreview
 @Preview(
     showBackground = true,
     showSystemUi = true,
 )
 @Composable
-private fun LoginScreenPreview() {
+private fun LoginPreview() {
     LoginScreen(
-        googleAuthenticator = GoogleAuthenticator(Application()),
+        googleAuthenticator = FakeGoogleAuthenticator(),
         loginUiState = LoginUiState.Started,
-        isNetworkConnected = { true }
+        isNetworkConnected = { true },
     )
 }
 
@@ -174,10 +179,10 @@ private fun LoginScreenPreview() {
     showSystemUi = true,
 )
 @Composable
-private fun LoadingStatePreview() {
+private fun LoadingPreview() {
     LoginScreen(
-        googleAuthenticator = GoogleAuthenticator(Application()),
+        googleAuthenticator = FakeGoogleAuthenticator(),
         loginUiState = LoginUiState.Loading,
-        isNetworkConnected = { true }
+        isNetworkConnected = { true },
     )
 }
