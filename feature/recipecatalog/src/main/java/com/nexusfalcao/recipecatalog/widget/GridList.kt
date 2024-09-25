@@ -9,11 +9,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,8 +25,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.model.Recipe
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
+import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.designsystem.widget.DifficultIcon
+import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.recipecatalog.R
 
 @Composable
@@ -33,9 +36,9 @@ fun GridList(
     recipes: List<Recipe>,
     navigateToDescription: (String) -> Unit,
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Adaptive(minSize = 150.dp),
-        verticalArrangement = Arrangement.spacedBy(15.dp),
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2),
+        verticalItemSpacing = 15.dp,
         horizontalArrangement = Arrangement.spacedBy(15.dp),
     ) {
         items(recipes) {
@@ -53,15 +56,16 @@ private fun GridTile(
     navigateToDescription: (String) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .background(
-                color = MaterialTheme.colorScheme.surface,
-                shape = RoundedCornerShape(15.dp),
-            )
-            .clickable { navigateToDescription(recipe.id) }
-            .fillMaxWidth()
-            .height(145.dp)
-            .padding(horizontal = 10.dp, vertical = 15.dp),
+        modifier =
+            Modifier
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = RoundedCornerShape(15.dp),
+                )
+                .clickable { navigateToDescription(recipe.id) }
+                .fillMaxWidth()
+                .heightIn(min = 120.dp, max = 300.dp)
+                .padding(horizontal = 10.dp, vertical = 15.dp),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
@@ -70,12 +74,12 @@ private fun GridTile(
             text = recipe.name,
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.onSurface,
-            maxLines = 3,
+            maxLines = 4,
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Start,
         )
 
-        Spacer(modifier = Modifier.weight(1.0f))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
@@ -108,4 +112,19 @@ private fun GridTile(
             )
         }
     }
+}
+
+@FontSizeAcessibilityPreview
+@Composable
+fun GridListPreview() {
+    GridList(
+        recipes =
+            listOf(
+                PreviewParameterData.recipe,
+                PreviewParameterData.recipe,
+                PreviewParameterData.recipe,
+                PreviewParameterData.recipe,
+            ),
+        navigateToDescription = {},
+    )
 }
