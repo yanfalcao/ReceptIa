@@ -28,7 +28,7 @@ object PreviewParameterData {
             name = name,
             isFavorite = true,
             recipeDetails = RecipeDetails(
-                preparationTime = "30 min",
+                preparationTime = "30 minute",
                 difficult = "Fácil",
                 amountCalories = "450 kcal",
                 amountCarbs = "60g",

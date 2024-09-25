@@ -40,6 +40,7 @@ import com.nexusfalcao.recipecatalog.widget.SearchBar
 import com.nexusfalcao.recipecatalog.widget.Tag
 import com.nexusfalcao.recipecatalog.widget.LoadingRecipeList
 import com.nexusfalcao.designsystem.ComposableLifecycle
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
@@ -216,9 +217,10 @@ private fun CatalogScreen(
 
 }
 
+@FontSizeAcessibilityPreview
 @ThemePreviewShowsBakground
 @Composable
-private fun HistoricScreenPreview() {
+private fun HistoricPreview() {
     ReceptIaTheme {
         CatalogScreen(
             catalogState = CatalogUiState.Success(PreviewParameterData.recipeList),
@@ -238,7 +240,7 @@ private fun HistoricScreenPreview() {
 
 @ThemePreviewShowsBakground
 @Composable
-private fun LoadingStatePreview() {
+private fun LoadingPreview() {
     ReceptIaTheme {
         CatalogScreen(
             catalogState = CatalogUiState.Loading,
@@ -255,7 +257,7 @@ private fun LoadingStatePreview() {
 
 @ThemePreviewShowsBakground
 @Composable
-private fun EmptyStatePreview() {
+private fun EmptyPreview() {
     ReceptIaTheme {
         CatalogScreen(
             catalogState = CatalogUiState.Success(listOf()),
