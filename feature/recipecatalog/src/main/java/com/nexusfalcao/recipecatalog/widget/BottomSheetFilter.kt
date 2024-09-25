@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.recipecatalog.state.FilterState
 import com.nexusfalcao.recipecatalog.state.TagFilterEnum
 import com.nexusfalcao.model.state.RecipeDifficult
@@ -44,7 +45,9 @@ fun BottomSheetFilter(
     updateDifficultFilter: (RecipeDifficult) -> Unit,
     updateAmountServesFilter: (AmountServesFilterEnum) -> Unit,
 ) {
-    val modalBottomSheetState: SheetState = rememberModalBottomSheetState()
+    val modalBottomSheetState: SheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = true
+    )
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
@@ -180,6 +183,7 @@ private fun BottomSheetBody(
     }
 }
 
+@FontSizeAcessibilityPreview
 @ThemePreviewShowsBakground
 @Composable
 private fun BottomSheetFilter() {
