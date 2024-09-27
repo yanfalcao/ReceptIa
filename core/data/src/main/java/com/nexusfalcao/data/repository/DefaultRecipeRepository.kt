@@ -1,5 +1,6 @@
 package com.nexusfalcao.data.repository
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.nexusfalcao.data.extensions.asIngredientEntity
 import com.nexusfalcao.data.extensions.asRecipeEntity
 import com.nexusfalcao.data.extensions.asStepEntity
@@ -23,6 +24,8 @@ internal class DefaultRecipeRepository(
     private val stepDao: StepDao?,
     private val chatgptNetworkApi: ChatgptNetworkApi,
 ) : RecipeRepository {
+    val crashlytics = FirebaseCrashlytics.getInstance()
+
     override fun insertRecipe(recipe: Recipe): Boolean {
         val rowsAffected = recipeDao?.insert(recipe.asRecipeEntity())
         recipe.ingredients.forEach { ingredient ->
@@ -70,6 +73,7 @@ internal class DefaultRecipeRepository(
             response.body()?.getRecipes() ?: listOf()
         } catch (e: Exception) {
             e.printStackTrace()
+            crashlytics.recordException(e)
             listOf()
         }
     }
