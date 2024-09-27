@@ -70,11 +70,20 @@ internal class DefaultRecipeRepository(
             val request = getNewRecipeRequest(preference, apiModel)
             val response = chatgptNetworkApi.createNewRecipe(request)
 
-            response.errorBody()?.let {
-                crashlytics.recordException(Exception(it.string()))
-            }
+            return if (response.isSuccessful) {
+                response.body()?.getRecipes() ?: listOf()
+            } else {
+                val message =
+                    "CODE - ${response.code()} " +
+                        "--- MESSAGE - ${response.message()} " +
+                        "--- ERROR BODY - ${response.errorBody()?.string()} " +
+                        "--- RAW - ${response.raw()}"
 
-            response.body()?.getRecipes() ?: listOf()
+                response.errorBody()?.let {
+                    crashlytics.recordException(Exception(message))
+                }
+                listOf()
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             crashlytics.recordException(e)
