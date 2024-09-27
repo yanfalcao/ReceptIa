@@ -2,6 +2,7 @@ package com.nexusfalcao.createrecipe
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.nexusfalcao.createrecipe.state.CheckFieldUiState
 import com.nexusfalcao.createrecipe.state.CreateRecipeUiState
 import com.nexusfalcao.createrecipe.state.ErrorUiState
@@ -16,9 +17,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import java.util.Locale
 import javax.inject.Inject
+import kotlin.Exception
 
 @HiltViewModel
 class CreateRecipeViewModel
@@ -38,6 +39,8 @@ class CreateRecipeViewModel
 
         private val _errorUiState = MutableStateFlow<ErrorUiState>(ErrorUiState.None)
         val errorUiState get() = _errorUiState
+
+        val crashlytics = FirebaseCrashlytics.getInstance()
 
         val checkFieldUiState =
             combine(
@@ -93,11 +96,10 @@ class CreateRecipeViewModel
             viewModelScope.launch {
                 val fieldsUiStateCopy = _fieldsUiState.value.copy()
 
-                if (recipeFieldState is RecipeFieldState.MEAL)
-                    {
-                        fieldsUiStateCopy.addField(recipeFieldState, text)
-                        _fieldsUiState.value = fieldsUiStateCopy
-                    } else {
+                if (recipeFieldState is RecipeFieldState.MEAL) {
+                    fieldsUiStateCopy.addField(recipeFieldState, text)
+                    _fieldsUiState.value = fieldsUiStateCopy
+                } else {
                     if (!isCharLimitReached(fieldsUiStateCopy) && text.isNotEmpty() && text.isNotBlank()) {
                         fieldsUiStateCopy.addField(recipeFieldState, text)
                         _fieldsUiState.value = fieldsUiStateCopy
@@ -126,6 +128,7 @@ class CreateRecipeViewModel
 
                     _createRecipeUiState.value = CreateRecipeUiState.Success(recipes[0].id)
                 } catch (e: Exception) {
+                    crashlytics.recordException(e)
                     _createRecipeUiState.value = CreateRecipeUiState.Error
                 }
             }

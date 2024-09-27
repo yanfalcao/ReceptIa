@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.dagger.hilt.android)
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -51,6 +52,7 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
 
     implementation(libs.room.runtime)
+    implementation(libs.firebase.crashlytics)
     kapt(libs.room.compiler)
     implementation(libs.room.ktx)
 

@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -55,6 +56,8 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     kapt(libs.hilt.compiler)
+
+    implementation(libs.firebase.crashlytics)
 
     debugImplementation(libs.compose.ui.tooling)
     implementation(libs.androidx.core)
