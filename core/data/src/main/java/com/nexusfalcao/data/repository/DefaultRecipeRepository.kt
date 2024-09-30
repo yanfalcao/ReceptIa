@@ -77,7 +77,8 @@ internal class DefaultRecipeRepository(
                     "CODE - ${response.code()} " +
                         "--- MESSAGE - ${response.message()} " +
                         "--- ERROR BODY - ${response.errorBody()?.string()} " +
-                        "--- RAW - ${response.raw()}"
+                        "--- RAW - ${response.raw()}" +
+                        "--- REQUEST - $request"
 
                 response.errorBody()?.let {
                     crashlytics.recordException(Exception(message))
