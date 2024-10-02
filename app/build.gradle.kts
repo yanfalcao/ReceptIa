@@ -31,12 +31,25 @@ android {
         buildConfigField("String", "WEB_CLIENT_ID", "\"${properties.getProperty("WEB_CLIENT_ID")}\"")
     }
 
+    signingConfigs {
+        create("release") {
+            val properties = Properties()
+            properties.load(project.rootProject.file("local.properties").inputStream())
+
+            storeFile = file(properties.getProperty("RELEASE_STORE_FILE"))
+            storePassword = properties.getProperty("RELEASE_STORE_PASSWORD")
+            keyAlias = properties.getProperty("RELEASE_KEY_ALIAS")
+            keyPassword = properties.getProperty("RELEASE_KEY_PASSWORD")
+        }
+    }
+
     lint {
         checkReleaseBuilds = false
     }
 
     buildTypes {
         getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
             isDebuggable = false
             isMinifyEnabled = true
             isShrinkResources = true
@@ -44,6 +57,7 @@ android {
         }
 
         getByName("debug") {
+            applicationIdSuffix = ".debug"
             isDebuggable = true
             isMinifyEnabled = true
             isShrinkResources = true
