@@ -18,8 +18,8 @@ android {
         applicationId = "com.nexusfalcao.receptia"
         minSdk = 28
         targetSdk = 34
-        versionCode = 10103
-        versionName = "1.1.3"
+        versionCode = 10104
+        versionName = "1.1.4"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
