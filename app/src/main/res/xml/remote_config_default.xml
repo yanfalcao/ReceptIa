@@ -11,7 +11,7 @@
     </entry>
     <entry>
         <key>CHATGPT_API_MODEL</key>
-        <value>gpt-3.5-turbo-1106</value>
+        <value>gpt-4o-mini</value>
     </entry>
     <entry>
         <key>APP_STORE_URL</key>

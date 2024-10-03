@@ -35,6 +35,9 @@
 -keep class com.nexusfalcao.network.model.response.** { *; }
 -keep class com.nexusfalcao.network.retrofit.** { *; }
 -keep class com.nexusfalcao.network.util.** { *; }
+-keepclassmembers class com.nexusfalcao.network.model.request.GptRequest {
+  public <fields>;
+}
 
 -keepnames class kotlinx.** { *; }
 
@@ -65,3 +68,11 @@
 # Okio
 -dontwarn okio.**
 -keep class okio.** { *; }
+
+# Gson
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepattributes EnclosingMethod
+
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.stream.** { *; }

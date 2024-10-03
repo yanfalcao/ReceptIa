@@ -3,7 +3,7 @@ package com.nexusfalcao.receptia.configs
 object RemoteValues {
     var VALUE_CHATGPT_API_ENABLED: Boolean = true
     var VALUE_NON_FATAL_CRASHLYTICS_ENABLE: Boolean = true
-    var VALUE_CHATGPT_API_MODEL: String = "gpt-3.5-turbo-1106"
+    var VALUE_CHATGPT_API_MODEL: String = "gpt-4o-mini"
     var VALUE_APP_STORE_URL: String = ""
     var VALUE_CURRENT_UPDATE_VERSION: String = "1.0"
     var KEY_FORCE_APP_UPDATE: Boolean = false

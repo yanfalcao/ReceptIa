@@ -1,6 +1,7 @@
 package com.nexusfalcao.data.repository
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import com.google.gson.Gson
 import com.nexusfalcao.data.extensions.asIngredientEntity
 import com.nexusfalcao.data.extensions.asRecipeEntity
 import com.nexusfalcao.data.extensions.asStepEntity
@@ -73,12 +74,11 @@ internal class DefaultRecipeRepository(
             return if (response.isSuccessful) {
                 response.body()?.getRecipes() ?: listOf()
             } else {
+                val json = Gson().toJson(request)
                 val message =
-                    "CODE - ${response.code()} " +
-                        "--- MESSAGE - ${response.message()} " +
-                        "--- ERROR BODY - ${response.errorBody()?.string()} " +
-                        "--- RAW - ${response.raw()}" +
-                        "--- REQUEST - $request"
+                    "\n ERROR BODY - ${response.errorBody()?.string()} " +
+                        "\n RAW - ${response.raw()}" +
+                        "\n REQUEST PARSED- $json"
 
                 response.errorBody()?.let {
                     crashlytics.recordException(Exception(message))
@@ -87,7 +87,6 @@ internal class DefaultRecipeRepository(
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            crashlytics.recordException(e)
             listOf()
         }
     }
