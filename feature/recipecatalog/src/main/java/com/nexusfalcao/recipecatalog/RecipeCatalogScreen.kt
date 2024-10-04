@@ -25,20 +25,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.nexusfalcao.model.User
-import com.nexusfalcao.model.state.RecipeDifficult
-import com.nexusfalcao.designsystem.preview.PreviewParameterData as UiPreviewParameterData
-import com.nexusfalcao.recipecatalog.preview.PreviewParameterData
-import com.nexusfalcao.recipecatalog.state.AmountServesFilterEnum
-import com.nexusfalcao.recipecatalog.state.FilterState
-import com.nexusfalcao.recipecatalog.state.CatalogUiState
-import com.nexusfalcao.recipecatalog.state.TagFilterEnum
-import com.nexusfalcao.recipecatalog.widget.BottomSheetFilter
-import com.nexusfalcao.recipecatalog.widget.FilterButton
-import com.nexusfalcao.recipecatalog.widget.GridList
-import com.nexusfalcao.recipecatalog.widget.SearchBar
-import com.nexusfalcao.recipecatalog.widget.Tag
-import com.nexusfalcao.recipecatalog.widget.LoadingRecipeList
 import com.nexusfalcao.designsystem.ComposableLifecycle
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
@@ -46,6 +32,20 @@ import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
 import com.nexusfalcao.designsystem.widget.NavigationDrawerWidget
 import com.nexusfalcao.designsystem.widget.TopBarWidget
+import com.nexusfalcao.model.User
+import com.nexusfalcao.model.state.RecipeDifficult
+import com.nexusfalcao.recipecatalog.preview.PreviewParameterData
+import com.nexusfalcao.recipecatalog.state.AmountServesFilterEnum
+import com.nexusfalcao.recipecatalog.state.CatalogUiState
+import com.nexusfalcao.recipecatalog.state.FilterState
+import com.nexusfalcao.recipecatalog.state.TagFilterEnum
+import com.nexusfalcao.recipecatalog.widget.BottomSheetFilter
+import com.nexusfalcao.recipecatalog.widget.FilterButton
+import com.nexusfalcao.recipecatalog.widget.GridList
+import com.nexusfalcao.recipecatalog.widget.LoadingRecipeList
+import com.nexusfalcao.recipecatalog.widget.SearchBar
+import com.nexusfalcao.recipecatalog.widget.Tag
+import com.nexusfalcao.designsystem.preview.PreviewParameterData as UiPreviewParameterData
 
 @Composable
 internal fun RecipeCatalogRoute(
@@ -126,10 +126,9 @@ private fun CatalogScreen(
             onDismiss = {
                 showSheet = false
                 onResetFilter()
-            }
+            },
         )
     }
-
 
     NavigationDrawerWidget(
         drawerState = drawerState,
@@ -150,17 +149,20 @@ private fun CatalogScreen(
             },
         ) { padding ->
             Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .fillMaxSize()
-                    .padding(start = 25.dp, end = 25.dp, top = 20.dp),
+                modifier =
+                    Modifier
+                        .padding(padding)
+                        .fillMaxSize()
+                        .padding(start = 25.dp, end = 25.dp, top = 20.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp),
             ) {
                 Row {
                     SearchBar(
-                        modifier = Modifier
-                            .weight(1.0f)
-                            .height(40.dp),
+                        modifier =
+                            Modifier
+                                .weight(1.0f)
+                                .height(40.dp),
+                        filterUiState = filterUiState,
                         updateSearchFilter = updateSearchFilter,
                     )
 
@@ -178,10 +180,11 @@ private fun CatalogScreen(
                     horizontalArrangement = Arrangement.spacedBy(10.dp),
                 ) {
                     for (tag in TagFilterEnum.values()) {
-                        val tagText = when(tag) {
-                            TagFilterEnum.ALL -> stringResource(id = R.string.all)
-                            TagFilterEnum.FAVORITES -> stringResource(id = R.string.favorites)
-                        }
+                        val tagText =
+                            when (tag) {
+                                TagFilterEnum.ALL -> stringResource(id = R.string.all)
+                                TagFilterEnum.FAVORITES -> stringResource(id = R.string.favorites)
+                            }
 
                         Tag(
                             text = tagText,
@@ -201,9 +204,10 @@ private fun CatalogScreen(
                             )
                         } else {
                             Box(
-                                modifier = Modifier
-                                    .weight(1.0f)
-                                    .fillMaxSize(),
+                                modifier =
+                                    Modifier
+                                        .weight(1.0f)
+                                        .fillMaxSize(),
                                 contentAlignment = Alignment.Center,
                             ) {
                                 EmptyStateWidget()
@@ -214,7 +218,6 @@ private fun CatalogScreen(
             }
         }
     }
-
 }
 
 @FontSizeAcessibilityPreview
@@ -224,10 +227,11 @@ private fun HistoricPreview() {
     ReceptIaTheme {
         CatalogScreen(
             catalogState = CatalogUiState.Success(PreviewParameterData.recipeList),
-            filterUiState = FilterState(
-                tag = TagFilterEnum.FAVORITES,
-                difficult = RecipeDifficult.Easy,
-            ),
+            filterUiState =
+                FilterState(
+                    tag = TagFilterEnum.FAVORITES,
+                    difficult = RecipeDifficult.Easy,
+                ),
             navigateToAvatar = {},
             navigateToHome = {},
             navigateToNewRecipe = {},

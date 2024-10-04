@@ -28,13 +28,15 @@ import com.nexusfalcao.designsystem.preview.ThemePreview
 import com.nexusfalcao.designsystem.theme.AmbientShadowColor
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.theme.SpotShadowColor
+import com.nexusfalcao.recipecatalog.state.FilterState
 
 @Composable
 fun SearchBar(
     modifier: Modifier,
-    updateSearchFilter: (String) -> Unit = {}
+    filterUiState: FilterState,
+    updateSearchFilter: (String) -> Unit = {},
 ) {
-    var text by remember { mutableStateOf(TextFieldValue("")) }
+    var text by remember { mutableStateOf(TextFieldValue(filterUiState.search)) }
     val roundedCornerShape = RoundedCornerShape(size = 20.dp)
 
     BasicTextField(
@@ -46,16 +48,17 @@ fun SearchBar(
         cursorBrush = SolidColor(MaterialTheme.colorScheme.onSurface),
         textStyle = TextStyle(color = MaterialTheme.colorScheme.onSurface),
         singleLine = true,
-        modifier = modifier
-            .shadow(
-                elevation = 4.dp,
-                spotColor = SpotShadowColor,
-                ambientColor = AmbientShadowColor,
-            )
-            .background(
-                color = MaterialTheme.colorScheme.surface,
-                shape = roundedCornerShape,
-            ),
+        modifier =
+            modifier
+                .shadow(
+                    elevation = 4.dp,
+                    spotColor = SpotShadowColor,
+                    ambientColor = AmbientShadowColor,
+                )
+                .background(
+                    color = MaterialTheme.colorScheme.surface,
+                    shape = roundedCornerShape,
+                ),
         decorationBox = { innerTextField ->
             Row(
                 modifier = Modifier.padding(start = 15.dp, end = 20.dp),
@@ -66,7 +69,7 @@ fun SearchBar(
                     imageVector = Icons.Default.Search,
                     modifier = Modifier.size(25.dp),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = MaterialTheme.colorScheme.onSurface,
                 )
 
                 innerTextField()
@@ -79,6 +82,11 @@ fun SearchBar(
 @Composable
 private fun SearchBarPreview() {
     ReceptIaTheme {
-        SearchBar(modifier = Modifier.height(40.dp))
+        SearchBar(
+            modifier = Modifier.height(40.dp),
+            filterUiState = FilterState(
+                search = "Sushi",
+            ),
+        )
     }
 }
