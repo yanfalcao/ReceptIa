@@ -1,6 +1,8 @@
 package com.nexusfalcao.createrecipe.widget
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -14,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -43,19 +46,26 @@ fun CreateRecipeLoading() {
     }
 
     Box(
-        modifier = Modifier
-            .background(color = MaterialTheme.colorScheme.scrim)
-            .fillMaxSize(),
+        modifier =
+            Modifier
+                .background(color = MaterialTheme.colorScheme.scrim)
+                .fillMaxSize()
+                .clickable(
+                    indication = null,
+                    interactionSource = remember { MutableInteractionSource() },
+                    onClick = {},
+                ),
         contentAlignment = Alignment.Center,
     ) {
         Column(
-            modifier = Modifier
-                .background(
-                    color = MaterialTheme.colorScheme.background,
-                    shape = RoundedCornerShape(15.dp),
-                )
-                .padding(horizontal = 30.dp, vertical = 15.dp)
-                .width(IntrinsicSize.Min),
+            modifier =
+                Modifier
+                    .background(
+                        color = MaterialTheme.colorScheme.background,
+                        shape = RoundedCornerShape(15.dp),
+                    )
+                    .padding(horizontal = 30.dp, vertical = 15.dp)
+                    .width(IntrinsicSize.Min),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             LottieAnimation(
