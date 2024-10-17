@@ -13,20 +13,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
 fun SendButtom(
     modifier: Modifier,
-    onClick:() -> Unit = {},
+    onClick: () -> Unit = {},
 ) {
     val colorScheme = MaterialTheme.colorScheme
 
     Box(
-        modifier = modifier
-            .clickable(onClick = onClick)
-            .background(color = colorScheme.secondary, shape = CircleShape),
+        modifier =
+            modifier
+                .clickable(onClick = onClick)
+                .background(color = colorScheme.secondary, shape = CircleShape),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
@@ -37,7 +38,7 @@ fun SendButtom(
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 private fun SendButtomPreview() {
     ReceptIaTheme {

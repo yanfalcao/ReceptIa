@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.SkeletonLoadingWidget
 
@@ -20,7 +20,7 @@ fun LoadingRecipeList() {
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 fun LoadingRecipePreview() {
     ReceptIaTheme {

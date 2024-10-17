@@ -14,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.description.state.RecipeUiState
 import com.nexusfalcao.description.state.ToogleRecipeState
 import com.nexusfalcao.description.widget.BackButton
@@ -24,7 +23,8 @@ import com.nexusfalcao.description.widget.Header
 import com.nexusfalcao.description.widget.RecipeBody
 import com.nexusfalcao.description.widget.ToogleButton
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
-import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.preview.PreviewParameterData
+import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -32,9 +32,10 @@ internal fun RecipeDescriptionRoute(
     navController: NavController,
     recipeId: String,
 ) {
-    val viewModel = hiltViewModel<RecipeDescriptionViewModel, RecipeDescriptionVMFactory> { factory ->
-        factory.create(recipeId)
-    }
+    val viewModel =
+        hiltViewModel<RecipeDescriptionViewModel, RecipeDescriptionVMFactory> { factory ->
+            factory.create(recipeId)
+        }
     val toogleRecipeState by viewModel.toogleRecipeState.collectAsStateWithLifecycle()
     val recipeUiState by viewModel.recipeUiState.collectAsStateWithLifecycle()
 
@@ -90,7 +91,7 @@ private fun RecipeDescriptionScreen(
 }
 
 @FontSizeAcessibilityPreview
-@ThemePreviewShowsBakground
+@UIModeBakgroundPreview
 @Composable
 private fun DetailsScreenPreview() {
     RecipeDescriptionScreen(
@@ -100,7 +101,7 @@ private fun DetailsScreenPreview() {
 }
 
 @FontSizeAcessibilityPreview
-@ThemePreviewShowsBakground
+@UIModeBakgroundPreview
 @Composable
 private fun RecipeScreenPreview() {
     RecipeDescriptionScreen(

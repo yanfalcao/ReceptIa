@@ -45,6 +45,7 @@ pluginKotlinKapt = "1.9.22"
 pluginDagger = "2.50"
 pluginKotlinJvm = "1.8.10"
 uiTooling = "1.7.2"
+adaptiveAndroid = "1.0.0"
 
 [libraries]
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
@@ -60,6 +61,7 @@ androidx-compose-ui-material = { module = "androidx.compose.material:material", 
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "composeFoundation" }
 android-material = { module = "com.google.android.material:material", version.ref = "material" }
 androidx-constraintlayout = { module = "androidx.constraintlayout:constraintlayout", version.ref = "constraintlayout" }
+androidx-compose-window-size = { module = "androidx.compose.material3:material3-window-size-class" }
 androidx-navigation-runtime = { module = "androidx.navigation:navigation-runtime-ktx", version.ref = "navigationRuntime" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
 androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "startup" }
@@ -115,6 +117,7 @@ core-testing = { module = "android.arch.core:core-testing", version.ref = "coreT
 
 robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
+androidx-adaptive-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-android", version.ref = "adaptiveAndroid" }
 
 [plugins]
 

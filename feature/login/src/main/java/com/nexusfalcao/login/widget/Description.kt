@@ -19,7 +19,7 @@ fun Description() {
         text = stringResource(id = R.string.description_login),
         color = Color.White,
         textAlign = TextAlign.Center,
-        style = MaterialTheme.typography.bodyMedium,
+        style = MaterialTheme.typography.titleLarge,
         modifier = Modifier
             .width(300.dp),
     )

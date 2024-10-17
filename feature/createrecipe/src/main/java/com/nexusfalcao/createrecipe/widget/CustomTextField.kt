@@ -29,11 +29,12 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.createrecipe.R
 import com.nexusfalcao.createrecipe.state.CheckFieldUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -98,6 +99,8 @@ fun CustomTextField(
                             if (textFieldValue.isEmpty()) {
                                 Text(
                                     text = stringResource(id = R.string.placeholder_ingredient),
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis,
                                     color = MaterialTheme.colorScheme.outline,
                                 )
                             }
@@ -128,7 +131,7 @@ private fun hintErrorText(text: String) {
     Text(
         text = text,
         color = MaterialTheme.colorScheme.error,
-        style = MaterialTheme.typography.labelSmall,
+        style = MaterialTheme.typography.labelMedium,
         modifier = Modifier.padding(start = 10.dp),
     )
 }
@@ -150,7 +153,7 @@ private fun createBorderColor(isErrorUnfilled: Boolean): Color {
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 fun CustomTextFieldPreview() {
     ReceptIaTheme {
@@ -169,7 +172,7 @@ fun CustomTextFieldPreview() {
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 fun CustomTextFieldErrorPreview() {
     ReceptIaTheme {

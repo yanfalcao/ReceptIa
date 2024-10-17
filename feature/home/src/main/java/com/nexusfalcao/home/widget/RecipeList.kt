@@ -24,7 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.DifficultIcon
 import com.nexusfalcao.home.R
@@ -79,7 +79,7 @@ private fun RecipeListTile(
                 .fillMaxWidth(),
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_bookmark),
@@ -90,10 +90,10 @@ private fun RecipeListTile(
             Text(
                 text = recipe.name,
                 color = colorScheme.onSurface,
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.titleMedium,
                 modifier =
-                Modifier
-                    .padding(start = 40.dp, top = 12.dp),
+                    Modifier
+                        .padding(start = 40.dp, top = 12.dp),
             )
         }
 
@@ -112,7 +112,7 @@ private fun RecipeListTile(
             Text(
                 text = recipe.recipeDetails.preparationTime,
                 color = colorScheme.onSurface,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier.padding(start = 8.dp),
             )
 
@@ -124,7 +124,7 @@ private fun RecipeListTile(
             Text(
                 text = recipe.recipeDetails.difficult,
                 color = colorScheme.onSurface,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier.padding(start = 8.dp),
             )
         }
@@ -132,7 +132,7 @@ private fun RecipeListTile(
 }
 
 @FontSizeAcessibilityPreview
-@ThemePreview
+@UIModePreview
 @Composable
 private fun RecipeListPreview(
     @PreviewParameter(RecipesPreviewParameterProvider::class)

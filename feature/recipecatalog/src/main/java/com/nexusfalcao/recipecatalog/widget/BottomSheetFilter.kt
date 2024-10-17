@@ -27,13 +27,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
-import com.nexusfalcao.recipecatalog.state.FilterState
-import com.nexusfalcao.recipecatalog.state.TagFilterEnum
-import com.nexusfalcao.model.state.RecipeDifficult
-import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.model.state.RecipeDifficult
 import com.nexusfalcao.recipecatalog.R
 import com.nexusfalcao.recipecatalog.state.AmountServesFilterEnum
+import com.nexusfalcao.recipecatalog.state.FilterState
+import com.nexusfalcao.recipecatalog.state.TagFilterEnum
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,15 +45,16 @@ fun BottomSheetFilter(
     updateDifficultFilter: (RecipeDifficult) -> Unit,
     updateAmountServesFilter: (AmountServesFilterEnum) -> Unit,
 ) {
-    val modalBottomSheetState: SheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true
-    )
+    val modalBottomSheetState: SheetState =
+        rememberModalBottomSheetState(
+            skipPartiallyExpanded = true,
+        )
 
     ModalBottomSheet(
         onDismissRequest = { onDismiss() },
         sheetState = modalBottomSheetState,
         dragHandle = { BottomSheetDefaults.DragHandle() },
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = MaterialTheme.colorScheme.background,
     ) {
         BottomSheetBody(
             filterUiState = filterUiState,
@@ -76,16 +77,17 @@ private fun BottomSheetBody(
     val colorScheme = MaterialTheme.colorScheme
 
     Column(
-        modifier = Modifier
-            .safeDrawingPadding()
-            .padding(start = 15.dp, end = 15.dp, bottom = 15.dp),
-        horizontalAlignment = Alignment.Start
+        modifier =
+            Modifier
+                .safeDrawingPadding()
+                .padding(start = 15.dp, end = 15.dp, bottom = 15.dp),
+        horizontalAlignment = Alignment.Start,
     ) {
         Text(
             text = stringResource(id = R.string.filter),
             modifier = Modifier.fillMaxWidth(),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.headlineSmall,
             color = colorScheme.onSurface,
         )
 
@@ -93,26 +95,27 @@ private fun BottomSheetBody(
 
         Text(
             text = stringResource(id = R.string.difficult),
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.titleLarge,
             color = colorScheme.onSurface,
         )
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Row (
+        Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(5.dp),
         ) {
             for (level in RecipeDifficult.values()) {
-                val levelText = when(level) {
-                    RecipeDifficult.Easy -> stringResource(id = R.string.easy)
-                    RecipeDifficult.Medium -> stringResource(id = R.string.medium)
-                    RecipeDifficult.Hard -> stringResource(id = R.string.hard)
-                }
+                val levelText =
+                    when (level) {
+                        RecipeDifficult.Easy -> stringResource(id = R.string.easy)
+                        RecipeDifficult.Medium -> stringResource(id = R.string.medium)
+                        RecipeDifficult.Hard -> stringResource(id = R.string.hard)
+                    }
 
                 Tag(
                     text = levelText,
-                    textStyle = MaterialTheme.typography.labelSmall,
+                    textStyle = MaterialTheme.typography.bodyMedium,
                     isSelected = filterUiState.isSelected(level),
                     updateTagFilter = { updateDifficultFilter(level) },
                 )
@@ -123,27 +126,28 @@ private fun BottomSheetBody(
 
         Text(
             text = stringResource(id = R.string.amount_people_serves),
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.titleLarge,
             color = colorScheme.onSurface,
         )
 
         Spacer(modifier = Modifier.height(10.dp))
 
-        Row (
+        Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(5.dp),
         ) {
             for (amount in AmountServesFilterEnum.values()) {
-                val levelText = when(amount) {
-                    AmountServesFilterEnum.ONE -> stringResource(id = R.string.one_in_number)
-                    AmountServesFilterEnum.TWO -> stringResource(id = R.string.two_in_number)
-                    AmountServesFilterEnum.THREE -> stringResource(id = R.string.three_in_number)
-                    AmountServesFilterEnum.FOUR_OR_MORE -> stringResource(id = R.string.four_or_more)
-                }
+                val levelText =
+                    when (amount) {
+                        AmountServesFilterEnum.ONE -> stringResource(id = R.string.one_in_number)
+                        AmountServesFilterEnum.TWO -> stringResource(id = R.string.two_in_number)
+                        AmountServesFilterEnum.THREE -> stringResource(id = R.string.three_in_number)
+                        AmountServesFilterEnum.FOUR_OR_MORE -> stringResource(id = R.string.four_or_more)
+                    }
 
                 Tag(
                     text = levelText,
-                    textStyle = MaterialTheme.typography.labelSmall,
+                    textStyle = MaterialTheme.typography.bodyMedium,
                     isSelected = filterUiState.isSelected(amount),
                     updateTagFilter = { updateAmountServesFilter(amount) },
                 )
@@ -152,9 +156,9 @@ private fun BottomSheetBody(
 
         Spacer(modifier = Modifier.height(20.dp))
 
-        Row (
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+            horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
             Button(
                 onClick = onResetFilter,
@@ -164,7 +168,7 @@ private fun BottomSheetBody(
                     modifier = Modifier.padding(horizontal = 15.dp),
                     text = stringResource(id = R.string.reset),
                     color = colorScheme.onSurface,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
 
@@ -176,7 +180,7 @@ private fun BottomSheetBody(
                     modifier = Modifier.padding(horizontal = 15.dp),
                     text = stringResource(id = R.string.apply),
                     color = colorScheme.onPrimary,
-                    style = MaterialTheme.typography.labelMedium,
+                    style = MaterialTheme.typography.bodyLarge,
                 )
             }
         }
@@ -184,25 +188,26 @@ private fun BottomSheetBody(
 }
 
 @FontSizeAcessibilityPreview
-@ThemePreviewShowsBakground
+@UIModeBakgroundPreview
 @Composable
 private fun BottomSheetFilter() {
-
     ReceptIaTheme {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(color = MaterialTheme.colorScheme.surface),
-            verticalArrangement = Arrangement.Bottom
+            modifier =
+                Modifier
+                    .fillMaxSize()
+                    .background(color = MaterialTheme.colorScheme.surface),
+            verticalArrangement = Arrangement.Bottom,
         ) {
             Box(
-                modifier = Modifier.fillMaxWidth().background(color = MaterialTheme.colorScheme.background)
+                modifier = Modifier.fillMaxWidth().background(color = MaterialTheme.colorScheme.background),
             ) {
                 BottomSheetBody(
-                    filterUiState = FilterState(
-                        tag = TagFilterEnum.FAVORITES,
-                        difficult = RecipeDifficult.Easy
-                    ),
+                    filterUiState =
+                        FilterState(
+                            tag = TagFilterEnum.FAVORITES,
+                            difficult = RecipeDifficult.Easy,
+                        ),
                     onApplyFilter = {},
                     onResetFilter = {},
                     updateDifficultFilter = {},

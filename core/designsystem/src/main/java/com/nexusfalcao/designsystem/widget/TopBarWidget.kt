@@ -17,7 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.theme.logoIconResource
 import kotlinx.coroutines.launch
@@ -31,10 +31,11 @@ fun TopBarWidget(
     onBackClick: () -> Unit = {},
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val imageVector = when (drawerEnabled) {
-        true -> Icons.Default.Menu
-        false -> Icons.AutoMirrored.Filled.ArrowBack
-    }
+    val imageVector =
+        when (drawerEnabled) {
+            true -> Icons.Default.Menu
+            false -> Icons.AutoMirrored.Filled.ArrowBack
+        }
 
     CenterAlignedTopAppBar(
         title = {
@@ -67,13 +68,14 @@ fun TopBarWidget(
                 )
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
-        ),
+        colors =
+            TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.background,
+            ),
     )
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 private fun TopBarLogoPreview() {
     ReceptIaTheme {
@@ -81,7 +83,7 @@ private fun TopBarLogoPreview() {
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 private fun TopBarTituloPreview() {
     ReceptIaTheme {

@@ -14,7 +14,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.AmbientShadowColor
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.theme.SpotShadowColor
@@ -24,37 +24,40 @@ import com.nexusfalcao.recipecatalog.R
 fun FilterButton(
     modifier: Modifier,
     hasAnyFilterSelected: Boolean,
-    onClick:() -> Unit
+    onClick: () -> Unit,
 ) {
-    val backgroundColor = when(hasAnyFilterSelected) {
-        true -> MaterialTheme.colorScheme.primary
-        false -> MaterialTheme.colorScheme.surface
-    }
-    val imageColor = when(hasAnyFilterSelected) {
-        true -> MaterialTheme.colorScheme.onPrimary
-        false -> MaterialTheme.colorScheme.onSurface
-    }
+    val backgroundColor =
+        when (hasAnyFilterSelected) {
+            true -> MaterialTheme.colorScheme.primary
+            false -> MaterialTheme.colorScheme.surface
+        }
+    val imageColor =
+        when (hasAnyFilterSelected) {
+            true -> MaterialTheme.colorScheme.onPrimary
+            false -> MaterialTheme.colorScheme.onSurface
+        }
 
     Box(
-        modifier = modifier
-            .clickable(onClick = onClick)
-            .background(color = backgroundColor, shape = CircleShape)
-            .shadow(
-                elevation = 4.dp,
-                spotColor = SpotShadowColor,
-                ambientColor = AmbientShadowColor,
-            ),
+        modifier =
+            modifier
+                .clickable(onClick = onClick)
+                .background(color = backgroundColor, shape = CircleShape)
+                .shadow(
+                    elevation = 4.dp,
+                    spotColor = SpotShadowColor,
+                    ambientColor = AmbientShadowColor,
+                ),
         contentAlignment = Alignment.Center,
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_tune),
             contentDescription = null,
-            colorFilter = ColorFilter.tint(color = imageColor)
+            colorFilter = ColorFilter.tint(color = imageColor),
         )
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 private fun FilterButtonPreview() {
     ReceptIaTheme {
@@ -65,7 +68,7 @@ private fun FilterButtonPreview() {
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 private fun FilterButtonSelectedPreview() {
     ReceptIaTheme {

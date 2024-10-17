@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.AmbientShadowColor
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.theme.SpotShadowColor
@@ -78,15 +78,16 @@ fun SearchBar(
     )
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 private fun SearchBarPreview() {
     ReceptIaTheme {
         SearchBar(
             modifier = Modifier.height(40.dp),
-            filterUiState = FilterState(
-                search = "Sushi",
-            ),
+            filterUiState =
+                FilterState(
+                    search = "Sushi",
+                ),
         )
     }
 }

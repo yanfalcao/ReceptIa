@@ -16,6 +16,6 @@ fun Title(text: String) {
     Text(
         text = text,
         color = MaterialTheme.colorScheme.onBackground,
-        style = MaterialTheme.typography.titleSmall,
+        style = MaterialTheme.typography.titleMedium,
     )
 }

@@ -18,6 +18,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -27,10 +28,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.avatar.state.ImageUiState
 import com.nexusfalcao.avatar.widget.GridListAvatar
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
+import com.nexusfalcao.designsystem.preview.WindowSizePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -87,7 +90,7 @@ private fun AvatarScreen(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(id = R.string.select_you_avatar),
                 color = colorScheme.onBackground,
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Center,
             )
 
@@ -115,7 +118,7 @@ private fun AvatarScreen(
                 Text(
                     text = stringResource(id = R.string.select),
                     color = colorScheme.onPrimary,
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.headlineSmall,
                 )
             }
         }
@@ -123,9 +126,10 @@ private fun AvatarScreen(
 }
 
 @FontSizeAcessibilityPreview
-@ThemePreview
+@UIModePreview
 @Composable
-private fun AvatarScreenPreview() {
+@WindowSizePreview
+private fun AvatarPreview() {
     ReceptIaTheme {
         AvatarScreen(
             imageUiState = ImageUiState.Selected(imageId = 2131230856),

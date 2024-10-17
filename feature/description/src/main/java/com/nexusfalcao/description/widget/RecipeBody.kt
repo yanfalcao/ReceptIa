@@ -16,9 +16,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.description.R
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
-import com.nexusfalcao.model.Recipe
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.model.Recipe
 
 @Composable
 fun RecipeBody(recipe: Recipe) {
@@ -39,14 +39,14 @@ fun RecipeBody(recipe: Recipe) {
                     ) {
                         Text(
                             text = ingredient.name,
-                            style = MaterialTheme.typography.labelMedium,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.weight(4f),
                         )
 
                         Text(
                             text = ingredient.measure,
-                            style = MaterialTheme.typography.labelSmall,
+                            style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.weight(1f),
                         )
@@ -61,14 +61,14 @@ fun RecipeBody(recipe: Recipe) {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = recipe.stepsToString(),
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurface,
             )
         }
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 fun RecipeBodyPreview() {
     ReceptIaTheme {

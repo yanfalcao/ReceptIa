@@ -28,7 +28,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieAnimatable
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.nexusfalcao.createrecipe.R
-import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -77,14 +77,14 @@ fun CreateRecipeLoading() {
             Text(
                 text = stringResource(id = R.string.creating_recipe_loading),
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 textAlign = TextAlign.Center,
             )
         }
     }
 }
 
-@ThemePreviewShowsBakground
+@UIModeBakgroundPreview
 @Composable
 fun CreateRecipeLoadingPreview() {
     ReceptIaTheme {

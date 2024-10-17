@@ -49,9 +49,12 @@ dependencies {
     implementation(libs.androidx.compose.ui.material3)
     implementation(libs.androidx.compose.ui.material)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.compose.window.size)
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.adaptive.android)
     kapt(libs.hilt.compiler)
 
     implementation(libs.androidx.core)

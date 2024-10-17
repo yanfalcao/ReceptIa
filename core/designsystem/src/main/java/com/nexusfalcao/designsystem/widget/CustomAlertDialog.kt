@@ -11,7 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.nexusfalcao.designsystem.R
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -80,7 +80,7 @@ fun CustomUpdateDialog(
 }
 
 @FontSizeAcessibilityPreview
-@ThemePreview
+@UIModePreview
 @Composable
 private fun UpdatePreview() {
     ReceptIaTheme {

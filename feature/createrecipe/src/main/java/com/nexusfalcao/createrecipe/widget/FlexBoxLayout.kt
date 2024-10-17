@@ -20,9 +20,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import com.nexusfalcao.createrecipe.state.RecipeFieldState
 import com.nexusfalcao.createrecipe.state.FieldsUiState
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.createrecipe.state.RecipeFieldState
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -42,22 +42,23 @@ fun FlexBoxLayout(
     ) {
         for (ingredient in ingredientList) {
             Row(
-                modifier = Modifier
-                    .padding(vertical = 4.dp)
-                    .background(
-                        color = MaterialTheme.colorScheme.secondary,
-                        shape = RoundedCornerShape(20.dp),
-                    )
-                    .padding(vertical = 6.dp, horizontal = 8.dp)
-                    .clickable {
-                        onRemoveIngredient(recipeFieldState, ingredient)
-                    },
+                modifier =
+                    Modifier
+                        .padding(vertical = 4.dp)
+                        .background(
+                            color = MaterialTheme.colorScheme.secondary,
+                            shape = RoundedCornerShape(20.dp),
+                        )
+                        .padding(vertical = 6.dp, horizontal = 8.dp)
+                        .clickable {
+                            onRemoveIngredient(recipeFieldState, ingredient)
+                        },
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
                     text = ingredient,
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.onSecondary,
                     textAlign = TextAlign.Center,
                 )
@@ -73,22 +74,24 @@ fun FlexBoxLayout(
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
-fun FlexBoxLayoutPreview(){
+fun FlexBoxLayoutPreview()  {
     ReceptIaTheme {
-        Box (
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(50.dp)
-        ){
+        Box(
+            modifier =
+                Modifier
+                    .background(color = MaterialTheme.colorScheme.background)
+                    .padding(50.dp),
+        ) {
             FlexBoxLayout(
                 modifier = Modifier,
-                fieldsUiState = FieldsUiState(
-                    favoriteIngredients = arrayListOf("Macarrão", "Cogumelo")
-                ),
+                fieldsUiState =
+                    FieldsUiState(
+                        favoriteIngredients = arrayListOf("Macarrão", "Cogumelo"),
+                    ),
                 recipeFieldState = RecipeFieldState.FAVORITE,
-                onRemoveIngredient = {_, _ ->}
+                onRemoveIngredient = { _, _ -> },
             )
         }
     }

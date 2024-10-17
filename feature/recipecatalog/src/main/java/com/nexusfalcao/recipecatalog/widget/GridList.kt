@@ -72,14 +72,14 @@ private fun GridTile(
         Text(
             modifier = Modifier.padding(horizontal = 5.dp),
             text = recipe.name,
-            style = MaterialTheme.typography.labelSmall,
+            style = MaterialTheme.typography.titleMedium,
             color = MaterialTheme.colorScheme.onSurface,
             maxLines = 4,
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Start,
         )
 
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(15.dp))
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Image(
@@ -91,7 +91,7 @@ private fun GridTile(
             Text(
                 text = recipe.recipeDetails.preparationTime,
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier.padding(start = 5.dp),
             )
         }
@@ -107,7 +107,7 @@ private fun GridTile(
             Text(
                 text = recipe.recipeDetails.difficult,
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.labelLarge,
                 modifier = Modifier.padding(start = 5.dp),
             )
         }
