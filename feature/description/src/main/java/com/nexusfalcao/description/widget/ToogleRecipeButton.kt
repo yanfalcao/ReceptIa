@@ -17,7 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.description.R
 import com.nexusfalcao.description.state.ToogleRecipeState
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -30,59 +30,65 @@ fun ToogleButton(
     val isSelectedDetails = toogleState is ToogleRecipeState.DetailsSelected
 
     Box(
-        modifier = modifier
-            .background(
-                color = MaterialTheme.colorScheme.surface,
-                shape = cornerShape
-            )
-            .fillMaxWidth()
-            .height(50.dp)
-            .clip(cornerShape)
-            .clickable { onSelectToogle() },
-    ) {
-        val modifierToogle = Modifier
-            .fillMaxHeight()
-            .fillMaxWidth(0.5f)
-
-        Box(
-            modifier = modifierToogle
+        modifier =
+            modifier
                 .background(
                     color = MaterialTheme.colorScheme.surface,
-                    shape = cornerShape
+                    shape = cornerShape,
                 )
-                .align(if (!isSelectedDetails) Alignment.TopStart else Alignment.TopEnd),
+                .fillMaxWidth()
+                .height(50.dp)
+                .clip(cornerShape)
+                .clickable { onSelectToogle() },
+    ) {
+        val modifierToogle =
+            Modifier
+                .fillMaxHeight()
+                .fillMaxWidth(0.5f)
+
+        Box(
+            modifier =
+                modifierToogle
+                    .background(
+                        color = MaterialTheme.colorScheme.surface,
+                        shape = cornerShape,
+                    )
+                    .align(if (!isSelectedDetails) Alignment.TopStart else Alignment.TopEnd),
         ) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
-                text = stringResource(
-                    id = if (!isSelectedDetails) R.string.details else R.string.recipe,
-                ),
+                text =
+                    stringResource(
+                        id = if (!isSelectedDetails) R.string.details else R.string.recipe,
+                    ),
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.titleMedium,
             )
         }
 
         Box(
-            modifier = modifierToogle
-                .background(
-                    color = MaterialTheme.colorScheme.primary,
-                    shape = cornerShape
-                )
-                .align(if (isSelectedDetails) Alignment.TopStart else Alignment.TopEnd),
+            modifier =
+                modifierToogle
+                    .background(
+                        color = MaterialTheme.colorScheme.primary,
+                        shape = cornerShape,
+                    )
+                    .align(if (isSelectedDetails) Alignment.TopStart else Alignment.TopEnd),
         ) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
-                text = stringResource(
-                    id = if (isSelectedDetails) R.string.details else R.string.recipe,
-                ),
+                text =
+                    stringResource(
+                        id = if (isSelectedDetails) R.string.details else R.string.recipe,
+                    ),
                 color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.titleMedium,
             )
         }
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 private fun ToogleButtonDetailsPreview() {
     ReceptIaTheme {
@@ -92,7 +98,7 @@ private fun ToogleButtonDetailsPreview() {
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 private fun ToogleButtonRecipePreview() {
     ReceptIaTheme {

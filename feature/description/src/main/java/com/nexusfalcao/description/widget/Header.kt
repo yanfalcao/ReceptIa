@@ -18,10 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
-import com.nexusfalcao.model.Recipe
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.FilledHeartColor
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.model.Recipe
 
 @Composable
 fun Header(
@@ -36,43 +36,45 @@ fun Header(
     ) {
         Text(
             text = recipe.name,
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineSmall,
             modifier = Modifier.weight(1.0f),
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Spacer(modifier = Modifier.width(15.dp))
 
         IconButton(onClick = onToogleFavorite) {
             when (recipe.isFavorite) {
-                true -> Icon(
-                    imageVector = Icons.Default.Favorite,
-                    modifier = Modifier.size(30.dp),
-                    tint =  FilledHeartColor,
-                    contentDescription = null,
-                )
-                false -> Icon(
-                    imageVector = Icons.Default.FavoriteBorder,
-                    modifier = Modifier.size(30.dp),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
+                true ->
+                    Icon(
+                        imageVector = Icons.Default.Favorite,
+                        modifier = Modifier.size(30.dp),
+                        tint = FilledHeartColor,
+                        contentDescription = null,
+                    )
+                false ->
+                    Icon(
+                        imageVector = Icons.Default.FavoriteBorder,
+                        modifier = Modifier.size(30.dp),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onBackground,
+                    )
             }
         }
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
-fun HeaderPreviewFavorite(){
+fun HeaderPreviewFavorite()  {
     ReceptIaTheme {
         Header(recipe = PreviewParameterData.recipe)
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
-fun HeaderPreview(){
+fun HeaderPreview()  {
     val recipe = PreviewParameterData.recipe
     recipe.isFavorite = false
 

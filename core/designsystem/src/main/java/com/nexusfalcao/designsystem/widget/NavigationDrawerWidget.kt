@@ -33,9 +33,8 @@ import androidx.compose.ui.unit.dp
 import com.nexusfalcao.designsystem.R
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
-import com.nexusfalcao.designsystem.theme.titleMediumSmall
 import kotlinx.coroutines.launch
 
 @Composable
@@ -153,8 +152,9 @@ private fun DrawerHeader(
 ) {
     val avatarRes = userPhotoId ?: R.drawable.img_user
 
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.width(200.dp)
     ) {
         Image(
             painter = painterResource(id = avatarRes),
@@ -170,9 +170,9 @@ private fun DrawerHeader(
         Text(
             text = userName ?: "",
             color = MaterialTheme.colorScheme.onSurface,
-            textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.labelLarge,
-            modifier = Modifier.width(105.dp),
+            textAlign = TextAlign.Center,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.width(180.dp),
         )
     }
 }
@@ -212,12 +212,12 @@ private fun DrawerTile(
             text = stringResource(id = titleResourceId),
             color = MaterialTheme.colorScheme.onSurface,
             textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.titleMediumSmall,
+            style = MaterialTheme.typography.titleMedium,
         )
     }
 }
 
-@ThemePreview
+@UIModePreview
 @FontSizeAcessibilityPreview
 @Composable
 private fun DrawerPreview() {

@@ -21,10 +21,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.description.R
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
-import com.nexusfalcao.model.Recipe
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.DifficultIcon
+import com.nexusfalcao.model.Recipe
 
 @Composable
 fun DetailsBody(recipe: Recipe) {
@@ -41,7 +41,7 @@ fun DetailsBody(recipe: Recipe) {
                 modifier = Modifier.fillMaxWidth(),
                 text = recipe.description,
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.labelSmall,
+                style = MaterialTheme.typography.bodyMedium,
             )
         }
 
@@ -54,12 +54,12 @@ fun DetailsBody(recipe: Recipe) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_clock),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
                 )
 
                 Text(
                     text = recipe.recipeDetails.preparationTime,
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
@@ -77,7 +77,7 @@ fun DetailsBody(recipe: Recipe) {
 
                 Text(
                     text = recipe.recipeDetails.difficult,
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
@@ -92,12 +92,12 @@ fun DetailsBody(recipe: Recipe) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_dish),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
                 )
 
                 Text(
-                    text = "${amountPeopleServes} ${pluralStringResource(R.plurals.people, amountPeopleServes)}",
-                    style = MaterialTheme.typography.labelSmall,
+                    text = "$amountPeopleServes ${pluralStringResource(R.plurals.people, amountPeopleServes)}",
+                    style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
@@ -141,18 +141,18 @@ private fun NutritionTile(
         Text(
             text = stringResource(title),
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.bodyMedium,
         )
 
         Text(
             text = description,
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.labelSmall,
+            style = MaterialTheme.typography.bodyMedium,
         )
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 fun DetailsBodyPreview() {
     ReceptIaTheme {

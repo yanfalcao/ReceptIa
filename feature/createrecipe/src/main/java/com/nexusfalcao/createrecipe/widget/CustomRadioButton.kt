@@ -26,7 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.createrecipe.state.RadioUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -35,22 +35,24 @@ fun CustomRadioButton(
     radioUiState: RadioUiState,
     addPreference: (RecipeFieldState, String) -> Unit,
 ) {
-    val isSelected = (radioUiState is RadioUiState.Selected) &&
-        (radioUiState.textOption == textOption)
+    val isSelected =
+        (radioUiState is RadioUiState.Selected) &&
+            (radioUiState.textOption == textOption)
 
     val radioModifier = createRadioModifier(isSelected)
     val buttonModifier = createButtomModifier(isSelected)
     val textColor = createColorText(isSelected)
 
     Row(
-        modifier = buttonModifier
-            .clickable(
-                interactionSource = remember { MutableInteractionSource() },
-                indication = rememberRipple(),
-            ) {
-                addPreference(RecipeFieldState.MEAL, textOption)
-            }
-            .padding(10.dp),
+        modifier =
+            buttonModifier
+                .clickable(
+                    interactionSource = remember { MutableInteractionSource() },
+                    indication = rememberRipple(),
+                ) {
+                    addPreference(RecipeFieldState.MEAL, textOption)
+                }
+                .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
@@ -68,7 +70,7 @@ fun CustomRadioButton(
 
 @Composable
 private fun createColorText(isSelected: Boolean): Color {
-    return when(isSelected) {
+    return when (isSelected) {
         true -> MaterialTheme.colorScheme.onSurface
         false -> MaterialTheme.colorScheme.outline
     }
@@ -77,12 +79,13 @@ private fun createColorText(isSelected: Boolean): Color {
 @Composable
 private fun createButtomModifier(isSelected: Boolean): Modifier {
     val roundedCornerShape = RoundedCornerShape(size = 20.dp)
-    val backgroundColor = when {
-        !isSystemInDarkTheme() -> Color.Transparent
-        isSelected -> MaterialTheme.colorScheme.surfaceVariant
-        !isSelected -> MaterialTheme.colorScheme.surface
-        else -> Color.Transparent
-    }
+    val backgroundColor =
+        when {
+            !isSystemInDarkTheme() -> Color.Transparent
+            isSelected -> MaterialTheme.colorScheme.surfaceVariant
+            !isSelected -> MaterialTheme.colorScheme.surface
+            else -> Color.Transparent
+        }
 
     return Modifier
         .fillMaxWidth()
@@ -101,49 +104,53 @@ private fun createButtomModifier(isSelected: Boolean): Modifier {
 @Composable
 private fun createRadioModifier(isSelected: Boolean): Modifier {
     return when (isSelected) {
-        true -> Modifier.background(
-            color = MaterialTheme.colorScheme.primary,
-            shape = CircleShape,
-        )
-        false -> Modifier.border(
-            width = 1.dp,
-            color = MaterialTheme.colorScheme.outline,
-            shape = CircleShape,
-        )
+        true ->
+            Modifier.background(
+                color = MaterialTheme.colorScheme.primary,
+                shape = CircleShape,
+            )
+        false ->
+            Modifier.border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outline,
+                shape = CircleShape,
+            )
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 fun UnselectedRadioButtonPreview() {
     ReceptIaTheme {
-        Box (
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(50.dp)
-        ){
+        Box(
+            modifier =
+                Modifier
+                    .background(color = MaterialTheme.colorScheme.background)
+                    .padding(50.dp),
+        ) {
             CustomRadioButton(
                 textOption = "Café da Manhã",
                 radioUiState = RadioUiState.Unselected,
-                addPreference = {_, _ ->},
+                addPreference = { _, _ -> },
             )
         }
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 fun SelectedRadioButtonPreview() {
     ReceptIaTheme {
-        Box (
-            modifier = Modifier
-                .background(color = MaterialTheme.colorScheme.background)
-                .padding(50.dp)
-        ){
+        Box(
+            modifier =
+                Modifier
+                    .background(color = MaterialTheme.colorScheme.background)
+                    .padding(50.dp),
+        ) {
             CustomRadioButton(
                 textOption = "Café da Manhã",
                 radioUiState = RadioUiState.Selected(textOption = "Café da Manhã"),
-                addPreference = {_, _ ->},
+                addPreference = { _, _ -> },
             )
         }
     }

@@ -25,22 +25,22 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.nexusfalcao.model.Recipe
-import com.nexusfalcao.model.User
-import com.nexusfalcao.home.preview.RecipesPreviewParameterProvider
-import com.nexusfalcao.home.state.RecipeFeedUiState
-import com.nexusfalcao.home.widget.Banner
-import com.nexusfalcao.home.widget.LoadingRecipeList
-import com.nexusfalcao.home.widget.RecipeList
 import com.nexusfalcao.designsystem.ComposableLifecycle
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
-import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomUpdateDialog
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
 import com.nexusfalcao.designsystem.widget.NavigationDrawerWidget
 import com.nexusfalcao.designsystem.widget.TopBarWidget
+import com.nexusfalcao.home.preview.RecipesPreviewParameterProvider
+import com.nexusfalcao.home.state.RecipeFeedUiState
+import com.nexusfalcao.home.widget.Banner
+import com.nexusfalcao.home.widget.LoadingRecipeList
+import com.nexusfalcao.home.widget.RecipeList
+import com.nexusfalcao.model.Recipe
+import com.nexusfalcao.model.User
 
 @Composable
 internal fun HomeRoute(
@@ -111,17 +111,18 @@ private fun HomeScreen(
             topBar = { TopBarWidget(drawerState) },
         ) { padding ->
             Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .fillMaxSize()
-                    .padding(horizontal = 25.dp),
+                modifier =
+                    Modifier
+                        .padding(padding)
+                        .fillMaxSize()
+                        .padding(horizontal = 25.dp),
             ) {
                 Banner(navigateToNewRecipe)
 
                 Text(
                     text = stringResource(id = R.string.last_recipes_title),
                     color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.titleMedium,
+                    style = MaterialTheme.typography.titleLarge,
                 )
 
                 Spacer(modifier = Modifier.height(25.dp))
@@ -137,9 +138,10 @@ private fun HomeScreen(
                             )
                         } else {
                             Box(
-                                modifier = Modifier
-                                    .weight(1.0f)
-                                    .fillMaxSize(),
+                                modifier =
+                                    Modifier
+                                        .weight(1.0f)
+                                        .fillMaxSize(),
                                 contentAlignment = Alignment.Center,
                             ) {
                                 EmptyStateWidget()
@@ -151,7 +153,7 @@ private fun HomeScreen(
         }
     }
 
-    if(isRequireUpdate) {
+    if (isRequireUpdate) {
         CustomUpdateDialog(
             title = stringResource(id = R.string.update_the_app),
             description = stringResource(id = R.string.update_the_app_description),
@@ -164,7 +166,7 @@ private fun HomeScreen(
 }
 
 @FontSizeAcessibilityPreview
-@ThemePreviewShowsBakground
+@UIModeBakgroundPreview
 @Composable
 private fun HomePreview(
     @PreviewParameter(RecipesPreviewParameterProvider::class)
@@ -180,7 +182,7 @@ private fun HomePreview(
     }
 }
 
-@ThemePreviewShowsBakground
+@UIModeBakgroundPreview
 @Composable
 private fun LoadingPreview() {
     ReceptIaTheme {
@@ -194,7 +196,7 @@ private fun LoadingPreview() {
 }
 
 @FontSizeAcessibilityPreview
-@ThemePreviewShowsBakground
+@UIModeBakgroundPreview
 @Composable
 private fun EmptyPreview() {
     ReceptIaTheme {

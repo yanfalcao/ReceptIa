@@ -20,7 +20,7 @@ import com.nexusfalcao.createrecipe.state.CheckFieldUiState
 import com.nexusfalcao.createrecipe.state.FieldsUiState
 import com.nexusfalcao.createrecipe.state.RadioUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -30,22 +30,24 @@ fun RecipeForm(
     addPreference: (RecipeFieldState, String) -> Unit,
     removePreference: (RecipeFieldState, String) -> Unit,
 ) {
-    val ingredientTypeList = listOf(
-        Pair(RecipeFieldState.FAVORITE, stringResource(R.string.favorite_ingredients)),
-        Pair(RecipeFieldState.NON_FAVORITE, stringResource(R.string.non_favorite_ingredients)),
-        Pair(RecipeFieldState.ALLERGIC, stringResource(R.string.allergic_ingredients)),
-        Pair(RecipeFieldState.INTOLERANT, stringResource(R.string.intolerant_ingredients)),
-    )
+    val ingredientTypeList =
+        listOf(
+            Pair(RecipeFieldState.FAVORITE, stringResource(R.string.favorite_ingredients)),
+            Pair(RecipeFieldState.NON_FAVORITE, stringResource(R.string.non_favorite_ingredients)),
+            Pair(RecipeFieldState.ALLERGIC, stringResource(R.string.allergic_ingredients)),
+            Pair(RecipeFieldState.INTOLERANT, stringResource(R.string.intolerant_ingredients)),
+        )
 
     Column(
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(bottom = 85.dp),
+        modifier =
+            Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 85.dp),
     ) {
         Text(
             text = stringResource(id = R.string.type_of_dish),
             color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.titleSmall,
+            style = MaterialTheme.typography.titleMedium,
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -62,7 +64,7 @@ fun RecipeForm(
             Text(
                 text = ingredient.second,
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleSmall,
+                style = MaterialTheme.typography.titleMedium,
             )
 
             Spacer(modifier = Modifier.height(15.dp))
@@ -91,15 +93,17 @@ private fun RadioField(
     checkFieldUiState: CheckFieldUiState,
     addPreference: (RecipeFieldState, String) -> Unit,
 ) {
-    val typesOfDishies = listOf(
-        stringResource(R.string.breakfast),
-        stringResource(R.string.lunch),
-        stringResource(R.string.dinner),
-    )
-    val isError = CheckFieldUiState.isUnfilled(
-        checkFieldUiState = checkFieldUiState,
-        recipeField = RecipeFieldState.MEAL,
-    )
+    val typesOfDishies =
+        listOf(
+            stringResource(R.string.breakfast),
+            stringResource(R.string.lunch),
+            stringResource(R.string.dinner),
+        )
+    val isError =
+        CheckFieldUiState.isUnfilled(
+            checkFieldUiState = checkFieldUiState,
+            recipeField = RecipeFieldState.MEAL,
+        )
 
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
@@ -117,18 +121,19 @@ private fun RadioField(
         Text(
             text = stringResource(id = R.string.error_field),
             color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.labelSmall,
+            style = MaterialTheme.typography.labelMedium,
             modifier = Modifier.padding(start = 10.dp),
         )
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
-fun RecipeFormPreview(){
-    val fieldsUiState = FieldsUiState(
-        favoriteIngredients = arrayListOf("Macarrão", "Cogumelo"),
-    )
+fun RecipeFormPreview()  {
+    val fieldsUiState =
+        FieldsUiState(
+            favoriteIngredients = arrayListOf("Macarrão", "Cogumelo"),
+        )
     fieldsUiState.addField(RecipeFieldState.MEAL, "Almoço")
 
     ReceptIaTheme {
@@ -136,25 +141,26 @@ fun RecipeFormPreview(){
             RecipeForm(
                 fieldsUiState = fieldsUiState,
                 checkFieldUiState = CheckFieldUiState.Filled,
-                addPreference = {_, _ ->},
-                removePreference = {_, _ ->},
+                addPreference = { _, _ -> },
+                removePreference = { _, _ -> },
             )
         }
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
-fun RecipeFormErrorPreview(){
+fun RecipeFormErrorPreview()  {
     ReceptIaTheme {
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
             RecipeForm(
                 fieldsUiState = FieldsUiState(),
-                checkFieldUiState = CheckFieldUiState.Unfilled(
-                    mutableListOf(RecipeFieldState.MEAL, RecipeFieldState.FAVORITE)
-                ),
-                addPreference = {_, _ ->},
-                removePreference = {_, _ ->},
+                checkFieldUiState =
+                    CheckFieldUiState.Unfilled(
+                        mutableListOf(RecipeFieldState.MEAL, RecipeFieldState.FAVORITE),
+                    ),
+                addPreference = { _, _ -> },
+                removePreference = { _, _ -> },
             )
         }
     }

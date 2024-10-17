@@ -27,7 +27,7 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nexusfalcao.designsystem.ComposableLifecycle
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
-import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
 import com.nexusfalcao.designsystem.widget.NavigationDrawerWidget
@@ -221,7 +221,7 @@ private fun CatalogScreen(
 }
 
 @FontSizeAcessibilityPreview
-@ThemePreviewShowsBakground
+@UIModeBakgroundPreview
 @Composable
 private fun HistoricPreview() {
     ReceptIaTheme {
@@ -242,7 +242,7 @@ private fun HistoricPreview() {
     }
 }
 
-@ThemePreviewShowsBakground
+@UIModeBakgroundPreview
 @Composable
 private fun LoadingPreview() {
     ReceptIaTheme {
@@ -259,7 +259,7 @@ private fun LoadingPreview() {
     }
 }
 
-@ThemePreviewShowsBakground
+@UIModeBakgroundPreview
 @Composable
 private fun EmptyPreview() {
     ReceptIaTheme {

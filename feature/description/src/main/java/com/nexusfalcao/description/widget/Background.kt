@@ -16,52 +16,57 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.nexusfalcao.description.R
-import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.theme.RecipeDescriptionBackgroundColor
 
 @Composable
 fun Background() {
-    val colorStops = arrayOf(
-        0.0f to Color.Transparent,
-        0.93f to MaterialTheme.colorScheme.background,
-    )
+    val colorStops =
+        arrayOf(
+            0.0f to Color.Transparent,
+            0.93f to MaterialTheme.colorScheme.background,
+        )
 
     BoxWithConstraints(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(color = RecipeDescriptionBackgroundColor),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(color = RecipeDescriptionBackgroundColor),
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_background_recipe),
             contentDescription = null,
             contentScale = ContentScale.FillWidth,
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.TopCenter),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.TopCenter),
         )
 
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.26f)
-                .align(Alignment.TopCenter)
-                .background(
-                    brush = Brush.verticalGradient(colorStops = colorStops),
-                ),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.26f)
+                    .align(Alignment.TopCenter)
+                    .background(
+                        brush = Brush.verticalGradient(colorStops = colorStops),
+                    ),
         )
 
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.75f)
-                .align(Alignment.BottomCenter)
-                .background(color = MaterialTheme.colorScheme.background),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .fillMaxHeight(0.75f)
+                    .align(Alignment.BottomCenter)
+                    .background(color = MaterialTheme.colorScheme.background),
         )
     }
 }
 
-@ThemePreviewShowsBakground
+@UIModeBakgroundPreview
 @Composable
 fun BackgroundPreview() {
     ReceptIaTheme {

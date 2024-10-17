@@ -16,30 +16,34 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun Tag(
     text: String,
-    textStyle: TextStyle = MaterialTheme.typography.titleSmall,
+    textStyle: TextStyle = MaterialTheme.typography.titleMedium,
     isSelected: Boolean,
     updateTagFilter: () -> Unit = {},
 ) {
     val cornerShape = RoundedCornerShape(30.dp)
     val colorScheme = MaterialTheme.colorScheme
-    val textColor = when(isSelected) {
-        true -> colorScheme.onPrimary
-        false -> colorScheme.onBackground
-    }
-    val backgroundColor = when(isSelected) {
-        true -> colorScheme.primary
-        false -> colorScheme.onBackground
-    }
+    val textColor =
+        when (isSelected) {
+            true -> colorScheme.onPrimary
+            false -> colorScheme.onBackground
+        }
+    val backgroundColor =
+        when (isSelected) {
+            true -> colorScheme.primary
+            false -> colorScheme.onBackground
+        }
 
-    val modifier = when(isSelected) {
-        true -> Modifier.background(color = backgroundColor, shape = cornerShape)
-        false -> Modifier.border(width = 1.dp, color = backgroundColor, shape = cornerShape)
-    }
+    val modifier =
+        when (isSelected) {
+            true -> Modifier.background(color = backgroundColor, shape = cornerShape)
+            false -> Modifier.border(width = 1.dp, color = backgroundColor, shape = cornerShape)
+        }
 
     Box(
-        modifier = modifier
-            .clickable { updateTagFilter() }
-            .padding(vertical = 5.dp, horizontal = 15.dp),
+        modifier =
+            modifier
+                .clickable { updateTagFilter() }
+                .padding(vertical = 5.dp, horizontal = 15.dp),
     ) {
         Text(
             text = text,

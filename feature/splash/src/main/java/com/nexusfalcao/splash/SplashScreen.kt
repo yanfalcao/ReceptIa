@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.nexusfalcao.designsystem.preview.ThemePreviewShowsBakground
+import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.theme.logoIconResource
 
@@ -41,9 +41,10 @@ internal fun SplashRoute(
 @Composable
 fun SplashScreen() {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
         contentAlignment = Alignment.Center,
     ) {
         Image(
@@ -54,7 +55,7 @@ fun SplashScreen() {
     }
 }
 
-@ThemePreviewShowsBakground
+@UIModeBakgroundPreview
 @Composable
 fun SplashScreenPreview() {
     ReceptIaTheme {

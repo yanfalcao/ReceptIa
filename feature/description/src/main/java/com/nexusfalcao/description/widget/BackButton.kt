@@ -15,7 +15,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.description.R
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -23,11 +23,12 @@ fun BackButton(
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit = {},
 ) {
-    val buttonShape  = RoundedCornerShape(size = 15.dp)
-    val buttonModifier = createButtonModifier(
-        modifier = modifier,
-        shape = buttonShape,
-    )
+    val buttonShape = RoundedCornerShape(size = 15.dp)
+    val buttonModifier =
+        createButtonModifier(
+            modifier = modifier,
+            shape = buttonShape,
+        )
 
     IconButton(
         onClick = onBackClick,
@@ -36,7 +37,7 @@ fun BackButton(
         Image(
             painter = painterResource(id = R.drawable.ic_back),
             contentDescription = null,
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
         )
     }
 }
@@ -58,7 +59,7 @@ private fun createButtonModifier(
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 fun BackButtonPreview() {
     ReceptIaTheme {

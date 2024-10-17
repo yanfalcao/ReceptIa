@@ -4,7 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,18 +36,20 @@ fun EmptyStateWidget() {
             text = stringResource(id = R.string.empty_title),
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier
-                .width(150.dp),
+            style = MaterialTheme.typography.titleMedium,
+            modifier =
+                Modifier
+                    .widthIn(min = 150.dp, max = 250.dp),
         )
 
         Text(
             text = stringResource(id = R.string.empty_description),
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier
-                .width(180.dp),
+            style = MaterialTheme.typography.bodyMedium,
+            modifier =
+                Modifier
+                    .widthIn(min = 180.dp, max = 280.dp),
         )
     }
 }

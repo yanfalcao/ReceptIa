@@ -11,31 +11,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.nexusfalcao.createrecipe.R
-import com.nexusfalcao.designsystem.preview.ThemePreview
+import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
-fun ContinueButtom(
-    createRecipe: () -> Unit,
-) {
+fun ContinueButtom(createRecipe: () -> Unit) {
     Button(
         onClick = {
             createRecipe()
         },
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(50.dp),
         colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
     ) {
         Text(
             text = stringResource(id = R.string.start),
             color = MaterialTheme.colorScheme.onPrimary,
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.headlineSmall,
         )
     }
 }
 
-@ThemePreview
+@UIModePreview
 @Composable
 fun ContinueButtomPreview() {
     ReceptIaTheme {

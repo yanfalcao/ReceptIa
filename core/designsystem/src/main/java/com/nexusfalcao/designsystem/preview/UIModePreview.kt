@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
     group = "Light and Dark Mode",
     uiMode = UI_MODE_NIGHT_NO,
 )
-annotation class ThemePreview
+annotation class UIModePreview
 
 @Preview(
     name = "Dark Mode",
@@ -30,36 +30,4 @@ annotation class ThemePreview
     showSystemUi = true,
     uiMode = UI_MODE_NIGHT_NO,
 )
-annotation class ThemePreviewShowsBakground
-
-@Preview(
-    name = "Scale 100%",
-    group = "Font Size Accessibility",
-    fontScale = 1f,
-)
-@Preview(
-    name = "Scale 115%",
-    group = "Font Size Accessibility",
-    fontScale = 1.15f,
-)
-@Preview(
-    name = "Scale 130%",
-    group = "Font Size Accessibility",
-    fontScale = 1.3f,
-)
-@Preview(
-    name = "Scale 150%",
-    group = "Font Size Accessibility",
-    fontScale = 1.5f,
-)
-@Preview(
-    name = "Scale 180%",
-    group = "Font Size Accessibility",
-    fontScale = 1.8f,
-)
-@Preview(
-    name = "Scale 200%",
-    group = "Font Size Accessibility",
-    fontScale = 2f,
-)
-annotation class FontSizeAcessibilityPreview
+annotation class UIModeBakgroundPreview
