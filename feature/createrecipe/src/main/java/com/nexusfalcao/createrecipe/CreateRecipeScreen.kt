@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.createrecipe.preview.PreviewParameterData
 import com.nexusfalcao.createrecipe.state.CheckFieldUiState
 import com.nexusfalcao.createrecipe.state.CreateRecipeUiState
@@ -35,6 +37,7 @@ import com.nexusfalcao.createrecipe.widget.CreateRecipeLoading
 import com.nexusfalcao.createrecipe.widget.RecipeForm
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomAlertDialog
 import com.nexusfalcao.designsystem.widget.CustomSnackbar
@@ -49,6 +52,7 @@ internal fun CreateRecipeRoute(
     popBackStack: () -> Unit,
     isNetworkConnected: () -> Boolean,
     viewModel: CreateRecipeViewModel = hiltViewModel(),
+    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val fieldsUiState by viewModel.fieldsUiState.collectAsStateWithLifecycle()
     val checkFieldUiState by viewModel.checkFieldUiState.collectAsStateWithLifecycle()
@@ -68,6 +72,7 @@ internal fun CreateRecipeRoute(
         cleanCreateRecipeUiState = viewModel::cleanCreateRecipeUiState,
         isChatGptApiEnabled = isChatGptApiEnabled,
         isNetworkConnected = isNetworkConnected,
+        windowSizeClass = windowSizeClass,
     )
 }
 
@@ -85,6 +90,7 @@ private fun CreateRecipeScreen(
     isNetworkConnected: () -> Boolean,
     onBackClick: () -> Unit,
     onNavigateToRecipe: (String) -> Unit,
+    windowSizeClass: WindowSizeClass,
 ) {
     val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
     val snackbarHostState = remember { SnackbarHostState() }
@@ -202,6 +208,7 @@ private fun NewRecipePreview() {
             cleanCreateRecipeUiState = {},
             isChatGptApiEnabled = false,
             isNetworkConnected = { true },
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
 }
@@ -229,6 +236,7 @@ private fun LoadingStatePreview() {
             cleanCreateRecipeUiState = {},
             isChatGptApiEnabled = false,
             isNetworkConnected = { true },
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
 }

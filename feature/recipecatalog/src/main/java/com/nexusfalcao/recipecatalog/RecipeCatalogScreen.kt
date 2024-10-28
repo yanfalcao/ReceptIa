@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,9 +26,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.designsystem.ComposableLifecycle
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
 import com.nexusfalcao.designsystem.widget.NavigationDrawerWidget
@@ -56,6 +59,7 @@ internal fun RecipeCatalogRoute(
     navigateToCatalog: () -> Unit = {},
     signOut: () -> Unit = {},
     viewModel: CatalogViewModel = hiltViewModel(),
+    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val historicState by viewModel.recipesUiState.collectAsStateWithLifecycle()
     val filterUiState by viewModel.filterState.collectAsStateWithLifecycle()
@@ -77,6 +81,7 @@ internal fun RecipeCatalogRoute(
         navigateToRecipeDescription = navigateToRecipeDescription,
         navigateToCatalog = navigateToCatalog,
         signOut = signOut,
+        windowSizeClass = windowSizeClass,
     )
 
     ComposableLifecycle { _, event ->
@@ -106,6 +111,7 @@ private fun CatalogScreen(
     navigateToRecipeDescription: (String) -> Unit = {},
     navigateToCatalog: () -> Unit = {},
     signOut: () -> Unit = {},
+    windowSizeClass: WindowSizeClass,
 ) {
     val drawerState = rememberDrawerState(DrawerValue.Closed)
     var showSheet by remember { mutableStateOf(false) }
@@ -238,6 +244,7 @@ private fun HistoricPreview() {
             navigateToRecipeDescription = {},
             navigateToCatalog = {},
             user = UiPreviewParameterData.user,
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
 }
@@ -255,6 +262,7 @@ private fun LoadingPreview() {
             navigateToRecipeDescription = {},
             navigateToCatalog = {},
             user = UiPreviewParameterData.user,
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
 }
@@ -272,6 +280,7 @@ private fun EmptyPreview() {
             navigateToRecipeDescription = {},
             navigateToCatalog = {},
             user = UiPreviewParameterData.user,
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
 }

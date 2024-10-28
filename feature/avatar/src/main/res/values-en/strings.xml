@@ -2,4 +2,5 @@
 <resources>
     <string name="select_you_avatar">Select your avatar</string>
     <string name="select">Select</string>
+    <string name="avatar">Avatar</string>
 </resources>

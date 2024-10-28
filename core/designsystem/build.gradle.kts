@@ -46,10 +46,12 @@ dependencies {
     implementation(libs.androidx.compose.ui.material3)
     implementation(libs.androidx.compose.ui.material)
     implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.window.size)
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.android.material)
+    implementation(libs.androidx.adaptive.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)

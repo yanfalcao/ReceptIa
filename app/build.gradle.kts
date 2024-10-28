@@ -122,6 +122,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.material3)
     implementation(libs.androidx.compose.ui.material)
     implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.window.size)
 
     implementation(libs.coroutines.android)
     implementation(libs.coroutines.core)

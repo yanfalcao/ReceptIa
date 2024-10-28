@@ -1,29 +1,15 @@
 package com.nexusfalcao.avatar
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -31,15 +17,19 @@ import androidx.navigation.NavController
 import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.avatar.state.ImageUiState
 import com.nexusfalcao.avatar.widget.GridListAvatar
+import com.nexusfalcao.avatar.widget.SelectButton
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.UIModePreview
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.preview.WindowSizePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
+import com.nexusfalcao.designsystem.widget.TopBarWidget
 
 @Composable
 internal fun AvatarRoute(
     navController: NavController,
     viewModel: AvatarViewModel = hiltViewModel(),
+    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val imageUiState by viewModel.imageUiState.collectAsStateWithLifecycle()
 
@@ -48,34 +38,26 @@ internal fun AvatarRoute(
         selectImage = viewModel::selectImage,
         saveImage = viewModel::saveImage,
         onBackClick = navController::popBackStack,
+        windowSizeClass = windowSizeClass,
     )
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun AvatarScreen(
     imageUiState: ImageUiState,
     selectImage: (Int) -> Unit,
     saveImage: () -> Unit,
     onBackClick: () -> Unit,
+    windowSizeClass: WindowSizeClass,
 ) {
-    val colorScheme = MaterialTheme.colorScheme
     val isSelected = imageUiState is ImageUiState.Selected
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = colorScheme.background),
-                title = {},
-                navigationIcon = {
-                    IconButton(onClick = onBackClick) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null,
-                            tint = colorScheme.onBackground,
-                        )
-                    }
-                },
+            TopBarWidget(
+                title = stringResource(id = R.string.avatar),
+                drawerEnabled = false,
+                onBackClick = onBackClick,
             )
         },
     ) { padding ->
@@ -86,41 +68,25 @@ private fun AvatarScreen(
                     .fillMaxSize()
                     .padding(start = 25.dp, end = 25.dp),
         ) {
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = stringResource(id = R.string.select_you_avatar),
-                color = colorScheme.onBackground,
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
-            )
-
-            Spacer(modifier = Modifier.height(25.dp))
-
             GridListAvatar(
                 imageUiState = imageUiState,
                 selectImage = selectImage,
                 modifier = Modifier.weight(weight = 1.0f),
+                windowSizeClass = windowSizeClass,
             )
 
-            Button(
+            SelectButton(
                 modifier =
                     Modifier
                         .padding(top = 20.dp, bottom = 20.dp)
-                        .fillMaxWidth()
-                        .height(50.dp),
+                        .align(Alignment.CenterHorizontally),
                 onClick = {
                     saveImage()
                     onBackClick()
                 },
-                colors = ButtonDefaults.buttonColors(containerColor = colorScheme.primary),
-                enabled = isSelected,
-            ) {
-                Text(
-                    text = stringResource(id = R.string.select),
-                    color = colorScheme.onPrimary,
-                    style = MaterialTheme.typography.headlineSmall,
-                )
-            }
+                windowSizeClass = windowSizeClass,
+                isSelected = isSelected,
+            )
         }
     }
 }
@@ -132,10 +98,11 @@ private fun AvatarScreen(
 private fun AvatarPreview() {
     ReceptIaTheme {
         AvatarScreen(
-            imageUiState = ImageUiState.Selected(imageId = 2131230856),
+            imageUiState = ImageUiState.Selected(imageId = R.drawable.img_man),
             selectImage = {},
             saveImage = {},
             onBackClick = {},
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
 }

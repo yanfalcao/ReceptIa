@@ -21,10 +21,10 @@ fun NavController.navigateToAvatar(popUp: Boolean = false) {
     }
 }
 
-fun NavGraphBuilder.avatarScreen(
-    navController: NavController,
-) {
+fun NavGraphBuilder.avatarScreen(navController: NavController) {
     composable(AVATAR_ROUTE) {
-        com.nexusfalcao.avatar.AvatarRoute(navController)
+        com.nexusfalcao.avatar.AvatarRoute(
+            navController = navController,
+        )
     }
 }

@@ -6,7 +6,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview(
     name = "Phone - Portrait",
     group = "Window Sizes",
-    device = "spec:shape=Normal,width=411,height=891,unit=dp,dpi=480",
+    device = Devices.PHONE,
 )
 @Preview(
     name = "Phone - Landscape",
@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview(
     name = "Foldable",
     group = "Window Sizes",
-    device = "spec:shape=Normal,width=673,height=841,unit=dp,dpi=480",
+    device = Devices.FOLDABLE,
 )
 @Preview(
     name = "Tablet - Portrait",
@@ -26,7 +26,7 @@ import androidx.compose.ui.tooling.preview.Preview
 @Preview(
     name = "Tablet - Landscape",
     group = "Window Sizes",
-    device = "spec:shape=Normal,width=1280,height=800,unit=dp,dpi=480",
+    device = Devices.TABLET,
 )
 @Preview(name = "Desktop", group = "Window Sizes", device = Devices.DESKTOP)
 annotation class WindowSizePreview

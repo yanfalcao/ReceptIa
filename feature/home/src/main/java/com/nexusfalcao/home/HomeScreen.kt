@@ -13,6 +13,7 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,10 +26,12 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.designsystem.ComposableLifecycle
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomUpdateDialog
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
@@ -53,6 +56,7 @@ internal fun HomeRoute(
     navigateToHome: () -> Unit = {},
     signOut: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel(),
+    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val context = LocalContext.current
     val feedState by viewModel.lastRecipesUiState.collectAsStateWithLifecycle()
@@ -69,6 +73,7 @@ internal fun HomeRoute(
         isRequireUpdate = isRequireUpdate(context),
         appStoreUrl = appStoreUrl,
         user = user,
+        windowSizeClass = windowSizeClass,
     )
 
     ComposableLifecycle { _, event ->
@@ -93,6 +98,7 @@ private fun HomeScreen(
     signOut: () -> Unit = {},
     isRequireUpdate: Boolean,
     user: User?,
+    windowSizeClass: WindowSizeClass,
 ) {
     val context = LocalContext.current
     val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -108,7 +114,11 @@ private fun HomeScreen(
         userPhotoId = user?.photoId,
     ) {
         Scaffold(
-            topBar = { TopBarWidget(drawerState) },
+            topBar = {
+                TopBarWidget(
+                    drawerState = drawerState,
+                )
+            },
         ) { padding ->
             Column(
                 modifier =
@@ -178,6 +188,7 @@ private fun HomePreview(
             isRequireUpdate = false,
             appStoreUrl = "",
             user = PreviewParameterData.user,
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
 }
@@ -191,6 +202,7 @@ private fun LoadingPreview() {
             isRequireUpdate = false,
             appStoreUrl = "",
             user = PreviewParameterData.user,
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
 }
@@ -205,6 +217,7 @@ private fun EmptyPreview() {
             isRequireUpdate = false,
             appStoreUrl = "",
             user = PreviewParameterData.user,
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
 }
