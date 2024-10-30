@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.designsystem.extension.hasCompactSize
 import com.nexusfalcao.designsystem.extension.hasMediumSize
+import com.nexusfalcao.designsystem.extension.scaleTitleLargeBy
 import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
@@ -45,17 +46,14 @@ fun TopBarWidget(
             true -> Icons.Default.Menu
             false -> Icons.AutoMirrored.Filled.ArrowBack
         }
-    var textStyle: TextStyle
+    var textStyle = Typography.scaleTitleLargeBy(windowSizeClass = windowSizeClass)
     var navigationIconSize: Dp
 
     if (windowSizeClass.hasCompactSize()) {
-        textStyle = MaterialTheme.typography.titleLarge
         navigationIconSize = 30.dp
     } else if (windowSizeClass.hasMediumSize()) {
-        textStyle = MaterialTheme.typography.headlineSmall
         navigationIconSize = 45.dp
     } else {
-        textStyle = MaterialTheme.typography.headlineLarge
         navigationIconSize = 53.dp
     }
 

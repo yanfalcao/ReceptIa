@@ -3,6 +3,7 @@ package com.nexusfalcao.createrecipe
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -38,6 +39,7 @@ import com.nexusfalcao.createrecipe.widget.RecipeForm
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
 import com.nexusfalcao.designsystem.preview.UtilPreview
+import com.nexusfalcao.designsystem.preview.WindowSizePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomAlertDialog
 import com.nexusfalcao.designsystem.widget.CustomSnackbar
@@ -139,33 +141,35 @@ private fun CreateRecipeScreen(
                     title = stringResource(id = R.string.new_recipe_title),
                     drawerEnabled = false,
                     onBackClick = onBackClick,
+                    windowSizeClass = windowSizeClass,
                 )
             },
         ) { padding ->
-            Box(
+            Column(
                 modifier =
                     Modifier
                         .padding(padding)
                         .fillMaxSize()
                         .padding(start = 25.dp, end = 25.dp, top = 20.dp),
             ) {
-                RecipeForm(
-                    fieldsUiState = fieldsUiState,
-                    checkFieldUiState = checkFieldUiState,
-                    addPreference = addPreference,
-                    removePreference = removePreference,
-                )
-
                 Box(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .background(color = MaterialTheme.colorScheme.background)
-                            .align(Alignment.BottomCenter)
-                            .padding(top = 15.dp, bottom = 20.dp),
+                    modifier = Modifier.weight(weight = 1.0f),
                 ) {
-                    ContinueButtom(createRecipe = onContinueClick)
+                    RecipeForm(
+                        fieldsUiState = fieldsUiState,
+                        checkFieldUiState = checkFieldUiState,
+                        addPreference = addPreference,
+                        removePreference = removePreference,
+                    )
                 }
+
+                ContinueButtom(
+                    windowSizeClass = windowSizeClass,
+                    createRecipe = onContinueClick,
+                    modifier = Modifier
+                        .padding(top = 20.dp, bottom = 20.dp)
+                        .align(Alignment.CenterHorizontally),
+                )
             }
         }
 
@@ -186,6 +190,7 @@ private fun CreateRecipeScreen(
 
 @FontSizeAcessibilityPreview
 @UIModeBakgroundPreview
+@WindowSizePreview
 @Composable
 private fun NewRecipePreview() {
     val fieldsUiState =

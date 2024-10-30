@@ -58,6 +58,7 @@ private fun AvatarScreen(
                 title = stringResource(id = R.string.avatar),
                 drawerEnabled = false,
                 onBackClick = onBackClick,
+                windowSizeClass = windowSizeClass,
             )
         },
     ) { padding ->
