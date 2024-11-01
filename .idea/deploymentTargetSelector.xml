@@ -4,20 +4,14 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-10-09T22:28:08.867850600Z">
+        <DropdownSelection timestamp="2024-11-01T13:20:27.691791Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\yansf\.android\avd\Large_Desktop_API_34.avd" />
+              <DeviceId pluginId="PhysicalDevice" identifier="serial=RQ8M80XCB7K" />
             </handle>
           </Target>
         </DropdownSelection>
         <DialogSelection />
-      </SelectionState>
-      <SelectionState runConfigName="NewRecipePreview - Scale 200%">
-        <option name="selectionMode" value="DROPDOWN" />
-      </SelectionState>
-      <SelectionState runConfigName="AvatarPreview - Scale 100%">
-        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>
