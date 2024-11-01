@@ -15,3 +15,36 @@ fun Typography.scaleTitleLargeBy(windowSizeClass: WindowSizeClass): TextStyle {
         MaterialTheme.typography.headlineLarge
     }
 }
+
+@Composable
+fun Typography.scaleTitleMediumBy(windowSizeClass: WindowSizeClass): TextStyle {
+    return if (windowSizeClass.hasCompactSize()) {
+        MaterialTheme.typography.titleMedium
+    } else if (windowSizeClass.hasMediumSize()) {
+        MaterialTheme.typography.titleLarge
+    } else {
+        MaterialTheme.typography.headlineMedium
+    }
+}
+
+@Composable
+fun Typography.scaleLabelMediumBy(windowSizeClass: WindowSizeClass): TextStyle {
+    return if (windowSizeClass.hasCompactSize()) {
+        MaterialTheme.typography.labelMedium
+    } else if (windowSizeClass.hasMediumSize()) {
+        MaterialTheme.typography.labelLarge
+    } else {
+        MaterialTheme.typography.bodyMedium
+    }
+}
+
+@Composable
+fun Typography.scaleBodyMediumBy(windowSizeClass: WindowSizeClass): TextStyle {
+    return if (windowSizeClass.hasCompactSize()) {
+        MaterialTheme.typography.bodyMedium
+    } else if (windowSizeClass.hasMediumSize()) {
+        MaterialTheme.typography.bodyLarge
+    } else {
+        MaterialTheme.typography.titleLarge
+    }
+}

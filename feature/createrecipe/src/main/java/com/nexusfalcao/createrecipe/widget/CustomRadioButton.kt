@@ -24,9 +24,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.createrecipe.state.RadioUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
+import com.nexusfalcao.designsystem.extension.hasCompactSize
+import com.nexusfalcao.designsystem.extension.hasMediumSize
+import com.nexusfalcao.designsystem.extension.scaleBodyMediumBy
 import com.nexusfalcao.designsystem.preview.UIModePreview
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -34,6 +39,7 @@ fun CustomRadioButton(
     textOption: String,
     radioUiState: RadioUiState,
     addPreference: (RecipeFieldState, String) -> Unit,
+    windowSizeClass: WindowSizeClass,
 ) {
     val isSelected =
         (radioUiState is RadioUiState.Selected) &&
@@ -42,6 +48,13 @@ fun CustomRadioButton(
     val radioModifier = createRadioModifier(isSelected)
     val buttonModifier = createButtomModifier(isSelected)
     val textColor = createColorText(isSelected)
+    val radioSize = if (windowSizeClass.hasCompactSize()) {
+        18.dp
+    } else if (windowSizeClass.hasMediumSize()) {
+        (18 * 1.5).dp
+    } else {
+        (18 * 1.75).dp
+    }
 
     Row(
         modifier =
@@ -56,7 +69,7 @@ fun CustomRadioButton(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
-            modifier = radioModifier.size(18.dp),
+            modifier = radioModifier.size(radioSize),
         )
 
         Spacer(modifier = Modifier.width(10.dp))
@@ -64,6 +77,7 @@ fun CustomRadioButton(
         Text(
             text = textOption,
             color = textColor,
+            style = Typography.scaleBodyMediumBy(windowSizeClass),
         )
     }
 }
@@ -132,6 +146,7 @@ fun UnselectedRadioButtonPreview() {
                 textOption = "Café da Manhã",
                 radioUiState = RadioUiState.Unselected,
                 addPreference = { _, _ -> },
+                windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
             )
         }
     }
@@ -151,6 +166,7 @@ fun SelectedRadioButtonPreview() {
                 textOption = "Café da Manhã",
                 radioUiState = RadioUiState.Selected(textOption = "Café da Manhã"),
                 addPreference = { _, _ -> },
+                windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
             )
         }
     }

@@ -31,10 +31,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.createrecipe.R
 import com.nexusfalcao.createrecipe.state.CheckFieldUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
+import com.nexusfalcao.designsystem.extension.hasCompactSize
+import com.nexusfalcao.designsystem.extension.hasMediumSize
+import com.nexusfalcao.designsystem.extension.scaleBodyMediumBy
+import com.nexusfalcao.designsystem.extension.scaleLabelMediumBy
 import com.nexusfalcao.designsystem.preview.UIModePreview
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -42,6 +48,7 @@ fun CustomTextField(
     recipeFieldState: RecipeFieldState,
     checkFieldUiState: CheckFieldUiState,
     onInputIngredient: (RecipeFieldState, String) -> Unit,
+    windowSizeClass: WindowSizeClass,
 ) {
     val maxChar = 25
     var textFieldValue by remember { mutableStateOf("") }
@@ -63,6 +70,13 @@ fun CustomTextField(
     val sendIngredient = {
         onInputIngredient(recipeFieldState, textFieldValue)
         textFieldValue = ""
+    }
+    val heightSize = if (windowSizeClass.hasCompactSize()) {
+        45.dp
+    } else if (windowSizeClass.hasMediumSize()) {
+        (45 * 1.3).dp
+    } else {
+        (45 * 1.5).dp
     }
 
     Column {
@@ -86,8 +100,9 @@ fun CustomTextField(
                     ),
                 singleLine = true,
                 modifier =
-                    Modifier.weight(1f)
-                        .height(45.dp)
+                    Modifier
+                        .weight(1f)
+                        .height(heightSize)
                         .border(width = 1.dp, color = borderColor, shape = roundedCornerShape)
                         .background(color = createBackgroundColor(), shape = roundedCornerShape),
                 decorationBox = { innerTextField ->
@@ -102,6 +117,7 @@ fun CustomTextField(
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
                                     color = MaterialTheme.colorScheme.outline,
+                                    style = Typography.scaleBodyMediumBy(windowSizeClass),
                                 )
                             }
                             innerTextField()
@@ -113,25 +129,34 @@ fun CustomTextField(
             Spacer(modifier = Modifier.width(10.dp))
 
             SendButtom(
-                modifier = Modifier.size(45.dp),
+                modifier = Modifier.size(heightSize),
                 onClick = sendIngredient,
             )
         }
 
         if (isUnfilled) {
-            hintErrorText(text = unsentErrorText)
+            hintErrorText(
+                text = unsentErrorText,
+                windowSizeClass = windowSizeClass,
+            )
         } else if (isEssencialUnfilled) {
-            hintErrorText(text = unfilledErrorText)
+            hintErrorText(
+                text = unfilledErrorText,
+                windowSizeClass = windowSizeClass,
+            )
         }
     }
 }
 
 @Composable
-private fun hintErrorText(text: String) {
+private fun hintErrorText(
+    text: String,
+    windowSizeClass: WindowSizeClass,
+) {
     Text(
         text = text,
         color = MaterialTheme.colorScheme.error,
-        style = MaterialTheme.typography.labelMedium,
+        style = Typography.scaleLabelMediumBy(windowSizeClass),
         modifier = Modifier.padding(start = 10.dp),
     )
 }
@@ -167,6 +192,7 @@ fun CustomTextFieldPreview() {
                 recipeFieldState = RecipeFieldState.MEAL,
                 checkFieldUiState = CheckFieldUiState.Filled,
                 onInputIngredient = { _, _ -> },
+                windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
             )
         }
     }
@@ -189,6 +215,7 @@ fun CustomTextFieldErrorPreview() {
                         fields = mutableListOf(RecipeFieldState.FAVORITE),
                     ),
                 onInputIngredient = { _, _ -> },
+                windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
             )
         }
     }

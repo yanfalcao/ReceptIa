@@ -15,12 +15,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.createrecipe.R
 import com.nexusfalcao.createrecipe.state.CheckFieldUiState
 import com.nexusfalcao.createrecipe.state.FieldsUiState
 import com.nexusfalcao.createrecipe.state.RadioUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
+import com.nexusfalcao.designsystem.extension.scaleLabelMediumBy
+import com.nexusfalcao.designsystem.extension.scaleTitleMediumBy
 import com.nexusfalcao.designsystem.preview.UIModePreview
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -29,6 +33,7 @@ fun RecipeForm(
     checkFieldUiState: CheckFieldUiState,
     addPreference: (RecipeFieldState, String) -> Unit,
     removePreference: (RecipeFieldState, String) -> Unit,
+    windowSizeClass: WindowSizeClass,
 ) {
     val ingredientTypeList =
         listOf(
@@ -40,14 +45,14 @@ fun RecipeForm(
 
     Column(
         modifier =
-            Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(bottom = 85.dp),
+        Modifier
+            .verticalScroll(rememberScrollState())
+            .padding(bottom = 85.dp),
     ) {
         Text(
             text = stringResource(id = R.string.type_of_dish),
             color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.titleMedium,
+            style = Typography.scaleTitleMediumBy(windowSizeClass),
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -56,6 +61,7 @@ fun RecipeForm(
             checkFieldUiState = checkFieldUiState,
             radioUiState = fieldsUiState.meal,
             addPreference = addPreference,
+            windowSizeClass = windowSizeClass,
         )
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -64,7 +70,7 @@ fun RecipeForm(
             Text(
                 text = ingredient.second,
                 color = MaterialTheme.colorScheme.onBackground,
-                style = MaterialTheme.typography.titleMedium,
+                style = Typography.scaleTitleMediumBy(windowSizeClass),
             )
 
             Spacer(modifier = Modifier.height(15.dp))
@@ -73,6 +79,7 @@ fun RecipeForm(
                 recipeFieldState = ingredient.first,
                 checkFieldUiState = checkFieldUiState,
                 onInputIngredient = addPreference,
+                windowSizeClass = windowSizeClass,
             )
 
             FlexBoxLayout(
@@ -92,6 +99,7 @@ private fun RadioField(
     radioUiState: RadioUiState,
     checkFieldUiState: CheckFieldUiState,
     addPreference: (RecipeFieldState, String) -> Unit,
+    windowSizeClass: WindowSizeClass,
 ) {
     val typesOfDishies =
         listOf(
@@ -113,6 +121,7 @@ private fun RadioField(
                 textOption = type,
                 radioUiState = radioUiState,
                 addPreference = addPreference,
+                windowSizeClass = windowSizeClass,
             )
         }
     }
@@ -121,7 +130,7 @@ private fun RadioField(
         Text(
             text = stringResource(id = R.string.error_field),
             color = MaterialTheme.colorScheme.error,
-            style = MaterialTheme.typography.labelMedium,
+            style = Typography.scaleLabelMediumBy(windowSizeClass),
             modifier = Modifier.padding(start = 10.dp),
         )
     }
@@ -129,7 +138,7 @@ private fun RadioField(
 
 @UIModePreview
 @Composable
-fun RecipeFormPreview()  {
+fun RecipeFormPreview() {
     val fieldsUiState =
         FieldsUiState(
             favoriteIngredients = arrayListOf("Macarrão", "Cogumelo"),
@@ -143,6 +152,7 @@ fun RecipeFormPreview()  {
                 checkFieldUiState = CheckFieldUiState.Filled,
                 addPreference = { _, _ -> },
                 removePreference = { _, _ -> },
+                windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
             )
         }
     }
@@ -150,7 +160,7 @@ fun RecipeFormPreview()  {
 
 @UIModePreview
 @Composable
-fun RecipeFormErrorPreview()  {
+fun RecipeFormErrorPreview() {
     ReceptIaTheme {
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
             RecipeForm(
@@ -161,6 +171,7 @@ fun RecipeFormErrorPreview()  {
                     ),
                 addPreference = { _, _ -> },
                 removePreference = { _, _ -> },
+                windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
             )
         }
     }

@@ -1,13 +1,10 @@
 package com.nexusfalcao.createrecipe
 
 import android.widget.Toast
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -160,15 +157,17 @@ private fun CreateRecipeScreen(
                         checkFieldUiState = checkFieldUiState,
                         addPreference = addPreference,
                         removePreference = removePreference,
+                        windowSizeClass = windowSizeClass,
                     )
                 }
 
                 ContinueButtom(
                     windowSizeClass = windowSizeClass,
                     createRecipe = onContinueClick,
-                    modifier = Modifier
-                        .padding(top = 20.dp, bottom = 20.dp)
-                        .align(Alignment.CenterHorizontally),
+                    modifier =
+                        Modifier
+                            .padding(top = 20.dp, bottom = 20.dp)
+                            .align(Alignment.CenterHorizontally),
                 )
             }
         }
