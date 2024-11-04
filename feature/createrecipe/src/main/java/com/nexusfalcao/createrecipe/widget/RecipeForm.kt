@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -16,11 +17,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.nexusfalcao.createrecipe.R
 import com.nexusfalcao.createrecipe.state.CheckFieldUiState
 import com.nexusfalcao.createrecipe.state.FieldsUiState
 import com.nexusfalcao.createrecipe.state.RadioUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
+import com.nexusfalcao.designsystem.extension.hasCompactSize
+import com.nexusfalcao.designsystem.extension.hasMediumSize
 import com.nexusfalcao.designsystem.extension.scaleLabelMediumBy
 import com.nexusfalcao.designsystem.extension.scaleTitleMediumBy
 import com.nexusfalcao.designsystem.preview.UIModePreview
@@ -42,12 +46,18 @@ fun RecipeForm(
             Pair(RecipeFieldState.ALLERGIC, stringResource(R.string.allergic_ingredients)),
             Pair(RecipeFieldState.INTOLERANT, stringResource(R.string.intolerant_ingredients)),
         )
+    val formFraction = when(windowSizeClass.windowWidthSizeClass) {
+        WindowWidthSizeClass.COMPACT -> 1.0f
+        WindowWidthSizeClass.MEDIUM -> 0.8f
+        else -> 0.6f
+    }
 
     Column(
         modifier =
-        Modifier
-            .verticalScroll(rememberScrollState())
-            .padding(bottom = 85.dp),
+            Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(bottom = 85.dp)
+                .fillMaxWidth(fraction = formFraction),
     ) {
         Text(
             text = stringResource(id = R.string.type_of_dish),

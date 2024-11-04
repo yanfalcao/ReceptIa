@@ -148,6 +148,7 @@ private fun CreateRecipeScreen(
                         .padding(padding)
                         .fillMaxSize()
                         .padding(start = 25.dp, end = 25.dp, top = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Box(
                     modifier = Modifier.weight(weight = 1.0f),
