@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -15,9 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.description.R
 import com.nexusfalcao.description.state.ToogleRecipeState
+import com.nexusfalcao.designsystem.extension.scaleTitleMediumBy
 import com.nexusfalcao.designsystem.preview.UIModePreview
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
@@ -25,6 +30,7 @@ fun ToogleButton(
     modifier: Modifier = Modifier,
     toogleState: ToogleRecipeState,
     onSelectToogle: () -> Unit = {},
+    windowSizeClass: WindowSizeClass,
 ) {
     val cornerShape = RoundedCornerShape(30.dp)
     val isSelectedDetails = toogleState is ToogleRecipeState.DetailsSelected
@@ -37,13 +43,11 @@ fun ToogleButton(
                     shape = cornerShape,
                 )
                 .fillMaxWidth()
-                .height(50.dp)
                 .clip(cornerShape)
                 .clickable { onSelectToogle() },
     ) {
         val modifierToogle =
             Modifier
-                .fillMaxHeight()
                 .fillMaxWidth(0.5f)
 
         Box(
@@ -56,13 +60,14 @@ fun ToogleButton(
                     .align(if (!isSelectedDetails) Alignment.TopStart else Alignment.TopEnd),
         ) {
             Text(
-                modifier = Modifier.align(Alignment.Center),
+                modifier = Modifier.align(Alignment.Center)
+                    .padding(vertical = 6.dp),
                 text =
                     stringResource(
                         id = if (!isSelectedDetails) R.string.details else R.string.recipe,
                     ),
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.titleMedium,
+                style = Typography.scaleTitleMediumBy(windowSizeClass),
             )
         }
 
@@ -76,13 +81,14 @@ fun ToogleButton(
                     .align(if (isSelectedDetails) Alignment.TopStart else Alignment.TopEnd),
         ) {
             Text(
-                modifier = Modifier.align(Alignment.Center),
+                modifier = Modifier.align(Alignment.Center)
+                    .padding(vertical = 6.dp),
                 text =
                     stringResource(
                         id = if (isSelectedDetails) R.string.details else R.string.recipe,
                     ),
                 color = MaterialTheme.colorScheme.onPrimary,
-                style = MaterialTheme.typography.titleMedium,
+                style = Typography.scaleTitleMediumBy(windowSizeClass),
             )
         }
     }
@@ -94,6 +100,7 @@ private fun ToogleButtonDetailsPreview() {
     ReceptIaTheme {
         ToogleButton(
             toogleState = ToogleRecipeState.DetailsSelected,
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
 }
@@ -104,6 +111,7 @@ private fun ToogleButtonRecipePreview() {
     ReceptIaTheme {
         ToogleButton(
             toogleState = ToogleRecipeState.RecipeSelected,
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
 }

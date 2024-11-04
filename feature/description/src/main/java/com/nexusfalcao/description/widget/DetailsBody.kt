@@ -19,33 +19,46 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.description.R
+import com.nexusfalcao.designsystem.extension.scaleBodyMediumBy
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.designsystem.preview.UIModePreview
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.DifficultIcon
 import com.nexusfalcao.model.Recipe
 
 @Composable
-fun DetailsBody(recipe: Recipe) {
+fun DetailsBody(
+    recipe: Recipe,
+    windowSizeClass: WindowSizeClass,
+    modifier: Modifier = Modifier,
+) {
     val amountPeopleServes = recipe.recipeDetails.amountPeopleServes
 
     Column(
-        modifier = Modifier.verticalScroll(rememberScrollState()),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(15.dp),
     ) {
-        Title(R.string.description)
+        Title(
+            text = R.string.description,
+            windowSizeClass = windowSizeClass,
+        )
 
         Container {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = recipe.description,
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.bodyMedium,
+                style = Typography.scaleBodyMediumBy(windowSizeClass),
             )
         }
 
-        Title(R.string.prep_time)
+        Title(
+            text = R.string.prep_time,
+            windowSizeClass = windowSizeClass,
+        )
 
         Container {
             Row(
@@ -59,13 +72,16 @@ fun DetailsBody(recipe: Recipe) {
 
                 Text(
                     text = recipe.recipeDetails.preparationTime,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = Typography.scaleBodyMediumBy(windowSizeClass),
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
         }
 
-        Title(R.string.easeRecipe)
+        Title(
+            text = R.string.easeRecipe,
+            windowSizeClass = windowSizeClass,
+        )
 
         Container {
             Row(
@@ -77,13 +93,16 @@ fun DetailsBody(recipe: Recipe) {
 
                 Text(
                     text = recipe.recipeDetails.difficult,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = Typography.scaleBodyMediumBy(windowSizeClass),
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
         }
 
-        Title(R.string.serves_up)
+        Title(
+            text = R.string.serves_up,
+            windowSizeClass = windowSizeClass,
+        )
 
         Container {
             Row(
@@ -97,13 +116,16 @@ fun DetailsBody(recipe: Recipe) {
 
                 Text(
                     text = "$amountPeopleServes ${pluralStringResource(R.plurals.people, amountPeopleServes)}",
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = Typography.scaleBodyMediumBy(windowSizeClass),
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
         }
 
-        Title(R.string.nutrition)
+        Title(
+            text = R.string.nutrition,
+            windowSizeClass = windowSizeClass,
+        )
 
         Container {
             Column(
@@ -113,16 +135,19 @@ fun DetailsBody(recipe: Recipe) {
                 NutritionTile(
                     title = R.string.calories,
                     description = recipe.recipeDetails.amountCalories,
+                    windowSizeClass = windowSizeClass,
                 )
 
                 NutritionTile(
                     title = R.string.carbs,
                     description = recipe.recipeDetails.amountCarbs,
+                    windowSizeClass = windowSizeClass,
                 )
 
                 NutritionTile(
                     title = R.string.proteins,
                     description = recipe.recipeDetails.amountProteins,
+                    windowSizeClass = windowSizeClass,
                 )
             }
         }
@@ -133,6 +158,7 @@ fun DetailsBody(recipe: Recipe) {
 private fun NutritionTile(
     @StringRes title: Int,
     description: String,
+    windowSizeClass: WindowSizeClass,
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
@@ -141,13 +167,13 @@ private fun NutritionTile(
         Text(
             text = stringResource(title),
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.bodyMedium,
+            style = Typography.scaleBodyMediumBy(windowSizeClass),
         )
 
         Text(
             text = description,
             color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.bodyMedium,
+            style = Typography.scaleBodyMediumBy(windowSizeClass),
         )
     }
 }
@@ -157,7 +183,10 @@ private fun NutritionTile(
 fun DetailsBodyPreview() {
     ReceptIaTheme {
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
-            DetailsBody(PreviewParameterData.recipe)
+            DetailsBody(
+                recipe = PreviewParameterData.recipe,
+                windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
+            )
         }
     }
 }

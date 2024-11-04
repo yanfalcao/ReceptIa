@@ -6,6 +6,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.window.core.layout.WindowSizeClass
 
 @Composable
+fun Typography.scaleHeadlineSmallBy(windowSizeClass: WindowSizeClass): TextStyle {
+    return if (windowSizeClass.hasCompactSize()) {
+        MaterialTheme.typography.headlineSmall
+    } else if (windowSizeClass.hasMediumSize()) {
+        MaterialTheme.typography.headlineMedium
+    } else {
+        MaterialTheme.typography.headlineLarge
+    }
+}
+
+@Composable
 fun Typography.scaleTitleLargeBy(windowSizeClass: WindowSizeClass): TextStyle {
     return if (windowSizeClass.hasCompactSize()) {
         MaterialTheme.typography.titleLarge

@@ -53,6 +53,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.adaptive.android)
     debugImplementation(libs.androidx.ui.tooling)
     kapt(libs.hilt.compiler)
 

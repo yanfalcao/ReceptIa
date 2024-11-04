@@ -17,8 +17,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
+import com.nexusfalcao.designsystem.extension.hasCompactSize
+import com.nexusfalcao.designsystem.extension.hasMediumSize
+import com.nexusfalcao.designsystem.extension.scaleHeadlineSmallBy
+import com.nexusfalcao.designsystem.extension.scaleTitleMediumBy
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.designsystem.preview.UIModePreview
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.FilledHeartColor
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.model.Recipe
@@ -27,16 +33,25 @@ import com.nexusfalcao.model.Recipe
 fun Header(
     modifier: Modifier = Modifier,
     recipe: Recipe,
+    windowSizeClass: WindowSizeClass,
     onToogleFavorite: () -> Unit = {},
 ) {
+    val iconSize = if (windowSizeClass.hasCompactSize()) {
+        30.dp
+    } else if (windowSizeClass.hasMediumSize()) {
+        (30 * 1.5).dp
+    } else {
+        (30 * 1.75).dp
+    }
+
     Row(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
             text = recipe.name,
-            style = MaterialTheme.typography.headlineSmall,
+            style = Typography.scaleHeadlineSmallBy(windowSizeClass),
             modifier = Modifier.weight(1.0f),
             color = MaterialTheme.colorScheme.onBackground,
         )
@@ -48,7 +63,7 @@ fun Header(
                 true ->
                     Icon(
                         imageVector = Icons.Default.Favorite,
-                        modifier = Modifier.size(30.dp),
+                        modifier = Modifier.size(iconSize),
                         tint = FilledHeartColor,
                         contentDescription = null,
                     )
@@ -68,7 +83,10 @@ fun Header(
 @Composable
 fun HeaderPreviewFavorite()  {
     ReceptIaTheme {
-        Header(recipe = PreviewParameterData.recipe)
+        Header(
+            recipe = PreviewParameterData.recipe,
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass()
+        )
     }
 }
 
@@ -79,6 +97,9 @@ fun HeaderPreview()  {
     recipe.isFavorite = false
 
     ReceptIaTheme {
-        Header(recipe = recipe)
+        Header(
+            recipe = recipe,
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass()
+        )
     }
 }

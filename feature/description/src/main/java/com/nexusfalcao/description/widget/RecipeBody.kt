@@ -14,20 +14,28 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.description.R
+import com.nexusfalcao.designsystem.extension.scaleBodyMediumBy
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.designsystem.preview.UIModePreview
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.model.Recipe
 
 @Composable
-fun RecipeBody(recipe: Recipe) {
+fun RecipeBody(
+    recipe: Recipe,
+    windowSizeClass: WindowSizeClass,
+    modifier: Modifier = Modifier,
+) {
     Column(
-        modifier = Modifier.verticalScroll(rememberScrollState()),
+        modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(15.dp),
     ) {
         Title(
             text = stringResource(R.string.ingredients_amount, recipe.ingredients.size),
+            windowSizeClass = windowSizeClass,
         )
 
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
@@ -39,14 +47,14 @@ fun RecipeBody(recipe: Recipe) {
                     ) {
                         Text(
                             text = ingredient.name,
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = Typography.scaleBodyMediumBy(windowSizeClass),
                             color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.weight(4f),
                         )
 
                         Text(
                             text = ingredient.measure,
-                            style = MaterialTheme.typography.bodyMedium,
+                            style = Typography.scaleBodyMediumBy(windowSizeClass),
                             color = MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier.weight(1f),
                         )
@@ -55,13 +63,16 @@ fun RecipeBody(recipe: Recipe) {
             }
         }
 
-        Title(R.string.praparation)
+        Title(
+            text = R.string.praparation,
+            windowSizeClass = windowSizeClass,
+        )
 
         Container {
             Text(
                 modifier = Modifier.fillMaxWidth(),
                 text = recipe.stepsToString(),
-                style = MaterialTheme.typography.bodyMedium,
+                style = Typography.scaleBodyMediumBy(windowSizeClass),
                 color = MaterialTheme.colorScheme.onSurface,
             )
         }
@@ -73,7 +84,10 @@ fun RecipeBody(recipe: Recipe) {
 fun RecipeBodyPreview() {
     ReceptIaTheme {
         Box(modifier = Modifier.background(color = MaterialTheme.colorScheme.background)) {
-            RecipeBody(PreviewParameterData.recipe)
+            RecipeBody(
+                recipe = PreviewParameterData.recipe,
+                windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
+            )
         }
     }
 }
