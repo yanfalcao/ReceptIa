@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -23,8 +24,14 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
+import com.nexusfalcao.designsystem.extension.hasCompactSize
+import com.nexusfalcao.designsystem.extension.hasMediumSize
+import com.nexusfalcao.designsystem.extension.scaleLabelLargeBy
+import com.nexusfalcao.designsystem.extension.scaleTitleMediumBy
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.UIModePreview
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.DifficultIcon
 import com.nexusfalcao.home.R
@@ -35,12 +42,24 @@ import com.nexusfalcao.model.Recipe
 fun RecipeList(
     recipes: List<Recipe>,
     navigateToDescription: (String) -> Unit,
+    windowSizeClass: WindowSizeClass,
 ) {
-    LazyColumn {
-        items(recipes) {
+    val spaceBetweenItems = if (windowSizeClass.hasCompactSize()) {
+        5.dp
+    } else if (windowSizeClass.hasMediumSize()) {
+        (5 * 1.5).dp
+    } else {
+        (5 * 1.75).dp
+    }
+
+    Column(
+        verticalArrangement = Arrangement.spacedBy(spaceBetweenItems),
+    ) {
+        for(item in recipes) {
             RecipeListTile(
-                recipe = it,
+                recipe = item,
                 navigateToDescription = navigateToDescription,
+                windowSizeClass = windowSizeClass,
             )
             Spacer(modifier = Modifier.height(15.dp))
         }
@@ -51,6 +70,7 @@ fun RecipeList(
 private fun RecipeListTile(
     recipe: Recipe,
     navigateToDescription: (String) -> Unit,
+    windowSizeClass: WindowSizeClass,
 ) {
     val colorScheme = MaterialTheme.colorScheme
     val bookmarkColor =
@@ -90,7 +110,7 @@ private fun RecipeListTile(
             Text(
                 text = recipe.name,
                 color = colorScheme.onSurface,
-                style = MaterialTheme.typography.titleMedium,
+                style = Typography.scaleTitleMediumBy(windowSizeClass),
                 modifier =
                     Modifier
                         .padding(start = 40.dp, top = 12.dp),
@@ -112,7 +132,7 @@ private fun RecipeListTile(
             Text(
                 text = recipe.recipeDetails.preparationTime,
                 color = colorScheme.onSurface,
-                style = MaterialTheme.typography.labelLarge,
+                style = Typography.scaleLabelLargeBy(windowSizeClass),
                 modifier = Modifier.padding(start = 8.dp),
             )
 
@@ -124,7 +144,7 @@ private fun RecipeListTile(
             Text(
                 text = recipe.recipeDetails.difficult,
                 color = colorScheme.onSurface,
-                style = MaterialTheme.typography.labelLarge,
+                style = Typography.scaleLabelLargeBy(windowSizeClass),
                 modifier = Modifier.padding(start = 8.dp),
             )
         }
@@ -142,6 +162,7 @@ private fun RecipeListPreview(
         RecipeList(
             recipes = recipes,
             navigateToDescription = {},
+            windowSizeClass = UtilPreview.getPreviewWindowSizeClass()
         )
     }
 }

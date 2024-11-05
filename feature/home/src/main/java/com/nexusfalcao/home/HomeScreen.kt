@@ -6,9 +6,13 @@ import android.net.Uri
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -27,11 +31,14 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.nexusfalcao.designsystem.ComposableLifecycle
+import com.nexusfalcao.designsystem.extension.scaleTitleLargeBy
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
 import com.nexusfalcao.designsystem.preview.UtilPreview
+import com.nexusfalcao.designsystem.preview.WindowSizePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomUpdateDialog
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
@@ -102,6 +109,11 @@ private fun HomeScreen(
 ) {
     val context = LocalContext.current
     val drawerState = rememberDrawerState(DrawerValue.Closed)
+    val fractionWidth = when(windowSizeClass.windowWidthSizeClass) {
+        WindowWidthSizeClass.COMPACT -> 1f
+        WindowWidthSizeClass.MEDIUM -> 0.8f
+        else -> 0.6f
+    }
 
     NavigationDrawerWidget(
         drawerState = drawerState,
@@ -120,41 +132,51 @@ private fun HomeScreen(
                 )
             },
         ) { padding ->
-            Column(
-                modifier =
-                    Modifier
-                        .padding(padding)
-                        .fillMaxSize()
-                        .padding(horizontal = 25.dp),
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
             ) {
-                Banner(navigateToNewRecipe)
+                Column(
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxHeight()
+                        .fillMaxWidth(fractionWidth)
+                        .padding(horizontal = 25.dp)
+                        .verticalScroll(rememberScrollState()),
+                ) {
+                    Banner(
+                        windowSizeClass = windowSizeClass,
+                        navigateToNewRecipe = navigateToNewRecipe
+                    )
 
-                Text(
-                    text = stringResource(id = R.string.last_recipes_title),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.titleLarge,
-                )
+                    Text(
+                        text = stringResource(id = R.string.last_recipes_title),
+                        color = MaterialTheme.colorScheme.onBackground,
+                        style = Typography.scaleTitleLargeBy(windowSizeClass),
+                    )
 
-                Spacer(modifier = Modifier.height(25.dp))
+                    Spacer(modifier = Modifier.height(25.dp))
 
-                when (feedState) {
-                    RecipeFeedUiState.Loading ->
-                        LoadingRecipeList()
-                    is RecipeFeedUiState.Success -> {
-                        if (feedState.recipes.isNotEmpty()) {
-                            RecipeList(
-                                feedState.recipes,
-                                navigateToDescription = navigateToRecipeDescription,
-                            )
-                        } else {
-                            Box(
-                                modifier =
+                    when (feedState) {
+                        RecipeFeedUiState.Loading ->
+                            LoadingRecipeList()
+                        is RecipeFeedUiState.Success -> {
+                            if (feedState.recipes.isNotEmpty()) {
+                                RecipeList(
+                                    feedState.recipes,
+                                    navigateToDescription = navigateToRecipeDescription,
+                                    windowSizeClass = windowSizeClass,
+                                )
+                            } else {
+                                Box(
+                                    modifier =
                                     Modifier
                                         .weight(1.0f)
                                         .fillMaxSize(),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                EmptyStateWidget()
+                                    contentAlignment = Alignment.Center,
+                                ) {
+                                    EmptyStateWidget()
+                                }
                             }
                         }
                     }
@@ -177,6 +199,7 @@ private fun HomeScreen(
 
 @FontSizeAcessibilityPreview
 @UIModeBakgroundPreview
+@WindowSizePreview
 @Composable
 private fun HomePreview(
     @PreviewParameter(RecipesPreviewParameterProvider::class)

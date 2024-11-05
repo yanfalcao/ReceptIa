@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,11 +17,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.designsystem.R
+import com.nexusfalcao.designsystem.extension.scaleBodyMediumBy
+import com.nexusfalcao.designsystem.extension.scaleTitleMediumBy
 
 @Preview(showBackground = true)
 @Composable
-fun EmptyStateWidget() {
+fun EmptyStateWidget(
+    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass
+) {
     Column(
         verticalArrangement = Arrangement.spacedBy(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -36,7 +42,7 @@ fun EmptyStateWidget() {
             text = stringResource(id = R.string.empty_title),
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleMedium,
+            style = Typography.scaleTitleMediumBy(windowSizeClass),
             modifier =
                 Modifier
                     .widthIn(min = 150.dp, max = 250.dp),
@@ -46,7 +52,7 @@ fun EmptyStateWidget() {
             text = stringResource(id = R.string.empty_description),
             color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium,
+            style = Typography.scaleBodyMediumBy(windowSizeClass),
             modifier =
                 Modifier
                     .widthIn(min = 180.dp, max = 280.dp),
