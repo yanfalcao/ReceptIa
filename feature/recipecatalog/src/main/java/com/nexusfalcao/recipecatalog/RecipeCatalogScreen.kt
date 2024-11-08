@@ -10,10 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.DrawerValue
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,8 +30,7 @@ import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
 import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
-import com.nexusfalcao.designsystem.widget.NavigationDrawerWidget
-import com.nexusfalcao.designsystem.widget.TopBarWidget
+import com.nexusfalcao.designsystem.widget.navigationDrawer.CustomNavigationScaffold
 import com.nexusfalcao.model.User
 import com.nexusfalcao.model.state.RecipeDifficult
 import com.nexusfalcao.recipecatalog.preview.PreviewParameterData
@@ -113,7 +109,6 @@ private fun CatalogScreen(
     signOut: () -> Unit = {},
     windowSizeClass: WindowSizeClass,
 ) {
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
     var showSheet by remember { mutableStateOf(false) }
 
     if (showSheet) {
@@ -136,8 +131,7 @@ private fun CatalogScreen(
         )
     }
 
-    NavigationDrawerWidget(
-        drawerState = drawerState,
+    CustomNavigationScaffold(
         toHome = navigateToHome,
         toNewRecipe = navigateToNewRecipe,
         toRecipeCatalog = navigateToCatalog,
@@ -145,79 +139,71 @@ private fun CatalogScreen(
         onSignOut = signOut,
         userName = user?.name,
         userPhotoId = user?.photoId,
-    ) {
-        Scaffold(
-            topBar = {
-                TopBarWidget(
-                    title = stringResource(id = R.string.historic_title),
-                    drawerState = drawerState,
-                )
-            },
-        ) { padding ->
-            Column(
-                modifier =
+        windowSizeClass = windowSizeClass,
+    ) { padding ->
+        Column(
+            modifier =
+            Modifier
+                .padding(padding)
+                .fillMaxSize()
+                .padding(start = 25.dp, end = 25.dp, top = 20.dp),
+            verticalArrangement = Arrangement.spacedBy(20.dp),
+        ) {
+            Row {
+                SearchBar(
+                    modifier =
                     Modifier
-                        .padding(padding)
-                        .fillMaxSize()
-                        .padding(start = 25.dp, end = 25.dp, top = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp),
+                        .weight(1.0f)
+                        .height(40.dp),
+                    filterUiState = filterUiState,
+                    updateSearchFilter = updateSearchFilter,
+                )
+
+                Spacer(modifier = Modifier.width(15.dp))
+
+                FilterButton(
+                    modifier = Modifier.size(40.dp),
+                    hasAnyFilterSelected = filterUiState.hasAnyFilterSelected(),
+                ) {
+                    showSheet = true
+                }
+            }
+
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
             ) {
-                Row {
-                    SearchBar(
-                        modifier =
+                for (tag in TagFilterEnum.values()) {
+                    val tagText =
+                        when (tag) {
+                            TagFilterEnum.ALL -> stringResource(id = R.string.all)
+                            TagFilterEnum.FAVORITES -> stringResource(id = R.string.favorites)
+                        }
+
+                    Tag(
+                        text = tagText,
+                        isSelected = filterUiState.isSelected(tag),
+                        updateTagFilter = { updateTagFilter(tag) },
+                    )
+                }
+            }
+
+            when (catalogState) {
+                CatalogUiState.Loading -> LoadingRecipeList()
+                is CatalogUiState.Success -> {
+                    if (catalogState.recipes.isNotEmpty()) {
+                        GridList(
+                            recipes = catalogState.recipes,
+                            navigateToDescription = navigateToRecipeDescription,
+                        )
+                    } else {
+                        Box(
+                            modifier =
                             Modifier
                                 .weight(1.0f)
-                                .height(40.dp),
-                        filterUiState = filterUiState,
-                        updateSearchFilter = updateSearchFilter,
-                    )
-
-                    Spacer(modifier = Modifier.width(15.dp))
-
-                    FilterButton(
-                        modifier = Modifier.size(40.dp),
-                        hasAnyFilterSelected = filterUiState.hasAnyFilterSelected(),
-                    ) {
-                        showSheet = true
-                    }
-                }
-
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                ) {
-                    for (tag in TagFilterEnum.values()) {
-                        val tagText =
-                            when (tag) {
-                                TagFilterEnum.ALL -> stringResource(id = R.string.all)
-                                TagFilterEnum.FAVORITES -> stringResource(id = R.string.favorites)
-                            }
-
-                        Tag(
-                            text = tagText,
-                            isSelected = filterUiState.isSelected(tag),
-                            updateTagFilter = { updateTagFilter(tag) },
-                        )
-                    }
-                }
-
-                when (catalogState) {
-                    CatalogUiState.Loading -> LoadingRecipeList()
-                    is CatalogUiState.Success -> {
-                        if (catalogState.recipes.isNotEmpty()) {
-                            GridList(
-                                recipes = catalogState.recipes,
-                                navigateToDescription = navigateToRecipeDescription,
-                            )
-                        } else {
-                            Box(
-                                modifier =
-                                    Modifier
-                                        .weight(1.0f)
-                                        .fillMaxSize(),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                EmptyStateWidget()
-                            }
+                                .fillMaxSize(),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            EmptyStateWidget()
                         }
                     }
                 }

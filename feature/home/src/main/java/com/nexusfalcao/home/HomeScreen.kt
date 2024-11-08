@@ -13,12 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -42,8 +39,7 @@ import com.nexusfalcao.designsystem.preview.WindowSizePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomUpdateDialog
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
-import com.nexusfalcao.designsystem.widget.NavigationDrawerWidget
-import com.nexusfalcao.designsystem.widget.TopBarWidget
+import com.nexusfalcao.designsystem.widget.navigationDrawer.CustomNavigationScaffold
 import com.nexusfalcao.home.preview.RecipesPreviewParameterProvider
 import com.nexusfalcao.home.state.RecipeFeedUiState
 import com.nexusfalcao.home.widget.Banner
@@ -108,15 +104,12 @@ private fun HomeScreen(
     windowSizeClass: WindowSizeClass,
 ) {
     val context = LocalContext.current
-    val drawerState = rememberDrawerState(DrawerValue.Closed)
     val fractionWidth = when(windowSizeClass.windowWidthSizeClass) {
         WindowWidthSizeClass.COMPACT -> 1f
-        WindowWidthSizeClass.MEDIUM -> 0.8f
-        else -> 0.6f
+        else -> 0.8f
     }
 
-    NavigationDrawerWidget(
-        drawerState = drawerState,
+    CustomNavigationScaffold(
         toHome = navigateToHome,
         toNewRecipe = navigateToNewRecipe,
         toRecipeCatalog = navigateToCatalog,
@@ -124,59 +117,52 @@ private fun HomeScreen(
         onSignOut = signOut,
         userName = user?.name,
         userPhotoId = user?.photoId,
-    ) {
-        Scaffold(
-            topBar = {
-                TopBarWidget(
-                    drawerState = drawerState,
-                )
-            },
-        ) { padding ->
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
+        windowSizeClass = windowSizeClass,
+    ) { padding ->
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center,
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(padding)
+                    .fillMaxHeight()
+                    .fillMaxWidth(fractionWidth)
+                    .padding(horizontal = 25.dp)
+                    .verticalScroll(rememberScrollState()),
             ) {
-                Column(
-                    modifier = Modifier
-                        .padding(padding)
-                        .fillMaxHeight()
-                        .fillMaxWidth(fractionWidth)
-                        .padding(horizontal = 25.dp)
-                        .verticalScroll(rememberScrollState()),
-                ) {
-                    Banner(
-                        windowSizeClass = windowSizeClass,
-                        navigateToNewRecipe = navigateToNewRecipe
-                    )
+                Banner(
+                    windowSizeClass = windowSizeClass,
+                    navigateToNewRecipe = navigateToNewRecipe
+                )
 
-                    Text(
-                        text = stringResource(id = R.string.last_recipes_title),
-                        color = MaterialTheme.colorScheme.onBackground,
-                        style = Typography.scaleTitleLargeBy(windowSizeClass),
-                    )
+                Text(
+                    text = stringResource(id = R.string.last_recipes_title),
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = Typography.scaleTitleLargeBy(windowSizeClass),
+                )
 
-                    Spacer(modifier = Modifier.height(25.dp))
+                Spacer(modifier = Modifier.height(25.dp))
 
-                    when (feedState) {
-                        RecipeFeedUiState.Loading ->
-                            LoadingRecipeList()
-                        is RecipeFeedUiState.Success -> {
-                            if (feedState.recipes.isNotEmpty()) {
-                                RecipeList(
-                                    feedState.recipes,
-                                    navigateToDescription = navigateToRecipeDescription,
-                                    windowSizeClass = windowSizeClass,
-                                )
-                            } else {
-                                Box(
-                                    modifier =
-                                    Modifier
-                                        .weight(1.0f)
-                                        .fillMaxSize(),
-                                    contentAlignment = Alignment.Center,
-                                ) {
-                                    EmptyStateWidget()
-                                }
+                when (feedState) {
+                    RecipeFeedUiState.Loading ->
+                        LoadingRecipeList()
+                    is RecipeFeedUiState.Success -> {
+                        if (feedState.recipes.isNotEmpty()) {
+                            RecipeList(
+                                feedState.recipes,
+                                navigateToDescription = navigateToRecipeDescription,
+                                windowSizeClass = windowSizeClass,
+                            )
+                        } else {
+                            Box(
+                                modifier =
+                                Modifier
+                                    .weight(1.0f)
+                                    .fillMaxSize(),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                EmptyStateWidget()
                             }
                         }
                     }
