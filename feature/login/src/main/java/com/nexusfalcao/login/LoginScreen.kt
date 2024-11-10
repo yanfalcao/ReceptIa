@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -26,9 +27,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.window.core.layout.WindowHeightSizeClass
 import com.nexusfalcao.authentication.GoogleAuthenticationService
 import com.nexusfalcao.authentication.fake.FakeGoogleAuthenticator
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
+import com.nexusfalcao.designsystem.preview.WindowSizePreview
+import androidx.window.core.layout.WindowSizeClass
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomSnackbar
 import com.nexusfalcao.login.state.LoginUiState
@@ -44,6 +49,7 @@ internal fun LoginRoute(
     navigateToHome: (Boolean) -> Unit,
     isNetworkConnected: () -> Boolean,
     viewModel: LoginViewModel = hiltViewModel(),
+    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val loginUiState by viewModel.loginUiState.collectAsStateWithLifecycle()
 
@@ -55,6 +61,7 @@ internal fun LoginRoute(
         startSignInLoading = viewModel::startSignInLoading,
         showSignInError = viewModel::showSignInError,
         isNetworkConnected = isNetworkConnected,
+        windowSizeClass = windowSizeClass,
     )
 }
 
@@ -67,11 +74,18 @@ private fun LoginScreen(
     showSignInError: () -> Unit = {},
     navigateToHome: (Boolean) -> Unit = {},
     isNetworkConnected: () -> Boolean,
+    windowSizeClass: WindowSizeClass,
 ) {
     val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
     val snackbarHostState = remember { SnackbarHostState() }
     val genericErrorMessage = stringResource(id = R.string.generic_error_message)
     val networkErrorMessage = stringResource(id = R.string.network_error)
+
+    val bottomPadding = when(windowSizeClass.windowHeightSizeClass) {
+        WindowHeightSizeClass.COMPACT -> 50.dp
+        WindowHeightSizeClass.MEDIUM -> 50.dp
+        else -> 150.dp
+    }
 
     val isLoading =
         when (loginUiState) {
@@ -143,17 +157,20 @@ private fun LoginScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom,
                 ) {
-                    Title()
+                    Title(windowSizeClass = windowSizeClass)
                     Spacer(modifier = Modifier.height(20.dp))
-                    Description()
+                    Description(windowSizeClass = windowSizeClass)
                     Spacer(modifier = Modifier.height(50.dp))
 
                     when (isLoading) {
                         true -> LoadingButton()
-                        false -> GoogleLoginButton(onClickGoogleSignIn)
+                        false -> GoogleLoginButton(
+                            loginGoogle = onClickGoogleSignIn,
+                            windowSizeClass = windowSizeClass,
+                        )
                     }
 
-                    Spacer(modifier = Modifier.height(50.dp))
+                    Spacer(modifier = Modifier.height(bottomPadding))
                 }
             }
         }
@@ -161,6 +178,7 @@ private fun LoginScreen(
 }
 
 @FontSizeAcessibilityPreview
+@WindowSizePreview
 @Preview(
     showBackground = true,
     showSystemUi = true,
@@ -171,6 +189,7 @@ private fun LoginPreview() {
         googleAuthenticator = FakeGoogleAuthenticator(),
         loginUiState = LoginUiState.Started,
         isNetworkConnected = { true },
+        windowSizeClass = UtilPreview.getPreviewWindowSizeClass()
     )
 }
 
@@ -184,5 +203,6 @@ private fun LoadingPreview() {
         googleAuthenticator = FakeGoogleAuthenticator(),
         loginUiState = LoginUiState.Loading,
         isNetworkConnected = { true },
+        windowSizeClass = UtilPreview.getPreviewWindowSizeClass()
     )
 }
