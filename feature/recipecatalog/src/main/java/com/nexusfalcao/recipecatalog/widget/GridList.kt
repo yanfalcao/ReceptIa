@@ -25,8 +25,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.window.core.layout.WindowSizeClass
+import com.nexusfalcao.designsystem.extension.hasCompactSize
+import com.nexusfalcao.designsystem.extension.hasMediumSize
+import com.nexusfalcao.designsystem.extension.scaleLabelLargeBy
+import com.nexusfalcao.designsystem.extension.scaleTitleMediumBy
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
+import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.widget.DifficultIcon
 import com.nexusfalcao.model.Recipe
 import com.nexusfalcao.recipecatalog.R
@@ -35,9 +41,18 @@ import com.nexusfalcao.recipecatalog.R
 fun GridList(
     recipes: List<Recipe>,
     navigateToDescription: (String) -> Unit,
+    windowSizeClass: WindowSizeClass,
 ) {
+    val numberColumn = if (windowSizeClass.hasCompactSize()) {
+        2
+    } else if (windowSizeClass.hasMediumSize()) {
+        2
+    } else {
+        3
+    }
+
     LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(2),
+        columns = StaggeredGridCells.Fixed(numberColumn),
         verticalItemSpacing = 15.dp,
         horizontalArrangement = Arrangement.spacedBy(15.dp),
     ) {
@@ -45,6 +60,7 @@ fun GridList(
             GridTile(
                 recipe = it,
                 navigateToDescription = navigateToDescription,
+                windowSizeClass = windowSizeClass,
             )
         }
     }
@@ -54,6 +70,7 @@ fun GridList(
 private fun GridTile(
     recipe: Recipe,
     navigateToDescription: (String) -> Unit,
+    windowSizeClass: WindowSizeClass,
 ) {
     Column(
         modifier =
@@ -72,7 +89,7 @@ private fun GridTile(
         Text(
             modifier = Modifier.padding(horizontal = 5.dp),
             text = recipe.name,
-            style = MaterialTheme.typography.titleMedium,
+            style = Typography.scaleTitleMediumBy(windowSizeClass),
             color = MaterialTheme.colorScheme.onSurface,
             maxLines = 4,
             overflow = TextOverflow.Ellipsis,
@@ -91,7 +108,7 @@ private fun GridTile(
             Text(
                 text = recipe.recipeDetails.preparationTime,
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.labelLarge,
+                style = Typography.scaleLabelLargeBy(windowSizeClass),
                 modifier = Modifier.padding(start = 5.dp),
             )
         }
@@ -107,7 +124,7 @@ private fun GridTile(
             Text(
                 text = recipe.recipeDetails.difficult,
                 color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.labelLarge,
+                style = Typography.scaleLabelLargeBy(windowSizeClass),
                 modifier = Modifier.padding(start = 5.dp),
             )
         }
@@ -126,5 +143,6 @@ fun GridListPreview() {
                 PreviewParameterData.recipe,
             ),
         navigateToDescription = {},
+        windowSizeClass = UtilPreview.getPreviewWindowSizeClass()
     )
 }

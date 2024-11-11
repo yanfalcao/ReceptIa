@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -19,15 +21,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowWidthSizeClass
 import com.nexusfalcao.designsystem.ComposableLifecycle
+import com.nexusfalcao.designsystem.extension.hasCompactSize
+import com.nexusfalcao.designsystem.extension.hasMediumSize
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
 import com.nexusfalcao.designsystem.preview.UtilPreview
+import com.nexusfalcao.designsystem.preview.WindowSizePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
 import com.nexusfalcao.designsystem.widget.navigationDrawer.CustomNavigationScaffold
@@ -110,6 +117,23 @@ private fun CatalogScreen(
     windowSizeClass: WindowSizeClass,
 ) {
     var showSheet by remember { mutableStateOf(false) }
+    val searchHeight: Dp
+    val filterButtonSize: Dp
+    val faction = when(windowSizeClass.windowWidthSizeClass) {
+        WindowWidthSizeClass.COMPACT -> 1.0f
+        else -> 0.8f
+    }
+
+    if (windowSizeClass.hasCompactSize()) {
+        searchHeight = 40.dp
+        filterButtonSize = 40.dp
+    } else if (windowSizeClass.hasMediumSize()) {
+        searchHeight = 50.dp
+        filterButtonSize = 50.dp
+    } else {
+        searchHeight = 50.dp
+        filterButtonSize = 50.dp
+    }
 
     if (showSheet) {
         BottomSheetFilter(
@@ -141,69 +165,75 @@ private fun CatalogScreen(
         userPhotoId = user?.photoId,
         windowSizeClass = windowSizeClass,
     ) { padding ->
-        Column(
-            modifier =
-            Modifier
-                .padding(padding)
-                .fillMaxSize()
-                .padding(start = 25.dp, end = 25.dp, top = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(20.dp),
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
         ) {
-            Row {
-                SearchBar(
-                    modifier =
-                    Modifier
-                        .weight(1.0f)
-                        .height(40.dp),
-                    filterUiState = filterUiState,
-                    updateSearchFilter = updateSearchFilter,
-                )
-
-                Spacer(modifier = Modifier.width(15.dp))
-
-                FilterButton(
-                    modifier = Modifier.size(40.dp),
-                    hasAnyFilterSelected = filterUiState.hasAnyFilterSelected(),
-                ) {
-                    showSheet = true
-                }
-            }
-
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
+            Column(
+                modifier = Modifier
+                    .padding(padding)
+                    .fillMaxHeight()
+                    .fillMaxWidth(fraction = faction)
+                    .padding(start = 25.dp, end = 25.dp, top = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp),
             ) {
-                for (tag in TagFilterEnum.values()) {
-                    val tagText =
-                        when (tag) {
-                            TagFilterEnum.ALL -> stringResource(id = R.string.all)
-                            TagFilterEnum.FAVORITES -> stringResource(id = R.string.favorites)
-                        }
-
-                    Tag(
-                        text = tagText,
-                        isSelected = filterUiState.isSelected(tag),
-                        updateTagFilter = { updateTagFilter(tag) },
+                Row {
+                    SearchBar(
+                        modifier =
+                        Modifier
+                            .weight(1.0f)
+                            .height(searchHeight),
+                        filterUiState = filterUiState,
+                        updateSearchFilter = updateSearchFilter,
                     )
-                }
-            }
 
-            when (catalogState) {
-                CatalogUiState.Loading -> LoadingRecipeList()
-                is CatalogUiState.Success -> {
-                    if (catalogState.recipes.isNotEmpty()) {
-                        GridList(
-                            recipes = catalogState.recipes,
-                            navigateToDescription = navigateToRecipeDescription,
+                    Spacer(modifier = Modifier.width(15.dp))
+
+                    FilterButton(
+                        modifier = Modifier.size(filterButtonSize),
+                        hasAnyFilterSelected = filterUiState.hasAnyFilterSelected(),
+                    ) {
+                        showSheet = true
+                    }
+                }
+
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                ) {
+                    for (tag in TagFilterEnum.entries) {
+                        val tagText =
+                            when (tag) {
+                                TagFilterEnum.ALL -> stringResource(id = R.string.all)
+                                TagFilterEnum.FAVORITES -> stringResource(id = R.string.favorites)
+                            }
+
+                        Tag(
+                            text = tagText,
+                            isSelected = filterUiState.isSelected(tag),
+                            updateTagFilter = { updateTagFilter(tag) },
                         )
-                    } else {
-                        Box(
-                            modifier =
-                            Modifier
-                                .weight(1.0f)
-                                .fillMaxSize(),
-                            contentAlignment = Alignment.Center,
-                        ) {
-                            EmptyStateWidget()
+                    }
+                }
+
+                when (catalogState) {
+                    CatalogUiState.Loading -> LoadingRecipeList()
+                    is CatalogUiState.Success -> {
+                        if (catalogState.recipes.isNotEmpty()) {
+                            GridList(
+                                recipes = catalogState.recipes,
+                                navigateToDescription = navigateToRecipeDescription,
+                                windowSizeClass = windowSizeClass,
+                            )
+                        } else {
+                            Box(
+                                modifier =
+                                Modifier
+                                    .weight(1.0f)
+                                    .fillMaxSize(),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                EmptyStateWidget()
+                            }
                         }
                     }
                 }
@@ -214,6 +244,7 @@ private fun CatalogScreen(
 
 @FontSizeAcessibilityPreview
 @UIModeBakgroundPreview
+@WindowSizePreview
 @Composable
 private fun HistoricPreview() {
     ReceptIaTheme {
