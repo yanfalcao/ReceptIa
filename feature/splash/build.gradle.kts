@@ -50,6 +50,8 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
+    implementation(libs.androidx.window.core.android)
+    implementation(libs.androidx.adaptive.android)
     kapt(libs.hilt.compiler)
 
     implementation(libs.androidx.core)
