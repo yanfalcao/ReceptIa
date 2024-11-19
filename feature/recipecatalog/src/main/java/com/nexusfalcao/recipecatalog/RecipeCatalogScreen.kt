@@ -161,8 +161,7 @@ private fun CatalogScreen(
         toRecipeCatalog = navigateToCatalog,
         toAvatar = navigateToAvatar,
         onSignOut = signOut,
-        userName = user?.name,
-        userPhotoId = user?.photoId,
+        user = user,
         windowSizeClass = windowSizeClass,
     ) { padding ->
         Box(
