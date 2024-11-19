@@ -1,16 +1,16 @@
-package com.nexusfalcao.home.navigation
+package com.nexusfalcao.panehomedescription.navigation
 
 import android.content.Context
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.nexusfalcao.home.HomeRoute
+import com.nexusfalcao.panehomedescription.PaneHomeDescriptionRoute
 
-const val HOME_ROUTE = "home_screen"
+const val PANE_HOME_DESCRIPTION_ROUTE = "pane_home_description_screen"
 
-fun NavController.navigateToHome(popUp: Boolean = false) {
+fun NavController.navigateToPaneHomeDescription(popUp: Boolean = false) {
     val destination = currentBackStackEntry?.destination?.route
-    val route = HOME_ROUTE
+    val route = PANE_HOME_DESCRIPTION_ROUTE
 
     if (!destination.isNullOrEmpty() && !destination.equals(route)) {
         this.navigate(route) {
@@ -23,24 +23,22 @@ fun NavController.navigateToHome(popUp: Boolean = false) {
     }
 }
 
-fun NavGraphBuilder.homeScreen(
+fun NavGraphBuilder.paneHomeDescriptionScreen(
     isRequireUpdate: (Context) -> Boolean,
     appStoreUrl: String,
     navigateToNewRecipe: () -> Unit = {},
     navigateToCatalog: () -> Unit = {},
     navigateToAvatar: () -> Unit = {},
-    navigateToRecipeDescription: (String) -> Unit = {},
     navigateToHome: () -> Unit = {},
     signOut: () -> Unit = {},
 ) {
-    composable(HOME_ROUTE) {
-        HomeRoute(
+    composable(PANE_HOME_DESCRIPTION_ROUTE) {
+        PaneHomeDescriptionRoute(
             isRequireUpdate = isRequireUpdate,
             appStoreUrl = appStoreUrl,
             navigateToNewRecipe = navigateToNewRecipe,
-            navigateToAvatar = navigateToAvatar,
             navigateToCatalog = navigateToCatalog,
-            navigateToRecipeDescription = navigateToRecipeDescription,
+            navigateToAvatar = navigateToAvatar,
             navigateToHome = navigateToHome,
             signOut = signOut,
         )

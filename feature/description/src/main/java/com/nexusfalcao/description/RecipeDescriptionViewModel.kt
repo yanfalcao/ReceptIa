@@ -5,34 +5,29 @@ import androidx.lifecycle.viewModelScope
 import com.nexusfalcao.data.repository.RecipeRepository
 import com.nexusfalcao.description.state.RecipeUiState
 import com.nexusfalcao.description.state.ToogleRecipeState
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-@HiltViewModel(assistedFactory = RecipeDescriptionVMFactory::class)
-class RecipeDescriptionViewModel @AssistedInject constructor(
-    @Assisted val recipeId: String,
+@HiltViewModel
+class RecipeDescriptionViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
+    private var refreshPaneList: () -> Unit = {}
+
     private val _toogleRecipeState = MutableStateFlow<ToogleRecipeState>(ToogleRecipeState.DetailsSelected)
     val toogleRecipeState get() = _toogleRecipeState
 
     private val _recipeUiState = MutableStateFlow<RecipeUiState>(RecipeUiState.Loading)
     val recipeUiState: StateFlow<RecipeUiState> = _recipeUiState
 
-    init {
+    fun getRecipe(recipeId: String) {
         viewModelScope.launch {
-            flow<RecipeUiState> {
-                recipeRepository.findRecipe(recipeId)?.let {
-                    emit(RecipeUiState.Success(recipe = it))
-                }
-            }.collect {
-                _recipeUiState.value = it
-            }
+            val recipe = recipeRepository.findRecipe(recipeId) ?: return@launch
+
+            _recipeUiState.value = RecipeUiState.Success(recipe)
         }
     }
 
@@ -45,14 +40,19 @@ class RecipeDescriptionViewModel @AssistedInject constructor(
         }
     }
 
-    fun toogleFavorite() {
+    fun toogleFavorite(recipeId: String) {
         viewModelScope.launch {
             recipeRepository.findRecipe(recipeId)?.let {
                 it.toogleIsFavorite()
                 recipeRepository.updateIsFavorite(recipeId, it.isFavorite)
 
                 _recipeUiState.value = RecipeUiState.Success(recipe = it)
+                refreshPaneList()
             }
         }
+    }
+
+    fun setRefreshPaneList(refreshPaneList: () -> Unit) {
+        this.refreshPaneList = refreshPaneList
     }
 }

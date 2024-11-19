@@ -15,10 +15,10 @@ import com.nexusfalcao.createrecipe.navigation.navigateToCreateRecipe
 import com.nexusfalcao.description.navigation.navigateToRecipeDescription
 import com.nexusfalcao.description.navigation.recipeDescriptionScreen
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
-import com.nexusfalcao.home.navigation.homeScreen
-import com.nexusfalcao.home.navigation.navigateToHome
 import com.nexusfalcao.login.navigation.loginScreen
 import com.nexusfalcao.login.navigation.navigateToLogin
+import com.nexusfalcao.panehomedescription.navigation.navigateToPaneHomeDescription
+import com.nexusfalcao.panehomedescription.navigation.paneHomeDescriptionScreen
 import com.nexusfalcao.receptia.configs.RemoteValues
 import com.nexusfalcao.receptia.utils.UpdateAppUtil
 import com.nexusfalcao.recipecatalog.navigation.navigateToCatalog
@@ -50,21 +50,20 @@ class MainActivity : ComponentActivity() {
                     startDestination = SPLASH_ROUTE,
                 ) {
                     splashScreen(
-                        navigateToHome = navController::navigateToHome,
+                        navigateToHome = navController::navigateToPaneHomeDescription,
                         navigateToLogin = navController::navigateToLogin,
                     )
                     loginScreen(
-                        navigateToHome = navController::navigateToHome,
+                        navigateToHome = navController::navigateToPaneHomeDescription,
                         isNetworkConnected = ReceptIaApplication.instance::isNetworkConnected,
                     )
-                    homeScreen(
+                    paneHomeDescriptionScreen(
                         isRequireUpdate = UpdateAppUtil::requiredUpdate,
                         appStoreUrl = RemoteValues.VALUE_APP_STORE_URL,
-                        navigateToAvatar = navController::navigateToAvatar,
                         navigateToNewRecipe = navController::navigateToCreateRecipe,
                         navigateToCatalog = navController::navigateToCatalog,
-                        navigateToRecipeDescription = navController::navigateToRecipeDescription,
-                        navigateToHome = navController::navigateToHome,
+                        navigateToAvatar = navController::navigateToAvatar,
+                        navigateToHome = navController::navigateToPaneHomeDescription,
                         signOut = onSignOut,
                     )
                     createRecipeScreen(
@@ -79,7 +78,7 @@ class MainActivity : ComponentActivity() {
                     )
                     recipeCatalogScreen(
                         navigateToAvatar = navController::navigateToAvatar,
-                        navigateToHome = navController::navigateToHome,
+                        navigateToHome = navController::navigateToPaneHomeDescription,
                         navigateToNewRecipe = navController::navigateToCreateRecipe,
                         navigateToRecipeDescription = navController::navigateToRecipeDescription,
                         navigateToCatalog = navController::navigateToCatalog,

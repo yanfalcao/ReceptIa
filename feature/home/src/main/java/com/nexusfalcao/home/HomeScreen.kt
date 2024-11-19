@@ -32,50 +32,37 @@ import androidx.window.core.layout.WindowWidthSizeClass
 import com.nexusfalcao.designsystem.ComposableLifecycle
 import com.nexusfalcao.designsystem.extension.scaleTitleLargeBy
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
-import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
 import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.preview.WindowSizePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.CustomUpdateDialog
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
-import com.nexusfalcao.designsystem.widget.navigationDrawer.CustomNavigationScaffold
 import com.nexusfalcao.home.preview.RecipesPreviewParameterProvider
 import com.nexusfalcao.home.state.RecipeFeedUiState
 import com.nexusfalcao.home.widget.Banner
 import com.nexusfalcao.home.widget.LoadingRecipeList
 import com.nexusfalcao.home.widget.RecipeList
 import com.nexusfalcao.model.Recipe
-import com.nexusfalcao.model.User
 
 @Composable
-internal fun HomeRoute(
+fun HomeRoute(
     isRequireUpdate: (Context) -> Boolean,
     appStoreUrl: String,
     navigateToNewRecipe: () -> Unit = {},
-    navigateToCatalog: () -> Unit = {},
-    navigateToAvatar: () -> Unit = {},
     navigateToRecipeDescription: (String) -> Unit = {},
-    navigateToHome: () -> Unit = {},
-    signOut: () -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel(),
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val context = LocalContext.current
     val feedState by viewModel.lastRecipesUiState.collectAsStateWithLifecycle()
-    val user = viewModel.getUser()
 
     HomeScreen(
         feedState = feedState,
         navigateToNewRecipe = navigateToNewRecipe,
-        navigateToAvatar = navigateToAvatar,
-        navigateToCatalog = navigateToCatalog,
         navigateToRecipeDescription = navigateToRecipeDescription,
-        navigateToHome = navigateToHome,
-        signOut = signOut,
         isRequireUpdate = isRequireUpdate(context),
         appStoreUrl = appStoreUrl,
-        user = user,
         windowSizeClass = windowSizeClass,
     )
 
@@ -94,13 +81,8 @@ private fun HomeScreen(
     feedState: RecipeFeedUiState,
     appStoreUrl: String,
     navigateToNewRecipe: () -> Unit = {},
-    navigateToCatalog: () -> Unit = {},
-    navigateToAvatar: () -> Unit = {},
     navigateToRecipeDescription: (String) -> Unit = {},
-    navigateToHome: () -> Unit = {},
-    signOut: () -> Unit = {},
     isRequireUpdate: Boolean,
-    user: User?,
     windowSizeClass: WindowSizeClass,
 ) {
     val context = LocalContext.current
@@ -109,62 +91,45 @@ private fun HomeScreen(
         else -> 0.8f
     }
 
-    CustomNavigationScaffold(
-        toHome = navigateToHome,
-        toNewRecipe = navigateToNewRecipe,
-        toRecipeCatalog = navigateToCatalog,
-        toAvatar = navigateToAvatar,
-        onSignOut = signOut,
-        userName = user?.name,
-        userPhotoId = user?.photoId,
-        windowSizeClass = windowSizeClass,
-    ) { padding ->
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .fillMaxHeight()
-                    .fillMaxWidth(fractionWidth)
-                    .padding(horizontal = 25.dp)
-                    .verticalScroll(rememberScrollState()),
-            ) {
-                Banner(
-                    windowSizeClass = windowSizeClass,
-                    navigateToNewRecipe = navigateToNewRecipe
-                )
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth(fractionWidth)
+            .padding(horizontal = 25.dp)
+            .verticalScroll(rememberScrollState()),
+    ) {
+        Banner(
+            windowSizeClass = windowSizeClass,
+            navigateToNewRecipe = navigateToNewRecipe
+        )
 
-                Text(
-                    text = stringResource(id = R.string.last_recipes_title),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = Typography.scaleTitleLargeBy(windowSizeClass),
-                )
+        Text(
+            text = stringResource(id = R.string.last_recipes_title),
+            color = MaterialTheme.colorScheme.onBackground,
+            style = Typography.scaleTitleLargeBy(windowSizeClass),
+        )
 
-                Spacer(modifier = Modifier.height(25.dp))
+        Spacer(modifier = Modifier.height(25.dp))
 
-                when (feedState) {
-                    RecipeFeedUiState.Loading ->
-                        LoadingRecipeList()
-                    is RecipeFeedUiState.Success -> {
-                        if (feedState.recipes.isNotEmpty()) {
-                            RecipeList(
-                                feedState.recipes,
-                                navigateToDescription = navigateToRecipeDescription,
-                                windowSizeClass = windowSizeClass,
-                            )
-                        } else {
-                            Box(
-                                modifier =
-                                Modifier
-                                    .weight(1.0f)
-                                    .fillMaxSize(),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                EmptyStateWidget()
-                            }
-                        }
+        when (feedState) {
+            RecipeFeedUiState.Loading ->
+                LoadingRecipeList()
+            is RecipeFeedUiState.Success -> {
+                if (feedState.recipes.isNotEmpty()) {
+                    RecipeList(
+                        feedState.recipes,
+                        navigateToDescription = navigateToRecipeDescription,
+                        windowSizeClass = windowSizeClass,
+                    )
+                } else {
+                    Box(
+                        modifier =
+                        Modifier
+                            .weight(1.0f)
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        EmptyStateWidget()
                     }
                 }
             }
@@ -196,7 +161,6 @@ private fun HomePreview(
             feedState = RecipeFeedUiState.Success(recipes = recipes),
             isRequireUpdate = false,
             appStoreUrl = "",
-            user = PreviewParameterData.user,
             windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
@@ -210,7 +174,6 @@ private fun LoadingPreview() {
             feedState = RecipeFeedUiState.Loading,
             isRequireUpdate = false,
             appStoreUrl = "",
-            user = PreviewParameterData.user,
             windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
@@ -225,7 +188,6 @@ private fun EmptyPreview() {
             feedState = RecipeFeedUiState.Success(recipes = listOf()),
             isRequireUpdate = false,
             appStoreUrl = "",
-            user = PreviewParameterData.user,
             windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }

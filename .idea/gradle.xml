@@ -24,6 +24,7 @@
             <option value="$PROJECT_DIR$/feature/description" />
             <option value="$PROJECT_DIR$/feature/home" />
             <option value="$PROJECT_DIR$/feature/login" />
+            <option value="$PROJECT_DIR$/feature/panehomedescription" />
             <option value="$PROJECT_DIR$/feature/recipecatalog" />
             <option value="$PROJECT_DIR$/feature/splash" />
           </set>

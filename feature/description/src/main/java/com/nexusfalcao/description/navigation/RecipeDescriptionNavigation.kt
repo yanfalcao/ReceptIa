@@ -36,7 +36,7 @@ fun NavGraphBuilder.recipeDescriptionScreen(
     ) {
         it.arguments?.getString(RECIPE_ID_KEY)?.let { id ->
             RecipeDescriptionRoute(
-                navController = navController,
+                onBackClick = navController::popBackStack,
                 recipeId = id,
             )
         }

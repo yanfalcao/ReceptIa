@@ -17,9 +17,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import androidx.window.core.layout.WindowWidthSizeClass
 import com.nexusfalcao.description.state.RecipeUiState
 import com.nexusfalcao.description.state.ToogleRecipeState
 import com.nexusfalcao.description.widget.BackButton
@@ -28,6 +27,7 @@ import com.nexusfalcao.description.widget.DetailsBody
 import com.nexusfalcao.description.widget.Header
 import com.nexusfalcao.description.widget.RecipeBody
 import com.nexusfalcao.description.widget.ToogleButton
+import com.nexusfalcao.designsystem.ComposableLifecycle
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.designsystem.preview.UIModeBakgroundPreview
@@ -36,26 +36,34 @@ import com.nexusfalcao.designsystem.preview.WindowSizePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 
 @Composable
-internal fun RecipeDescriptionRoute(
-    navController: NavController,
+fun RecipeDescriptionRoute(
+    onBackClick: () -> Unit,
     recipeId: String,
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
+    viewModel: RecipeDescriptionViewModel = hiltViewModel()
     ) {
-    val viewModel =
-        hiltViewModel<RecipeDescriptionViewModel, RecipeDescriptionVMFactory> { factory ->
-            factory.create(recipeId)
-        }
     val toogleRecipeState by viewModel.toogleRecipeState.collectAsStateWithLifecycle()
     val recipeUiState by viewModel.recipeUiState.collectAsStateWithLifecycle()
 
     RecipeDescriptionScreen(
         toogleState = toogleRecipeState,
         recipeUiState = recipeUiState,
-        onToogleFavorite = viewModel::toogleFavorite,
+        onToogleFavorite = {
+            viewModel.toogleFavorite(recipeId)
+        },
         onSelectToogle = viewModel::selectRecipeToogle,
-        onBackClick = navController::popBackStack,
+        onBackClick = onBackClick,
         windowSizeClass = windowSizeClass,
     )
+
+    ComposableLifecycle { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_RESUME -> {
+                viewModel.getRecipe(recipeId)
+            }
+            else -> {}
+        }
+    }
 }
 
 @Composable
@@ -67,12 +75,6 @@ private fun RecipeDescriptionScreen(
     onBackClick: () -> Unit = {},
     windowSizeClass: WindowSizeClass,
 ) {
-    val fractionSize = when (windowSizeClass.windowWidthSizeClass) {
-        WindowWidthSizeClass.COMPACT -> 1.0f
-        WindowWidthSizeClass.MEDIUM -> 0.8f
-        else -> 0.6f
-    }
-
     ReceptIaTheme {
         Box {
             Background()
@@ -96,27 +98,27 @@ private fun RecipeDescriptionScreen(
                             recipe = recipeUiState.recipe,
                             onToogleFavorite = onToogleFavorite,
                             windowSizeClass = windowSizeClass,
-                            modifier = Modifier.fillMaxWidth(fractionSize)
+                            modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.height(40.dp))
                         ToogleButton(
                             toogleState = toogleState,
                             onSelectToogle = onSelectToogle,
                             windowSizeClass = windowSizeClass,
-                            modifier = Modifier.fillMaxWidth(fractionSize)
+                            modifier = Modifier.fillMaxWidth()
                         )
                         Spacer(modifier = Modifier.height(20.dp))
                         if (toogleState is ToogleRecipeState.DetailsSelected) {
                             DetailsBody(
                                 recipe = recipeUiState.recipe,
                                 windowSizeClass = windowSizeClass,
-                                modifier = Modifier.fillMaxWidth(fractionSize),
+                                modifier = Modifier.fillMaxWidth(),
                             )
                         } else {
                             RecipeBody(
                                 recipe = recipeUiState.recipe,
                                 windowSizeClass = windowSizeClass,
-                                modifier = Modifier.fillMaxWidth(fractionSize),
+                                modifier = Modifier.fillMaxWidth(),
                             )
                         }
                     }

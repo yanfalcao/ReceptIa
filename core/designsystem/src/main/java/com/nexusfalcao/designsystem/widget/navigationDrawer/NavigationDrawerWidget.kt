@@ -47,6 +47,7 @@ fun CustomNavigationScaffold(
     content: @Composable (PaddingValues) -> Unit,
 ) {
     val isWidthExpanded = windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.EXPANDED
+    val isWidthMedium = windowSizeClass.windowWidthSizeClass == WindowWidthSizeClass.MEDIUM
     val drawerContent: @Composable () -> Unit = {
         DrawerBody(
             drawerState = if(isWidthExpanded) null else drawerState,
@@ -60,7 +61,7 @@ fun CustomNavigationScaffold(
         )
     }
 
-    if (isWidthExpanded) {
+    if (isWidthMedium || isWidthExpanded) {
         PermanentNavigationDrawer(
             drawerContent = drawerContent,
         ) {
