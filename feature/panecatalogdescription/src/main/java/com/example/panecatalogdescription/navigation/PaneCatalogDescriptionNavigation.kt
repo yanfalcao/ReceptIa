@@ -1,15 +1,15 @@
-package com.nexusfalcao.recipecatalog.navigation
+package com.example.panecatalogdescription.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.nexusfalcao.recipecatalog.RecipeCatalogRoute
+import com.example.panecatalogdescription.PaneCatalogDescriptionRoute
 
-const val RECIPE_CATALOG_ROUTE = "historic_screen"
+const val PANE_CATALOG_DESCRIPTION_ROUTE = "pane_catalog_description_screen"
 
-fun NavController.navigateToCatalog(popUp: Boolean = false) {
+fun NavController.navigateToPaneCatalogDescription(popUp: Boolean = false) {
     val destination = currentBackStackEntry?.destination?.route
-    val route = RECIPE_CATALOG_ROUTE
+    val route = PANE_CATALOG_DESCRIPTION_ROUTE
 
     if (!destination.isNullOrEmpty() && !destination.equals(route)) {
         this.navigate(route) {
@@ -22,21 +22,19 @@ fun NavController.navigateToCatalog(popUp: Boolean = false) {
     }
 }
 
-fun NavGraphBuilder.recipeCatalogScreen(
+fun NavGraphBuilder.paneCatalogDescriptionScreen(
+    navigateToNewRecipe: () -> Unit = {},
+    navigateToCatalog: () -> Unit = {},
     navigateToAvatar: () -> Unit = {},
     navigateToHome: () -> Unit = {},
-    navigateToNewRecipe: () -> Unit = {},
-    navigateToRecipeDescription: (String) -> Unit = {},
-    navigateToCatalog: () -> Unit = {},
     signOut: () -> Unit = {},
 ) {
-    composable(RECIPE_CATALOG_ROUTE) {
-        RecipeCatalogRoute(
+    composable(PANE_CATALOG_DESCRIPTION_ROUTE) {
+        PaneCatalogDescriptionRoute(
+            navigateToNewRecipe = navigateToNewRecipe,
+            navigateToCatalog = navigateToCatalog,
             navigateToAvatar = navigateToAvatar,
             navigateToHome = navigateToHome,
-            navigateToNewRecipe = navigateToNewRecipe,
-            navigateToRecipeDescription = navigateToRecipeDescription,
-            navigateToCatalog = navigateToCatalog,
             signOut = signOut,
         )
     }

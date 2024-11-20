@@ -7,6 +7,8 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.example.panecatalogdescription.navigation.navigateToPaneCatalogDescription
+import com.example.panecatalogdescription.navigation.paneCatalogDescriptionScreen
 import com.nexusfalcao.authentication.GoogleAuthenticator
 import com.nexusfalcao.avatar.navigation.avatarScreen
 import com.nexusfalcao.avatar.navigation.navigateToAvatar
@@ -21,8 +23,6 @@ import com.nexusfalcao.panehomedescription.navigation.navigateToPaneHomeDescript
 import com.nexusfalcao.panehomedescription.navigation.paneHomeDescriptionScreen
 import com.nexusfalcao.receptia.configs.RemoteValues
 import com.nexusfalcao.receptia.utils.UpdateAppUtil
-import com.nexusfalcao.recipecatalog.navigation.navigateToCatalog
-import com.nexusfalcao.recipecatalog.navigation.recipeCatalogScreen
 import com.nexusfalcao.splash.navigation.SPLASH_ROUTE
 import com.nexusfalcao.splash.navigation.splashScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
                         isRequireUpdate = UpdateAppUtil::requiredUpdate,
                         appStoreUrl = RemoteValues.VALUE_APP_STORE_URL,
                         navigateToNewRecipe = navController::navigateToCreateRecipe,
-                        navigateToCatalog = navController::navigateToCatalog,
+                        navigateToCatalog = navController::navigateToPaneCatalogDescription,
                         navigateToAvatar = navController::navigateToAvatar,
                         navigateToHome = navController::navigateToPaneHomeDescription,
                         signOut = onSignOut,
@@ -76,12 +76,11 @@ class MainActivity : ComponentActivity() {
                     recipeDescriptionScreen(
                         navController = navController,
                     )
-                    recipeCatalogScreen(
+                    paneCatalogDescriptionScreen(
                         navigateToAvatar = navController::navigateToAvatar,
                         navigateToHome = navController::navigateToPaneHomeDescription,
                         navigateToNewRecipe = navController::navigateToCreateRecipe,
-                        navigateToRecipeDescription = navController::navigateToRecipeDescription,
-                        navigateToCatalog = navController::navigateToCatalog,
+                        navigateToCatalog = navController::navigateToPaneCatalogDescription,
                         signOut = onSignOut,
                     )
                     avatarScreen(

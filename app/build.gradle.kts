@@ -98,6 +98,7 @@ dependencies {
     implementation(project(":feature:avatar"))
     implementation(project(":feature:description"))
     implementation(project(":feature:panehomedescription"))
+    implementation(project(":feature:panecatalogdescription"))
     implementation(project(":feature:createrecipe"))
     implementation(project(":feature:login"))
     implementation(project(":feature:splash"))

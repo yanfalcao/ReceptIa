@@ -51,16 +51,10 @@ import com.nexusfalcao.recipecatalog.widget.GridList
 import com.nexusfalcao.recipecatalog.widget.LoadingRecipeList
 import com.nexusfalcao.recipecatalog.widget.SearchBar
 import com.nexusfalcao.recipecatalog.widget.Tag
-import com.nexusfalcao.designsystem.preview.PreviewParameterData as UiPreviewParameterData
 
 @Composable
-internal fun RecipeCatalogRoute(
-    navigateToAvatar: () -> Unit = {},
-    navigateToHome: () -> Unit = {},
-    navigateToNewRecipe: () -> Unit = {},
+fun RecipeCatalogRoute(
     navigateToRecipeDescription: (String) -> Unit = {},
-    navigateToCatalog: () -> Unit = {},
-    signOut: () -> Unit = {},
     viewModel: CatalogViewModel = hiltViewModel(),
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
@@ -77,13 +71,7 @@ internal fun RecipeCatalogRoute(
         updateAmountServesFilter = viewModel::updateAmountServesFilter,
         onApplyFilter = viewModel::applyFilter,
         onResetFilter = viewModel::resetFilter,
-        user = user,
-        navigateToAvatar = navigateToAvatar,
-        navigateToHome = navigateToHome,
-        navigateToNewRecipe = navigateToNewRecipe,
         navigateToRecipeDescription = navigateToRecipeDescription,
-        navigateToCatalog = navigateToCatalog,
-        signOut = signOut,
         windowSizeClass = windowSizeClass,
     )
 
@@ -107,13 +95,7 @@ private fun CatalogScreen(
     updateAmountServesFilter: (AmountServesFilterEnum) -> Unit = {},
     onApplyFilter: () -> Unit = {},
     onResetFilter: () -> Unit = {},
-    user: User?,
-    navigateToAvatar: () -> Unit = {},
-    navigateToHome: () -> Unit = {},
-    navigateToNewRecipe: () -> Unit = {},
     navigateToRecipeDescription: (String) -> Unit = {},
-    navigateToCatalog: () -> Unit = {},
-    signOut: () -> Unit = {},
     windowSizeClass: WindowSizeClass,
 ) {
     var showSheet by remember { mutableStateOf(false) }
@@ -155,85 +137,69 @@ private fun CatalogScreen(
         )
     }
 
-    CustomNavigationScaffold(
-        toHome = navigateToHome,
-        toNewRecipe = navigateToNewRecipe,
-        toRecipeCatalog = navigateToCatalog,
-        toAvatar = navigateToAvatar,
-        onSignOut = signOut,
-        user = user,
-        windowSizeClass = windowSizeClass,
-    ) { padding ->
-        Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(padding)
-                    .fillMaxHeight()
-                    .fillMaxWidth(fraction = faction)
-                    .padding(start = 25.dp, end = 25.dp, top = 20.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp),
+    Column(
+        modifier = Modifier
+            .fillMaxHeight()
+            .fillMaxWidth(fraction = faction)
+            .padding(start = 25.dp, end = 25.dp, top = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+    ) {
+        Row {
+            SearchBar(
+                modifier =
+                Modifier
+                    .weight(1.0f)
+                    .height(searchHeight),
+                filterUiState = filterUiState,
+                updateSearchFilter = updateSearchFilter,
+            )
+
+            Spacer(modifier = Modifier.width(15.dp))
+
+            FilterButton(
+                modifier = Modifier.size(filterButtonSize),
+                hasAnyFilterSelected = filterUiState.hasAnyFilterSelected(),
             ) {
-                Row {
-                    SearchBar(
+                showSheet = true
+            }
+        }
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            for (tag in TagFilterEnum.entries) {
+                val tagText =
+                    when (tag) {
+                        TagFilterEnum.ALL -> stringResource(id = R.string.all)
+                        TagFilterEnum.FAVORITES -> stringResource(id = R.string.favorites)
+                    }
+
+                Tag(
+                    text = tagText,
+                    isSelected = filterUiState.isSelected(tag),
+                    updateTagFilter = { updateTagFilter(tag) },
+                )
+            }
+        }
+
+        when (catalogState) {
+            CatalogUiState.Loading -> LoadingRecipeList()
+            is CatalogUiState.Success -> {
+                if (catalogState.recipes.isNotEmpty()) {
+                    GridList(
+                        recipes = catalogState.recipes,
+                        navigateToDescription = navigateToRecipeDescription,
+                        windowSizeClass = windowSizeClass,
+                    )
+                } else {
+                    Box(
                         modifier =
                         Modifier
                             .weight(1.0f)
-                            .height(searchHeight),
-                        filterUiState = filterUiState,
-                        updateSearchFilter = updateSearchFilter,
-                    )
-
-                    Spacer(modifier = Modifier.width(15.dp))
-
-                    FilterButton(
-                        modifier = Modifier.size(filterButtonSize),
-                        hasAnyFilterSelected = filterUiState.hasAnyFilterSelected(),
+                            .fillMaxSize(),
+                        contentAlignment = Alignment.Center,
                     ) {
-                        showSheet = true
-                    }
-                }
-
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
-                ) {
-                    for (tag in TagFilterEnum.entries) {
-                        val tagText =
-                            when (tag) {
-                                TagFilterEnum.ALL -> stringResource(id = R.string.all)
-                                TagFilterEnum.FAVORITES -> stringResource(id = R.string.favorites)
-                            }
-
-                        Tag(
-                            text = tagText,
-                            isSelected = filterUiState.isSelected(tag),
-                            updateTagFilter = { updateTagFilter(tag) },
-                        )
-                    }
-                }
-
-                when (catalogState) {
-                    CatalogUiState.Loading -> LoadingRecipeList()
-                    is CatalogUiState.Success -> {
-                        if (catalogState.recipes.isNotEmpty()) {
-                            GridList(
-                                recipes = catalogState.recipes,
-                                navigateToDescription = navigateToRecipeDescription,
-                                windowSizeClass = windowSizeClass,
-                            )
-                        } else {
-                            Box(
-                                modifier =
-                                Modifier
-                                    .weight(1.0f)
-                                    .fillMaxSize(),
-                                contentAlignment = Alignment.Center,
-                            ) {
-                                EmptyStateWidget()
-                            }
-                        }
+                        EmptyStateWidget()
                     }
                 }
             }
@@ -254,12 +220,7 @@ private fun HistoricPreview() {
                     tag = TagFilterEnum.FAVORITES,
                     difficult = RecipeDifficult.Easy,
                 ),
-            navigateToAvatar = {},
-            navigateToHome = {},
-            navigateToNewRecipe = {},
             navigateToRecipeDescription = {},
-            navigateToCatalog = {},
-            user = UiPreviewParameterData.user,
             windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
@@ -272,12 +233,7 @@ private fun LoadingPreview() {
         CatalogScreen(
             catalogState = CatalogUiState.Loading,
             filterUiState = FilterState(TagFilterEnum.ALL),
-            navigateToAvatar = {},
-            navigateToHome = {},
-            navigateToNewRecipe = {},
             navigateToRecipeDescription = {},
-            navigateToCatalog = {},
-            user = UiPreviewParameterData.user,
             windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
@@ -290,12 +246,7 @@ private fun EmptyPreview() {
         CatalogScreen(
             catalogState = CatalogUiState.Success(listOf()),
             filterUiState = FilterState(TagFilterEnum.ALL),
-            navigateToAvatar = {},
-            navigateToHome = {},
-            navigateToNewRecipe = {},
             navigateToRecipeDescription = {},
-            navigateToCatalog = {},
-            user = UiPreviewParameterData.user,
             windowSizeClass = UtilPreview.getPreviewWindowSizeClass(),
         )
     }
