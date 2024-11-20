@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="dismiss">Close</string>
+    <string name="update">Update</string>
+    <string name="empty_title">There are not recipes yet!</string>
+    <string name="empty_description">There are not recipes yet, you create recipes to start</string>
+    <string name="empty_pane_title">Area reserved for your recipe</string>
+    <string name="empty_pane_description">Click on a recipe and start cooking</string>
+
+    <!--    drawer-->
+    <string name="drawer_home">Home</string>
+    <string name="drawer_new_recipe">New recipe</string>
+    <string name="drawer_recepies_store">Catalog</string>
+    <string name="drawer_profile">Profile</string>
+    <string name="drawer_logout">Logout</string>
+    <string name="drawer_settings">Settings</string>
+</resources>

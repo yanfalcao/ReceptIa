@@ -2,6 +2,7 @@ package com.nexusfalcao.panehomedescription
 
 import android.content.Context
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
@@ -15,11 +16,13 @@ import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.description.RecipeDescriptionRoute
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.nexusfalcao.description.RecipeDescriptionViewModel
+import com.nexusfalcao.designsystem.widget.EmptyPaneWidget
 import com.nexusfalcao.designsystem.widget.navigationDrawer.CustomNavigationScaffold
 import com.nexusfalcao.home.HomeRoute
 import com.nexusfalcao.home.HomeViewModel
@@ -94,17 +97,28 @@ private fun ThreePaneScaffoldScope.RecipeDescriptionPane(
     recipeDescriptionVM: RecipeDescriptionViewModel,
     updatePaneList: () -> Unit,
 ) {
-    AnimatedPane {
-        navigator.currentDestination?.content?.let {
-            recipeDescriptionVM.getRecipe(it.recipeId)
-            recipeDescriptionVM.setRefreshPaneList(updatePaneList)
+    val content = navigator.currentDestination?.content
 
-            RecipeDescriptionRoute(
-                onBackClick = navigator::navigateBack,
-                recipeId = it.recipeId,
-                windowSizeClass = windowSizeClass,
-                viewModel = recipeDescriptionVM,
-            )
+    AnimatedPane {
+        if(content != null) {
+            navigator.currentDestination?.content?.let {
+                recipeDescriptionVM.getRecipe(it.recipeId)
+                recipeDescriptionVM.setRefreshPaneList(updatePaneList)
+
+                RecipeDescriptionRoute(
+                    onBackClick = navigator::navigateBack,
+                    recipeId = it.recipeId,
+                    windowSizeClass = windowSizeClass,
+                    viewModel = recipeDescriptionVM,
+                )
+            }
+        } else {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center,
+            ) {
+                EmptyPaneWidget()
+            }
         }
     }
 }
