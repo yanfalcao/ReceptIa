@@ -46,6 +46,10 @@ The app follows the practices and uses the official Android app [Now In Android]
 
 :heavy_check_mark: Favorite your recipes.
 
+## Responsive Layout
+
+The **Receptia** app follows the Google's official recommendations, utilizing the latest tools such as [Window Size Class](https://developer.android.com/develop/ui/compose/layouts/adaptive/use-window-size-classes) and [List Panes](https://developer.android.com/develop/ui/compose/layouts/adaptive/list-detail?hl=pt-br) to ensure an optimized and responsive design. For a detailed explanation of the responsive layout, please refer to the corresponding section in the [README](docs/ResponsiveLayout.md).
+
 ## Tools
 
 <a href="https://developer.android.com/?hl=pt-br/" target="_blank"> 
