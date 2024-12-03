@@ -50,6 +50,10 @@ The app follows the practices and uses the official Android app [Now In Android]
 
 The **Receptia** app follows the Google's official recommendations, utilizing the latest tools such as [Window Size Class](https://developer.android.com/develop/ui/compose/layouts/adaptive/use-window-size-classes) and [List Panes](https://developer.android.com/develop/ui/compose/layouts/adaptive/list-detail?hl=pt-br) to ensure an optimized and responsive design. For a detailed explanation of the responsive layout, please refer to the corresponding section in the [README](docs/ResponsiveLayout.md).
 
+## Accessibility
+
+The Receptia app is designed with accessibility in mind, ensuring an inclusive experience for all users. It incorporates features such as high-contrast color schemes and scalable text for users with visual impairments. Additionally, intuitive navigation and touch targets are optimized for ease of use. For a detailed explanation of the accessibility, please refer to the corresponding section in the [README](docs/Accessibility.md). 
+
 ## Tools
 
 <a href="https://developer.android.com/?hl=pt-br/" target="_blank"> 
