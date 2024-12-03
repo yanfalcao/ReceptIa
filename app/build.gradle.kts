@@ -3,16 +3,17 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.dagger.hilt.android)
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("com.google.devtools.ksp")
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
     namespace = "com.nexusfalcao.receptia"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.nexusfalcao.receptia"
@@ -130,7 +131,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.androidx.startup)
     implementation(libs.firebase.config)
@@ -148,8 +149,4 @@ dependencies {
     implementation(libs.play.services.auth)
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
-}
-
-kapt {
-    correctErrorTypes = true
 }

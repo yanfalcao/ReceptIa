@@ -3,11 +3,10 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.dagger.hilt.android)
     id("dagger.hilt.android.plugin")
     id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -48,7 +47,7 @@ dependencies {
     implementation(project(":core:model"))
 
     implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)

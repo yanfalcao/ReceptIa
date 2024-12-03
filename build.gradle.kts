@@ -1,8 +1,11 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 buildscript {
     dependencies {
-        classpath("com.google.gms:google-services:4.4.0")
-        classpath("com.android.tools.build:gradle:8.7.2")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.9.9")
+        //noinspection UseTomlInstead
+        classpath("com.google.gms:google-services:4.4.2")
+        classpath("com.android.tools.build:gradle:8.7.3")
+        classpath("com.google.firebase:firebase-crashlytics-gradle:3.0.2")
     }
 } // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
@@ -11,11 +14,12 @@ plugins {
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.dagger.hilt.android) apply false
     alias(libs.plugins.kotlin.jvm) apply false
-    alias(libs.plugins.kotlin.kapt) apply false
+    alias(libs.plugins.kotlin.compose) apply false
+    alias(libs.plugins.ksp) apply false
 }
 
 allprojects {
     tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
-        kotlinOptions.jvmTarget = "17"
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
     }
 }

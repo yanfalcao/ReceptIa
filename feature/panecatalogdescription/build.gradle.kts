@@ -1,8 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -48,15 +49,15 @@ dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
     implementation(libs.android.material)
-    implementation(libs.androidx.navigation.runtime.ktx)
-    implementation(libs.navigation.compose)
+    implementation(libs.androidx.navigation.runtime)
+    implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.window.core.android)
     implementation(libs.androidx.adaptive.android)
     implementation(libs.androidx.adaptive.navigation.android)
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.androidx.compose.ui.material3)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(project(":core:model"))
     implementation(project(":core:data"))
     testImplementation(libs.junit)
