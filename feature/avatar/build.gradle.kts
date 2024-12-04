@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.nexusfalcao.avatar"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 28
@@ -56,6 +56,7 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     implementation(libs.androidx.adaptive.android)
+    implementation(libs.androidx.ui.test.junit4.android)
     ksp(libs.hilt.compiler)
 
     implementation(libs.androidx.core)
@@ -65,4 +66,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)
+    androidTestImplementation(libs.compose.ui.test.junit4)
+
+    debugImplementation(libs.compose.ui.test.manifest)
+
+    testImplementation(libs.robolectric)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.coroutines.test)
 }

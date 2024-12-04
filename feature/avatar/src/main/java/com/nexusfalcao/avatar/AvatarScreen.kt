@@ -43,12 +43,12 @@ internal fun AvatarRoute(
 }
 
 @Composable
-private fun AvatarScreen(
+fun AvatarScreen(
     imageUiState: ImageUiState,
     selectImage: (Int) -> Unit,
     saveImage: () -> Unit,
     onBackClick: () -> Unit,
-    windowSizeClass: WindowSizeClass,
+    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val isSelected = imageUiState is ImageUiState.Selected
 
