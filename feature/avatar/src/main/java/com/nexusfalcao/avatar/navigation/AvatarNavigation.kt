@@ -24,7 +24,7 @@ fun NavController.navigateToAvatar(popUp: Boolean = false) {
 fun NavGraphBuilder.avatarScreen(navController: NavController) {
     composable(AVATAR_ROUTE) {
         com.nexusfalcao.avatar.AvatarRoute(
-            navController = navController,
+            onBackClick = navController::popBackStack
         )
     }
 }

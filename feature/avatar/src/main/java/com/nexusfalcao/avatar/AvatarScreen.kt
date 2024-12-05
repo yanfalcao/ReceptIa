@@ -13,7 +13,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
 import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.avatar.state.ImageUiState
 import com.nexusfalcao.avatar.widget.GridListAvatar
@@ -27,7 +26,7 @@ import com.nexusfalcao.designsystem.widget.TopBarWidget
 
 @Composable
 internal fun AvatarRoute(
-    navController: NavController,
+    onBackClick: () -> Unit,
     viewModel: AvatarViewModel = hiltViewModel(),
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
@@ -37,7 +36,7 @@ internal fun AvatarRoute(
         imageUiState = imageUiState,
         selectImage = viewModel::selectImage,
         saveImage = viewModel::saveImage,
-        onBackClick = navController::popBackStack,
+        onBackClick = onBackClick,
         windowSizeClass = windowSizeClass,
     )
 }
