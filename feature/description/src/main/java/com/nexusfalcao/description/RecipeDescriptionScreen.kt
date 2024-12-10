@@ -67,7 +67,7 @@ fun RecipeDescriptionRoute(
 }
 
 @Composable
-private fun RecipeDescriptionScreen(
+fun RecipeDescriptionScreen(
     toogleState: ToogleRecipeState,
     recipeUiState: RecipeUiState,
     onToogleFavorite: () -> Unit = {},

@@ -22,6 +22,9 @@
       <SelectionState runConfigName="showsFieldError_whenTriesCreateRecipeWithUnfilledFields()">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="RecipeDescriptionScreenTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>
