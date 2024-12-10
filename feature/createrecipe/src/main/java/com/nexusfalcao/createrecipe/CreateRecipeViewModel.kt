@@ -26,6 +26,7 @@ class CreateRecipeViewModel
     @Inject
     constructor(
         private val recipeRepository: RecipeRepository,
+        private val crashlytics: FirebaseCrashlytics = FirebaseCrashlytics.getInstance(),
     ) : ViewModel() {
         private val CHAR_LIMIT = 750
 
@@ -39,8 +40,6 @@ class CreateRecipeViewModel
 
         private val _errorUiState = MutableStateFlow<ErrorUiState>(ErrorUiState.None)
         val errorUiState get() = _errorUiState
-
-        val crashlytics = FirebaseCrashlytics.getInstance()
 
         val checkFieldUiState =
             combine(
@@ -95,13 +94,12 @@ class CreateRecipeViewModel
         ) {
             viewModelScope.launch {
                 val fieldsUiStateCopy = _fieldsUiState.value.copy()
+                fieldsUiStateCopy.addField(recipeFieldState, text)
 
                 if (recipeFieldState is RecipeFieldState.MEAL) {
-                    fieldsUiStateCopy.addField(recipeFieldState, text)
                     _fieldsUiState.value = fieldsUiStateCopy
                 } else {
                     if (!isCharLimitReached(fieldsUiStateCopy) && text.isNotEmpty() && text.isNotBlank()) {
-                        fieldsUiStateCopy.addField(recipeFieldState, text)
                         _fieldsUiState.value = fieldsUiStateCopy
                     } else {
                         changeErrorUiState(fieldsUiStateCopy)

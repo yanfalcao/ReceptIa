@@ -76,7 +76,7 @@ internal fun CreateRecipeRoute(
 }
 
 @Composable
-private fun CreateRecipeScreen(
+fun CreateRecipeScreen(
     fieldsUiState: FieldsUiState,
     checkFieldUiState: CheckFieldUiState,
     createRecipeUiState: CreateRecipeUiState,
@@ -89,7 +89,7 @@ private fun CreateRecipeScreen(
     isNetworkConnected: () -> Boolean,
     onBackClick: () -> Unit,
     onNavigateToRecipe: (String) -> Unit,
-    windowSizeClass: WindowSizeClass,
+    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
     val snackbarHostState = remember { SnackbarHostState() }
