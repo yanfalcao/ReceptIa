@@ -77,13 +77,13 @@ fun HomeRoute(
 }
 
 @Composable
-private fun HomeScreen(
+fun HomeScreen(
     feedState: RecipeFeedUiState,
     appStoreUrl: String,
     navigateToNewRecipe: () -> Unit = {},
     navigateToRecipeDescription: (String) -> Unit = {},
     isRequireUpdate: Boolean,
-    windowSizeClass: WindowSizeClass,
+    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val context = LocalContext.current
     val fractionWidth = when(windowSizeClass.windowWidthSizeClass) {
