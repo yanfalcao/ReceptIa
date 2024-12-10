@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.nexusfalcao.login"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 28
@@ -34,6 +34,12 @@ android {
     }
     kotlinOptions {
         jvmTarget = "17"
+    }
+    packaging{
+        resources {
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
+        }
     }
 }
 
@@ -62,7 +68,16 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.android.material)
 
-    testImplementation(libs.junit)
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    androidTestImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
+
+    debugImplementation(libs.compose.ui.test.manifest)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
 }

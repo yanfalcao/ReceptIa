@@ -66,7 +66,7 @@ internal fun LoginRoute(
 }
 
 @Composable
-private fun LoginScreen(
+fun LoginScreen(
     loginUiState: LoginUiState,
     googleAuthenticator: GoogleAuthenticationService,
     processSignInGoogle: (Intent) -> Unit = {},
@@ -74,7 +74,7 @@ private fun LoginScreen(
     showSignInError: () -> Unit = {},
     navigateToHome: (Boolean) -> Unit = {},
     isNetworkConnected: () -> Boolean,
-    windowSizeClass: WindowSizeClass,
+    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val lifecycleScope = LocalLifecycleOwner.current.lifecycleScope
     val snackbarHostState = remember { SnackbarHostState() }
