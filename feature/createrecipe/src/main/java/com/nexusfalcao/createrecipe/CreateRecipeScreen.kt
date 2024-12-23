@@ -24,6 +24,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.window.core.layout.WindowSizeClass
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.nexusfalcao.createrecipe.preview.PreviewParameterData
 import com.nexusfalcao.createrecipe.state.CheckFieldUiState
 import com.nexusfalcao.createrecipe.state.CreateRecipeUiState
@@ -50,7 +51,11 @@ internal fun CreateRecipeRoute(
     onNavigateToRecipeDescription: (String) -> Unit,
     popBackStack: () -> Unit,
     isNetworkConnected: () -> Boolean,
-    viewModel: CreateRecipeViewModel = hiltViewModel(),
+    viewModel: CreateRecipeViewModel = hiltViewModel<CreateRecipeViewModel, CreateRecipeViewModel.Factory>(
+        creationCallback = { factory ->
+            factory.create(FirebaseCrashlytics.getInstance())
+        }
+    ),
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
     val fieldsUiState by viewModel.fieldsUiState.collectAsStateWithLifecycle()
@@ -144,10 +149,10 @@ fun CreateRecipeScreen(
         ) { padding ->
             Column(
                 modifier =
-                    Modifier
-                        .padding(padding)
-                        .fillMaxSize()
-                        .padding(start = 25.dp, end = 25.dp, top = 20.dp),
+                Modifier
+                    .padding(padding)
+                    .fillMaxSize()
+                    .padding(start = 25.dp, end = 25.dp, top = 20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Box(
@@ -166,9 +171,9 @@ fun CreateRecipeScreen(
                     windowSizeClass = windowSizeClass,
                     createRecipe = onContinueClick,
                     modifier =
-                        Modifier
-                            .padding(top = 20.dp, bottom = 20.dp)
-                            .align(Alignment.CenterHorizontally),
+                    Modifier
+                        .padding(top = 20.dp, bottom = 20.dp)
+                        .align(Alignment.CenterHorizontally),
                 )
             }
         }

@@ -79,7 +79,7 @@ class CatalogViewModel @Inject constructor(
             val state = _filterState.value
             state.difficult = difficult
 
-            _filterState.value = state
+            _filterState.value = state.copy()
         }
     }
 
@@ -88,7 +88,7 @@ class CatalogViewModel @Inject constructor(
             val state = _filterState.value
             state.amountPeopleServes = amount
 
-            _filterState.value = state
+            _filterState.value = state.copy()
         }
     }
 

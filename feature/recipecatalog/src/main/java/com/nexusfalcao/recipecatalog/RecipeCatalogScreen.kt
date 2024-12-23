@@ -37,8 +37,6 @@ import com.nexusfalcao.designsystem.preview.UtilPreview
 import com.nexusfalcao.designsystem.preview.WindowSizePreview
 import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.EmptyStateWidget
-import com.nexusfalcao.designsystem.widget.navigationDrawer.CustomNavigationScaffold
-import com.nexusfalcao.model.User
 import com.nexusfalcao.model.state.RecipeDifficult
 import com.nexusfalcao.recipecatalog.preview.PreviewParameterData
 import com.nexusfalcao.recipecatalog.state.AmountServesFilterEnum
@@ -86,7 +84,7 @@ fun RecipeCatalogRoute(
 }
 
 @Composable
-private fun CatalogScreen(
+fun CatalogScreen(
     catalogState: CatalogUiState,
     filterUiState: FilterState,
     updateTagFilter: (TagFilterEnum) -> Unit = {},

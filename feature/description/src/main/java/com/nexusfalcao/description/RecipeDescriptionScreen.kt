@@ -41,7 +41,7 @@ fun RecipeDescriptionRoute(
     recipeId: String,
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
     viewModel: RecipeDescriptionViewModel = hiltViewModel()
-    ) {
+) {
     val toogleRecipeState by viewModel.toogleRecipeState.collectAsStateWithLifecycle()
     val recipeUiState by viewModel.recipeUiState.collectAsStateWithLifecycle()
 

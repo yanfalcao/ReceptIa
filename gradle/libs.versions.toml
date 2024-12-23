@@ -49,6 +49,8 @@ material3AdaptiveNavigationSuiteAndroid = "1.3.1"
 windowCoreAndroid = "1.3.0"
 adaptiveNavigationAndroid = "1.0.0"
 uiTestJunit4Android = "1.7.5"
+uiTestJunit4AndroidVersion = "1.7.6"
+espressoDevice = "1.0.1"
 
 [libraries]
 androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "lifecycle" }
@@ -70,7 +72,7 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-startup = { module = "androidx.startup:startup-runtime", version.ref = "startup" }
 
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
-androidx-navigation-compose = { module = "andFroidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 androidx-core = { module = "androidx.core:core-ktx", version.ref = "core" }
 androidx-core-test = { module = "androidx.test:core-ktx", version.ref = "coreTest" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "appcompat" }
@@ -128,6 +130,8 @@ androidx-material3-adaptive-navigation-suite-android = { group = "androidx.compo
 androidx-window-core-android = { group = "androidx.window", name = "window-core-android", version.ref = "windowCoreAndroid" }
 androidx-adaptive-navigation-android = { group = "androidx.compose.material3.adaptive", name = "adaptive-navigation-android", version.ref = "adaptiveNavigationAndroid" }
 androidx-ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "uiTestJunit4Android" }
+ui-test-junit4-android = { group = "androidx.compose.ui", name = "ui-test-junit4-android", version.ref = "uiTestJunit4AndroidVersion" }
+androidx-espresso-device = { group = "androidx.test.espresso", name = "espresso-device", version.ref = "espressoDevice" }
 
 [plugins]
 

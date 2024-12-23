@@ -11,6 +11,9 @@ import com.nexusfalcao.createrecipe.state.RadioUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
 import com.nexusfalcao.data.repository.RecipeRepository
 import com.nexusfalcao.model.RecipePreference
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,16 +21,19 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.util.Locale
-import javax.inject.Inject
 import kotlin.Exception
 
-@HiltViewModel
+@HiltViewModel(assistedFactory = CreateRecipeViewModel.Factory::class)
 class CreateRecipeViewModel
-    @Inject
+    @AssistedInject
     constructor(
         private val recipeRepository: RecipeRepository,
-        private val crashlytics: FirebaseCrashlytics = FirebaseCrashlytics.getInstance(),
+        @Assisted private val crashlytics: FirebaseCrashlytics,
     ) : ViewModel() {
+        @AssistedFactory interface Factory {
+            fun create(crashlytics: FirebaseCrashlytics): CreateRecipeViewModel
+        }
+
         private val CHAR_LIMIT = 750
 
         private val _hasCriationTries = MutableStateFlow(false)
