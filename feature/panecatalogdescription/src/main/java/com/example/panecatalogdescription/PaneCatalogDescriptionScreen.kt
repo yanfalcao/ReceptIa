@@ -72,12 +72,12 @@ fun PaneCatalogDescriptionRoute(
     val detailPaneState = DetailPaneState(
         toogleState = toogleRecipeState,
         recipeUiState = recipeUiState,
-        onToogleFavorite = recipeDescriptionVM::toogleFavorite,
+        onToogleFavorite = { recipeId ->
+            recipeDescriptionVM.toogleFavorite(recipeId)
+            catalogVM.updateRecipeHistoric()
+        },
         onSelectToogle = recipeDescriptionVM::selectRecipeToogle,
-        refreshPane = { recipeId: String ->
-            recipeDescriptionVM.getRecipe(recipeId)
-            recipeDescriptionVM.setRefreshPaneList(catalogVM::updateRecipeHistoric)
-        }
+        refreshPane = recipeDescriptionVM::getRecipe
     )
     val navigationState = NavigationState(
         navigateToNewRecipe = navigateToNewRecipe,
@@ -174,6 +174,7 @@ private fun ThreePaneScaffoldScope.RecipeDescriptionPane(
                 onToogleFavorite = {
                     detailPaneState.onToogleFavorite(content.recipeId)
                 },
+                onSelectToogle = detailPaneState.onSelectToogle,
                 onBackClick = navigator::navigateBack,
                 windowSizeClass = windowSizeClass,
             )

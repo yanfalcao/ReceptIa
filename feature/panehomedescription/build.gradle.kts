@@ -8,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.nexusfalcao.panehomedescription"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         minSdk = 28
@@ -39,12 +39,25 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    packaging{
+        resources {
+            merges += "META-INF/LICENSE.md"
+            merges += "META-INF/LICENSE-notice.md"
+        }
+    }
+    testOptions {
+        emulatorControl {
+            enable = true
+        }
+    }
 }
 
 dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:description"))
     implementation(project(":core:designsystem"))
+    implementation(project(":core:model"))
+    implementation(project(":core:data"))
 
     implementation(libs.androidx.core)
     implementation(libs.androidx.appcompat)
@@ -54,13 +67,24 @@ dependencies {
     implementation(libs.androidx.window.core.android)
     implementation(libs.androidx.adaptive.android)
     implementation(libs.androidx.adaptive.navigation.android)
+    implementation(libs.androidx.compose.ui.material3)
+
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
-    implementation(libs.androidx.compose.ui.material3)
+    implementation(libs.androidx.espresso.device)
+
     ksp(libs.hilt.compiler)
-    implementation(project(":core:model"))
-    implementation(project(":core:data"))
-    testImplementation(libs.junit)
+
     androidTestImplementation(libs.junit.ext)
     androidTestImplementation(libs.espresso)
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    androidTestImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
+
+    debugImplementation(libs.compose.ui.test.manifest)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.robolectric)
+    testImplementation(libs.mockk)
+    testImplementation(libs.coroutines.test)
 }

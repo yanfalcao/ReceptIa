@@ -8,6 +8,7 @@ import com.nexusfalcao.description.state.ToogleRecipeState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,8 +16,6 @@ import javax.inject.Inject
 class RecipeDescriptionViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
-    private var refreshPaneList: () -> Unit = {}
-
     private val _toogleRecipeState = MutableStateFlow<ToogleRecipeState>(ToogleRecipeState.DetailsSelected)
     val toogleRecipeState get() = _toogleRecipeState
 
@@ -47,12 +46,7 @@ class RecipeDescriptionViewModel @Inject constructor(
                 recipeRepository.updateIsFavorite(recipeId, it.isFavorite)
 
                 _recipeUiState.value = RecipeUiState.Success(recipe = it)
-                refreshPaneList()
             }
         }
-    }
-
-    fun setRefreshPaneList(refreshPaneList: () -> Unit) {
-        this.refreshPaneList = refreshPaneList
     }
 }

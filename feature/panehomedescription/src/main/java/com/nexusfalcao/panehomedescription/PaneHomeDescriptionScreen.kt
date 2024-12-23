@@ -18,16 +18,30 @@ import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaf
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.window.core.layout.WindowSizeClass
-import com.nexusfalcao.description.RecipeDescriptionRoute
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.nexusfalcao.description.RecipeDescriptionScreen
 import com.nexusfalcao.description.RecipeDescriptionViewModel
+import com.nexusfalcao.description.state.RecipeUiState
+import com.nexusfalcao.description.state.ToogleRecipeState
+import com.nexusfalcao.designsystem.ComposableLifecycle
+import com.nexusfalcao.designsystem.preview.WindowSizePreview
+import com.nexusfalcao.designsystem.theme.ReceptIaTheme
 import com.nexusfalcao.designsystem.widget.EmptyPaneWidget
 import com.nexusfalcao.designsystem.widget.navigationDrawer.CustomNavigationScaffold
-import com.nexusfalcao.home.HomeRoute
+import com.nexusfalcao.home.HomeScreen
 import com.nexusfalcao.home.HomeViewModel
+import com.nexusfalcao.home.state.RecipeFeedUiState
+import com.nexusfalcao.model.Ingredient
+import com.nexusfalcao.model.Recipe
+import com.nexusfalcao.model.User
+import com.nexusfalcao.panehomedescription.state.DetailPaneState
+import com.nexusfalcao.panehomedescription.state.ListPaneState
+import com.nexusfalcao.panehomedescription.state.NavigationState
 
-@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 internal fun PaneHomeDescriptionRoute(
     isRequireUpdate: (Context) -> Boolean,
@@ -37,27 +51,86 @@ internal fun PaneHomeDescriptionRoute(
     navigateToAvatar: () -> Unit = {},
     navigateToHome: () -> Unit = {},
     signOut: () -> Unit = {},
+    recipeDescriptionVM: RecipeDescriptionViewModel = hiltViewModel(),
+    homeVM: HomeViewModel = hiltViewModel(),
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
-    val recipeDescriptionVM = hiltViewModel<RecipeDescriptionViewModel>()
-    val homeVM = hiltViewModel<HomeViewModel>()
+    val context = LocalContext.current
+
+    val feedState = homeVM.lastRecipesUiState.collectAsStateWithLifecycle()
+
+    val toogleRecipeState = recipeDescriptionVM.toogleRecipeState.collectAsStateWithLifecycle()
+    val recipeUiState = recipeDescriptionVM.recipeUiState.collectAsStateWithLifecycle()
+
+    val user = homeVM.getUser()
+
+    val navigationState = NavigationState(
+        navigateToHome = navigateToHome,
+        navigateToNewRecipe = navigateToNewRecipe,
+        navigateToCatalog = navigateToCatalog,
+        navigateToAvatar = navigateToAvatar,
+        signOut = signOut,
+        user = user,
+    )
+
+    val listPaneState = ListPaneState(
+        feedState = feedState.value,
+        appStoreUrl = appStoreUrl,
+        navigateToNewRecipe = navigateToNewRecipe,
+        isRequireUpdate = isRequireUpdate(context),
+    )
+
+    val detailPaneState = DetailPaneState(
+        toogleState = toogleRecipeState.value,
+        recipeUiState = recipeUiState.value,
+        onToogleFavorite = { recipeId ->
+            recipeDescriptionVM.toogleFavorite(recipeId)
+            homeVM.updateLastRecipes()
+        },
+        onSelectToogle = recipeDescriptionVM::selectRecipeToogle,
+        refreshPane = recipeDescriptionVM::getRecipe
+    )
+
+    PaneHomeDescriptionScreen(
+        navigationState = navigationState,
+        listPaneState = listPaneState,
+        detailPaneState = detailPaneState,
+        windowSizeClass = windowSizeClass,
+    )
+
+    ComposableLifecycle { _, event ->
+        when (event) {
+            Lifecycle.Event.ON_RESUME -> {
+                homeVM.updateLastRecipes()
+            }
+            else -> {}
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
+@Composable
+internal fun PaneHomeDescriptionScreen(
+    navigationState: NavigationState,
+    listPaneState: ListPaneState,
+    detailPaneState: DetailPaneState,
+    windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
+) {
     val navigator = rememberListDetailPaneScaffoldNavigator<ContentDetailPane>(
         scaffoldDirective = calculatePaneScaffoldDirective(currentWindowAdaptiveInfo()),
     )
-
-    val user = homeVM.getUser()
 
     BackHandler(navigator.canNavigateBack()) {
         navigator.navigateBack()
     }
 
     CustomNavigationScaffold(
-        toHome = navigateToHome,
-        toNewRecipe = navigateToNewRecipe,
-        toRecipeCatalog = navigateToCatalog,
-        toAvatar = navigateToAvatar,
-        onSignOut = signOut,
-        user = user,
+        toHome = navigationState.navigateToHome,
+        toNewRecipe = navigationState.navigateToNewRecipe,
+        toRecipeCatalog = navigationState.navigateToCatalog,
+        toAvatar = navigationState.navigateToAvatar,
+        onSignOut = navigationState.signOut,
+        user = navigationState.user,
         isNavigationEnabled = shouldShowNavigator(navigator),
         windowSizeClass = windowSizeClass,
     ) { padding ->
@@ -69,20 +142,16 @@ internal fun PaneHomeDescriptionRoute(
             value = navigator.scaffoldValue,
             listPane = {
                 HomePane(
+                    listPaneState = listPaneState,
                     navigator = navigator,
-                    isRequireUpdate = isRequireUpdate,
-                    appStoreUrl = appStoreUrl,
-                    navigateToNewRecipe = navigateToNewRecipe,
                     windowSizeClass = windowSizeClass,
-                    homeVM = homeVM,
                 )
             },
             detailPane = {
                 RecipeDescriptionPane(
                     navigator = navigator,
                     windowSizeClass = windowSizeClass,
-                    recipeDescriptionVM = recipeDescriptionVM,
-                    updatePaneList = homeVM::updateLastRecipes,
+                    detailPaneState = detailPaneState,
                 )
             },
         )
@@ -92,24 +161,26 @@ internal fun PaneHomeDescriptionRoute(
 @Composable
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 private fun ThreePaneScaffoldScope.RecipeDescriptionPane(
+    detailPaneState: DetailPaneState,
     navigator: ThreePaneScaffoldNavigator<ContentDetailPane>,
     windowSizeClass: WindowSizeClass,
-    recipeDescriptionVM: RecipeDescriptionViewModel,
-    updatePaneList: () -> Unit,
 ) {
     val content = navigator.currentDestination?.content
 
     AnimatedPane {
         if(content != null) {
             navigator.currentDestination?.content?.let {
-                recipeDescriptionVM.getRecipe(it.recipeId)
-                recipeDescriptionVM.setRefreshPaneList(updatePaneList)
+                detailPaneState.refreshPane(it.recipeId)
 
-                RecipeDescriptionRoute(
+                RecipeDescriptionScreen(
+                    toogleState = detailPaneState.toogleState,
+                    recipeUiState = detailPaneState.recipeUiState,
+                    onToogleFavorite = {
+                        detailPaneState.onToogleFavorite(it.recipeId)
+                    },
+                    onSelectToogle = detailPaneState.onSelectToogle,
                     onBackClick = navigator::navigateBack,
-                    recipeId = it.recipeId,
                     windowSizeClass = windowSizeClass,
-                    viewModel = recipeDescriptionVM,
                 )
             }
         } else {
@@ -126,18 +197,16 @@ private fun ThreePaneScaffoldScope.RecipeDescriptionPane(
 @Composable
 @OptIn(ExperimentalMaterial3AdaptiveApi::class)
 private fun ThreePaneScaffoldScope.HomePane(
+    listPaneState: ListPaneState,
     navigator: ThreePaneScaffoldNavigator<ContentDetailPane>,
-    isRequireUpdate: (Context) -> Boolean,
-    appStoreUrl: String,
-    navigateToNewRecipe: () -> Unit,
     windowSizeClass: WindowSizeClass,
-    homeVM: HomeViewModel,
 ) {
     AnimatedPane {
-        HomeRoute(
-            isRequireUpdate = isRequireUpdate,
-            appStoreUrl = appStoreUrl,
-            navigateToNewRecipe = navigateToNewRecipe,
+        HomeScreen(
+            feedState = listPaneState.feedState,
+            isRequireUpdate = listPaneState.isRequireUpdate,
+            appStoreUrl = listPaneState.appStoreUrl,
+            navigateToNewRecipe = listPaneState.navigateToNewRecipe,
             navigateToRecipeDescription = { item ->
                 navigator.navigateTo(
                     ListDetailPaneScaffoldRole.Detail,
@@ -145,7 +214,6 @@ private fun ThreePaneScaffoldScope.HomePane(
                 )
             },
             windowSizeClass = windowSizeClass,
-            viewModel = homeVM,
         )
     }
 }
@@ -156,4 +224,33 @@ private fun shouldShowNavigator(navigator: ThreePaneScaffoldNavigator<ContentDet
     val isMonoPartition = navigator.scaffoldDirective.maxHorizontalPartitions == 1
 
     return  (isDetailPaneExpanded && isMonoPartition).not()
+}
+
+@Composable
+@WindowSizePreview
+fun PanePreview() {
+    ReceptIaTheme {
+        PaneHomeDescriptionScreen(
+            navigationState = NavigationState(
+                user = User(
+                    id = "1",
+                    name = "Name LastName",
+                    isLoggedIn = true
+                )
+            ),
+            listPaneState = ListPaneState(
+                feedState = RecipeFeedUiState.Loading,
+                appStoreUrl = "",
+                navigateToNewRecipe = {},
+                isRequireUpdate = false,
+            ),
+            detailPaneState = DetailPaneState(
+                toogleState = ToogleRecipeState.DetailsSelected,
+                recipeUiState = RecipeUiState.Loading,
+                onToogleFavorite = {},
+                onSelectToogle = {},
+                refreshPane = {},
+            ),
+        )
+    }
 }
