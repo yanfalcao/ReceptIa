@@ -27,6 +27,8 @@ import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.designsystem.extension.hasCompactSize
 import com.nexusfalcao.designsystem.extension.hasMediumSize
+import com.nexusfalcao.designsystem.extension.scaleBodyLargeBy
+import com.nexusfalcao.designsystem.extension.scaleBodyMediumBy
 import com.nexusfalcao.designsystem.extension.scaleLabelLargeBy
 import com.nexusfalcao.designsystem.extension.scaleTitleMediumBy
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
@@ -132,7 +134,7 @@ private fun RecipeListTile(
             Text(
                 text = recipe.recipeDetails.preparationTime,
                 color = colorScheme.onSurface,
-                style = Typography.scaleLabelLargeBy(windowSizeClass),
+                style = Typography.scaleBodyLargeBy(windowSizeClass),
                 modifier = Modifier.padding(start = 8.dp),
             )
 
@@ -144,7 +146,7 @@ private fun RecipeListTile(
             Text(
                 text = recipe.recipeDetails.difficult,
                 color = colorScheme.onSurface,
-                style = Typography.scaleLabelLargeBy(windowSizeClass),
+                style = Typography.scaleBodyLargeBy(windowSizeClass),
                 modifier = Modifier.padding(start = 8.dp),
             )
         }

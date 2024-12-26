@@ -43,9 +43,9 @@ fun Typography.scaleLabelLargeBy(windowSizeClass: WindowSizeClass): TextStyle {
     return if (windowSizeClass.hasCompactSize()) {
         MaterialTheme.typography.labelLarge
     } else if (windowSizeClass.hasMediumSize()) {
-        MaterialTheme.typography.bodyMedium
-    } else {
         MaterialTheme.typography.bodyLarge
+    } else {
+        MaterialTheme.typography.titleSmall
     }
 }
 
@@ -57,6 +57,17 @@ fun Typography.scaleLabelMediumBy(windowSizeClass: WindowSizeClass): TextStyle {
         MaterialTheme.typography.labelLarge
     } else {
         MaterialTheme.typography.bodyMedium
+    }
+}
+
+@Composable
+fun Typography.scaleBodyLargeBy(windowSizeClass: WindowSizeClass): TextStyle {
+    return if (windowSizeClass.hasCompactSize()) {
+        MaterialTheme.typography.bodyLarge
+    } else if (windowSizeClass.hasMediumSize()) {
+        MaterialTheme.typography.titleMedium
+    } else {
+        MaterialTheme.typography.titleLarge
     }
 }
 

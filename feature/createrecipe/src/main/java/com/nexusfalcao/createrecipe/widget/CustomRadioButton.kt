@@ -47,7 +47,7 @@ fun CustomRadioButton(
 
     val radioModifier = createRadioModifier(isSelected)
     val buttonModifier = createButtomModifier(isSelected)
-    val textColor = createColorText(isSelected)
+    val textColor = MaterialTheme.colorScheme.onSurface
     val radioSize = if (windowSizeClass.hasCompactSize()) {
         18.dp
     } else if (windowSizeClass.hasMediumSize()) {
@@ -83,9 +83,9 @@ fun CustomRadioButton(
 }
 
 @Composable
-private fun createColorText(isSelected: Boolean): Color {
+private fun createColorBorder(isSelected: Boolean): Color {
     return when (isSelected) {
-        true -> MaterialTheme.colorScheme.onSurface
+        true -> MaterialTheme.colorScheme.primary
         false -> MaterialTheme.colorScheme.outline
     }
 }
@@ -105,7 +105,7 @@ private fun createButtomModifier(isSelected: Boolean): Modifier {
         .fillMaxWidth()
         .border(
             width = 1.dp,
-            color = MaterialTheme.colorScheme.outline,
+            color = createColorBorder(isSelected),
             shape = roundedCornerShape,
         )
         .background(
