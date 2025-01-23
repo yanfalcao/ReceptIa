@@ -18,10 +18,12 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
+import com.nexusfalcao.designsystem.R
 import com.nexusfalcao.designsystem.extension.hasCompactSize
 import com.nexusfalcao.designsystem.extension.hasMediumSize
 import com.nexusfalcao.designsystem.extension.scaleTitleLargeBy
@@ -46,6 +48,10 @@ fun TopBarWidget(
             true -> Icons.Default.Menu
             false -> Icons.AutoMirrored.Filled.ArrowBack
         }
+    val contenDescription = when (drawerEnabled) {
+        true -> stringResource(R.string.cd_open_drawer_button)
+        false -> stringResource(R.string.cd_back_button)
+    }
     var textStyle = Typography.scaleTitleLargeBy(windowSizeClass = windowSizeClass)
     var navigationIconSize: Dp
 
@@ -85,7 +91,7 @@ fun TopBarWidget(
                 Icon(
                     modifier = Modifier.size(navigationIconSize),
                     imageVector = imageVector,
-                    contentDescription = null,
+                    contentDescription = contenDescription,
                 )
             }
         },

@@ -1,5 +1,6 @@
 package com.nexusfalcao.avatar.widget
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
@@ -78,7 +80,12 @@ fun GridListAvatar(
 
                 Image(
                     painter = painterResource(id = it),
-                    contentDescription = null,
+                    contentDescription = stringResource(
+                        id = getContentDescriptionAvatar(
+                            imageId = it,
+                            imageUiState = imageUiState,
+                        ),
+                    ),
                     modifier =
                         Modifier
                             .align(Alignment.Center)
@@ -86,6 +93,21 @@ fun GridListAvatar(
                 )
             }
         }
+    }
+}
+
+private fun getContentDescriptionAvatar(
+    imageId: Int,
+    imageUiState: ImageUiState,
+): Int {
+    return when (imageUiState) {
+        is ImageUiState.Selected -> {
+            when (imageUiState.isSelected(imageId)) {
+                true -> R.string.cd_avatar_selected
+                false -> R.string.cd_avatar_unselected
+            }
+        }
+        ImageUiState.Unselected -> R.string.cd_avatar_unselected
     }
 }
 

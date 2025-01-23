@@ -3,4 +3,6 @@
     <string name="select_you_avatar">Selecione seu avatar</string>
     <string name="select">Selecionar</string>
     <string name="avatar">Avatar</string>
+    <string name="cd_avatar_unselected">Imagem de avatar não selecionado</string>
+    <string name="cd_avatar_selected">Imagem de avatar selecionado</string>
 </resources>

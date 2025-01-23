@@ -6,6 +6,8 @@
     <string name="empty_description">Sem receitas geradas ainda, gerer algumas para começar</string>
     <string name="empty_pane_title">Área reservada para sua receita</string>
     <string name="empty_pane_description">Clique em uma receita e comece a cozinhar</string>
+    <string name="cd_back_button">Voltar</string>
+    <string name="cd_open_drawer_button">Abrir menu</string>
 
     <!--    drawer-->
     <string name="drawer_home">Início</string>
@@ -14,4 +16,5 @@
     <string name="drawer_profile">Perfil</string>
     <string name="drawer_logout">Sair</string>
     <string name="drawer_settings">Configurações</string>
+
 </resources>
