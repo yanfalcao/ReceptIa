@@ -23,8 +23,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
+import com.nexusfalcao.createrecipe.R
 import com.nexusfalcao.createrecipe.state.RadioUiState
 import com.nexusfalcao.createrecipe.state.RecipeFieldState
 import com.nexusfalcao.designsystem.extension.hasCompactSize
@@ -45,6 +49,11 @@ fun CustomRadioButton(
         (radioUiState is RadioUiState.Selected) &&
             (radioUiState.textOption == textOption)
 
+    val radioDescription = if (isSelected) {
+        stringResource(R.string.selected)
+    } else {
+        stringResource(R.string.unselected)
+    }
     val radioModifier = createRadioModifier(isSelected)
     val buttonModifier = createButtomModifier(isSelected)
     val textColor = MaterialTheme.colorScheme.onSurface
@@ -64,6 +73,9 @@ fun CustomRadioButton(
                     indication = ripple(),
                 ) {
                     addPreference(RecipeFieldState.MEAL, textOption)
+                }
+                .semantics(mergeDescendants = true) {
+                    contentDescription = radioDescription
                 }
                 .padding(10.dp),
         verticalAlignment = Alignment.CenterVertically,

@@ -13,6 +13,13 @@
     <string name="breakfast">Breakfast</string>
     <string name="lunch">Lunch</string>
     <string name="dinner">Dinner</string>
+    <string name="selected">Selected</string>
+    <string name="unselected">Unselected</string>
+    <string name="cd_send_ingredient">Send Ingredient</string>
+    <string name="cd_type_favorite_ingredient">Type the favorite ingredient</string>
+    <string name="cd_type_non_favorite_ingredient">Type the non-favorite ingredient</string>
+    <string name="cd_type_allergic_ingredient">Type the ingredient you are allergic to</string>
+    <string name="cd_type_intolerant_ingredient">Type the ingredient you are intolerant to</string>
 
     <string name="error_field">Field needs to be filled</string>
     <string name="error_unsent">Click send to save the ingredient</string>

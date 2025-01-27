@@ -27,6 +27,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
@@ -52,6 +55,7 @@ fun CustomTextField(
 ) {
     val maxChar = 25
     var textFieldValue by remember { mutableStateOf("") }
+    val texFieldContentDescription = createInputDescription(recipeFieldState)
     var isEssencialUnfilled =
         CheckFieldUiState.isEssencialFieldUnfilled(
             checkFieldUiState = checkFieldUiState,
@@ -113,6 +117,9 @@ fun CustomTextField(
                         Box {
                             if (textFieldValue.isEmpty()) {
                                 Text(
+                                    modifier = Modifier.clearAndSetSemantics {
+                                        contentDescription = texFieldContentDescription
+                                    },
                                     text = stringResource(id = R.string.placeholder_ingredient),
                                     maxLines = 1,
                                     overflow = TextOverflow.Ellipsis,
@@ -175,6 +182,17 @@ private fun createBorderColor(isErrorUnfilled: Boolean): Color {
         MaterialTheme.colorScheme.error
     } else {
         MaterialTheme.colorScheme.outline
+    }
+}
+
+@Composable
+private fun createInputDescription(recipeFieldState: RecipeFieldState): String {
+    return when (recipeFieldState) {
+        RecipeFieldState.MEAL -> stringResource(id = R.string.placeholder_ingredient)
+        RecipeFieldState.FAVORITE -> stringResource(id = R.string.cd_type_favorite_ingredient)
+        RecipeFieldState.NON_FAVORITE -> stringResource(id = R.string.cd_type_non_favorite_ingredient)
+        RecipeFieldState.ALLERGIC -> stringResource(id = R.string.cd_type_allergic_ingredient)
+        RecipeFieldState.INTOLERANT -> stringResource(id = R.string.cd_type_intolerant_ingredient)
     }
 }
 
