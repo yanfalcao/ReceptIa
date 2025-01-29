@@ -15,6 +15,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
@@ -75,6 +78,10 @@ fun RecipeDescriptionScreen(
     onBackClick: () -> Unit = {},
     windowSizeClass: WindowSizeClass,
 ) {
+    val backButtonContentDescription = stringResource(
+        com.nexusfalcao.designsystem.R.string.cd_back_button
+    )
+
     ReceptIaTheme {
         Box {
             Background()
@@ -88,7 +95,11 @@ fun RecipeDescriptionScreen(
                 BackButton(
                     onBackClick = onBackClick,
                     windowSizeClass = windowSizeClass,
-                    modifier = Modifier.align(Alignment.Start)
+                    modifier = Modifier
+                        .align(Alignment.Start)
+                        .semantics {
+                            contentDescription = backButtonContentDescription
+                        }
                 )
                 Spacer(modifier = Modifier.height(65.dp))
                 when (recipeUiState) {

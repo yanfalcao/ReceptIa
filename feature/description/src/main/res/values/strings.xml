@@ -16,4 +16,8 @@
     <string name="praparation">Modo de Preparo</string>
     <string name="details">Detalhes</string>
     <string name="recipe">Receita</string>
+    <string name="cd_details_selected">Detalhes selecionados</string>
+    <string name="cd_recipe_selected">Receita selecionada</string>
+    <string name="cd_favorited">Favoritado</string>
+    <string name="cd_unfavorited">Desfavoritado</string>
 </resources>

@@ -16,4 +16,8 @@
     <string name="praparation">Preparation Method</string>
     <string name="details">Details</string>
     <string name="recipe">Recipe</string>
+    <string name="cd_details_selected">Details selected</string>
+    <string name="cd_recipe_selected">Recipe selected</string>
+    <string name="cd_favorited">Favorited</string>
+    <string name="cd_unfavorited">Unfavorited</string>
 </resources>

@@ -3,7 +3,6 @@ package com.nexusfalcao.description.widget
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
@@ -16,12 +15,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
+import com.nexusfalcao.description.R
 import com.nexusfalcao.designsystem.extension.hasCompactSize
 import com.nexusfalcao.designsystem.extension.hasMediumSize
 import com.nexusfalcao.designsystem.extension.scaleHeadlineSmallBy
-import com.nexusfalcao.designsystem.extension.scaleTitleMediumBy
 import com.nexusfalcao.designsystem.preview.PreviewParameterData
 import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.preview.UtilPreview
@@ -36,6 +36,11 @@ fun Header(
     windowSizeClass: WindowSizeClass,
     onToogleFavorite: () -> Unit = {},
 ) {
+    val cdFavoriteButton = if (recipe.isFavorite) {
+        stringResource(R.string.cd_favorited)
+    } else {
+        stringResource(R.string.cd_unfavorited)
+    }
     val iconSize = if (windowSizeClass.hasCompactSize()) {
         30.dp
     } else if (windowSizeClass.hasMediumSize()) {
@@ -65,13 +70,13 @@ fun Header(
                         imageVector = Icons.Default.Favorite,
                         modifier = Modifier.size(iconSize),
                         tint = FilledHeartColor,
-                        contentDescription = null,
+                        contentDescription = cdFavoriteButton,
                     )
                 false ->
                     Icon(
                         imageVector = Icons.Default.FavoriteBorder,
                         modifier = Modifier.size(30.dp),
-                        contentDescription = null,
+                        contentDescription = cdFavoriteButton,
                         tint = MaterialTheme.colorScheme.onBackground,
                     )
             }

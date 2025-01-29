@@ -12,10 +12,11 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun Container(
+    modifier: Modifier = Modifier,
     content: @Composable BoxScope.() -> Unit,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .background(
                 color = MaterialTheme.colorScheme.surface,
                 shape = RoundedCornerShape(size = 15.dp),
