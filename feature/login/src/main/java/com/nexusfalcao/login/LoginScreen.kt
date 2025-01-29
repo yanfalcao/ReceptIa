@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -157,9 +158,14 @@ fun LoginScreen(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Bottom,
                 ) {
-                    Title(windowSizeClass = windowSizeClass)
-                    Spacer(modifier = Modifier.height(20.dp))
-                    Description(windowSizeClass = windowSizeClass)
+                    Column(
+                        modifier = Modifier.semantics(mergeDescendants = true) {}
+                    ) {
+                        Title(windowSizeClass = windowSizeClass)
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Description(windowSizeClass = windowSizeClass)
+                    }
+
                     Spacer(modifier = Modifier.height(50.dp))
 
                     when (isLoading) {
