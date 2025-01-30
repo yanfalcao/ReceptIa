@@ -112,9 +112,15 @@ private fun BottomSheetBody(
                         RecipeDifficult.Medium -> stringResource(id = R.string.medium)
                         RecipeDifficult.Hard -> stringResource(id = R.string.hard)
                     }
+                val tagTextContentDescription = if (filterUiState.isSelected(level)) {
+                    stringResource(id = R.string.cd_tag_filter_applied, levelText)
+                } else {
+                    stringResource(id = R.string.cd_tag_filter_unapplied, levelText)
+                }
 
                 Tag(
                     text = levelText,
+                    tagContentDescription = tagTextContentDescription,
                     textStyle = MaterialTheme.typography.bodyMedium,
                     isSelected = filterUiState.isSelected(level),
                     updateTagFilter = { updateDifficultFilter(level) },
@@ -144,9 +150,15 @@ private fun BottomSheetBody(
                         AmountServesFilterEnum.THREE -> stringResource(id = R.string.three_in_number)
                         AmountServesFilterEnum.FOUR_OR_MORE -> stringResource(id = R.string.four_or_more)
                     }
+                val tagTextContentDescription = if (filterUiState.isSelected(amount)) {
+                    stringResource(id = R.string.cd_tag_filter_applied, levelText)
+                } else {
+                    stringResource(id = R.string.cd_tag_filter_unapplied, levelText)
+                }
 
                 Tag(
                     text = levelText,
+                    tagContentDescription = tagTextContentDescription,
                     textStyle = MaterialTheme.typography.bodyMedium,
                     isSelected = filterUiState.isSelected(amount),
                     updateTagFilter = { updateAmountServesFilter(amount) },

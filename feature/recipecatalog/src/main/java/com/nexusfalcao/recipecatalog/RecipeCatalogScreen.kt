@@ -21,6 +21,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -96,6 +98,9 @@ fun CatalogScreen(
     navigateToRecipeDescription: (String) -> Unit = {},
     windowSizeClass: WindowSizeClass,
 ) {
+    val cdFilterButtom = stringResource(id = R.string.cd_open_filter)
+    val cdSearchFilter = stringResource(id = R.string.cd_search_filter)
+
     var showSheet by remember { mutableStateOf(false) }
     val searchHeight: Dp
     val filterButtonSize: Dp
@@ -147,7 +152,10 @@ fun CatalogScreen(
                 modifier =
                 Modifier
                     .weight(1.0f)
-                    .height(searchHeight),
+                    .height(searchHeight)
+                    .semantics {
+                        contentDescription = cdSearchFilter
+                    },
                 filterUiState = filterUiState,
                 updateSearchFilter = updateSearchFilter,
             )
@@ -155,7 +163,11 @@ fun CatalogScreen(
             Spacer(modifier = Modifier.width(15.dp))
 
             FilterButton(
-                modifier = Modifier.size(filterButtonSize),
+                modifier = Modifier
+                    .size(filterButtonSize)
+                    .semantics {
+                        contentDescription = cdFilterButtom
+                    },
                 hasAnyFilterSelected = filterUiState.hasAnyFilterSelected(),
             ) {
                 showSheet = true
@@ -171,9 +183,15 @@ fun CatalogScreen(
                         TagFilterEnum.ALL -> stringResource(id = R.string.all)
                         TagFilterEnum.FAVORITES -> stringResource(id = R.string.favorites)
                     }
+                val tagTextContentDescription = if (filterUiState.isSelected(tag)) {
+                    stringResource(id = R.string.cd_tag_filter_applied, tagText)
+                } else {
+                    stringResource(id = R.string.cd_tag_filter_unapplied, tagText)
+                }
 
                 Tag(
                     text = tagText,
+                    tagContentDescription = tagTextContentDescription,
                     isSelected = filterUiState.isSelected(tag),
                     updateTagFilter = { updateTagFilter(tag) },
                 )

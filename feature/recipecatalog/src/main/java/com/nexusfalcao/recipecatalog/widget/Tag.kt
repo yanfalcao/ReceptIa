@@ -10,6 +10,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 
@@ -17,6 +20,7 @@ import androidx.compose.ui.unit.dp
 fun Tag(
     text: String,
     textStyle: TextStyle = MaterialTheme.typography.titleMedium,
+    tagContentDescription: String,
     isSelected: Boolean,
     updateTagFilter: () -> Unit = {},
 ) {
@@ -43,9 +47,13 @@ fun Tag(
         modifier =
             modifier
                 .clickable { updateTagFilter() }
-                .padding(vertical = 5.dp, horizontal = 15.dp),
+                .padding(vertical = 5.dp, horizontal = 15.dp)
+                .semantics {
+                    contentDescription = tagContentDescription
+                },
     ) {
         Text(
+            modifier = Modifier.clearAndSetSemantics {  },
             text = text,
             style = textStyle,
             color = textColor,
