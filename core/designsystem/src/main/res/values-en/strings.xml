@@ -8,6 +8,7 @@
     <string name="empty_pane_description">Click on a recipe and start cooking</string>
     <string name="cd_back_button">Back</string>
     <string name="cd_open_drawer_button">Open menu</string>
+    <string name="cd_avatar">Profile avatar image</string>
     <!--    drawer-->
     <string name="drawer_home">Home</string>
     <string name="drawer_new_recipe">New recipe</string>
