@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,58 +29,60 @@ fun RecipeBody(
     windowSizeClass: WindowSizeClass,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(15.dp),
-    ) {
-        Title(
-            text = stringResource(R.string.ingredients_amount, recipe.ingredients.size),
-            windowSizeClass = windowSizeClass,
-        )
-
-        Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            for (ingredient in recipe.ingredients) {
-                Container(
-                    modifier = Modifier.semantics(mergeDescendants = true) { },
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                    ) {
-                        Text(
-                            text = ingredient.name,
-                            style = Typography.scaleBodyMediumBy(windowSizeClass),
-                            color = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.weight(4f),
-                        )
-
-                        Text(
-                            text = ingredient.measure,
-                            style = Typography.scaleBodyMediumBy(windowSizeClass),
-                            color = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.weight(1f),
-                        )
-                    }
-                }
-            }
-        }
-
+    SelectionContainer {
         Column(
+            modifier = modifier,
             verticalArrangement = Arrangement.spacedBy(15.dp),
-            modifier = Modifier.semantics(mergeDescendants = true) {}
         ) {
             Title(
-                text = R.string.praparation,
+                text = stringResource(R.string.ingredients_amount, recipe.ingredients.size),
                 windowSizeClass = windowSizeClass,
             )
 
-            Container {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = recipe.stepsToString(),
-                    style = Typography.scaleBodyMediumBy(windowSizeClass),
-                    color = MaterialTheme.colorScheme.onSurface,
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                for (ingredient in recipe.ingredients) {
+                    Container(
+                        modifier = Modifier.semantics(mergeDescendants = true) { },
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                        ) {
+                            Text(
+                                text = ingredient.name,
+                                style = Typography.scaleBodyMediumBy(windowSizeClass),
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.weight(4f),
+                            )
+
+                            Text(
+                                text = ingredient.measure,
+                                style = Typography.scaleBodyMediumBy(windowSizeClass),
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.weight(1f),
+                            )
+                        }
+                    }
+                }
+            }
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                modifier = Modifier.semantics(mergeDescendants = true) {}
+            ) {
+                Title(
+                    text = R.string.praparation,
+                    windowSizeClass = windowSizeClass,
                 )
+
+                Container {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        text = recipe.stepsToString(),
+                        style = Typography.scaleBodyMediumBy(windowSizeClass),
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                }
             }
         }
     }

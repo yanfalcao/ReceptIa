@@ -4,7 +4,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,12 +12,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -26,7 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.designsystem.extension.scaleLabelLargeBy
-import com.nexusfalcao.designsystem.extension.scaleLabelMediumBy
 import com.nexusfalcao.designsystem.extension.scaleTitleLargeBy
 import com.nexusfalcao.designsystem.preview.UIModePreview
 import com.nexusfalcao.designsystem.preview.UtilPreview
@@ -58,11 +56,13 @@ fun Banner(
         Column(
             modifier = Modifier.weight(weight = 1f)
         ) {
-            Text(
-                text = stringResource(id = R.string.banner_title),
-                color = createBannerTextColor(),
-                style = Typography.scaleTitleLargeBy(windowSizeClass),
-            )
+            SelectionContainer {
+                Text(
+                    text = stringResource(id = R.string.banner_title),
+                    color = createBannerTextColor(),
+                    style = Typography.scaleTitleLargeBy(windowSizeClass),
+                )
+            }
 
             Spacer(modifier = Modifier.height(20.dp))
 

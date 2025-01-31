@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -103,11 +104,13 @@ fun HomeScreen(
             navigateToNewRecipe = navigateToNewRecipe
         )
 
-        Text(
-            text = stringResource(id = R.string.last_recipes_title),
-            color = MaterialTheme.colorScheme.onBackground,
-            style = Typography.scaleTitleLargeBy(windowSizeClass),
-        )
+        SelectionContainer {
+            Text(
+                text = stringResource(id = R.string.last_recipes_title),
+                color = MaterialTheme.colorScheme.onBackground,
+                style = Typography.scaleTitleLargeBy(windowSizeClass),
+            )
+        }
 
         Spacer(modifier = Modifier.height(25.dp))
 

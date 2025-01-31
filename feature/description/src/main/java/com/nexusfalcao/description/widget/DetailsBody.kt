@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,147 +37,149 @@ fun DetailsBody(
 ) {
     val amountPeopleServes = recipe.recipeDetails.amountPeopleServes
 
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(15.dp),
-    ) {
+    SelectionContainer {
         Column(
+            modifier = modifier,
             verticalArrangement = Arrangement.spacedBy(15.dp),
-            modifier = Modifier.semantics(mergeDescendants = true) {}
         ) {
-            Title(
-                text = R.string.description,
-                windowSizeClass = windowSizeClass,
-            )
-
-            Container {
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = recipe.description,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    style = Typography.scaleBodyMediumBy(windowSizeClass),
+            Column(
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                modifier = Modifier.semantics(mergeDescendants = true) {}
+            ) {
+                Title(
+                    text = R.string.description,
+                    windowSizeClass = windowSizeClass,
                 )
-            }
-        }
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp),
-            modifier = Modifier.semantics(mergeDescendants = true) {}
-        ) {
-            Title(
-                text = R.string.prep_time,
-                windowSizeClass = windowSizeClass,
-            )
-
-            Container {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(15.dp),
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_clock),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
-                    )
-
+                Container {
                     Text(
-                        text = recipe.recipeDetails.preparationTime,
-                        style = Typography.scaleBodyMediumBy(windowSizeClass),
+                        modifier = Modifier.fillMaxWidth(),
+                        text = recipe.description,
                         color = MaterialTheme.colorScheme.onSurface,
+                        style = Typography.scaleBodyMediumBy(windowSizeClass),
                     )
                 }
             }
-        }
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp),
-            modifier = Modifier.semantics(mergeDescendants = true) {}
-        ) {
-            Title(
-                text = R.string.easeRecipe,
-                windowSizeClass = windowSizeClass,
-            )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                modifier = Modifier.semantics(mergeDescendants = true) {}
+            ) {
+                Title(
+                    text = R.string.prep_time,
+                    windowSizeClass = windowSizeClass,
+                )
 
-            Container {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(15.dp),
-                ) {
-                    DifficultIcon(
-                        recipeDifficult = recipe.recipeDetails.recipeDifficult,
-                    )
+                Container {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(15.dp),
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_clock),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
+                        )
 
-                    Text(
-                        text = recipe.recipeDetails.difficult,
-                        style = Typography.scaleBodyMediumBy(windowSizeClass),
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
+                        Text(
+                            text = recipe.recipeDetails.preparationTime,
+                            style = Typography.scaleBodyMediumBy(windowSizeClass),
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
                 }
             }
-        }
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp),
-            modifier = Modifier.semantics(mergeDescendants = true) {}
-        ) {
-            Title(
-                text = R.string.serves_up,
-                windowSizeClass = windowSizeClass,
-            )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                modifier = Modifier.semantics(mergeDescendants = true) {}
+            ) {
+                Title(
+                    text = R.string.easeRecipe,
+                    windowSizeClass = windowSizeClass,
+                )
 
-            Container {
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(15.dp),
-                ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_dish),
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
-                    )
+                Container {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(15.dp),
+                    ) {
+                        DifficultIcon(
+                            recipeDifficult = recipe.recipeDetails.recipeDifficult,
+                        )
 
-                    Text(
-                        text = "$amountPeopleServes ${
-                            pluralStringResource(
-                                R.plurals.people,
-                                amountPeopleServes
-                            )
-                        }",
-                        style = Typography.scaleBodyMediumBy(windowSizeClass),
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
+                        Text(
+                            text = recipe.recipeDetails.difficult,
+                            style = Typography.scaleBodyMediumBy(windowSizeClass),
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
                 }
             }
-        }
 
-        Column(
-            verticalArrangement = Arrangement.spacedBy(15.dp),
-            modifier = Modifier.semantics(mergeDescendants = true) {}
-        ) {
-            Title(
-                text = R.string.nutrition,
-                windowSizeClass = windowSizeClass,
-            )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                modifier = Modifier.semantics(mergeDescendants = true) {}
+            ) {
+                Title(
+                    text = R.string.serves_up,
+                    windowSizeClass = windowSizeClass,
+                )
 
-            Container {
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(5.dp),
-                ) {
-                    NutritionTile(
-                        title = R.string.calories,
-                        description = recipe.recipeDetails.amountCalories,
-                        windowSizeClass = windowSizeClass,
-                    )
+                Container {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(15.dp),
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_dish),
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface),
+                        )
 
-                    NutritionTile(
-                        title = R.string.carbs,
-                        description = recipe.recipeDetails.amountCarbs,
-                        windowSizeClass = windowSizeClass,
-                    )
+                        Text(
+                            text = "$amountPeopleServes ${
+                                pluralStringResource(
+                                    R.plurals.people,
+                                    amountPeopleServes
+                                )
+                            }",
+                            style = Typography.scaleBodyMediumBy(windowSizeClass),
+                            color = MaterialTheme.colorScheme.onSurface,
+                        )
+                    }
+                }
+            }
 
-                    NutritionTile(
-                        title = R.string.proteins,
-                        description = recipe.recipeDetails.amountProteins,
-                        windowSizeClass = windowSizeClass,
-                    )
+            Column(
+                verticalArrangement = Arrangement.spacedBy(15.dp),
+                modifier = Modifier.semantics(mergeDescendants = true) {}
+            ) {
+                Title(
+                    text = R.string.nutrition,
+                    windowSizeClass = windowSizeClass,
+                )
+
+                Container {
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(5.dp),
+                    ) {
+                        NutritionTile(
+                            title = R.string.calories,
+                            description = recipe.recipeDetails.amountCalories,
+                            windowSizeClass = windowSizeClass,
+                        )
+
+                        NutritionTile(
+                            title = R.string.carbs,
+                            description = recipe.recipeDetails.amountCarbs,
+                            windowSizeClass = windowSizeClass,
+                        )
+
+                        NutritionTile(
+                            title = R.string.proteins,
+                            description = recipe.recipeDetails.amountProteins,
+                            windowSizeClass = windowSizeClass,
+                        )
+                    }
                 }
             }
         }

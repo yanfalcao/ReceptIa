@@ -12,9 +12,8 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,8 +27,6 @@ import androidx.window.core.layout.WindowSizeClass
 import com.nexusfalcao.designsystem.extension.hasCompactSize
 import com.nexusfalcao.designsystem.extension.hasMediumSize
 import com.nexusfalcao.designsystem.extension.scaleBodyLargeBy
-import com.nexusfalcao.designsystem.extension.scaleBodyMediumBy
-import com.nexusfalcao.designsystem.extension.scaleLabelLargeBy
 import com.nexusfalcao.designsystem.extension.scaleTitleMediumBy
 import com.nexusfalcao.designsystem.preview.FontSizeAcessibilityPreview
 import com.nexusfalcao.designsystem.preview.UIModePreview
@@ -87,8 +84,9 @@ private fun RecipeListTile(
             false -> null
         }
 
-    Column(
-        modifier =
+    SelectionContainer {
+        Column(
+            modifier =
             Modifier
                 .background(
                     color = colorScheme.surface,
@@ -99,56 +97,57 @@ private fun RecipeListTile(
                 }
                 .padding(start = 15.dp, end = 25.dp)
                 .fillMaxWidth(),
-    ) {
-        Box(
-            modifier = Modifier.fillMaxWidth(),
         ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_bookmark),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(color = bookmarkColor),
-            )
+            Box(
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_bookmark),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(color = bookmarkColor),
+                )
 
-            Text(
-                text = recipe.name,
-                color = colorScheme.onSurface,
-                style = Typography.scaleTitleMediumBy(windowSizeClass),
-                modifier =
+                Text(
+                    text = recipe.name,
+                    color = colorScheme.onSurface,
+                    style = Typography.scaleTitleMediumBy(windowSizeClass),
+                    modifier =
                     Modifier
                         .padding(start = 40.dp, top = 12.dp),
-            )
-        }
+                )
+            }
 
-        Row(
-            modifier =
+            Row(
+                modifier =
                 Modifier
                     .padding(top = 15.dp, bottom = 10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_clock),
-                contentDescription = null,
-                colorFilter = colorFilter,
-            )
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_clock),
+                    contentDescription = null,
+                    colorFilter = colorFilter,
+                )
 
-            Text(
-                text = recipe.recipeDetails.preparationTime,
-                color = colorScheme.onSurface,
-                style = Typography.scaleBodyLargeBy(windowSizeClass),
-                modifier = Modifier.padding(start = 8.dp),
-            )
+                Text(
+                    text = recipe.recipeDetails.preparationTime,
+                    color = colorScheme.onSurface,
+                    style = Typography.scaleBodyLargeBy(windowSizeClass),
+                    modifier = Modifier.padding(start = 8.dp),
+                )
 
-            DifficultIcon(
-                recipeDifficult = recipe.recipeDetails.recipeDifficult,
-                modifier = Modifier.padding(start = 50.dp),
-            )
+                DifficultIcon(
+                    recipeDifficult = recipe.recipeDetails.recipeDifficult,
+                    modifier = Modifier.padding(start = 50.dp),
+                )
 
-            Text(
-                text = recipe.recipeDetails.difficult,
-                color = colorScheme.onSurface,
-                style = Typography.scaleBodyLargeBy(windowSizeClass),
-                modifier = Modifier.padding(start = 8.dp),
-            )
+                Text(
+                    text = recipe.recipeDetails.difficult,
+                    color = colorScheme.onSurface,
+                    style = Typography.scaleBodyLargeBy(windowSizeClass),
+                    modifier = Modifier.padding(start = 8.dp),
+                )
+            }
         }
     }
 }

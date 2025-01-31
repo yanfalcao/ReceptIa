@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -72,8 +73,9 @@ private fun GridTile(
     navigateToDescription: (String) -> Unit,
     windowSizeClass: WindowSizeClass,
 ) {
-    Column(
-        modifier =
+    SelectionContainer {
+        Column(
+            modifier =
             Modifier
                 .background(
                     color = MaterialTheme.colorScheme.surface,
@@ -83,50 +85,51 @@ private fun GridTile(
                 .fillMaxWidth()
                 .heightIn(min = 120.dp, max = 300.dp)
                 .padding(horizontal = 10.dp, vertical = 15.dp),
-        horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Text(
-            modifier = Modifier.padding(horizontal = 5.dp),
-            text = recipe.name,
-            style = Typography.scaleTitleMediumBy(windowSizeClass),
-            color = MaterialTheme.colorScheme.onSurface,
-            maxLines = 4,
-            overflow = TextOverflow.Ellipsis,
-            textAlign = TextAlign.Start,
-        )
-
-        Spacer(modifier = Modifier.height(15.dp))
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Image(
-                painter = painterResource(id = R.drawable.ic_clock),
-                contentDescription = null,
-                modifier = Modifier.size(16.dp),
-            )
-
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.SpaceBetween,
+        ) {
             Text(
-                text = recipe.recipeDetails.preparationTime,
+                modifier = Modifier.padding(horizontal = 5.dp),
+                text = recipe.name,
+                style = Typography.scaleTitleMediumBy(windowSizeClass),
                 color = MaterialTheme.colorScheme.onSurface,
-                style = Typography.scaleLabelLargeBy(windowSizeClass),
-                modifier = Modifier.padding(start = 5.dp),
-            )
-        }
-
-        Spacer(modifier = Modifier.height(5.dp))
-
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            DifficultIcon(
-                recipeDifficult = recipe.recipeDetails.recipeDifficult,
-                modifier = Modifier.size(16.dp),
+                maxLines = 4,
+                overflow = TextOverflow.Ellipsis,
+                textAlign = TextAlign.Start,
             )
 
-            Text(
-                text = recipe.recipeDetails.difficult,
-                color = MaterialTheme.colorScheme.onSurface,
-                style = Typography.scaleLabelLargeBy(windowSizeClass),
-                modifier = Modifier.padding(start = 5.dp),
-            )
+            Spacer(modifier = Modifier.height(15.dp))
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Image(
+                    painter = painterResource(id = R.drawable.ic_clock),
+                    contentDescription = null,
+                    modifier = Modifier.size(16.dp),
+                )
+
+                Text(
+                    text = recipe.recipeDetails.preparationTime,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = Typography.scaleLabelLargeBy(windowSizeClass),
+                    modifier = Modifier.padding(start = 5.dp),
+                )
+            }
+
+            Spacer(modifier = Modifier.height(5.dp))
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                DifficultIcon(
+                    recipeDifficult = recipe.recipeDetails.recipeDifficult,
+                    modifier = Modifier.size(16.dp),
+                )
+
+                Text(
+                    text = recipe.recipeDetails.difficult,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    style = Typography.scaleLabelLargeBy(windowSizeClass),
+                    modifier = Modifier.padding(start = 5.dp),
+                )
+            }
         }
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
@@ -54,12 +55,14 @@ fun Header(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(
-            text = recipe.name,
-            style = Typography.scaleHeadlineSmallBy(windowSizeClass),
-            modifier = Modifier.weight(1.0f),
-            color = MaterialTheme.colorScheme.onBackground,
-        )
+        SelectionContainer {
+            Text(
+                text = recipe.name,
+                style = Typography.scaleHeadlineSmallBy(windowSizeClass),
+                modifier = Modifier.weight(1.0f),
+                color = MaterialTheme.colorScheme.onBackground,
+            )
+        }
 
         Spacer(modifier = Modifier.width(15.dp))
 
