@@ -12,6 +12,8 @@ interface RecipeRepository {
 
     fun findRecipes(): List<Recipe>
 
+    fun removeRecipe(recipe: Recipe): Boolean
+
     fun updateIsFavorite(recipeId: String, isFavorite: Boolean): Boolean
 
     suspend fun callNewRecipe(preference: RecipePreference, apiModel: String): List<Recipe>

@@ -77,6 +77,7 @@ internal fun PaneHomeDescriptionRoute(
         feedState = feedState.value,
         appStoreUrl = appStoreUrl,
         navigateToNewRecipe = navigateToNewRecipe,
+        removeRecipe = homeVM::removeRecipe,
         isRequireUpdate = isRequireUpdate(context),
     )
 
@@ -213,6 +214,7 @@ private fun ThreePaneScaffoldScope.HomePane(
                     ContentDetailPane(item)
                 )
             },
+            onRemove = listPaneState.removeRecipe,
             windowSizeClass = windowSizeClass,
         )
     }

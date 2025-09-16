@@ -63,6 +63,7 @@ fun HomeRoute(
         navigateToNewRecipe = navigateToNewRecipe,
         navigateToRecipeDescription = navigateToRecipeDescription,
         isRequireUpdate = isRequireUpdate(context),
+        onRemove = viewModel::removeRecipe,
         appStoreUrl = appStoreUrl,
         windowSizeClass = windowSizeClass,
     )
@@ -83,6 +84,7 @@ fun HomeScreen(
     appStoreUrl: String,
     navigateToNewRecipe: () -> Unit = {},
     navigateToRecipeDescription: (String) -> Unit = {},
+    onRemove: (Recipe) -> Unit = {},
     isRequireUpdate: Boolean,
     windowSizeClass: WindowSizeClass = currentWindowAdaptiveInfo().windowSizeClass,
 ) {
@@ -122,6 +124,7 @@ fun HomeScreen(
                     RecipeList(
                         feedState.recipes,
                         navigateToDescription = navigateToRecipeDescription,
+                        onRemove = onRemove,
                         windowSizeClass = windowSizeClass,
                     )
                 } else {

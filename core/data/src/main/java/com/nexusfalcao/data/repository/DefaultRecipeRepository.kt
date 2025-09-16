@@ -63,6 +63,12 @@ internal class DefaultRecipeRepository(
         return rowsAffected != null && rowsAffected > 0
     }
 
+    override fun removeRecipe(recipe: Recipe): Boolean {
+        val rowsAffected = recipeDao?.delete(recipe.asRecipeEntity().id)
+
+        return rowsAffected != null && rowsAffected > 0
+    }
+
     override suspend fun callNewRecipe(
         preference: RecipePreference,
         apiModel: String,

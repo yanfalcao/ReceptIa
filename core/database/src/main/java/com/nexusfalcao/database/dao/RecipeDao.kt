@@ -1,6 +1,7 @@
 package com.nexusfalcao.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -27,6 +28,9 @@ interface RecipeDao {
 
     @Query("DELETE FROM recipe")
     fun deleteAll(): Int
+
+    @Query("DELETE FROM recipe WHERE id = :recipeId")
+    fun delete(recipeId: String): Int
 
     @Query("UPDATE recipe SET is_favorite = :isFavorite WHERE id = :recipeId")
     fun updateIsFavorite(recipeId: String, isFavorite: Boolean): Int

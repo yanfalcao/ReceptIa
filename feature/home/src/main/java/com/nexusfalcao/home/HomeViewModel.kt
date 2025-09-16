@@ -6,6 +6,7 @@ import com.nexusfalcao.data.repository.RecipeRepository
 import com.nexusfalcao.data.repository.UserRepository
 import com.nexusfalcao.model.User
 import com.nexusfalcao.home.state.RecipeFeedUiState
+import com.nexusfalcao.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,6 +31,13 @@ class HomeViewModel @Inject constructor(
             val recipeList = recipeRepository.findRecipes(limit = 10)
 
             _lastRecipesUiState.value = RecipeFeedUiState.Success(recipes = recipeList)
+        }
+    }
+
+    fun removeRecipe(recipe: Recipe) {
+        viewModelScope.launch {
+            recipeRepository.removeRecipe(recipe)
+            updateLastRecipes()
         }
     }
 }
